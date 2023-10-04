@@ -6,6 +6,6 @@ using UnityEngine;
 public interface IInput
 {
     event Action<Vector3> MoveInput;
-    //event Action ShootInput;
+    event Action ShootInput;
     void PlayerMoveInput();
 }

@@ -8,10 +8,12 @@ public class MobileInput : MonoBehaviour, IInput
     public event Action ShootInput;
     [SerializeField] private FixedJoystick joystick;
     [SerializeField] private Button shootButton;
+    [SerializeField] private Canvas canvas;
 
     private void Awake()
     {
         shootButton.onClick.AddListener(Shoot);
+        canvas.worldCamera = Camera.main;
     }
 
     void FixedUpdate()
