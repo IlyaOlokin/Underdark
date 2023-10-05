@@ -5,10 +5,12 @@ using Zenject;
 
 public class GameSceneInstaller : MonoInstaller
 {
-    [SerializeField] private MobileInput mobileInputPrefab;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Transform playerStartPos;
-    [SerializeField] private Camera mainCamera;
+    
+    [Header("Inputs")]
+    [SerializeField] private MobileInput mobileInputPrefab;
+    [SerializeField] private DesktopInput desktopInputPrefab;
     
     public override void InstallBindings()
     {
@@ -27,6 +29,13 @@ public class GameSceneInstaller : MonoInstaller
                 mobileInput.gameObject.SetActive(true);
                 
                 Container.Bind<IInput>().FromInstance(mobileInput).AsSingle();
+                break;
+            case InputType.Desktop:
+                DesktopInput desktopInput = Container
+                    .InstantiatePrefabForComponent<DesktopInput>(desktopInputPrefab, Vector3.zero, Quaternion.identity, null);
+                desktopInput.gameObject.SetActive(true);
+                
+                Container.Bind<IInput>().FromInstance(desktopInput).AsSingle();
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

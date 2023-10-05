@@ -50,7 +50,9 @@ public class Player : Unit
 
     public override void Move(Vector3 dir)
     {
-        rb.velocity = new Vector2(dir.x * MoveSpeed, dir.y * MoveSpeed);
+        dir = dir.normalized;
+        //rb.velocity = new Vector2(dir.x * MoveSpeed, dir.y * MoveSpeed);
+        rb.MovePosition(rb.position + (Vector2) dir * MoveSpeed * Time.fixedDeltaTime);
         TryFlipVisual(dir.x);
     }
 

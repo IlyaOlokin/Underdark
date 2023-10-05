@@ -13,8 +13,8 @@ public class Bootstrap : MonoBehaviour
         InputType = InputType.Mobile;
 #endif
         
-#if UNITY_EDITOR
-        InputType = InputType.Mobile;
+#if UNITY_EDITOR || UNITY_STANDALONE
+        InputType = InputType.Desktop;
 #endif
     }
 
