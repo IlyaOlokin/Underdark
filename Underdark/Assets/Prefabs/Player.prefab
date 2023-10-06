@@ -393,7 +393,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6202605588344640912}
@@ -443,7 +443,7 @@ MonoBehaviour:
   visuals: {fileID: 6202605588344640915}
   <MaxHP>k__BackingField: 10
   <HPBar>k__BackingField: {fileID: 7618712579447824436}
-  <MoveSpeed>k__BackingField: 3
+  <MoveSpeed>k__BackingField: 5
   <AttackPrefab>k__BackingField: {fileID: 7876975920789087912, guid: 9b99b3f969f3ebf41ad6133e47c9c65c, type: 3}
   <Damage>k__BackingField: 2
   HandGun: {fileID: 0}
