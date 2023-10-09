@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     
     [field:SerializeField] public int MaxHP { get; private set;}
     public int CurrentHP { get; private set;}
-    [field:SerializeField]public HealthBarController HPBar { get; private set; }
+    public event Action<int> OnHealthChanged;
+    public event Action<int> OnMaxHealthChanged;
 
     [field:SerializeField] public int MoveSpeed { get; private set; }
     
@@ -22,10 +24,14 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     {
         rb = GetComponent<Rigidbody2D>();
         CurrentHP = MaxHP;
-        HPBar.SetMaxHP(MaxHP);
-        HPBar.UpdateHealth(CurrentHP);
     }
-    
+
+    private void Start()
+    {
+        OnMaxHealthChanged?.Invoke(MaxHP);
+        OnHealthChanged?.Invoke(CurrentHP);
+    }
+
     protected void TryFlipVisual(float moveDir)
     {
         if (moveDir < 0 && facingRight)
@@ -44,7 +50,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     {
         CurrentHP -= damage;
         if (CurrentHP <= 0) Death();
-        HPBar.UpdateHealth(CurrentHP);
+        OnHealthChanged?.Invoke(CurrentHP);
     }
     
     protected virtual void Death()

@@ -48,6 +48,11 @@ public class Player : Unit
         return inventory.TryPutItemIn(item, 1);
     }*/
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A)) TakeDamage(1);
+    }
+
     public override void Move(Vector3 dir)
     {
         dir = dir.normalized;
