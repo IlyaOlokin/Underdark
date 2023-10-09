@@ -6,7 +6,7 @@ public class MobileInput : MonoBehaviour, IInput
 {
     public event Action<Vector3> MoveInput;
     public event Action ShootInput;
-    [SerializeField] private FixedJoystick joystick;
+    [SerializeField] private FloatingJoystick joystick;
     [SerializeField] private Button shootButton;
     [SerializeField] private Canvas canvas;
 
