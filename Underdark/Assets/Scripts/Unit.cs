@@ -24,10 +24,14 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     {
         rb = GetComponent<Rigidbody2D>();
         CurrentHP = MaxHP;
+    }
+
+    private void Start()
+    {
         OnMaxHealthChanged?.Invoke(MaxHP);
         OnHealthChanged?.Invoke(CurrentHP);
     }
-    
+
     protected void TryFlipVisual(float moveDir)
     {
         if (moveDir < 0 && facingRight)
