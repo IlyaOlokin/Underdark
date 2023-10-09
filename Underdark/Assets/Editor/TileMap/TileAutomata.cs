@@ -56,7 +56,7 @@ public class TileAutomata : MonoBehaviour
         if (mf)
         {
             var savePath = "Assets/Prefabs/Maps/" + saveName + ".prefab";
-            if (PrefabUtility.CreatePrefab(savePath, mf))
+            if (PrefabUtility.SaveAsPrefabAsset(mf, savePath))
             {
                 EditorUtility.DisplayDialog("Tilemap saved", "Your Tilemap was saved under" + savePath, "Continue");
             }

@@ -16,7 +16,13 @@ public class GameSceneInstaller : MonoInstaller
     {
         BindInput();
         BindPlayer();
+        //BindPlayerUI();
         //BindCamera();
+    }
+
+    private void BindPlayerUI()
+    {
+        throw new NotImplementedException();
     }
 
     private void BindInput()
