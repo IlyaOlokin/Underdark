@@ -6,9 +6,9 @@ public class LocalHealthBar : HealthBarController
 {
     [SerializeField] private Unit damageable;
 
-    protected virtual void Start()
+    protected virtual void Awake()
     {
-        SetMaxHP(damageable.MaxHP);
         damageable.OnHealthChanged += UpdateHealth;
+        damageable.OnMaxHealthChanged += SetMaxHP;
     }
 }
