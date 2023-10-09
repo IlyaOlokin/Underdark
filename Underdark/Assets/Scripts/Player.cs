@@ -52,15 +52,7 @@ public class Player : Unit
     {
         if (Input.GetKeyDown(KeyCode.A)) TakeDamage(1);
     }
-
-    public override void Move(Vector3 dir)
-    {
-        dir = dir.normalized;
-        //rb.velocity = new Vector2(dir.x * MoveSpeed, dir.y * MoveSpeed);
-        rb.MovePosition(rb.position + (Vector2) dir * MoveSpeed * Time.fixedDeltaTime);
-        TryFlipVisual(dir.x);
-    }
-
+    
     private void OnDisable()
     {
         input.MoveInput -= Move;

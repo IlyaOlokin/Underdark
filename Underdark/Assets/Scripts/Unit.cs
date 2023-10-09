@@ -60,8 +60,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     
     public virtual void Move(Vector3 dir)
     {
-        throw new System.NotImplementedException();
+        dir = dir.normalized;
+        //rb.velocity = new Vector2(dir.x * MoveSpeed, dir.y * MoveSpeed);
+        rb.MovePosition(rb.position + (Vector2) dir * MoveSpeed * Time.fixedDeltaTime);
+        //TryFlipVisual(dir.x);
     }
+    
     
     public virtual void Attack()
     {
