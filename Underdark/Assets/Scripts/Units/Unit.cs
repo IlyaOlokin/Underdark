@@ -16,9 +16,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     public event Action<int> OnMaxHealthChanged;
 
     [field:SerializeField] public int MoveSpeed { get; private set; }
-    
-    [field:SerializeField] public GameObject AttackPrefab { get; private set; }
     [field:SerializeField] public int Damage { get; private set;}
+    protected Vector3 lastMoveDir;
+
     
     protected virtual void Awake()
     {
@@ -63,6 +63,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         dir = dir.normalized;
         //rb.velocity = new Vector2(dir.x * MoveSpeed, dir.y * MoveSpeed);
         rb.MovePosition(rb.position + (Vector2) dir * MoveSpeed * Time.fixedDeltaTime);
+        if (dir != Vector3.zero)
+            lastMoveDir = dir;
         //TryFlipVisual(dir.x);
     }
     

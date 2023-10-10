@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 6202605587541706048}
   - component: {fileID: 6202605587541706061}
   - component: {fileID: 4055569685898743565}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -227,12 +227,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visuals: {fileID: 6202605588344640915}
-  rb: {fileID: 6202605587541706048}
   <MaxHP>k__BackingField: 10
   <MoveSpeed>k__BackingField: 5
-  <AttackPrefab>k__BackingField: {fileID: 7876975920789087912, guid: 9b99b3f969f3ebf41ad6133e47c9c65c, type: 3}
   <Damage>k__BackingField: 2
   HandGun: {fileID: 0}
+  attackMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!58 &4055569685898743565
 CircleCollider2D:
   m_ObjectHideFlags: 0

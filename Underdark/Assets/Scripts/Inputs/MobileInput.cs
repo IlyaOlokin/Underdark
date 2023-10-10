@@ -21,7 +21,7 @@ public class MobileInput : MonoBehaviour, IInput
         PlayerMoveInput();
     }
 
-    public void Shoot()
+    private void Shoot()
     {
         ShootInput?.Invoke();
     }

@@ -13,6 +13,8 @@ public class DesktopInput : MonoBehaviour, IInput
     void Update()
     {
         dir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (Input.GetMouseButtonDown(0))
+            ShootInput?.Invoke();
     }
 
     private void FixedUpdate()

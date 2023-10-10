@@ -12,6 +12,8 @@ public class Player : Unit
     [SerializeField] private Transform HandGun;
     
     private IInput input;
+
+    [SerializeField] private LayerMask attackMask;
     //private Inventory inventory;
     
     [Inject]
@@ -55,15 +57,17 @@ public class Player : Unit
     
     public override void Attack()
     {
-        /*if (enemySeeker.ClosestTarget == null) return;
-        if (inventory.BulletCount <= 0) return;
-
-        Vector3 dir = enemySeeker.ClosestTarget.position - transform.position;
-        GameObject attack = Instantiate(AttackPrefab, transform.position, Quaternion.identity);
-        var component = attack.GetComponent<Bullet>();
-        component.Damage = Damage;
-        component.Dir = dir;
-        inventory.DecreaseBulletCount(1);*/
+        var weaponDistance = 2;
+        var weaponRadius = 90;
+        
+        var hitUnits = Physics2D.OverlapCircleAll(transform.position, weaponDistance, attackMask);
+        foreach (var unit in hitUnits)
+        {
+            Vector3 dir = (unit.transform.position - transform.position).normalized;
+            var angle = Vector2.Angle(dir, lastMoveDir);
+            if (angle < weaponRadius / 2f)
+                unit.GetComponent<IDamageable>().TakeDamage(Damage);
+        }
     }
 }
 
