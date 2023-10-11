@@ -5,5 +5,7 @@ using UnityEngine;
 public interface IAttacker
 {
     int Damage { get; }
+    float AttackSpeed { get; }
+
     void Attack();
 }

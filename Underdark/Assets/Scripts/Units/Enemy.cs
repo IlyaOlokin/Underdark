@@ -23,9 +23,23 @@ public class Enemy : Unit
         agent.updateUpAxis = false;
     }
 
-    void Update()
+    protected override void Update()
     {
+        base.Update();
         agent.SetDestination(player.transform.position);
+        
+        RotateAttackDir();
+
+        if (attackCDTimer < 0 && Vector2.Distance(player.transform.position, transform.position) <= 2)
+            Attack();
+    }
+    
+    private void RotateAttackDir()
+    {
+        var dirToPlayer = player.transform.position - transform.position;
+        attackDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
+        if (dirToPlayer.y < 0) attackDirAngle *= -1;
+        baseAttackCollider.transform.eulerAngles = new Vector3(0, 0, attackDirAngle - 90);
     }
     
 }

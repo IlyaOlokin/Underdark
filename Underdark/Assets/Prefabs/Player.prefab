@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7205034382394384780}
   - component: {fileID: 4957847761769408712}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: AttackVisuals
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualPrefab: {fileID: 6197893003717166819, guid: 10a457d58ea309947981898e3fa1677a, type: 3}
-  player: {fileID: 6202605587541706061}
+  unit: {fileID: 6202605587541706061}
 --- !u!1 &4358255936087215904
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,73 +212,6 @@ PolygonCollider2D:
       - {x: 0.58778536, y: -0.80901694}
       - {x: 0.9510565, y: 0.30901712}
   m_UseDelaunayMesh: 0
---- !u!1 &6202605587019026591
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6202605587019026588}
-  - component: {fileID: 7981701896990147271}
-  m_Layer: 7
-  m_Name: MoveCollider
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6202605587019026588
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6202605587019026591}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6202605587541706050}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &7981701896990147271
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6202605587019026591}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!1 &6202605587541706060
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,7 +245,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6202605588344640912}
-  - {fileID: 6202605587019026588}
   - {fileID: 7205034382394384780}
   - {fileID: 6111342440452040717}
   m_Father: {fileID: 0}
@@ -357,14 +289,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visuals: {fileID: 6202605588344640915}
-  <MaxHP>k__BackingField: 10
+  <MaxHP>k__BackingField: 100
   <MoveSpeed>k__BackingField: 5
   <Damage>k__BackingField: 2
-  HandGun: {fileID: 0}
-  baseAttackCollider: {fileID: 250898244005966306}
+  <AttackSpeed>k__BackingField: 2.5
   attackMask:
     serializedVersion: 2
     m_Bits: 64
+  baseAttackCollider: {fileID: 250898244005966306}
+  HandGun: {fileID: 0}
 --- !u!58 &4055569685898743565
 CircleCollider2D:
   m_ObjectHideFlags: 0

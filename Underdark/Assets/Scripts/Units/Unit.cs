@@ -8,16 +8,23 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
 {
     [SerializeField] private GameObject visuals;
     private bool facingRight = true;
-    protected Rigidbody2D rb;
+    private Rigidbody2D rb;
     
     [field:SerializeField] public int MaxHP { get; private set;}
     public int CurrentHP { get; private set;}
     public event Action<int> OnHealthChanged;
     public event Action<int> OnMaxHealthChanged;
-
-    [field:SerializeField] public int MoveSpeed { get; private set; }
+    
+    [field:SerializeField] public int MoveSpeed { get; private set;}
     [field:SerializeField] public int Damage { get; private set;}
+    [field:SerializeField] public float AttackSpeed { get; private set;}
+
+    public event Action<float, float, float> OnBaseAttack;
     protected Vector3 lastMoveDir;
+    [SerializeField] private LayerMask attackMask;
+    [SerializeField] protected PolygonCollider2D baseAttackCollider;
+    protected float attackDirAngle;
+    protected float attackCDTimer;
 
     
     protected virtual void Awake()
@@ -30,6 +37,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     {
         OnMaxHealthChanged?.Invoke(MaxHP);
         OnHealthChanged?.Invoke(CurrentHP);
+        SetAttackCollider(90);
+    }
+
+    protected virtual void Update()
+    {
+        attackCDTimer -= Time.deltaTime;
     }
 
     protected void TryFlipVisual(float moveDir)
@@ -61,7 +74,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     public virtual void Move(Vector3 dir)
     {
         dir = dir.normalized;
-        //rb.velocity = new Vector2(dir.x * MoveSpeed, dir.y * MoveSpeed);
         rb.MovePosition(rb.position + (Vector2) dir * MoveSpeed * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
             lastMoveDir = dir;
@@ -71,6 +83,39 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     
     public virtual void Attack()
     {
-        throw new System.NotImplementedException();
+        if (attackCDTimer > 0) return;
+        var weaponDistance = 2;
+        var weaponRadius = 90;
+        
+        var contactFilter = new ContactFilter2D();
+        contactFilter.SetLayerMask(attackMask);
+        List<Collider2D> hitUnits = new List<Collider2D>();
+        baseAttackCollider.OverlapCollider(contactFilter, hitUnits);
+        
+        foreach (var unit in hitUnits)
+        {
+            unit.GetComponent<IDamageable>().TakeDamage(Damage);
+        }
+
+        attackCDTimer = 1 / AttackSpeed;
+        
+        OnBaseAttack?.Invoke(attackDirAngle, weaponRadius, weaponDistance);
+    }
+    
+    private void SetAttackCollider(float radius)
+    {
+        int pointStep = 10;
+        int pointsCount = (int) radius / pointStep + 1;
+        List<Vector2> path = new List<Vector2>();
+        float currentPointAngle = -radius / 2f;
+        for (int i = 0; i < pointsCount; i++)
+        {
+            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * 2; // * attackDistance
+            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * 2; // * attackDistance
+            path.Add(new Vector2(sin, cos));
+            currentPointAngle += pointStep;
+        }
+        path.Add(baseAttackCollider.transform.localPosition);
+        baseAttackCollider.SetPath(0, path);
     }
 }

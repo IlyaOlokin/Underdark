@@ -1,14 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class BaseAttackVisualSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject visualPrefab;
-    [SerializeField] private Player player;
+    [SerializeField] private Unit unit;
     void Awake()
     {
-        player.OnBaseAttack += SpawnVisual;
+        unit.OnBaseAttack += SpawnVisual;
     }
 
     private void SpawnVisual(float dir, float angle, float dist)
