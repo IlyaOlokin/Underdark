@@ -16,10 +16,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     public event Action<int> OnMaxHealthChanged;
     
     [field:SerializeField] public int MoveSpeed { get; private set;}
-    [field:SerializeField] public int Damage { get; private set;}
+    public int Damage { get; private set;}
     [field:SerializeField] public float AttackSpeed { get; private set;}
-
     public event Action<float, float, float> OnBaseAttack;
+    
+    [SerializeField] private MeleeWeapon weapon;
     protected Vector3 lastMoveDir;
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
@@ -37,7 +38,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     {
         OnMaxHealthChanged?.Invoke(MaxHP);
         OnHealthChanged?.Invoke(CurrentHP);
-        SetAttackCollider(90);
+        SetAttackCollider(weapon.AttackRadius);
     }
 
     protected virtual void Update()
@@ -84,8 +85,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     public virtual void Attack()
     {
         if (attackCDTimer > 0) return;
-        var weaponDistance = 2;
-        var weaponRadius = 90;
         
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(attackMask);
@@ -94,12 +93,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         
         foreach (var unit in hitUnits)
         {
-            unit.GetComponent<IDamageable>().TakeDamage(Damage);
+            unit.GetComponent<IDamageable>().TakeDamage(weapon.Damage);
         }
 
         attackCDTimer = 1 / AttackSpeed;
         
-        OnBaseAttack?.Invoke(attackDirAngle, weaponRadius, weaponDistance);
+        OnBaseAttack?.Invoke(attackDirAngle, weapon.AttackRadius, weapon.AttackDistance);
     }
     
     private void SetAttackCollider(float radius)
@@ -110,8 +109,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         float currentPointAngle = -radius / 2f;
         for (int i = 0; i < pointsCount; i++)
         {
-            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * 2; // * attackDistance
-            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * 2; // * attackDistance
+            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * weapon.AttackDistance;
+            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * weapon.AttackDistance;
             path.Add(new Vector2(sin, cos));
             currentPointAngle += pointStep;
         }
