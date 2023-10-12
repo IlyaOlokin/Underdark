@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityHFSM;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
@@ -82,7 +83,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     }
     
     
-    public virtual void Attack()
+    public virtual void Attack(State<EnemyState, StateEvent> State = null)
     {
         if (attackCDTimer > 0) return;
         

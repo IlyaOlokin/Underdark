@@ -186,6 +186,86 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1269560888262936621
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2130878163212203408}
+  - component: {fileID: 6228562176883883675}
+  - component: {fileID: 2366146653694173651}
+  m_Layer: 8
+  m_Name: PlayerSensor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2130878163212203408
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269560888262936621}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6202605587541706050}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &6228562176883883675
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269560888262936621}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 5
+--- !u!114 &2366146653694173651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1269560888262936621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 450e4ac8054594b46a8a7370b9208f2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3173113975725625667
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,9 +469,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6202605587541706050}
   - component: {fileID: 6202605587541706048}
-  - component: {fileID: 4055569685898743565}
-  - component: {fileID: 5771054876753080242}
   - component: {fileID: 3265220997278986497}
+  - component: {fileID: 4055569685898743565}
+  - component: {fileID: -7415035348111076708}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -416,6 +496,7 @@ Transform:
   - {fileID: 5843398397870662394}
   - {fileID: 6202605588344640912}
   - {fileID: 8930754597453354831}
+  - {fileID: 2130878163212203408}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &6202605587541706048
@@ -445,6 +526,28 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!195 &3265220997278986497
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202605587541706060}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1
+  m_BaseOffset: 0.5
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!58 &4055569685898743565
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -480,7 +583,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &5771054876753080242
+--- !u!114 &-7415035348111076708
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -489,13 +592,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6202605587541706060}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 503624b5f900b3c4c9d5c6498f2ba738, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b98a7b020ca8264d88d56b71a3c4b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   visuals: {fileID: 6202605588344640915}
   <MaxHP>k__BackingField: 10
   <MoveSpeed>k__BackingField: 3
-  <Damage>k__BackingField: 1
   <AttackSpeed>k__BackingField: 2.5
   weapon: {fileID: 11400000, guid: 55886dc31b3a814438e4faeb0b9a00e7, type: 2}
   attackMask:
@@ -503,28 +605,9 @@ MonoBehaviour:
     m_Bits: 128
   baseAttackCollider: {fileID: 4620529796954707555}
   agent: {fileID: 3265220997278986497}
---- !u!195 &3265220997278986497
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6202605587541706060}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 0.5
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  followPlayerSensor: {fileID: 2366146653694173651}
+  meleeAttackDuration: 0.4
+  meleeAttackPreparation: 0.5
 --- !u!1 &6202605588344640915
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +685,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visualPrefab: {fileID: 6197893003717166819, guid: 10a457d58ea309947981898e3fa1677a, type: 3}
-  unit: {fileID: 5771054876753080242}
+  unit: {fileID: -7415035348111076708}
 --- !u!1 &7033753906247388718
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,7 +789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 7553657344697027935}
-  damageable: {fileID: 5771054876753080242}
+  damageable: {fileID: -7415035348111076708}
 --- !u!1 &7094751624174755692
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityHFSM;
 
 public class DesktopInput : MonoBehaviour, IInput
 {
     public event Action<Vector3> MoveInput;
-    public event Action ShootInput;
+    public event Action<State<EnemyState, StateEvent>> ShootInput;
 
     private Vector2 dir;
     
@@ -14,7 +15,7 @@ public class DesktopInput : MonoBehaviour, IInput
     {
         dir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         if (Input.GetMouseButtonDown(0))
-            ShootInput?.Invoke();
+            ShootInput?.Invoke(null);
     }
 
     private void FixedUpdate()
