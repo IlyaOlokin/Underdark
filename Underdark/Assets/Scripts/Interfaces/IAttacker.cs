@@ -8,5 +8,5 @@ public interface IAttacker
     int Damage { get; }
     float AttackSpeed { get; }
 
-    void Attack(State<EnemyState, StateEvent> State = null);
+    void Attack();
 }
