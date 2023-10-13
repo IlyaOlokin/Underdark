@@ -13,17 +13,17 @@ namespace LlamAcademy.FSM
         protected bool RequestedExit;
         protected float ExitTime;
 
-        protected readonly Action<State<EnemyState, StateEvent>> onEnter;
-        protected readonly Action<State<EnemyState, StateEvent>> onLogic;
-        protected readonly Action<State<EnemyState, StateEvent>> onExit;
+        protected readonly Action onEnter;
+        protected readonly Action onLogic;
+        protected readonly Action onExit;
         protected readonly Func<State<EnemyState, StateEvent>, bool> canExit;
 
         public EnemyStateBase(bool needsExitTime, 
             Enemy Enemy, 
             float ExitTime = 0.1f,
-            Action<State<EnemyState, StateEvent>> onEnter = null,
-            Action<State<EnemyState, StateEvent>> onLogic = null,
-            Action<State<EnemyState, StateEvent>> onExit = null,
+            Action onEnter = null,
+            Action onLogic = null,
+            Action onExit = null,
             Func<State<EnemyState, StateEvent>, bool> canExit = null)
         {
             this.Enemy = Enemy;
@@ -41,7 +41,7 @@ namespace LlamAcademy.FSM
         {
             base.OnEnter();
             RequestedExit = false;
-            onEnter?.Invoke(this);
+            onEnter?.Invoke();
         }
 
         public override void OnLogic()

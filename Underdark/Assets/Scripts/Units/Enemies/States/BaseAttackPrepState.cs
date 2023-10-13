@@ -7,11 +7,11 @@ using UnityHFSM;
 
 public class BaseAttackPrepState : EnemyStateBase
 {
-    public BaseAttackPrepState(
-        bool needsExitTime,
+    public BaseAttackPrepState(bool needsExitTime,
         Enemy Enemy,
-        //Action<State<EnemyState, StateEvent>> onEnter,
-        float ExitTime) : base(needsExitTime, Enemy, ExitTime/*, onEnter*/) {}
+        Action onEnter,
+        float ExitTime
+    ) : base(needsExitTime, Enemy, ExitTime, onEnter) {}
     
     public override void OnEnter()
     {

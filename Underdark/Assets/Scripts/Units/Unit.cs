@@ -83,7 +83,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     }
     
     
-    public virtual void Attack(State<EnemyState, StateEvent> State = null)
+    public virtual void Attack()
     {
         if (attackCDTimer > 0) return;
         

@@ -6,7 +6,7 @@ using UnityHFSM;
 public class MobileInput : MonoBehaviour, IInput
 {
     public event Action<Vector3> MoveInput;
-    public event Action<State<EnemyState, StateEvent>> ShootInput;
+    public event Action ShootInput;
     [SerializeField] private FloatingJoystick joystick;
     [SerializeField] private Button shootButton;
     [SerializeField] private Canvas canvas;
@@ -24,7 +24,7 @@ public class MobileInput : MonoBehaviour, IInput
 
     private void Shoot()
     {
-        ShootInput?.Invoke(null);
+        ShootInput?.Invoke();
     }
     
     public void PlayerMoveInput()

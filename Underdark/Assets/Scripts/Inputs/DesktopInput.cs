@@ -7,7 +7,7 @@ using UnityHFSM;
 public class DesktopInput : MonoBehaviour, IInput
 {
     public event Action<Vector3> MoveInput;
-    public event Action<State<EnemyState, StateEvent>> ShootInput;
+    public event Action ShootInput;
 
     private Vector2 dir;
     
@@ -15,7 +15,7 @@ public class DesktopInput : MonoBehaviour, IInput
     {
         dir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
         if (Input.GetMouseButtonDown(0))
-            ShootInput?.Invoke(null);
+            ShootInput?.Invoke();
     }
 
     private void FixedUpdate()
