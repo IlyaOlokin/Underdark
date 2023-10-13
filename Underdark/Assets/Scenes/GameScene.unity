@@ -402,13 +402,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (5)
       objectReference: {fileID: 0}
-    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 6202605587541706060, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -467,13 +471,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 6202605587541706060, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -532,13 +540,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (7)
       objectReference: {fileID: 0}
-    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 6202605587541706060, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -642,13 +654,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (8)
       objectReference: {fileID: 0}
-    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 6202605587541706060, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -730,7 +746,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.11666667
   m_BuildHeightMesh: 0
   m_HideEditorLogs: 0
   m_NavMeshData: {fileID: 23800000, guid: 1bf83eabf36b27842983a56b864f7fc0, type: 2}
@@ -851,13 +867,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (3)
       objectReference: {fileID: 0}
-    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 6202605587541706060, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -916,13 +936,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 6202605587541706060, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1220,13 +1244,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (6)
       objectReference: {fileID: 0}
-    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 6202605587541706060, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1531,7 +1559,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9254902, g: 0.205816, b: 0.15294118, a: 1}
+  m_Color: {r: 0.15556829, g: 1, b: 0.033018887, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1795,13 +1823,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (4)
       objectReference: {fileID: 0}
-    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
-      propertyPath: m_AnchorMax.x
+    - target: {fileID: 6202605587541706060, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6758135326544568844, guid: a404621b445e6e349858526fe4747397, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1968,7 +2000,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -10
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.46226418, g: 0.46226418, b: 0.46226418, a: 1}
   m_FlipX: 0

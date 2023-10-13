@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityHFSM;
 
 public interface IInput
 {
     event Action<Vector3> MoveInput;
-    event Action ShootInput;
+    event Action<State<EnemyState, StateEvent>> ShootInput;
     void PlayerMoveInput();
 }

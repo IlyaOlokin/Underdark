@@ -1,11 +1,12 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityHFSM;
 
 public class MobileInput : MonoBehaviour, IInput
 {
     public event Action<Vector3> MoveInput;
-    public event Action ShootInput;
+    public event Action<State<EnemyState, StateEvent>> ShootInput;
     [SerializeField] private FloatingJoystick joystick;
     [SerializeField] private Button shootButton;
     [SerializeField] private Canvas canvas;
@@ -21,9 +22,9 @@ public class MobileInput : MonoBehaviour, IInput
         PlayerMoveInput();
     }
 
-    public void Shoot()
+    private void Shoot()
     {
-        ShootInput?.Invoke();
+        ShootInput?.Invoke(null);
     }
     
     public void PlayerMoveInput()
