@@ -382,7 +382,11 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   baseAttackCollider: {fileID: 250898244005966306}
-  HandGun: {fileID: 0}
+  activeAbilities:
+  - {fileID: 1615478807827469761, guid: 7497daa92ca9b974bac7ab847e7df7b3, type: 3}
+  - {fileID: 1615478807827469761, guid: 7497daa92ca9b974bac7ab847e7df7b3, type: 3}
+  - {fileID: 1615478807827469761, guid: 7497daa92ca9b974bac7ab847e7df7b3, type: 3}
+  - {fileID: 1615478807827469761, guid: 7497daa92ca9b974bac7ab847e7df7b3, type: 3}
 --- !u!58 &4055569685898743565
 CircleCollider2D:
   m_ObjectHideFlags: 0

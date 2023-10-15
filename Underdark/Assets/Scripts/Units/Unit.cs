@@ -16,18 +16,22 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     public event Action<int> OnHealthChanged;
     public event Action<int> OnMaxHealthChanged;
     
+    [field: Header("Attack Setup")]
     [field:SerializeField] public int MoveSpeed { get; private set;}
     public int Damage { get; private set;}
     [field:SerializeField] public float AttackSpeed { get; private set;}
     public event Action<float, float, float> OnBaseAttack;
     
-    [SerializeField] private MeleeWeapon weapon;
-    protected Vector3 lastMoveDir;
+    [SerializeField] protected MeleeWeapon weapon;
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
+
+    [Header("Active Abilities")] 
+    [SerializeField] protected List<ActiveAblity> activeAbilities;
+    
+    protected Vector3 lastMoveDir;
     protected float attackDirAngle;
     protected float attackCDTimer;
-
     
     protected virtual void Awake()
     {
