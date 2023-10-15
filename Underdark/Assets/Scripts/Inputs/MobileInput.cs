@@ -8,10 +8,7 @@ public class MobileInput : MonoBehaviour, IInput
 {
     public event Action<Vector3> MoveInput;
     public event Action ShootInput;
-    public event Action ActiveAbilityInput1;
-    public event Action ActiveAbilityInput2;
-    public event Action ActiveAbilityInput3;
-    public event Action ActiveAbilityInput4;
+    public event Action<int> ActiveAbilityInput;
     
     [SerializeField] private FloatingJoystick joystick;
     [SerializeField] private Button shootButton;
@@ -40,19 +37,19 @@ public class MobileInput : MonoBehaviour, IInput
     
     private void ActiveAbility1()
     {
-        ActiveAbilityInput1?.Invoke();
+        ActiveAbilityInput?.Invoke(0);
     }
     private void ActiveAbility2()
     {
-        ActiveAbilityInput2?.Invoke();
+        ActiveAbilityInput?.Invoke(1);
     }
     private void ActiveAbility3()
     {
-        ActiveAbilityInput3?.Invoke();
+        ActiveAbilityInput?.Invoke(2);
     }
     private void ActiveAbility4()
     {
-        ActiveAbilityInput4?.Invoke();
+        ActiveAbilityInput?.Invoke(3);
     }
     
     

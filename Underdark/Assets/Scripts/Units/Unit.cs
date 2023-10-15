@@ -122,4 +122,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         path.Add(baseAttackCollider.transform.localPosition);
         baseAttackCollider.SetPath(0, path);
     }
+    
+    protected void ExecuteTeActiveAbility(int index)
+    {
+        var newAbility = Instantiate(activeAbilities[index], transform.position, Quaternion.identity);
+        newAbility.Execute(this);
+    }
+
+    public Vector2 GetAttackDirection() => lastMoveDir.normalized;
 }

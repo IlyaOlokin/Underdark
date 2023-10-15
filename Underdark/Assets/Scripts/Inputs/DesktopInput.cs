@@ -8,10 +8,7 @@ public class DesktopInput : MonoBehaviour, IInput
 {
     public event Action<Vector3> MoveInput;
     public event Action ShootInput;
-    public event Action ActiveAbilityInput1;
-    public event Action ActiveAbilityInput2;
-    public event Action ActiveAbilityInput3;
-    public event Action ActiveAbilityInput4;
+    public event Action<int> ActiveAbilityInput;
 
     private Vector2 dir;
     
@@ -22,13 +19,13 @@ public class DesktopInput : MonoBehaviour, IInput
             ShootInput?.Invoke();
         
         if (Input.GetKeyDown(KeyCode.Alpha1))
-            ActiveAbilityInput1?.Invoke();
+            ActiveAbilityInput?.Invoke(0);
         if (Input.GetKeyDown(KeyCode.Alpha2))
-            ActiveAbilityInput2?.Invoke();
+            ActiveAbilityInput?.Invoke(1);
         if (Input.GetKeyDown(KeyCode.Alpha3))
-            ActiveAbilityInput3?.Invoke();
+            ActiveAbilityInput?.Invoke(2);
         if (Input.GetKeyDown(KeyCode.Alpha4))
-            ActiveAbilityInput4?.Invoke();
+            ActiveAbilityInput?.Invoke(3);
     }
 
     private void FixedUpdate()

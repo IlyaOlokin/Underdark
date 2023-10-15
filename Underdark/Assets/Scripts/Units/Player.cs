@@ -19,10 +19,7 @@ public class Player : Unit
         input.MoveInput += Move;
         input.ShootInput += Attack;
 
-        input.ActiveAbilityInput1 += activeAbilities[0].Execute;
-        input.ActiveAbilityInput2 += activeAbilities[1].Execute;
-        input.ActiveAbilityInput3 += activeAbilities[2].Execute;
-        input.ActiveAbilityInput4 += activeAbilities[3].Execute;
+        input.ActiveAbilityInput += ExecuteTeActiveAbility;
     }
 
     protected override void Death()
