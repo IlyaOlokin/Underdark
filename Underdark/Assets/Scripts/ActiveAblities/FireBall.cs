@@ -7,10 +7,7 @@ using UnityEngine.Serialization;
 public class FireBall : ActiveAblity
 {
     [SerializeField] private float projSpeed;
-    [SerializeField] private float maxDamage;
-    [SerializeField] private int damageStatMultiplier;
     
-    private int damage;
     private Rigidbody2D rb;
 
     private void Awake()
@@ -30,6 +27,10 @@ public class FireBall : ActiveAblity
             rb.velocity = (target.transform.position - transform.position).normalized * projSpeed;
         else
             rb.velocity = caster.GetAttackDirection() * projSpeed;
+        
+        var rotAngle = Vector2.Angle(Vector3.up, rb.velocity);
+        if (rb.velocity.x > 0) rotAngle *= -1;
+        transform.Rotate(Vector3.forward, rotAngle);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

@@ -31,6 +31,9 @@ public class Player : Unit
     private void OnDisable()
     {
         input.MoveInput -= Move;
+        input.ShootInput -= Attack;
+
+        input.ActiveAbilityInput -= ExecuteTeActiveAbility;
     }
 
     protected override void Update()

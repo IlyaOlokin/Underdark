@@ -22,7 +22,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     [field:SerializeField] public float AttackSpeed { get; private set;}
     public event Action<float, float, float> OnBaseAttack;
     
-    [SerializeField] protected MeleeWeapon weapon;
+    [field:SerializeField] public MeleeWeapon Weapon { get; private set;}
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
 
@@ -43,7 +43,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     {
         OnMaxHealthChanged?.Invoke(MaxHP);
         OnHealthChanged?.Invoke(CurrentHP);
-        SetAttackCollider(weapon.AttackRadius);
+        SetAttackCollider(Weapon.AttackRadius);
     }
 
     protected virtual void Update()
@@ -98,12 +98,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         
         foreach (var unit in hitUnits)
         {
-            unit.GetComponent<IDamageable>().TakeDamage(weapon.Damage);
+            unit.GetComponent<IDamageable>().TakeDamage(Weapon.Damage);
         }
 
         attackCDTimer = 1 / AttackSpeed;
         
-        OnBaseAttack?.Invoke(attackDirAngle, weapon.AttackRadius, weapon.AttackDistance);
+        OnBaseAttack?.Invoke(attackDirAngle, Weapon.AttackRadius, Weapon.AttackDistance);
     }
     
     private void SetAttackCollider(float radius)
@@ -114,8 +114,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         float currentPointAngle = -radius / 2f;
         for (int i = 0; i < pointsCount; i++)
         {
-            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * weapon.AttackDistance;
-            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * weapon.AttackDistance;
+            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * Weapon.AttackDistance;
+            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * Weapon.AttackDistance;
             path.Add(new Vector2(sin, cos));
             currentPointAngle += pointStep;
         }

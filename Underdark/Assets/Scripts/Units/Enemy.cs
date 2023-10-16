@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -69,5 +70,10 @@ public class Enemy : Unit
 
     protected bool IsNotWithinIdleRange(Transition<EnemyState> transition) => 
         !IsWithinIdleRange(transition);
-    
+
+    private void OnDisable()
+    {
+        followPlayerSensor.OnPlayerEnter -= FollowPlayerSensor_OnPlayerEnter;
+        followPlayerSensor.OnPlayerExit -= FollowPlayerSensor_OnPlayerExit;
+    }
 }
