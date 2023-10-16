@@ -8,11 +8,7 @@ using Zenject;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Player : Unit
 {
-    //[SerializeField] private EnemySeeker enemySeeker;
-    [SerializeField] private Transform HandGun;
-    
     private IInput input;
-
     
     //private Inventory inventory;
     
@@ -22,6 +18,8 @@ public class Player : Unit
         input = userInput;
         input.MoveInput += Move;
         input.ShootInput += Attack;
+
+        input.ActiveAbilityInput += ExecuteTeActiveAbility;
     }
 
     protected override void Death()
@@ -33,6 +31,9 @@ public class Player : Unit
     private void OnDisable()
     {
         input.MoveInput -= Move;
+        input.ShootInput -= Attack;
+
+        input.ActiveAbilityInput -= ExecuteTeActiveAbility;
     }
 
     protected override void Update()
