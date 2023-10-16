@@ -10,14 +10,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     [SerializeField] private GameObject visuals;
     private bool facingRight = true;
     private Rigidbody2D rb;
+    public UnitStats Stats { get; private set;}
     
     [field:SerializeField] public int MaxHP { get; private set;}
     public int CurrentHP { get; private set;}
     public event Action<int> OnHealthChanged;
     public event Action<int> OnMaxHealthChanged;
     
-    [field: Header("Attack Setup")]
     [field:SerializeField] public int MoveSpeed { get; private set;}
+
+    [field: Header("Attack Setup")] 
     public int Damage { get; private set;}
     [field:SerializeField] public float AttackSpeed { get; private set;}
     public event Action<float, float, float> OnBaseAttack;
@@ -36,6 +38,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        Stats = GetComponent<UnitStats>();
         CurrentHP = MaxHP;
     }
 
@@ -43,7 +46,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     {
         OnMaxHealthChanged?.Invoke(MaxHP);
         OnHealthChanged?.Invoke(CurrentHP);
-        SetAttackCollider(Weapon.AttackRadius);
+        SetAttackCollider(Weapon.AttackRadius, Weapon.AttackDistance);
     }
 
     protected virtual void Update()
@@ -65,9 +68,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         visuals.transform.Rotate(0,180,0);
     }
     
-    public virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(float damage)
     {
-        CurrentHP -= damage;
+        CurrentHP -= (int) damage;
         if (CurrentHP <= 0) Death();
         OnHealthChanged?.Invoke(CurrentHP);
     }
@@ -98,7 +101,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         
         foreach (var unit in hitUnits)
         {
-            unit.GetComponent<IDamageable>().TakeDamage(Weapon.Damage);
+            unit.GetComponent<IDamageable>().TakeDamage(Stats.Strength + Weapon.Damage);
         }
 
         attackCDTimer = 1 / AttackSpeed;
@@ -106,7 +109,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         OnBaseAttack?.Invoke(attackDirAngle, Weapon.AttackRadius, Weapon.AttackDistance);
     }
     
-    private void SetAttackCollider(float radius)
+    private void SetAttackCollider(float radius, float distance)
     {
         int pointStep = 10;
         int pointsCount = (int) radius / pointStep + 1;
@@ -114,8 +117,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         float currentPointAngle = -radius / 2f;
         for (int i = 0; i < pointsCount; i++)
         {
-            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * Weapon.AttackDistance;
-            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * Weapon.AttackDistance;
+            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * distance;
+            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * distance;
             path.Add(new Vector2(sin, cos));
             currentPointAngle += pointStep;
         }

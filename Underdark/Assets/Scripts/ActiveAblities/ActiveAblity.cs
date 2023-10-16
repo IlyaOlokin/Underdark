@@ -12,7 +12,7 @@ public abstract class ActiveAblity : MonoBehaviour
     [SerializeField] protected float maxDamage;
     [SerializeField] protected int damageStatMultiplier;
     
-    protected int damage;
+    protected float damage;
 
     [SerializeField] private bool needAutoDestroy;
     [SerializeField] private float autoDestroyDelay;
