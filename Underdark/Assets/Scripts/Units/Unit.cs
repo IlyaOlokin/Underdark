@@ -20,7 +20,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     [field:SerializeField] public int MoveSpeed { get; private set;}
 
     [field: Header("Attack Setup")] 
-    public int Damage { get; private set;}
     [field:SerializeField] public float AttackSpeed { get; private set;}
     public event Action<float, float, float> OnBaseAttack;
     
@@ -46,7 +45,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     {
         OnMaxHealthChanged?.Invoke(MaxHP);
         OnHealthChanged?.Invoke(CurrentHP);
-        SetAttackCollider(Weapon.AttackRadius, Weapon.AttackDistance);
+        SetAttackCollider(Weapon.AttackRadius, Weapon.AttackDistance + 1);
     }
 
     protected virtual void Update()
@@ -86,7 +85,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         rb.MovePosition(rb.position + (Vector2) dir * MoveSpeed * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
             lastMoveDir = dir;
-        //TryFlipVisual(dir.x);
     }
     
     
@@ -101,12 +99,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         
         foreach (var unit in hitUnits)
         {
-            unit.GetComponent<IDamageable>().TakeDamage(Stats.Strength + Weapon.Damage);
+            unit.GetComponent<IDamageable>().TakeDamage(Stats.Strength + Weapon.Damage.GetValue());
         }
 
         attackCDTimer = 1 / AttackSpeed;
         
-        OnBaseAttack?.Invoke(attackDirAngle, Weapon.AttackRadius, Weapon.AttackDistance);
+        OnBaseAttack?.Invoke(attackDirAngle, Weapon.AttackRadius, Weapon.AttackDistance + 1);
     }
     
     private void SetAttackCollider(float radius, float distance)

@@ -42,6 +42,11 @@ public class Player : Unit
         RotateAttackDir();
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, Weapon.AttackDistance + 0.5f);
+    }
+
     private void RotateAttackDir()
     {
         attackDirAngle = Vector3.Angle(Vector3.right, lastMoveDir);
