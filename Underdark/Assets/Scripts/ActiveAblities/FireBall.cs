@@ -35,9 +35,12 @@ public class FireBall : ActiveAblity
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (attackMask.value == 1 << other.gameObject.layer) // is layer in layer mask
+        if(attackMask == (attackMask | (1 << other.gameObject.layer)))
         {
-            other.GetComponent<IDamageable>().TakeDamage(damage);
+            if (other.TryGetComponent(out IDamageable damageable))
+            {
+                damageable.TakeDamage(damage);
+            }
             Destroy(gameObject);
         }
     }
