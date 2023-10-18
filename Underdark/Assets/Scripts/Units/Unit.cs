@@ -33,12 +33,13 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     protected Vector3 lastMoveDir;
     protected float attackDirAngle;
     protected float attackCDTimer;
-    protected float actionCDTimer;
+    private float actionCDTimer;
     
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         Stats = GetComponent<UnitStats>();
+        MaxHP += Stats.Strength * 10;
         CurrentHP = MaxHP;
     }
 
