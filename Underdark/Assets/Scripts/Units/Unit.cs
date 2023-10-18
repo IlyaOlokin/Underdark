@@ -26,6 +26,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     [field:SerializeField] public MeleeWeapon Weapon { get; private set;}
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
+    [SerializeField] protected DamageNumberEffect damageNumberEffect;
 
     [Header("Active Abilities")] 
     [SerializeField] protected List<ActiveAblity> activeAbilities;
@@ -74,6 +75,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     {
         CurrentHP -= (int) damage;
         if (CurrentHP <= 0) Death();
+        var newEffect = Instantiate(damageNumberEffect, transform.position, Quaternion.identity);
+        newEffect.WriteDamage(damage);
+        //newEffect.InitTargetPos(damagerPos, isCritical);
         OnHealthChanged?.Invoke(CurrentHP);
     }
     
