@@ -33,6 +33,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     protected Vector3 lastMoveDir;
     protected float attackDirAngle;
     protected float attackCDTimer;
+    protected float actionCDTimer;
     
     protected virtual void Awake()
     {
@@ -51,6 +52,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     protected virtual void Update()
     {
         attackCDTimer -= Time.deltaTime;
+        actionCDTimer -= Time.deltaTime;
     }
 
     protected void TryFlipVisual(float moveDir)
@@ -90,7 +92,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     
     public virtual void Attack()
     {
-        if (attackCDTimer > 0) return;
+        if (attackCDTimer > 0 || actionCDTimer > 0) return;
         
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(attackMask);
@@ -103,6 +105,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         }
 
         attackCDTimer = 1 / AttackSpeed;
+        SetActionCD(1 / (AttackSpeed * 2));
         
         OnBaseAttack?.Invoke(attackDirAngle, Weapon.AttackRadius, Weapon.AttackDistance + 1);
     }
@@ -126,9 +129,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     
     protected void ExecuteTeActiveAbility(int index)
     {
+        if (actionCDTimer > 0) return;
         var newAbility = Instantiate(activeAbilities[index], transform.position, Quaternion.identity);
         newAbility.Execute(this);
+        SetActionCD(newAbility.CastTime);
     }
+
+    private void SetActionCD(float cd)
+    {
+        actionCDTimer = cd;
+    } 
 
     public Vector2 GetAttackDirection() => lastMoveDir.normalized;
 }

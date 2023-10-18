@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class ActiveAblity : MonoBehaviour
 {
+    public float CastTime;
     [SerializeField] protected LayerMask attackMask;
     [SerializeField] protected int attackDistance;
     [SerializeField] protected float attackAngle;
