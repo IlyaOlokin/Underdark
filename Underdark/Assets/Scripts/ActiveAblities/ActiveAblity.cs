@@ -6,13 +6,14 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class ActiveAblity : MonoBehaviour
 {
+    public float CastTime;
     [SerializeField] protected LayerMask attackMask;
     [SerializeField] protected int attackDistance;
     [SerializeField] protected float attackAngle;
     [SerializeField] protected float maxDamage;
     [SerializeField] protected int damageStatMultiplier;
     
-    protected int damage;
+    protected float damage;
 
     [SerializeField] private bool needAutoDestroy;
     [SerializeField] private float autoDestroyDelay;
@@ -32,7 +33,7 @@ public abstract class ActiveAblity : MonoBehaviour
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(attackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(caster.transform.position, attackDistance, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(caster.transform.position, attackDistance + 0.5f, contactFilter, hitColliders);
 
         Collider2D target = null;
         float minDist = float.MaxValue;
@@ -55,7 +56,7 @@ public abstract class ActiveAblity : MonoBehaviour
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(attackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(caster.transform.position, attackDistance, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(caster.transform.position, attackDistance + 0.5f, contactFilter, hitColliders);
 
         List<Collider2D> targets = new List<Collider2D>();
         foreach (var collider in hitColliders)
@@ -73,6 +74,7 @@ public abstract class ActiveAblity : MonoBehaviour
 
     protected void OverrideWeaponStats(MeleeWeapon weapon)
     {
+        if (weapon.ID == "empty") return;
         attackDistance = weapon.AttackDistance;
         attackAngle = weapon.AttackRadius;
     }

@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class FireBall : ActiveAblity
+public class ArrowShot : ActiveAblity
 {
     [SerializeField] private float projSpeed;
     
@@ -18,7 +16,7 @@ public class FireBall : ActiveAblity
 
     public override void Execute(Unit caster)
     {
-        damage = Mathf.Min(caster.Stats.Intelligence * damageStatMultiplier, maxDamage);
+        damage = Mathf.Min(caster.Stats.Dexterity * damageStatMultiplier, maxDamage);
         
         var target = FindClosestTarget(caster);
 

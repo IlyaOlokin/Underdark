@@ -19,7 +19,7 @@ public class BaseAttackVisual : MonoBehaviour
     {
         var extraAngle = angle * 0.2f;
         transform.eulerAngles = new Vector3(0, 0, dir - angle / 2f - extraAngle);
-        swingPoint.localPosition = new Vector3(dist / 2f, 0);
+        swingPoint.localPosition = new Vector3(dist / 1.5f, 0);
         trailRenderer.widthMultiplier *= dist;
         swingTimer = swingDuration;
         float rotationSpeed = (angle + extraAngle) / swingDuration;

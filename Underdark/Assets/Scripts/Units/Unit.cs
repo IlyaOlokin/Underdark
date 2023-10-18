@@ -10,15 +10,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     [SerializeField] private GameObject visuals;
     private bool facingRight = true;
     private Rigidbody2D rb;
+    public UnitStats Stats { get; private set;}
     
     [field:SerializeField] public int MaxHP { get; private set;}
     public int CurrentHP { get; private set;}
     public event Action<int> OnHealthChanged;
     public event Action<int> OnMaxHealthChanged;
     
-    [field: Header("Attack Setup")]
     [field:SerializeField] public int MoveSpeed { get; private set;}
-    public int Damage { get; private set;}
+
+    [field: Header("Attack Setup")] 
     [field:SerializeField] public float AttackSpeed { get; private set;}
     public event Action<float, float, float> OnBaseAttack;
     
@@ -32,10 +33,13 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     protected Vector3 lastMoveDir;
     protected float attackDirAngle;
     protected float attackCDTimer;
+    private float actionCDTimer;
     
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        Stats = GetComponent<UnitStats>();
+        MaxHP += Stats.Strength * 10;
         CurrentHP = MaxHP;
     }
 
@@ -43,12 +47,13 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     {
         OnMaxHealthChanged?.Invoke(MaxHP);
         OnHealthChanged?.Invoke(CurrentHP);
-        SetAttackCollider(Weapon.AttackRadius);
+        SetAttackCollider(Weapon.AttackRadius, Weapon.AttackDistance + 1);
     }
 
     protected virtual void Update()
     {
         attackCDTimer -= Time.deltaTime;
+        actionCDTimer -= Time.deltaTime;
     }
 
     protected void TryFlipVisual(float moveDir)
@@ -65,9 +70,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         visuals.transform.Rotate(0,180,0);
     }
     
-    public virtual void TakeDamage(int damage)
+    public virtual void TakeDamage(float damage)
     {
-        CurrentHP -= damage;
+        CurrentHP -= (int) damage;
         if (CurrentHP <= 0) Death();
         OnHealthChanged?.Invoke(CurrentHP);
     }
@@ -83,13 +88,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         rb.MovePosition(rb.position + (Vector2) dir * MoveSpeed * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
             lastMoveDir = dir;
-        //TryFlipVisual(dir.x);
     }
     
     
     public virtual void Attack()
     {
-        if (attackCDTimer > 0) return;
+        if (attackCDTimer > 0 || actionCDTimer > 0) return;
         
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(attackMask);
@@ -98,15 +102,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         
         foreach (var unit in hitUnits)
         {
-            unit.GetComponent<IDamageable>().TakeDamage(Weapon.Damage);
+            unit.GetComponent<IDamageable>().TakeDamage(Stats.Strength + Weapon.Damage.GetValue());
         }
 
         attackCDTimer = 1 / AttackSpeed;
+        SetActionCD(1 / (AttackSpeed * 2));
         
-        OnBaseAttack?.Invoke(attackDirAngle, Weapon.AttackRadius, Weapon.AttackDistance);
+        OnBaseAttack?.Invoke(attackDirAngle, Weapon.AttackRadius, Weapon.AttackDistance + 1);
     }
     
-    private void SetAttackCollider(float radius)
+    private void SetAttackCollider(float radius, float distance)
     {
         int pointStep = 10;
         int pointsCount = (int) radius / pointStep + 1;
@@ -114,8 +119,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         float currentPointAngle = -radius / 2f;
         for (int i = 0; i < pointsCount; i++)
         {
-            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * Weapon.AttackDistance;
-            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * Weapon.AttackDistance;
+            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * distance;
+            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * distance;
             path.Add(new Vector2(sin, cos));
             currentPointAngle += pointStep;
         }
@@ -125,9 +130,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     
     protected void ExecuteTeActiveAbility(int index)
     {
+        if (actionCDTimer > 0) return;
         var newAbility = Instantiate(activeAbilities[index], transform.position, Quaternion.identity);
         newAbility.Execute(this);
+        SetActionCD(newAbility.CastTime);
     }
+
+    private void SetActionCD(float cd)
+    {
+        actionCDTimer = cd;
+    } 
 
     public Vector2 GetAttackDirection() => lastMoveDir.normalized;
 }

@@ -488,6 +488,7 @@ GameObject:
   - component: {fileID: 3265220997278986497}
   - component: {fileID: 4055569685898743565}
   - component: {fileID: -7415035348111076708}
+  - component: {fileID: 4376170228482371759}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -612,10 +613,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   visuals: {fileID: 6202605588344640915}
-  <MaxHP>k__BackingField: 10
+  <MaxHP>k__BackingField: 30
   <MoveSpeed>k__BackingField: 3
   <AttackSpeed>k__BackingField: 2.5
-  <Weapon>k__BackingField: {fileID: 11400000, guid: 55886dc31b3a814438e4faeb0b9a00e7, type: 2}
+  <Weapon>k__BackingField: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}
   attackMask:
     serializedVersion: 2
     m_Bits: 128
@@ -626,6 +627,22 @@ MonoBehaviour:
   baseAttackAlert: {fileID: 551113106417395305}
   meleeAttackDuration: 0.4
   meleeAttackPreparation: 0.5
+--- !u!114 &4376170228482371759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202605587541706060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f139407944c515844a8ec2705d544cec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Level>k__BackingField: 0
+  <Strength>k__BackingField: 2
+  <Dexterity>k__BackingField: 2
+  <Intelligence>k__BackingField: 1
 --- !u!1 &6202605588344640915
 GameObject:
   m_ObjectHideFlags: 0

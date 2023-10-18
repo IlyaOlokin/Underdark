@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: old_dull_dagger
   image: {fileID: 0}
-  Damage: 4
+  Damage:
+    minDamage: 3
+    maxDamage: 5
   AttackRadius: 120
-  AttackDistance: 2
+  AttackDistance: 1

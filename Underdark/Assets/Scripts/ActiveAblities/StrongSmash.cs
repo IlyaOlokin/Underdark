@@ -6,7 +6,7 @@ public class StrongSmash : ActiveAblity
 {
     public override void Execute(Unit caster)
     {
-        damage = 3 * damageStatMultiplier;
+        damage = Mathf.Min(caster.Stats.Strength * damageStatMultiplier, maxDamage);
 
         OverrideWeaponStats(caster.Weapon);
         var targets = FindAllTargets(caster);
