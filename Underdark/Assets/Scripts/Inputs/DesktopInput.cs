@@ -9,7 +9,7 @@ public class DesktopInput : MonoBehaviour, IInput
 {
     public event Action<Vector3> MoveInput;
     public event Action ShootInput;
-    public event Func<int, float> ActiveAbilityInput;
+    public event Action<int> ActiveAbilityInput;
 
     private Vector2 dir;
     private PlayerInputUI inputUI;

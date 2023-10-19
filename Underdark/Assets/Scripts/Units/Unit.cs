@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityHFSM;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
+public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 {
     [SerializeField] private GameObject visuals;
     private bool facingRight = true;
@@ -29,9 +29,10 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     [SerializeField] protected DamageNumberEffect damageNumberEffect;
     [SerializeField] protected UnitVisual unitVisual;
 
-    [Header("Active Abilities")] 
-    [SerializeField] protected List<ActiveAblity> activeAbilities;
-    [SerializeField] protected List<float> activeAbilitiesCD;
+    
+    [field:Header("Abilities Setup")] 
+    [field:SerializeField] public List<ActiveAblity> ActiveAbilities{ get; private set; }
+    [field:SerializeField] public List<float> ActiveAbilitiesCD { get; private set; }
     
     protected Vector3 lastMoveDir;
     protected float attackDirAngle;
@@ -42,6 +43,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     {
         rb = GetComponent<Rigidbody2D>();
         Stats = GetComponent<UnitStats>();
+        ActiveAbilitiesCD = new List<float>(new float[ActiveAbilities.Count]);
+        SetHP();
+    }
+
+    private void SetHP()
+    {
         MaxHP += Stats.Strength * 10;
         CurrentHP = MaxHP;
     }
@@ -55,8 +62,18 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
 
     protected virtual void Update()
     {
+        UpdateCoolDowns();
+    }
+
+    private void UpdateCoolDowns()
+    {
         attackCDTimer -= Time.deltaTime;
         actionCDTimer -= Time.deltaTime;
+
+        for (var index = 0; index < ActiveAbilitiesCD.Count; index++)
+        {
+            ActiveAbilitiesCD[index] -= Time.deltaTime;
+        }
     }
 
     protected void TryFlipVisual(float moveDir)
@@ -134,14 +151,14 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         path.Add(baseAttackCollider.transform.localPosition);
         baseAttackCollider.SetPath(0, path);
     }
-    
-    protected float ExecuteActiveAbility(int index)
+
+    public void ExecuteActiveAbility(int index)
     {
-        if (actionCDTimer > 0) return -1;
-        var newAbility = Instantiate(activeAbilities[index], transform.position, Quaternion.identity);
+        if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0) return;
+        var newAbility = Instantiate(ActiveAbilities[index], transform.position, Quaternion.identity);
         newAbility.Execute(this);
         SetActionCD(newAbility.CastTime);
-        return newAbility.cooldown;
+        ActiveAbilitiesCD[index] = newAbility.cooldown;
     }
 
     private void SetActionCD(float cd)
