@@ -28,7 +28,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
     [SerializeField] protected DamageNumberEffect damageNumberEffect;
     [SerializeField] protected UnitVisual unitVisual;
-
     
     [field:Header("Abilities Setup")] 
     [field:SerializeField] public List<ActiveAblity> ActiveAbilities{ get; private set; }
