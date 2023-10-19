@@ -7,6 +7,7 @@ using UnityEngine;
 public abstract class ActiveAblity : MonoBehaviour
 {
     public float CastTime;
+    public float cooldown;
     [SerializeField] protected LayerMask attackMask;
     [SerializeField] protected int attackDistance;
     [SerializeField] protected float attackAngle;

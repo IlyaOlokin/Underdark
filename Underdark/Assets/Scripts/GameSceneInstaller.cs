@@ -11,18 +11,40 @@ public class GameSceneInstaller : MonoInstaller
     [Header("Inputs")]
     [SerializeField] private MobileInput mobileInputPrefab;
     [SerializeField] private DesktopInput desktopInputPrefab;
+
+    [Header("UI")] [SerializeField] private Canvas canvas;
+    [SerializeField] private PlayerInputUI playerInputUIMobile;
+    [SerializeField] private PlayerInputUI playerInputUIDesktop;
     
     public override void InstallBindings()
     {
+        BindPlayerUI();
         BindInput();
         BindPlayer();
-        //BindPlayerUI();
         //BindCamera();
     }
 
     private void BindPlayerUI()
     {
-        throw new NotImplementedException();
+        switch (Bootstrap.InputType)
+        {
+            case InputType.Mobile:
+                PlayerInputUI mobileUI = Container
+                    .InstantiatePrefabForComponent<PlayerInputUI>(playerInputUIMobile, Vector3.zero, Quaternion.identity, canvas.transform);
+                mobileUI.gameObject.SetActive(true);
+                
+                Container.Bind<PlayerInputUI>().FromInstance(mobileUI).AsSingle();
+                break;
+            case InputType.Desktop:
+                PlayerInputUI desktopUI = Container
+                    .InstantiatePrefabForComponent<PlayerInputUI>(playerInputUIDesktop, Vector3.zero, Quaternion.identity,  canvas.transform);
+                desktopUI.gameObject.SetActive(true);
+                
+                Container.Bind<PlayerInputUI>().FromInstance(desktopUI).AsSingle();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
     }
 
     private void BindInput()

@@ -31,6 +31,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
 
     [Header("Active Abilities")] 
     [SerializeField] protected List<ActiveAblity> activeAbilities;
+    [SerializeField] protected List<float> activeAbilitiesCD;
     
     protected Vector3 lastMoveDir;
     protected float attackDirAngle;
@@ -134,12 +135,13 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
         baseAttackCollider.SetPath(0, path);
     }
     
-    protected void ExecuteTeActiveAbility(int index)
+    protected float ExecuteActiveAbility(int index)
     {
-        if (actionCDTimer > 0) return;
+        if (actionCDTimer > 0) return -1;
         var newAbility = Instantiate(activeAbilities[index], transform.position, Quaternion.identity);
         newAbility.Execute(this);
         SetActionCD(newAbility.CastTime);
+        return newAbility.cooldown;
     }
 
     private void SetActionCD(float cd)

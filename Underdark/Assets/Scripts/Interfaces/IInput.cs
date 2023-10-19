@@ -6,6 +6,6 @@ public interface IInput
 {
     event Action<Vector3> MoveInput;
     event Action ShootInput;
-    event Action<int> ActiveAbilityInput;
+    event Func<int, float> ActiveAbilityInput;
     void PlayerMoveInput();
 }

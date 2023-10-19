@@ -13,13 +13,14 @@ public class Player : Unit
     //private Inventory inventory;
     
     [Inject]
-    private void Construct(IInput userInput)
+    private void Construct(IInput userInput, PlayerInputUI inputUI)
     {
+        inputUI.player = this;
         input = userInput;
         input.MoveInput += Move;
         input.ShootInput += Attack;
 
-        input.ActiveAbilityInput += ExecuteTeActiveAbility;
+        input.ActiveAbilityInput += ExecuteActiveAbility;
     }
 
     protected override void Death()
@@ -33,7 +34,7 @@ public class Player : Unit
         input.MoveInput -= Move;
         input.ShootInput -= Attack;
 
-        input.ActiveAbilityInput -= ExecuteTeActiveAbility;
+        input.ActiveAbilityInput -= ExecuteActiveAbility;
     }
 
     protected override void Update()

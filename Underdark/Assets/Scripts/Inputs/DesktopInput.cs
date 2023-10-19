@@ -3,14 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityHFSM;
+using Zenject;
 
 public class DesktopInput : MonoBehaviour, IInput
 {
     public event Action<Vector3> MoveInput;
     public event Action ShootInput;
-    public event Action<int> ActiveAbilityInput;
+    public event Func<int, float> ActiveAbilityInput;
 
     private Vector2 dir;
+    private PlayerInputUI inputUI;
+
+    [Inject]
+    private void Construct(PlayerInputUI inputUI)
+    {
+        this.inputUI = inputUI;
+        foreach (var button in inputUI.activeAbilityButtons)
+        {
+            button.interactable = false;
+        }
+    }
     
     void Update()
     {
@@ -26,6 +38,7 @@ public class DesktopInput : MonoBehaviour, IInput
             ActiveAbilityInput?.Invoke(2);
         if (Input.GetKeyDown(KeyCode.Alpha4))
             ActiveAbilityInput?.Invoke(3);
+        
     }
 
     private void FixedUpdate()
