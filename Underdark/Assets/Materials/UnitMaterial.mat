@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EnemyMaterial
+  m_Name: UnitMaterial
   m_Shader: {fileID: -6465566751694194690, guid: 94fcea1620335e84da32e6cda4ce536f, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -68,6 +68,7 @@ Material:
     m_Floats:
     - _EnableExternalAlpha: 0
     - _Thickness: 0
+    - _WhiteOut: 0
     m_Colors:
     - _Color: {r: 1.3041189, g: 0, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 using UnityHFSM;
 using Zenject;
 
@@ -13,7 +14,6 @@ public class Enemy : Unit
     [SerializeField] protected NavMeshAgent agent;
     protected StateMachine<EnemyState, StateEvent> EnemyFSM;
     [SerializeField] protected PlayerSensor followPlayerSensor;
-    [SerializeField] protected BaseAttackAlert baseAttackAlert;
     
     protected bool isPlayerInMeleeRange;
     protected bool isPlayerInChasingRange;
