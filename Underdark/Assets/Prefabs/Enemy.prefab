@@ -201,7 +201,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mat: {fileID: 2100000, guid: 571b4e3eb9e4ef74dae3fac499b94f9b, type: 2}
   maxThickness: 0.06
-  duration: 0.4
+  alertDuration: 0.4
+  whiteOutDuration: 0.1
 --- !u!1 &1269560888262936621
 GameObject:
   m_ObjectHideFlags: 0
@@ -622,10 +623,10 @@ MonoBehaviour:
     m_Bits: 128
   baseAttackCollider: {fileID: 4620529796954707555}
   damageNumberEffect: {fileID: 9209489120575824937, guid: ad3a4e569e661de42aecc35d389ed7de, type: 3}
+  unitVisual: {fileID: 551113106417395305}
   activeAbilities: []
   agent: {fileID: 3265220997278986497}
   followPlayerSensor: {fileID: 2366146653694173651}
-  baseAttackAlert: {fileID: 551113106417395305}
   meleeAttackDuration: 0.4
   meleeAttackPreparation: 0.5
 --- !u!114 &4376170228482371759

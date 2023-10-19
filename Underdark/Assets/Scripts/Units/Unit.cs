@@ -27,6 +27,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
     [SerializeField] protected DamageNumberEffect damageNumberEffect;
+    [SerializeField] protected UnitVisual unitVisual;
 
     [Header("Active Abilities")] 
     [SerializeField] protected List<ActiveAblity> activeAbilities;
@@ -74,6 +75,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker
     public virtual void TakeDamage(float damage)
     {
         CurrentHP -= (int) damage;
+        unitVisual.StartWhiteOut();
         if (CurrentHP <= 0) Death();
         var newEffect = Instantiate(damageNumberEffect, transform.position, Quaternion.identity);
         newEffect.WriteDamage(damage);
