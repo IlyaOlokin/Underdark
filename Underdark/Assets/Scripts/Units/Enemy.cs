@@ -41,6 +41,7 @@ public class Enemy : Unit
         base.Update();
         EnemyFSM.OnLogic();
         RotateAttackDir();
+        TryFlipVisual(agent.desiredVelocity.x);
     }
     
     private void RotateAttackDir()

@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitStats : MonoBehaviour
+[Serializable]
+public class UnitStats
 {
     [field: SerializeField] public int Level { get; private set; }
     [field: SerializeField] public int Strength { get; private set; }

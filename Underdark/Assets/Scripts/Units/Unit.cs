@@ -7,10 +7,9 @@ using UnityHFSM;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 {
-    [SerializeField] private GameObject visuals;
-    private bool facingRight = true;
     private Rigidbody2D rb;
-    public UnitStats Stats { get; private set;}
+    public UnitStats Stats;
+    public Inventory Inventory;
     
     [field:SerializeField] public int MaxHP { get; private set;}
     public int CurrentHP { get; private set;}
@@ -26,12 +25,17 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     [field:SerializeField] public MeleeWeapon Weapon { get; private set;}
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
-    [SerializeField] protected DamageNumberEffect damageNumberEffect;
-    [SerializeField] protected UnitVisual unitVisual;
+    
     
     [field:Header("Abilities Setup")] 
     [field:SerializeField] public List<ActiveAblity> ActiveAbilities{ get; private set; }
     [field:SerializeField] public List<float> ActiveAbilitiesCD { get; private set; }
+    
+    [Header("Visual")] 
+    [SerializeField] private GameObject visuals;
+    private bool facingRight = true;
+    [SerializeField] protected DamageNumberEffect damageNumberEffect;
+    [SerializeField] protected UnitVisual unitVisual;
     
     protected Vector3 lastMoveDir;
     protected float attackDirAngle;
@@ -41,8 +45,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        Stats = GetComponent<UnitStats>();
         ActiveAbilitiesCD = new List<float>(new float[ActiveAbilities.Count]);
+        //inventory = new Inventory();
         SetHP();
     }
 
@@ -111,6 +115,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         rb.MovePosition(rb.position + (Vector2) dir * MoveSpeed * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
             lastMoveDir = dir;
+        TryFlipVisual(dir.x);
     }
     
     
