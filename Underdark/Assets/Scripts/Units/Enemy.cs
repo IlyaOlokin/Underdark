@@ -33,7 +33,6 @@ public class Enemy : Unit
         EnemyFSM = new();
         followPlayerSensor.OnPlayerEnter += FollowPlayerSensor_OnPlayerEnter;
         followPlayerSensor.OnPlayerExit += FollowPlayerSensor_OnPlayerExit;
-        
     }
 
     protected override void Update()
