@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: BadRustySword
   m_EditorClassIdentifier: 
   ID: bad_rusty_sword
-  ItemType: 4
   image: {fileID: 0}
+  StackCapacity: 1
+  Amount: 1
   Damage:
     minDamage: 3
     maxDamage: 5

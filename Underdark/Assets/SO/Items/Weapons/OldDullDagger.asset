@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: OldDullDagger
   m_EditorClassIdentifier: 
   ID: old_dull_dagger
-  ItemType: 4
   image: {fileID: 0}
+  StackCapacity: 1
+  Amount: 1
   Damage:
     minDamage: 3
     maxDamage: 5

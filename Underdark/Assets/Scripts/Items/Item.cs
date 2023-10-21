@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,9 @@ using UnityEngine;
 public class Item : ScriptableObject
 {
     public string ID;
-    public ItemType ItemType;
+    
     public Sprite image;
+    public int StackCapacity;
+    public int Amount;
+
 }

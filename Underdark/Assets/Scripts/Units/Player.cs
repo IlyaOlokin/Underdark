@@ -10,8 +10,6 @@ public class Player : Unit
 {
     private IInput input;
     
-    //private Inventory inventory;
-    
     [Inject]
     private void Construct(IInput userInput, PlayerInputUI inputUI)
     {
@@ -21,6 +19,8 @@ public class Player : Unit
         input.ShootInput += Attack;
 
         input.ActiveAbilityInput += ExecuteActiveAbility;
+        Inventory = new Inventory(10);
+        Inventory.TryAddItem(Weapon);
     }
 
     protected override void Death()
@@ -41,6 +41,14 @@ public class Player : Unit
     {
         base.Update();
         RotateAttackDir();
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            foreach (var slot in Inventory.GetAllSlots())
+            {
+                if (slot.Item == null) Debug.Log("Empty");
+                else Debug.Log(slot.Item.ID);
+            }
+        }
     }
 
     private void OnDrawGizmos()

@@ -9,7 +9,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 {
     private Rigidbody2D rb;
     public UnitStats Stats;
-    public Inventory Inventory;
+    [SerializeField] public Inventory Inventory;
     
     [field:SerializeField] public int MaxHP { get; private set;}
     public int CurrentHP { get; private set;}
