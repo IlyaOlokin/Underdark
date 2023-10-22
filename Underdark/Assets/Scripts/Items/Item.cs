@@ -9,6 +9,5 @@ public class Item : ScriptableObject
     
     public Sprite image;
     public int StackCapacity;
-    public int Amount;
 
 }

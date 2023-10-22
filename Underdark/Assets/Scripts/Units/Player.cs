@@ -20,7 +20,7 @@ public class Player : Unit
 
         input.ActiveAbilityInput += ExecuteActiveAbility;
         Inventory = new Inventory(10);
-        Inventory.TryAddItem(Weapon);
+        Inventory.TryAddItem(Weapon, 1);
     }
 
     protected override void Death()
@@ -46,7 +46,7 @@ public class Player : Unit
             foreach (var slot in Inventory.GetAllSlots())
             {
                 if (slot.Item == null) Debug.Log("Empty");
-                else Debug.Log(slot.Item.ID);
+                else Debug.Log(slot.Item.ID + " " + slot.Amount);
             }
         }
     }

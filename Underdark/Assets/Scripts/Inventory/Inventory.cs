@@ -9,7 +9,7 @@ public class Inventory : IInventory
     public int Capacity { get; set; }
     public bool IsFull => slots.All(_ => IsFull);
     
-    [SerializeField] private List<IInventorySlot> slots;
+    private List<IInventorySlot> slots;
     public event Action<Item, int> OnInventoryItemAdded;
     public event Action OnInventoryChanged;
     
@@ -29,43 +29,43 @@ public class Inventory : IInventory
         throw new NotImplementedException();
     }
 
-    public bool TryAddItem(Item item)
+    public bool TryAddItem(Item item, int amount)
     {
         var sameItemSlot = slots.Find(slot => !slot.IsEmpty && slot.Item.ID == item.ID && !slot.IsFull);
 
         if (sameItemSlot != null)
-            return TryAddToSlot(sameItemSlot, item);
+            return TryAddToSlot(sameItemSlot, item, amount);
 
         var emptySlot = slots.Find(slot => slot.IsEmpty);
         if (emptySlot != null)
-            return TryAddToSlot(emptySlot, item);
+            return TryAddToSlot(emptySlot, item, amount);
 
         return false;
     }
 
-    private bool TryAddToSlot(IInventorySlot slot, Item item)
+    private bool TryAddToSlot(IInventorySlot slot, Item item, int itemAmount)
     {
-        bool hasEnoughSpace = slot.Amount + item.Amount <= item.StackCapacity;
-        var amountToAdd = hasEnoughSpace ? item.Amount : item.StackCapacity - slot.Amount;
-        var amountLeft = item.Amount - amountToAdd;
+        bool hasEnoughSpace = slot.Amount + itemAmount <= item.StackCapacity;
+        var amountToAdd = hasEnoughSpace ? itemAmount : item.StackCapacity - slot.Amount;
+        var amountLeft = itemAmount - amountToAdd;
         var clonedItem = item;
-        clonedItem.Amount = amountToAdd;
+        itemAmount = amountToAdd;
 
         if (slot.IsEmpty)
         {
-            slot.SetItem(clonedItem);
+            slot.SetItem(clonedItem, itemAmount);
         }
         else
         {
-            slot.Item.Amount += amountToAdd;
+            slot.Amount += amountToAdd;
         }
         
         OnInventoryItemAdded?.Invoke(item, amountToAdd);
 
         if (amountLeft <= 0) return true;
 
-        item.Amount = amountLeft;
-        return TryAddItem(item);
+        itemAmount = amountLeft;
+        return TryAddItem(item, itemAmount);
     }
 
     public void Remove(Type itemType, int amount = 1)
@@ -101,7 +101,7 @@ public class Inventory : IInventory
 
         if (toSlot.IsEmpty)
         {
-            toSlot.SetItem(fromSlot.Item);
+            toSlot.SetItem(fromSlot.Item, fromSlot.Amount);
             fromSlot.Clear();
             OnInventoryChanged?.Invoke();
 
@@ -109,7 +109,7 @@ public class Inventory : IInventory
             if (fits)
                 fromSlot.Clear();
             else
-                fromSlot.Item.Amount = amountLeft;
+                fromSlot.Amount = amountLeft;
             OnInventoryChanged?.Invoke();
         }
     }

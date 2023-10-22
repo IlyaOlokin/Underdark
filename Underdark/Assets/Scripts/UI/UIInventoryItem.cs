@@ -24,14 +24,11 @@ public class UIInventoryItem : UIItem
         var item = slot.Item;
         icon.sprite = item.image;
         icon.gameObject.SetActive(true);
-        if (slot.Amount > 1)
-        {
-            text.gameObject.SetActive(true);
-            text.text = slot.Amount.ToString();
-        }
+        text.gameObject.SetActive(slot.Amount > 1);
+        text.text = slot.Amount.ToString();
     }
 
-    public void Hide()
+    private void Hide()
     {
         icon.gameObject.SetActive(false);
         text.gameObject.SetActive(false);

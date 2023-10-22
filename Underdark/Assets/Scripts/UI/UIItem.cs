@@ -29,6 +29,7 @@ public class UIItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        transform.localPosition = Vector3.zero;
         canvasGroup.blocksRaycasts = true;
     }
 }

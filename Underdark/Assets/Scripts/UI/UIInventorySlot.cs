@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIInventorySlot : UISlot
+public class UIInventorySlot : MonoBehaviour, IDropHandler
 {
    [SerializeField] private UIInventoryItem uiInventoryItem;
    public IInventorySlot slot { get; private set; }
@@ -21,12 +21,10 @@ public class UIInventorySlot : UISlot
       slot = newSlot;
    }
    
-   public override void OnDrop(PointerEventData eventData)
+   public void OnDrop(PointerEventData eventData)
    {
       UIInventoryItem otherItemUI = eventData.pointerDrag.GetComponent<UIInventoryItem>();
       UIInventorySlot otherSlotUI = otherItemUI.GetComponentInParent<UIInventorySlot>();
-      
-      base.OnDrop(eventData);
       
       var otherSlot = otherSlotUI.slot;
       var inventory = inventoryUI.Inventory;
