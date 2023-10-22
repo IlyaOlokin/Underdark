@@ -6,16 +6,16 @@ public interface IInventory
     int Capacity { get; set; }
     bool IsFull { get; }
     
-    int GetItemAmount(Type itemType);
+    int GetItemAmount(string itemID);
 
     bool TryAddItem(Item item, int amount);
-    void Remove(Type itemType, int amount = 1);
-    bool HasItem(Type type, out Item item);
+    void Remove(string itemID, int amount = 1);
+    bool HasItem(string itemID, out Item item);
 
-    Item GetItem(Type itemType);
+    Item GetItem(string itemID);
 
     Item[] GetAllItems();
-    Item[] GetAllItems(Type itemType);
+    Item[] GetAllItems(string itemID);
     Item[] GetEquippedItems();
 
     

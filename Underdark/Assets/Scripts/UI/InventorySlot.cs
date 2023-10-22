@@ -9,7 +9,10 @@ using UnityEngine.EventSystems;
 public class InventorySlot : IInventorySlot
 {
     public Item Item { get; private set; }
-    public Type ItemType => typeof(Item);
+
+    public string ItemID => Item.ID;
+
+    //public Type ItemType => typeof(Item);
     public int Amount { get; set; }
 
     //public int Amount => IsEmpty ? 0 : Item.Amount;

@@ -24,7 +24,7 @@ public class Inventory : IInventory
         }
     }
     
-    public int GetItemAmount(Type itemType)
+    public int GetItemAmount(string itemID)
     {
         throw new NotImplementedException();
     }
@@ -68,31 +68,41 @@ public class Inventory : IInventory
         return TryAddItem(item, itemAmount);
     }
 
-    public void Remove(Type itemType, int amount = 1)
+    public void Remove(string itemID, int amount = 1)
     {
         throw new NotImplementedException();
     }
 
-    public IInventorySlot[] GetAllSlots(Type itemType)
+    public IInventorySlot[] GetAllSlots(string itemID)
     {
-        return slots.FindAll(slot => !slot.IsEmpty & slot.ItemType == itemType).ToArray();
+        return slots.FindAll(slot => !slot.IsEmpty & slot.ItemID == itemID).ToArray();
     }
     public IInventorySlot[] GetAllSlots()
     {
         return slots.ToArray();
     }
 
-    public bool HasItem(Type type, out Item item)
+    public bool HasItem(string itemID, out Item item)
     {
-        item = GetItem(type);
+        item = GetItem(itemID);
         return item != null;
     }
 
     public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot)
     {
         if (fromSlot.IsEmpty) return;
+        if (!toSlot.IsEmpty && fromSlot.ItemID != toSlot.ItemID)
+        {
+            var a = fromSlot.Item;
+            var b = fromSlot.Amount;
+            fromSlot.Clear();
+            fromSlot.SetItem(toSlot.Item, toSlot.Amount);
+            toSlot.Clear();
+            toSlot.SetItem(a,b);
+            
+            return;
+        }
         if (toSlot.IsFull) return;
-        if (!toSlot.IsEmpty && fromSlot.ItemType != toSlot.ItemType) return;
 
         var slotCapacity = fromSlot.Item.StackCapacity;
         var fits = fromSlot.Amount + toSlot.Amount <= slotCapacity;
@@ -104,8 +114,10 @@ public class Inventory : IInventory
             toSlot.SetItem(fromSlot.Item, fromSlot.Amount);
             fromSlot.Clear();
             OnInventoryChanged?.Invoke();
-
-            //toSlot.Item.Amount += amountToAdd;
+        }
+        else
+        {
+            toSlot.Amount += amountToAdd;
             if (fits)
                 fromSlot.Clear();
             else
@@ -114,9 +126,9 @@ public class Inventory : IInventory
         }
     }
     
-    public Item GetItem(Type itemType)
+    public Item GetItem(string itemID)
     {
-        return slots.Find(slot => slot.ItemType == itemType).Item;
+        return slots.Find(slot => slot.ItemID == itemID).Item;
     }
 
     public Item[] GetAllItems()
@@ -131,12 +143,12 @@ public class Inventory : IInventory
         return allItems.ToArray();
     }
 
-    public Item[] GetAllItems(Type itemType)
+    public Item[] GetAllItems(string itemID)
     {
         var allItems = new List<Item>();
         foreach (var slot in slots)
         {
-            if (slot.IsEmpty || slot.ItemType != itemType) continue;
+            if (slot.IsEmpty || slot.ItemID != itemID) continue;
             allItems.Add(slot.Item);
         }
 

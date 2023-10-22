@@ -3,7 +3,8 @@ using System;
 public interface IInventorySlot
 {
     Item Item { get; }
-    Type ItemType { get; }
+    string ItemID { get; }
+    //Type ItemType { get; }
     int Amount { get; set; }
     //int Capacity { get; }
     bool IsFull { get; }
