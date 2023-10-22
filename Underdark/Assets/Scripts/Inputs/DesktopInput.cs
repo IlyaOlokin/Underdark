@@ -38,7 +38,10 @@ public class DesktopInput : MonoBehaviour, IInput
             ActiveAbilityInput?.Invoke(2);
         if (Input.GetKeyDown(KeyCode.Alpha4))
             ActiveAbilityInput?.Invoke(3);
-        
+
+        if (Input.GetKeyDown(KeyCode.Tab))
+            inputUI.inventoryButton.onClick?.Invoke();
+
     }
 
     private void FixedUpdate()
