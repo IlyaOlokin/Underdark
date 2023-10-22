@@ -34,7 +34,7 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler
       otherSlotUI.Refresh();
    }
 
-   private void Refresh()
+   public void Refresh()
    {
       if (slot != null)
       {

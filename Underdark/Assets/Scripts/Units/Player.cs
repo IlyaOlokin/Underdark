@@ -11,16 +11,18 @@ public class Player : Unit, IPickUper
     private IInput input;
     
     [Inject]
-    private void Construct(IInput userInput, PlayerInputUI inputUI)
+    private void Construct(IInput userInput, PlayerInputUI inputUI, InventoryUI playerInventoryUI)
     {
-        inputUI.player = this;
+        inputUI.Init(this, playerInventoryUI.gameObject);
+        playerInventoryUI.Init(this);
+        
         input = userInput;
         input.MoveInput += Move;
         input.ShootInput += Attack;
 
         input.ActiveAbilityInput += ExecuteActiveAbility;
         Inventory = new Inventory(10);
-        Inventory.TryAddItem(Weapon, 1);
+        Inventory.TryAddItem(Weapon, 1); // debug
     }
 
     protected override void Death()
@@ -41,7 +43,7 @@ public class Player : Unit, IPickUper
     {
         base.Update();
         RotateAttackDir();
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E)) // debug
         {
             foreach (var slot in Inventory.GetAllSlots())
             {

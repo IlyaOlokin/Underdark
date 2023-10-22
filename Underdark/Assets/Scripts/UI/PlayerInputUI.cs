@@ -15,14 +15,24 @@ public class PlayerInputUI : MonoBehaviour
     public List<Image> buttonsCD;
     [Header("Inventory")]
     public Button inventoryButton;
-    [SerializeField] private GameObject inventory;
     
+    [NonSerialized]public GameObject inventory;
     [NonSerialized] public Player player;
+    
+    public void Init(Player player, GameObject inventoryUI)
+    {
+        this.player = player;
+        inventory = inventoryUI;
+    }
     
     private void Awake()
     {
         transform.localScale = new Vector3(1, 1, 1);
         inventoryButton.onClick.AddListener(ToggleInventory);
+    }
+
+    private void Start()
+    {
         inventory.SetActive(false);
     }
 

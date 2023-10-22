@@ -15,13 +15,20 @@ public class GameSceneInstaller : MonoInstaller
     [Header("UI")] [SerializeField] private Canvas canvas;
     [SerializeField] private PlayerInputUI playerInputUIMobile;
     [SerializeField] private PlayerInputUI playerInputUIDesktop;
+    [SerializeField] private InventoryUI playerInventoryUI;
     
     public override void InstallBindings()
     {
+        BindPlayerInventoryUI();
         BindPlayerUI();
         BindInput();
         BindPlayer();
         //BindCamera();
+    }
+
+    private void BindPlayerInventoryUI()
+    {
+        Container.Bind<InventoryUI>().FromInstance(playerInventoryUI).AsSingle();
     }
 
     private void BindPlayerUI()
