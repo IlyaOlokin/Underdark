@@ -13,10 +13,13 @@ public class Inventory : IInventory
     public Equipment Equipment { get; private set; }
     public event Action<Item, int> OnInventoryItemAdded;
     public event Action OnInventoryChanged;
+    public event Action OnEquipmentChanged;
+    private Unit unit;
     
-    public Inventory(int capacity)
+    public Inventory(int capacity, Unit unit)
     {
         Capacity = capacity;
+        this.unit = unit;
 
         slots = new List<IInventorySlot>();
         for (int i = 0; i < capacity; i++)
@@ -91,22 +94,28 @@ public class Inventory : IInventory
         return item != null;
     }
 
-    public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot)
+    public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot, ItemType itemType = ItemType.Any)
     {
         if (fromSlot.IsEmpty) return;
         if (!toSlot.IsEmpty && fromSlot.ItemID != toSlot.ItemID)
         {
-            var a = fromSlot.Item;
-            var b = fromSlot.Amount;
+            var tempItem = fromSlot.Item;
+            var tempAmount = fromSlot.Amount;
             fromSlot.Clear();
             fromSlot.SetItem(toSlot.Item, toSlot.Amount);
             toSlot.Clear();
-            toSlot.SetItem(a,b);
+            toSlot.SetItem(tempItem,tempAmount);
             
             return;
         }
         if (toSlot.IsFull) return;
 
+        bool equipmentChanged = false;
+        if (fromSlot.Item.ItemType != ItemType.Any) {
+            if (!unit.Stats.RequirementsMet(fromSlot.Item.Requirements)) return;
+            equipmentChanged = true;
+        } 
+        
         var slotCapacity = fromSlot.Item.StackCapacity;
         var fits = fromSlot.Amount + toSlot.Amount <= slotCapacity;
         var amountToAdd = fits ? fromSlot.Amount : slotCapacity - toSlot.Amount;
@@ -116,7 +125,6 @@ public class Inventory : IInventory
         {
             toSlot.SetItem(fromSlot.Item, fromSlot.Amount);
             fromSlot.Clear();
-            OnInventoryChanged?.Invoke();
         }
         else
         {
@@ -125,8 +133,10 @@ public class Inventory : IInventory
                 fromSlot.Clear();
             else
                 fromSlot.Amount = amountLeft;
-            OnInventoryChanged?.Invoke();
         }
+        
+        OnInventoryChanged?.Invoke();
+        if (equipmentChanged) OnEquipmentChanged?.Invoke();
     }
     
     public Item GetItem(string itemID)

@@ -22,7 +22,7 @@ public class UIInventoryItem : UIItem
 
         Item = slot.Item;
         var item = slot.Item;
-        icon.sprite = item.sprite;
+        icon.sprite = item.Sprite;
         icon.gameObject.SetActive(true);
         text.gameObject.SetActive(slot.Amount > 1);
         text.text = slot.Amount.ToString();

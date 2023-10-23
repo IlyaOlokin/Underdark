@@ -17,7 +17,7 @@ public class DroppedItem : MonoBehaviour
     {
         containedItem = item;
         itemAmount = amount;
-        GetComponent<SpriteRenderer>().sprite = item.sprite;
+        GetComponent<SpriteRenderer>().sprite = item.Sprite;
     }
     
     private void OnTriggerEnter2D(Collider2D other)

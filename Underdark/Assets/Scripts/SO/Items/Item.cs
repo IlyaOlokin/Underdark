@@ -8,7 +8,7 @@ public class Item : ScriptableObject
 {
     public string ID;
     public ItemType ItemType;
-    public Sprite sprite;
+    public Sprite Sprite;
     public int StackCapacity;
-
+    public UnitStats Requirements;
 }

@@ -10,14 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce3d00c96bc6aa44e881e146998641af, type: 3}
-  m_Name: SimpleClub
+  m_Name: BadRustySword
   m_EditorClassIdentifier: 
-  ID: simple_club
+  ID: bad_rusty_sword
   ItemType: 4
-  sprite: {fileID: 21300000, guid: 9c4b584fdcc16e84391e2a1f5235a9d3, type: 3}
+  Sprite: {fileID: 21300000, guid: cc7e65fd16d39483aa18d865a68e9451, type: 3}
   StackCapacity: 1
+  Requirements:
+    <Level>k__BackingField: 2
+    <Strength>k__BackingField: 3
+    <Dexterity>k__BackingField: 3
+    <Intelligence>k__BackingField: 0
   Damage:
-    minDamage: 2
-    maxDamage: 4
+    minDamage: 3
+    maxDamage: 5
   AttackRadius: 120
-  AttackDistance: 2
+  AttackDistance: 3

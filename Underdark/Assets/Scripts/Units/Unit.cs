@@ -45,7 +45,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         rb = GetComponent<Rigidbody2D>();
         ActiveAbilitiesCD = new List<float>(new float[ActiveAbilities.Count]);
         SetHP();
-        Inventory = new Inventory(10);
+        Inventory = new Inventory(10, this);
+        Inventory.OnEquipmentChanged += SetAttackCollider;
     }
 
     private void SetHP()
@@ -58,7 +59,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         OnMaxHealthChanged?.Invoke(MaxHP);
         OnHealthChanged?.Invoke(CurrentHP);
-        SetAttackCollider(GetWeapon().AttackRadius, GetWeapon().AttackDistance + 1);
+        SetAttackCollider();
     }
 
     protected virtual void Update()
@@ -134,19 +135,19 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         attackCDTimer = 1 / AttackSpeed;
         SetActionCD(1 / (AttackSpeed * 2));
         
-        OnBaseAttack?.Invoke(attackDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance + 1);
+        OnBaseAttack?.Invoke(attackDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
     }
     
-    private void SetAttackCollider(float radius, float distance)
+    private void SetAttackCollider()
     {
         int pointStep = 10;
-        int pointsCount = (int) radius / pointStep + 1;
+        int pointsCount = GetWeapon().AttackRadius / pointStep + 1;
         List<Vector2> path = new List<Vector2>();
-        float currentPointAngle = -radius / 2f;
+        float currentPointAngle = -GetWeapon().AttackRadius / 2f;
         for (int i = 0; i < pointsCount; i++)
         {
-            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * distance;
-            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * distance;
+            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * GetWeapon().AttackDistance;
+            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * GetWeapon().AttackDistance;
             path.Add(new Vector2(sin, cos));
             currentPointAngle += pointStep;
         }
