@@ -10,6 +10,7 @@ public class Inventory : IInventory
     public bool IsFull => slots.All(_ => IsFull);
     
     private List<IInventorySlot> slots;
+    public Equipment Equipment { get; private set; }
     public event Action<Item, int> OnInventoryItemAdded;
     public event Action OnInventoryChanged;
     
@@ -22,6 +23,8 @@ public class Inventory : IInventory
         {
             slots.Add(new InventorySlot());
         }
+
+        Equipment = new Equipment();
     }
     
     public int GetItemAmount(string itemID)
@@ -81,7 +84,7 @@ public class Inventory : IInventory
     {
         return slots.ToArray();
     }
-
+    
     public bool HasItem(string itemID, out Item item)
     {
         item = GetItem(itemID);

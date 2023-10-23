@@ -7,7 +7,7 @@ using UnityEngine.Serialization;
 public class Item : ScriptableObject
 {
     public string ID;
-    
+    public ItemType ItemType;
     public Sprite sprite;
     public int StackCapacity;
 

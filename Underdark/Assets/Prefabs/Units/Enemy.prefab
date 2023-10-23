@@ -612,31 +612,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b98a7b020ca8264d88d56b71a3c4b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visuals: {fileID: 6202605588344640915}
   Stats:
     <Level>k__BackingField: 0
     <Strength>k__BackingField: 2
     <Dexterity>k__BackingField: 2
     <Intelligence>k__BackingField: 1
-  Inventory:
-    items: []
-    equipment:
-      Head: {fileID: 0}
-      Body: {fileID: 0}
-      Legs: {fileID: 0}
-      Weapon: {fileID: 0}
   <MaxHP>k__BackingField: 30
   <MoveSpeed>k__BackingField: 3
+  defaultWeapon: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}
   <AttackSpeed>k__BackingField: 2.5
-  <Weapon>k__BackingField: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}
   attackMask:
     serializedVersion: 2
     m_Bits: 128
   baseAttackCollider: {fileID: 4620529796954707555}
-  damageNumberEffect: {fileID: 9209489120575824937, guid: ad3a4e569e661de42aecc35d389ed7de, type: 3}
-  unitVisual: {fileID: 551113106417395305}
   <ActiveAbilities>k__BackingField: []
   <ActiveAbilitiesCD>k__BackingField: []
+  visuals: {fileID: 6202605588344640915}
+  damageNumberEffect: {fileID: 9209489120575824937, guid: ad3a4e569e661de42aecc35d389ed7de, type: 3}
+  unitVisual: {fileID: 551113106417395305}
   agent: {fileID: 3265220997278986497}
   followPlayerSensor: {fileID: 2366146653694173651}
   meleeAttackDuration: 0.4

@@ -21,8 +21,6 @@ public class Player : Unit, IPickUper
         input.ShootInput += Attack;
 
         input.ActiveAbilityInput += ExecuteActiveAbility;
-        Inventory = new Inventory(10);
-        Inventory.TryAddItem(Weapon, 1); // debug
     }
 
     protected override void Death()
@@ -55,7 +53,7 @@ public class Player : Unit, IPickUper
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, Weapon.AttackDistance + 0.5f);
+        Gizmos.DrawWireSphere(transform.position, GetWeapon().AttackDistance + 0.5f);
     }
 
     private void RotateAttackDir()

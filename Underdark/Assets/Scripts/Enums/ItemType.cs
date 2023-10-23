@@ -8,5 +8,6 @@ public enum ItemType
     Head,
     Body,
     Legs,
-    Weapon
+    Weapon,
+    Shield
 }

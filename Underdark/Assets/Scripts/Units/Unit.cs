@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityHFSM;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
@@ -17,12 +15,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     public event Action<int> OnMaxHealthChanged;
     
     [field:SerializeField] public int MoveSpeed { get; private set;}
-
+    
     [field: Header("Attack Setup")] 
+    [SerializeField] private MeleeWeapon defaultWeapon;
     [field:SerializeField] public float AttackSpeed { get; private set;}
     public event Action<float, float, float> OnBaseAttack;
     
-    [field:SerializeField] public MeleeWeapon Weapon { get; private set;}
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
     
@@ -46,8 +44,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         rb = GetComponent<Rigidbody2D>();
         ActiveAbilitiesCD = new List<float>(new float[ActiveAbilities.Count]);
-        //inventory = new Inventory();
         SetHP();
+        Inventory = new Inventory(10);
     }
 
     private void SetHP()
@@ -60,7 +58,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         OnMaxHealthChanged?.Invoke(MaxHP);
         OnHealthChanged?.Invoke(CurrentHP);
-        SetAttackCollider(Weapon.AttackRadius, Weapon.AttackDistance + 1);
+        SetAttackCollider(GetWeapon().AttackRadius, GetWeapon().AttackDistance + 1);
     }
 
     protected virtual void Update()
@@ -130,13 +128,13 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         
         foreach (var unit in hitUnits)
         {
-            unit.GetComponent<IDamageable>().TakeDamage(Stats.Strength + Weapon.Damage.GetValue());
+            unit.GetComponent<IDamageable>().TakeDamage(Stats.Strength + GetWeapon().Damage.GetValue());
         }
 
         attackCDTimer = 1 / AttackSpeed;
         SetActionCD(1 / (AttackSpeed * 2));
         
-        OnBaseAttack?.Invoke(attackDirAngle, Weapon.AttackRadius, Weapon.AttackDistance + 1);
+        OnBaseAttack?.Invoke(attackDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance + 1);
     }
     
     private void SetAttackCollider(float radius, float distance)
@@ -168,7 +166,14 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     private void SetActionCD(float cd)
     {
         actionCDTimer = cd;
-    } 
+    }
+
+    public MeleeWeapon GetWeapon()
+    {
+        if (Inventory.Equipment.Weapon.IsEmpty) 
+            return defaultWeapon;
+        return Inventory.Equipment.GetWeapon();
+    }
 
     public Vector2 GetAttackDirection() => lastMoveDir.normalized;
 }

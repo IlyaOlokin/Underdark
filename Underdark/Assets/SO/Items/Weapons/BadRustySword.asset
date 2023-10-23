@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: BadRustySword
   m_EditorClassIdentifier: 
   ID: bad_rusty_sword
-  sprite: {fileID: 21300000, guid: 7b86a539750e1a44ca7ec5b7f690babd, type: 3}
-  StackCapacity: 2
+  ItemType: 4
+  sprite: {fileID: 21300000, guid: dac7ed727b01c440b9eeee0e2641a333, type: 3}
+  StackCapacity: 1
   Damage:
     minDamage: 3
     maxDamage: 5

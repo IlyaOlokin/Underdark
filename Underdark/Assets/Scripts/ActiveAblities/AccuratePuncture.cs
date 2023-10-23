@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AccuratePuncture : ActiveAblity
@@ -8,7 +6,7 @@ public class AccuratePuncture : ActiveAblity
     {
         damage = Mathf.Min(caster.Stats.Dexterity * damageStatMultiplier, maxDamage);
         
-        OverrideWeaponStats(caster.Weapon);
+        OverrideWeaponStats(caster.GetWeapon());
         var target = FindClosestTarget(caster);
         
         if (target == null) return;

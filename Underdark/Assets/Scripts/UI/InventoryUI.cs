@@ -11,6 +11,12 @@ public class InventoryUI : MonoBehaviour
     public Inventory Inventory { get; private set; }
     [SerializeField] protected UIInventorySlot[] slots;
     
+    [SerializeField] protected UIInventorySlot head;
+    [SerializeField] protected UIInventorySlot body;
+    [SerializeField] protected UIInventorySlot legs;
+    [SerializeField] protected UIInventorySlot weapon;
+    [SerializeField] protected UIInventorySlot shield;
+    
     public void Init(Player player)
     {
         this.player = player;
@@ -26,11 +32,24 @@ public class InventoryUI : MonoBehaviour
         {
             slots[i].SetSlot(inventorySlots[i]);
         }
+
+        SetEquipmetSlots();
+    }
+
+    private void SetEquipmetSlots()
+    {
+        var equipmentSlots = Inventory.Equipment;
+        head.SetSlot(equipmentSlots.Head);
+        body.SetSlot(equipmentSlots.Body);
+        legs.SetSlot(equipmentSlots.Legs);
+        weapon.SetSlot(equipmentSlots.Weapon);
+        shield.SetSlot(equipmentSlots.Shield);
     }
 
     private void OnEnable()
     {
         UpdateUI();
+        transform.SetAsLastSibling();
     }
 
     private void UpdateUI()

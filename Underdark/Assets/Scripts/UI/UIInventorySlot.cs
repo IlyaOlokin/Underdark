@@ -8,6 +8,7 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler
 {
    [SerializeField] private UIInventoryItem uiInventoryItem;
    public IInventorySlot slot { get; private set; }
+   [field:SerializeField] public ItemType ItemType { get; private set; }
    private InventoryUI inventoryUI;
 
    private void Awake()
@@ -29,7 +30,8 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler
       var otherSlot = otherSlotUI.slot;
       var inventory = inventoryUI.Inventory;
       
-      inventory.MoveItem(otherSlot, slot);
+      if (ItemType == ItemType.Any || ItemType == otherItemUI.Item.ItemType) 
+         inventory.MoveItem(otherSlot, slot);
       Refresh();
       otherSlotUI.Refresh();
    }
