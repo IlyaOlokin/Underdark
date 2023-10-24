@@ -16,4 +16,27 @@ public class Equipment
     {
         return (MeleeWeapon) Weapon.Item;
     }
+
+    public Armor GetArmor(ItemType itemType)
+    {
+        switch (itemType)
+        {
+            case ItemType.Any:
+                break;
+            case ItemType.Head:
+                return (Armor) Head.Item;
+            case ItemType.Body:
+                return (Armor) Body.Item;
+            case ItemType.Legs:
+                return (Armor) Legs.Item;
+            case ItemType.Weapon:
+                break;
+            case ItemType.Shield:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null);
+        }
+
+        return null;
+    }
 }

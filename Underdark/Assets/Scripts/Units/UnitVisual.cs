@@ -13,6 +13,7 @@ public class UnitVisual : MonoBehaviour
 
     [Header("WhiteOut")]
     [SerializeField] private float whiteOutDuration;
+    [SerializeField] private float whiteOutAmount;
 
     private void Awake()
     {
@@ -54,7 +55,7 @@ public class UnitVisual : MonoBehaviour
         while (whiteOutTimer > 0)
         {
             whiteOutTimer -= Time.deltaTime;
-            mat.SetFloat("_WhiteOut", 1f);
+            mat.SetFloat("_WhiteOut", whiteOutAmount);
             yield return null;
         }
         mat.SetFloat("_WhiteOut", 0);

@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Armor : MonoBehaviour
+[CreateAssetMenu(fileName = "New Armor")]
+
+public class Armor : Item
 {
-    [SerializeField] private UnitStats requirements;
+     public int ArmorAmount;
 }

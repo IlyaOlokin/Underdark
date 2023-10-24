@@ -56,13 +56,6 @@ public class DamageNumberEffect : MonoBehaviour
 
     public void WriteDamage(float dmg)
     {
-        //GetInnerColor(dmg);
-        if (dmg < 1)
-        {
-            text.text = "1";
-            return;
-        }
-        
         text.text = (Math.Round(dmg)).ToString();
     }
 
