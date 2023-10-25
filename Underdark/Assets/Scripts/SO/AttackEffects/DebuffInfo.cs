@@ -7,7 +7,17 @@ public abstract class DebuffInfo : ScriptableObject
     [Range(0f, 1f)] public float chance;
     protected Unit caster;
     
-    public virtual void Execute(IDamageable damageable)
+    public virtual void Execute(Unit damageable)
+    {
+        
+    }
+    
+    public virtual void Execute(IPoisonable poisonable)
+    {
+        
+    }
+    
+    public virtual void Execute(IStunable stunable)
     {
         
     }

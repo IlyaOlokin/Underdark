@@ -13,17 +13,17 @@ public class Poison : Debuff
     {
         this.poisonInfo = poisonInfo;
         this.receiver = receiver;
-        dmgTimer = poisonInfo.dmgDelay;
-        duration = poisonInfo.duration;
+        dmgTimer = poisonInfo.DmgDelay;
+        duration = poisonInfo.Duration;
     }
-    public override void Update()
+    public void Update()
     {
         dmgTimer -= Time.deltaTime;
         duration -= Time.deltaTime;
         if (dmgTimer <= 0)
         {
-            receiver.TakeDamage(null, poisonInfo.damage, false);
-            dmgTimer = poisonInfo.dmgDelay;
+            receiver.TakeDamage(null, poisonInfo.Damage, false);
+            dmgTimer = poisonInfo.DmgDelay;
         }
 
         if (duration <= 0)

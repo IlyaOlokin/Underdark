@@ -9,5 +9,5 @@ public interface IDamageable
 
     
     bool TakeDamage(Unit sender, float damage, bool evadable = true);
-    void GetPoisoned(PoisonInfo poisonInfo);
+    
 }

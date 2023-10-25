@@ -4,12 +4,14 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
+public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoisonable, IStunable
 {
     private Rigidbody2D rb;
     public UnitStats Stats;
     public Inventory Inventory;
     private List<Debuff> Debuffs;
+    
+    public bool IsStunned { get; private set; }
 
     [field: SerializeField] public int MaxHP { get; private set; }
     public int CurrentHP { get; private set; }
@@ -123,6 +125,27 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
             newPoison.Init(poisonInfo, this);
         }
     }
+    
+    public virtual void GetStunned(StunInfo stunInfo)
+    {
+        if (Random.Range(0f, 1f) > stunInfo.chance) return;
+
+        IsStunned = true;
+        if (transform.TryGetComponent(out Stun stunComponent))
+        {
+            stunComponent.AddDuration(stunInfo.Duration);
+        }
+        else
+        {
+            var newStun = gameObject.AddComponent<Stun>();
+            newStun.Init(stunInfo, this);
+        }
+    }
+
+    public virtual void GetUnStunned()
+    {
+        IsStunned = false;
+    }
 
     private int CalculateDamage(float damage)
     {
@@ -145,6 +168,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public virtual void Move(Vector3 dir)
     {
+        if (IsStunned) return;
+        
         dir = dir.normalized;
         rb.MovePosition(rb.position + (Vector2)dir * MoveSpeed * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
@@ -154,7 +179,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public virtual void Attack()
     {
-        if (attackCDTimer > 0 || actionCDTimer > 0) return;
+        if (attackCDTimer > 0 || actionCDTimer > 0 || IsStunned) return;
 
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(attackMask);
@@ -167,7 +192,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
             {
                 foreach (var debuffInfo in GetWeapon().DebuffInfos)
                 {
-                    debuffInfo.Execute(unit.GetComponent<IDamageable>());
+                    debuffInfo.Execute(unit.GetComponent<Unit>());
                 }
             }
         }
@@ -204,7 +229,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public void ExecuteActiveAbility(int index)
     {
-        if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0) return;
+        if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsStunned) return;
         var newAbility = Instantiate(ActiveAbilities[index], transform.position, Quaternion.identity);
         newAbility.Execute(this);
         SetActionCD(newAbility.CastTime);

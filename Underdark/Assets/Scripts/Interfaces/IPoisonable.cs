@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Debuff : MonoBehaviour
+public interface IPoisonable
 {
-    protected float duration;
+    void GetPoisoned(PoisonInfo poisonInfo);
 }
