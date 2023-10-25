@@ -10,7 +10,7 @@ public class AccuratePuncture : ActiveAblity
         var target = FindClosestTarget(caster);
         
         if (target == null) return;
-        target.GetComponent<IDamageable>().TakeDamage(damage);
+        target.GetComponent<IDamageable>().TakeDamage(caster, damage);
         
         // Instantiate visual
     }

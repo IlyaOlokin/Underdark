@@ -18,6 +18,7 @@ public class FireBall : ActiveAblity
 
     public override void Execute(Unit caster)
     {
+        this.caster = caster;
         damage = Mathf.Min(caster.Stats.Intelligence * damageStatMultiplier, maxDamage);
         
         var target = FindClosestTarget(caster);
@@ -38,7 +39,7 @@ public class FireBall : ActiveAblity
         {
             if (other.TryGetComponent(out IDamageable damageable))
             {
-                damageable.TakeDamage(damage);
+                damageable.TakeDamage(caster, damage);
             }
             Destroy(gameObject);
         }

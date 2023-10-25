@@ -18,6 +18,8 @@ public abstract class ActiveAblity : MonoBehaviour
 
     [SerializeField] private bool needAutoDestroy;
     [SerializeField] private float autoDestroyDelay;
+    
+    protected Unit caster;
 
     private void Awake()
     {

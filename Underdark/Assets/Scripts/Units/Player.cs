@@ -41,14 +41,6 @@ public class Player : Unit, IPickUper
     {
         base.Update();
         RotateAttackDir();
-        if (Input.GetKeyDown(KeyCode.E)) // debug
-        {
-            foreach (var slot in Inventory.GetAllSlots())
-            {
-                if (slot.Item == null) Debug.Log("Empty");
-                else Debug.Log(slot.Item.ID + " " + slot.Amount);
-            }
-        }
     }
 
     private void OnDrawGizmos()

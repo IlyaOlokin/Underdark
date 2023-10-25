@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
@@ -94,13 +95,21 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         visuals.transform.Rotate(0, 180, 0);
     }
 
-    public virtual void TakeDamage(float damage)
+    public virtual void TakeDamage(Unit sender, float damage)
     {
+        var newEffect = Instantiate(damageNumberEffect, transform.position, Quaternion.identity);
+        
+        if (TryToEvade(sender, this))
+        {
+            newEffect.WriteDamage("Evaded!");
+            return;
+        }
+
+        
         var newDamage = CalculateDamage(damage);
         CurrentHP -= newDamage;
         unitVisual.StartWhiteOut();
         if (CurrentHP <= 0) Death();
-        var newEffect = Instantiate(damageNumberEffect, transform.position, Quaternion.identity);
         newEffect.WriteDamage(newDamage);
         OnHealthChanged?.Invoke(CurrentHP);
     }
@@ -144,7 +153,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         foreach (var unit in hitUnits)
         {
-            unit.GetComponent<IDamageable>().TakeDamage(Stats.Strength + GetWeapon().Damage.GetValue());
+            unit.GetComponent<IDamageable>().TakeDamage(this, Stats.Strength + GetWeapon().Damage.GetValue());
         }
 
         attackCDTimer = 1 / AttackSpeed;
@@ -153,6 +162,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         OnBaseAttack?.Invoke(attackDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
     }
 
+    private bool TryToEvade(Unit attacker, Unit receiver)
+    {
+        var chance = attacker.Stats.Dexterity / (float) (attacker.Stats.Dexterity + receiver.Stats.Dexterity);
+        return Random.Range(0f, 1f) > chance;
+    }
+    
     private void SetAttackCollider()
     {
         int pointStep = 10;

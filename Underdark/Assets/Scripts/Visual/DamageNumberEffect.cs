@@ -59,6 +59,11 @@ public class DamageNumberEffect : MonoBehaviour
         text.text = (Math.Round(dmg)).ToString();
     }
 
+    public void WriteDamage(string message)
+    {
+        text.text = message;
+    }
+
     public void InitTargetPos(Vector3 damagerPos, bool isCritical)
     {
         if ((damagerPos - objectToMove.position).magnitude < posSpreading)

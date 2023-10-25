@@ -11,7 +11,7 @@ public class StrongSmash : ActiveAblity
 
         foreach (var target in targets)
         {
-            target.GetComponent<IDamageable>().TakeDamage(damage);
+            target.GetComponent<IDamageable>().TakeDamage(caster, damage);
         }
         
         // Instantiate visual
