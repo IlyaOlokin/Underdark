@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     private Rigidbody2D rb;
     public UnitStats Stats;
     public Inventory Inventory;
+    private List<Debuff> Debuffs;
 
     [field: SerializeField] public int MaxHP { get; private set; }
     public int CurrentHP { get; private set; }
@@ -68,6 +69,10 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     protected virtual void Update()
     {
         UpdateCoolDowns();
+        foreach (var debuff in Debuffs)
+        {
+            debuff.Update();
+        }
     }
 
     private void UpdateCoolDowns()
@@ -95,7 +100,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         visuals.transform.Rotate(0, 180, 0);
     }
 
-    public virtual void TakeDamage(Unit sender, float damage)
+    public virtual void TakeDamage(Unit sender, float damage, bool evadable = false)
     {
         var newEffect = Instantiate(damageNumberEffect, transform.position, Quaternion.identity);
         
@@ -112,6 +117,14 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         if (CurrentHP <= 0) Death();
         newEffect.WriteDamage(newDamage);
         OnHealthChanged?.Invoke(CurrentHP);
+    }
+
+    public void GetPoisoned(PoisonInfo poisonInfo)
+    {
+        if (Random.Range(0f, 1f) < poisonInfo.chance)
+        {
+            Debuffs.Add(new Poison(poisonInfo, this));
+        }
     }
 
     private int CalculateDamage(float damage)

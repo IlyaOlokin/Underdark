@@ -8,5 +8,6 @@ public interface IDamageable
     public event Action<int> OnMaxHealthChanged;
 
     
-    void TakeDamage(Unit sender, float damage);
+    void TakeDamage(Unit sender, float damage, bool evadable = false);
+    void GetPoisoned(PoisonInfo poisonInfo);
 }
