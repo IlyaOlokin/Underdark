@@ -6,16 +6,16 @@ using UnityEngine.SceneManagement;
 using Zenject;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Player : Unit
+public class Player : Unit, IPickUper
 {
     private IInput input;
     
-    //private Inventory inventory;
-    
     [Inject]
-    private void Construct(IInput userInput, PlayerInputUI inputUI)
+    private void Construct(IInput userInput, PlayerInputUI inputUI, InventoryUI playerInventoryUI)
     {
-        inputUI.player = this;
+        inputUI.Init(this, playerInventoryUI.gameObject);
+        playerInventoryUI.Init(this);
+        
         input = userInput;
         input.MoveInput += Move;
         input.ShootInput += Attack;
@@ -45,7 +45,7 @@ public class Player : Unit
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, Weapon.AttackDistance + 0.5f);
+        Gizmos.DrawWireSphere(transform.position, GetWeapon().AttackDistance + 0.5f);
     }
 
     private void RotateAttackDir()
@@ -53,6 +53,11 @@ public class Player : Unit
         attackDirAngle = Vector3.Angle(Vector3.right, lastMoveDir);
         if (lastMoveDir.y < 0) attackDirAngle *= -1;
         baseAttackCollider.transform.eulerAngles = new Vector3(0, 0, attackDirAngle - 90);
+    }
+
+    public bool TryPickUpItem(Item item, int amount)
+    {
+        return Inventory.TryAddItem(item, amount);
     }
 }
 

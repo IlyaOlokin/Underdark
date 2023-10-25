@@ -13,9 +13,16 @@ MonoBehaviour:
   m_Name: OldDullDagger
   m_EditorClassIdentifier: 
   ID: old_dull_dagger
-  image: {fileID: 0}
+  ItemType: 4
+  Sprite: {fileID: 21300000, guid: 8dfc24821a9794200b8d54e906e4b6da, type: 3}
+  StackCapacity: 1
+  Requirements:
+    <Level>k__BackingField: 2
+    <Strength>k__BackingField: 0
+    <Dexterity>k__BackingField: 5
+    <Intelligence>k__BackingField: 0
   Damage:
     minDamage: 3
     maxDamage: 5
   AttackRadius: 120
-  AttackDistance: 1
+  AttackDistance: 2

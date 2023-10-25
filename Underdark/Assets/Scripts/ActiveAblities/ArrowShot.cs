@@ -16,6 +16,7 @@ public class ArrowShot : ActiveAblity
 
     public override void Execute(Unit caster)
     {
+        this.caster = caster;
         damage = Mathf.Min(caster.Stats.Dexterity * damageStatMultiplier, maxDamage);
         
         var target = FindClosestTarget(caster);
@@ -36,7 +37,7 @@ public class ArrowShot : ActiveAblity
         {
             if (other.TryGetComponent(out IDamageable damageable))
             {
-                damageable.TakeDamage(damage);
+                damageable.TakeDamage(caster, damage);
             }
             Destroy(gameObject);
         }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class StrongSmash : ActiveAblity
@@ -8,12 +6,12 @@ public class StrongSmash : ActiveAblity
     {
         damage = Mathf.Min(caster.Stats.Strength * damageStatMultiplier, maxDamage);
 
-        OverrideWeaponStats(caster.Weapon);
+        OverrideWeaponStats(caster.GetWeapon());
         var targets = FindAllTargets(caster);
 
         foreach (var target in targets)
         {
-            target.GetComponent<IDamageable>().TakeDamage(damage);
+            target.GetComponent<IDamageable>().TakeDamage(caster, damage);
         }
         
         // Instantiate visual

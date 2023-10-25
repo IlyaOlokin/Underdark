@@ -203,6 +203,7 @@ MonoBehaviour:
   maxThickness: 0.06
   alertDuration: 0.4
   whiteOutDuration: 0.1
+  whiteOutAmount: 0.5
 --- !u!1 &1269560888262936621
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,7 +490,6 @@ GameObject:
   - component: {fileID: 3265220997278986497}
   - component: {fileID: 4055569685898743565}
   - component: {fileID: -7415035348111076708}
-  - component: {fileID: 4376170228482371759}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -613,38 +613,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b98a7b020ca8264d88d56b71a3c4b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visuals: {fileID: 6202605588344640915}
+  Stats:
+    <Level>k__BackingField: 0
+    <Strength>k__BackingField: 2
+    <Dexterity>k__BackingField: 2
+    <Intelligence>k__BackingField: 1
   <MaxHP>k__BackingField: 30
   <MoveSpeed>k__BackingField: 3
+  defaultWeapon: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}
   <AttackSpeed>k__BackingField: 2.5
-  <Weapon>k__BackingField: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}
   attackMask:
     serializedVersion: 2
     m_Bits: 128
   baseAttackCollider: {fileID: 4620529796954707555}
+  <ActiveAbilities>k__BackingField: []
+  <ActiveAbilitiesCD>k__BackingField: []
+  visuals: {fileID: 6202605588344640915}
   damageNumberEffect: {fileID: 9209489120575824937, guid: ad3a4e569e661de42aecc35d389ed7de, type: 3}
   unitVisual: {fileID: 551113106417395305}
-  activeAbilities: []
   agent: {fileID: 3265220997278986497}
   followPlayerSensor: {fileID: 2366146653694173651}
   meleeAttackDuration: 0.4
   meleeAttackPreparation: 0.5
---- !u!114 &4376170228482371759
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6202605587541706060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f139407944c515844a8ec2705d544cec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Level>k__BackingField: 0
-  <Strength>k__BackingField: 2
-  <Dexterity>k__BackingField: 2
-  <Intelligence>k__BackingField: 1
 --- !u!1 &6202605588344640915
 GameObject:
   m_ObjectHideFlags: 0

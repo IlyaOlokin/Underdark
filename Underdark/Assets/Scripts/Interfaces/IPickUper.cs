@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : ScriptableObject
+public interface IPickUper
 {
-    public string ID;
-    public Sprite image;
+    bool TryPickUpItem(Item item, int amount);
 }

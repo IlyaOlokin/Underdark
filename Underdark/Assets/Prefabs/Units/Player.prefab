@@ -326,7 +326,6 @@ GameObject:
   - component: {fileID: 6202605587541706048}
   - component: {fileID: 4055569685898743565}
   - component: {fileID: 6202605587541706061}
-  - component: {fileID: -7641107925787601469}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -426,39 +425,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a5bc77cdd2756a4784a681f98774797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visuals: {fileID: 6202605588344640915}
+  Stats:
+    <Level>k__BackingField: 3
+    <Strength>k__BackingField: 3
+    <Dexterity>k__BackingField: 3
+    <Intelligence>k__BackingField: 3
   <MaxHP>k__BackingField: 100
   <MoveSpeed>k__BackingField: 5
+  defaultWeapon: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}
   <AttackSpeed>k__BackingField: 2.5
-  <Weapon>k__BackingField: {fileID: 11400000, guid: af8443f1122a1fe46a59550235772cb5, type: 2}
   attackMask:
     serializedVersion: 2
     m_Bits: 64
   baseAttackCollider: {fileID: 250898244005966306}
-  damageNumberEffect: {fileID: 9209489120575824937, guid: ad3a4e569e661de42aecc35d389ed7de, type: 3}
-  unitVisual: {fileID: 6134813796859390795}
   <ActiveAbilities>k__BackingField:
   - {fileID: 7993642604490007799, guid: 7497daa92ca9b974bac7ab847e7df7b3, type: 3}
   - {fileID: 4622702471863553492, guid: 1d676218bc7c8e845a0c3a159b23d32b, type: 3}
   - {fileID: 1802181053929414290, guid: 5fd4ff7624b362c44b922c355c5e72e5, type: 3}
   - {fileID: 6362337011527206170, guid: 6211ca04d4e03dd4b8878522ecf160e2, type: 3}
   <ActiveAbilitiesCD>k__BackingField: []
---- !u!114 &-7641107925787601469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6202605587541706060}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f139407944c515844a8ec2705d544cec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <Level>k__BackingField: 0
-  <Strength>k__BackingField: 3
-  <Dexterity>k__BackingField: 3
-  <Intelligence>k__BackingField: 3
+  visuals: {fileID: 6202605588344640915}
+  damageNumberEffect: {fileID: 9209489120575824937, guid: ad3a4e569e661de42aecc35d389ed7de, type: 3}
+  unitVisual: {fileID: 6134813796859390795}
 --- !u!1 &6202605588344640915
 GameObject:
   m_ObjectHideFlags: 0

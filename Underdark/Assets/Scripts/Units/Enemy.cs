@@ -33,7 +33,6 @@ public class Enemy : Unit
         EnemyFSM = new();
         followPlayerSensor.OnPlayerEnter += FollowPlayerSensor_OnPlayerEnter;
         followPlayerSensor.OnPlayerExit += FollowPlayerSensor_OnPlayerExit;
-        
     }
 
     protected override void Update()
@@ -41,6 +40,7 @@ public class Enemy : Unit
         base.Update();
         EnemyFSM.OnLogic();
         RotateAttackDir();
+        TryFlipVisual(agent.desiredVelocity.x);
     }
     
     private void RotateAttackDir()
