@@ -69,10 +69,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     protected virtual void Update()
     {
         UpdateCoolDowns();
-        foreach (var debuff in Debuffs)
-        {
-            debuff.Update();
-        }
     }
 
     private void UpdateCoolDowns()
@@ -100,16 +96,15 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         visuals.transform.Rotate(0, 180, 0);
     }
 
-    public virtual void TakeDamage(Unit sender, float damage, bool evadable = false)
+    public virtual bool TakeDamage(Unit sender, float damage, bool evadable = true)
     {
         var newEffect = Instantiate(damageNumberEffect, transform.position, Quaternion.identity);
         
-        if (TryToEvade(sender, this))
+        if (evadable && TryToEvade(sender, this))
         {
             newEffect.WriteDamage("Evaded!");
-            return;
+            return false;
         }
-
         
         var newDamage = CalculateDamage(damage);
         CurrentHP -= newDamage;
@@ -117,13 +112,15 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         if (CurrentHP <= 0) Death();
         newEffect.WriteDamage(newDamage);
         OnHealthChanged?.Invoke(CurrentHP);
+        return true;
     }
 
     public void GetPoisoned(PoisonInfo poisonInfo)
     {
         if (Random.Range(0f, 1f) < poisonInfo.chance)
         {
-            Debuffs.Add(new Poison(poisonInfo, this));
+            var newPoison = gameObject.AddComponent<Poison>();
+            newPoison.Init(poisonInfo, this);
         }
     }
 
@@ -166,7 +163,13 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         foreach (var unit in hitUnits)
         {
-            unit.GetComponent<IDamageable>().TakeDamage(this, Stats.Strength + GetWeapon().Damage.GetValue());
+            if (unit.GetComponent<IDamageable>().TakeDamage(this, Stats.Strength + GetWeapon().Damage.GetValue()))
+            {
+                foreach (var debuffInfo in GetWeapon().DebuffInfos)
+                {
+                    debuffInfo.Execute(unit.GetComponent<IDamageable>());
+                }
+            }
         }
 
         attackCDTimer = 1 / AttackSpeed;

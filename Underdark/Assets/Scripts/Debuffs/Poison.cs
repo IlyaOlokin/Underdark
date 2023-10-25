@@ -9,7 +9,7 @@ public class Poison : Debuff
     
     private float dmgTimer;
     
-    public Poison(PoisonInfo poisonInfo, IDamageable receiver)
+    public void Init(PoisonInfo poisonInfo, IDamageable receiver)
     {
         this.poisonInfo = poisonInfo;
         this.receiver = receiver;
@@ -22,8 +22,13 @@ public class Poison : Debuff
         duration -= Time.deltaTime;
         if (dmgTimer <= 0)
         {
-            receiver.TakeDamage(null, poisonInfo.damage);
+            receiver.TakeDamage(null, poisonInfo.damage, false);
             dmgTimer = poisonInfo.dmgDelay;
+        }
+
+        if (duration <= 0)
+        {
+            Destroy(this);
         }
     }
 }
