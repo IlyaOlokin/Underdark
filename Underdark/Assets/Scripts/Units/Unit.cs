@@ -14,21 +14,46 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public bool IsStunned { get; private set; }
 
     [field: SerializeField] public int MaxHP { get; private set; }
-    public int CurrentHP { get; private set; }
+
+    private int _currentHP;
+    public int CurrentHP
+    {
+        get => _currentHP;
+        private set
+        {
+            if (value > MaxHP) value = MaxHP;
+            _currentHP = value;
+        }
+    }
+
     public event Action<int> OnHealthChanged;
     public event Action<int> OnMaxHealthChanged;
+    
+    [field: SerializeField] public int MaxMana { get; private set; }
+    
+    private int _currentMana;
+    public int CurrentMana 
+    {
+        get => _currentMana;
+        private set
+        {
+            if (value > MaxMana) value = MaxMana;
+            _currentMana = value;
+        } }
+    
+    public event Action<int> OnManaChanged;
+    public event Action<int> OnMaxManaChanged;
 
     [field: SerializeField] public int MoveSpeed { get; private set; }
 
-    [field: Header("Attack Setup")] [SerializeField]
-    private MeleeWeapon defaultWeapon;
+    [field: Header("Attack Setup")] 
+    [SerializeField] private MeleeWeapon defaultWeapon;
 
     [field: SerializeField] public float AttackSpeed { get; private set; }
     public event Action<float, float, float> OnBaseAttack;
 
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
-
 
     [field: Header("Abilities Setup")]
     [field: SerializeField]
@@ -51,8 +76,15 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         rb = GetComponent<Rigidbody2D>();
         ActiveAbilitiesCD = new List<float>(new float[ActiveAbilities.Count]);
         SetHP();
+        SetMana();
         Inventory = new Inventory(10, this);
         Inventory.OnEquipmentChanged += SetAttackCollider;
+    }
+
+    private void SetMana()
+    {
+        MaxMana += Stats.Intelligence * 10;
+        CurrentMana = MaxMana;
     }
 
     private void SetHP()
@@ -65,12 +97,17 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     {
         OnMaxHealthChanged?.Invoke(MaxHP);
         OnHealthChanged?.Invoke(CurrentHP);
+        
+        OnMaxManaChanged?.Invoke(CurrentMana);
+        OnManaChanged?.Invoke(CurrentMana);
+        
         SetAttackCollider();
     }
 
     protected virtual void Update()
     {
         UpdateCoolDowns();
+        Regeneration();
     }
 
     private void UpdateCoolDowns()
@@ -82,6 +119,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         {
             ActiveAbilitiesCD[index] -= Time.deltaTime;
         }
+    }
+
+    private void Regeneration()
+    {
+        
     }
 
     protected void TryFlipVisual(float moveDir)
@@ -230,6 +272,10 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public void ExecuteActiveAbility(int index)
     {
         if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsStunned) return;
+        if (ActiveAbilities[index].ManaCost > CurrentMana) return;
+        
+        CurrentMana -= ActiveAbilities[index].ManaCost;
+        OnManaChanged?.Invoke(CurrentMana);
         var newAbility = Instantiate(ActiveAbilities[index], transform.position, Quaternion.identity);
         newAbility.Execute(this);
         SetActionCD(newAbility.CastTime);

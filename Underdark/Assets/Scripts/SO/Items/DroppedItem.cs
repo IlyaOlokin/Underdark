@@ -6,7 +6,7 @@ using UnityEngine;
 public class DroppedItem : MonoBehaviour
 {
     [SerializeField] private Item containedItem;
-    [SerializeField] private int itemAmount;
+    [SerializeField] private int itemAmount = 1;
 
     private void Awake()
     {

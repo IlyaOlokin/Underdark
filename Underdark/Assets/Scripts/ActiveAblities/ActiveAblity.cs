@@ -8,6 +8,7 @@ public abstract class ActiveAblity : MonoBehaviour
 {
     public float CastTime;
     public float cooldown;
+    public int ManaCost;
     [SerializeField] protected LayerMask attackMask;
     [SerializeField] protected int attackDistance;
     [SerializeField] protected float attackAngle;

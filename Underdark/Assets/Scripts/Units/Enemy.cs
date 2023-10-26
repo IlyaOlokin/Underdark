@@ -41,7 +41,6 @@ public class Enemy : Unit
         EnemyFSM.OnLogic();
         RotateAttackDir();
         TryFlipVisual(agent.desiredVelocity.x);
-        Debug.Log(EnemyFSM.ActiveStateName);
     }
 
     public override void GetStunned(StunInfo stunInfo)
