@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using LlamAcademy.FSM;
@@ -10,6 +11,6 @@ public class IdleState : EnemyStateBase
     public override void OnEnter()
     {
         base.OnEnter();
-        Agent.isStopped = true;
+        if (Agent.enabled) Agent.isStopped = true;
     }
 }

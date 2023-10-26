@@ -10,6 +10,8 @@ public class UnitVisual : MonoBehaviour
     [Header("Alert")]
     [SerializeField] private float maxThickness;
     [SerializeField] private float alertDuration;
+    private IEnumerator alerting;
+    private float thicknessMultiplier;
 
     [Header("WhiteOut")]
     [SerializeField] private float whiteOutDuration;
@@ -26,6 +28,11 @@ public class UnitVisual : MonoBehaviour
         StartCoroutine(Alert());
     }
 
+    public void AbortAlert()
+    {
+        thicknessMultiplier = 0;
+    }
+
     public void StartWhiteOut()
     {
         StartCoroutine(WhiteOut());
@@ -34,6 +41,7 @@ public class UnitVisual : MonoBehaviour
     IEnumerator Alert()
     {
         float currentThickness = 0;
+        thicknessMultiplier = 1;
         
         float speed = maxThickness / alertDuration;
         var alertTimer = alertDuration;
@@ -42,7 +50,7 @@ public class UnitVisual : MonoBehaviour
         {
             currentThickness += speed * Time.deltaTime;
             alertTimer -= Time.deltaTime;
-            mat.SetFloat("_Thickness", currentThickness);
+            mat.SetFloat("_Thickness", currentThickness * thicknessMultiplier);
             yield return null;
         }
         mat.SetFloat("_Thickness", 0);

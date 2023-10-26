@@ -4,11 +4,14 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
+public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoisonable, IStunable
 {
     private Rigidbody2D rb;
     public UnitStats Stats;
     public Inventory Inventory;
+    private List<Debuff> Debuffs;
+    
+    public bool IsStunned { get; private set; }
 
     [field: SerializeField] public int MaxHP { get; private set; }
     public int CurrentHP { get; private set; }
@@ -95,16 +98,15 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         visuals.transform.Rotate(0, 180, 0);
     }
 
-    public virtual void TakeDamage(Unit sender, float damage)
+    public virtual bool TakeDamage(Unit sender, float damage, bool evadable = true)
     {
         var newEffect = Instantiate(damageNumberEffect, transform.position, Quaternion.identity);
         
-        if (TryToEvade(sender, this))
+        if (evadable && TryToEvade(sender, this))
         {
             newEffect.WriteDamage("Evaded!");
-            return;
+            return false;
         }
-
         
         var newDamage = CalculateDamage(damage);
         CurrentHP -= newDamage;
@@ -112,6 +114,37 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         if (CurrentHP <= 0) Death();
         newEffect.WriteDamage(newDamage);
         OnHealthChanged?.Invoke(CurrentHP);
+        return true;
+    }
+
+    public void GetPoisoned(PoisonInfo poisonInfo)
+    {
+        if (Random.Range(0f, 1f) < poisonInfo.chance)
+        {
+            var newPoison = gameObject.AddComponent<Poison>();
+            newPoison.Init(poisonInfo, this);
+        }
+    }
+    
+    public virtual void GetStunned(StunInfo stunInfo)
+    {
+        if (Random.Range(0f, 1f) > stunInfo.chance) return;
+
+        IsStunned = true;
+        if (transform.TryGetComponent(out Stun stunComponent))
+        {
+            stunComponent.AddDuration(stunInfo.Duration);
+        }
+        else
+        {
+            var newStun = gameObject.AddComponent<Stun>();
+            newStun.Init(stunInfo, this);
+        }
+    }
+
+    public virtual void GetUnStunned()
+    {
+        IsStunned = false;
     }
 
     private int CalculateDamage(float damage)
@@ -135,6 +168,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public virtual void Move(Vector3 dir)
     {
+        if (IsStunned) return;
+        
         dir = dir.normalized;
         rb.MovePosition(rb.position + (Vector2)dir * MoveSpeed * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
@@ -144,7 +179,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public virtual void Attack()
     {
-        if (attackCDTimer > 0 || actionCDTimer > 0) return;
+        if (attackCDTimer > 0 || actionCDTimer > 0 || IsStunned) return;
 
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(attackMask);
@@ -153,7 +188,13 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         foreach (var unit in hitUnits)
         {
-            unit.GetComponent<IDamageable>().TakeDamage(this, Stats.Strength + GetWeapon().Damage.GetValue());
+            if (unit.GetComponent<IDamageable>().TakeDamage(this, Stats.Strength + GetWeapon().Damage.GetValue()))
+            {
+                foreach (var debuffInfo in GetWeapon().DebuffInfos)
+                {
+                    debuffInfo.Execute(unit.GetComponent<Unit>());
+                }
+            }
         }
 
         attackCDTimer = 1 / AttackSpeed;
@@ -188,7 +229,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public void ExecuteActiveAbility(int index)
     {
-        if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0) return;
+        if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsStunned) return;
         var newAbility = Instantiate(ActiveAbilities[index], transform.position, Quaternion.identity);
         newAbility.Execute(this);
         SetActionCD(newAbility.CastTime);

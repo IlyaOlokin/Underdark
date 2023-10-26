@@ -41,6 +41,20 @@ public class Enemy : Unit
         EnemyFSM.OnLogic();
         RotateAttackDir();
         TryFlipVisual(agent.desiredVelocity.x);
+        Debug.Log(EnemyFSM.ActiveStateName);
+    }
+
+    public override void GetStunned(StunInfo stunInfo)
+    {
+        base.GetStunned(stunInfo);
+        unitVisual.AbortAlert();
+        agent.enabled = false;
+    }
+
+    public override void GetUnStunned()
+    {
+        base.GetUnStunned();
+        agent.enabled = true;
     }
     
     private void RotateAttackDir()
@@ -62,14 +76,20 @@ public class Enemy : Unit
         EnemyFSM.Trigger(StateEvent.LostPlayer);
         isPlayerInChasingRange = false;
     }
-    
-    protected bool ShouldMelee(Transition<EnemyState> transition) => attackCDTimer < 0 && Vector2.Distance(player.transform.position, transform.position) <= 2;
+
+    protected bool ShouldMelee(Transition<EnemyState> transition) =>
+        attackCDTimer < 0 
+        && Vector2.Distance(player.transform.position, transform.position) <= 2
+        && !IsStunned;
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 
-        agent.remainingDistance <= agent.stoppingDistance;
+        !IsStunned 
+        && agent.remainingDistance <= agent.stoppingDistance;
 
     protected bool IsNotWithinIdleRange(Transition<EnemyState> transition) => 
         !IsWithinIdleRange(transition);
+    
+    protected bool IsUnitStunned(Transition<EnemyState> transition) => IsStunned;
 
     private void OnDisable()
     {

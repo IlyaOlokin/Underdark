@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "New Armor")]
+[CreateAssetMenu(menuName = "Item/Armor", fileName = "New Armor")]
 
 public class Armor : Item
 {
