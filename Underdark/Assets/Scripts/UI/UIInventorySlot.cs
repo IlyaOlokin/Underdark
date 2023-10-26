@@ -34,7 +34,7 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler
          inventory.MoveItem(otherSlot, slot);
       else if (ItemType == otherItemUI.Item.ItemType)
       {
-         inventory.MoveItem(otherSlot, slot, otherItemUI.Item.ItemType);
+         inventory.MoveItem(otherSlot, slot);
       }
       Refresh();
       otherSlotUI.Refresh();

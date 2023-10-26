@@ -35,7 +35,7 @@ public class Inventory : IInventory
         throw new NotImplementedException();
     }
 
-    public bool TryAddItem(Item item, int amount)
+    public int TryAddItem(Item item, int amount)
     {
         var sameItemSlot = slots.Find(slot => !slot.IsEmpty && slot.Item.ID == item.ID && !slot.IsFull);
 
@@ -46,10 +46,10 @@ public class Inventory : IInventory
         if (emptySlot != null)
             return TryAddToSlot(emptySlot, item, amount);
 
-        return false;
+        return amount;
     }
 
-    private bool TryAddToSlot(IInventorySlot slot, Item item, int itemAmount)
+    private int TryAddToSlot(IInventorySlot slot, Item item, int itemAmount)
     {
         bool hasEnoughSpace = slot.Amount + itemAmount <= item.StackCapacity;
         var amountToAdd = hasEnoughSpace ? itemAmount : item.StackCapacity - slot.Amount;
@@ -68,7 +68,7 @@ public class Inventory : IInventory
         
         OnInventoryItemAdded?.Invoke(item, amountToAdd);
 
-        if (amountLeft <= 0) return true;
+        if (amountLeft <= 0) return amountLeft;
 
         itemAmount = amountLeft;
         return TryAddItem(item, itemAmount);

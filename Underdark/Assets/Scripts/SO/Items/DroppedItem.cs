@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,16 +13,14 @@ public class DroppedItem : MonoBehaviour
     [SerializeField] private float timeToIntractable;
     private bool picked;
     private Transform target;
-    private Rigidbody2D rb;
-    private SpriteRenderer sr;
-    private Collider2D collider;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private SpriteRenderer sr;
+    [SerializeField] private Collider2D collider;
+    [SerializeField] private TextMeshProUGUI text;
 
     private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-        sr = GetComponent<SpriteRenderer>();
-        collider = GetComponent<CircleCollider2D>();
-        //SetDroppedItem(containedItem, itemAmount);
+        SetDroppedItem(containedItem, itemAmount);
     }
 
     private void Update()
@@ -30,7 +29,12 @@ public class DroppedItem : MonoBehaviour
         if (timeToIntractable <= 0) collider.enabled = true;
         if (!picked) return;
 
-        if (Vector3.Distance(transform.position, target.position) <= 0.1f) Destroy(gameObject);
+        if (Vector3.Distance(transform.position, target.position) <= 0.1f)
+        {
+            picked = false;
+            if (itemAmount == 0)
+                Destroy(gameObject);
+        }
         else transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
     }
 
@@ -39,6 +43,7 @@ public class DroppedItem : MonoBehaviour
         containedItem = item;
         itemAmount = amount;
         sr.sprite = item.Sprite;
+        text.text = itemAmount.ToString();
         rb.AddForce(new Vector2(Random.Range(-1f,1f), Random.Range(-1f, 1f)) * 3, ForceMode2D.Impulse);
         
         collider.enabled = false;
@@ -48,8 +53,11 @@ public class DroppedItem : MonoBehaviour
     {
         if (!picked && other.TryGetComponent(out IPickUper pickUper))
         {
-            if (pickUper.TryPickUpItem(containedItem, itemAmount))
+            var itemsLeft = pickUper.TryPickUpItem(containedItem, itemAmount);
+            if (itemsLeft != itemAmount)
             {
+                itemAmount = itemsLeft;
+                text.text = itemAmount.ToString();
                 picked = true;
                 target = other.transform;
             }

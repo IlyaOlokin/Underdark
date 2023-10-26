@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IPickUper
 {
-    bool TryPickUpItem(Item item, int amount);
+    int TryPickUpItem(Item item, int amount);
 }

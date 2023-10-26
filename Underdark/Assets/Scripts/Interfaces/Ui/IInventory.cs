@@ -8,7 +8,7 @@ public interface IInventory
     
     int GetItemAmount(string itemID);
 
-    bool TryAddItem(Item item, int amount);
+    int TryAddItem(Item item, int amount);
     void Remove(string itemID, int amount = 1);
     bool HasItem(string itemID, out Item item);
 
