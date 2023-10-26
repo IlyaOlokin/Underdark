@@ -619,6 +619,8 @@ MonoBehaviour:
     <Dexterity>k__BackingField: 2
     <Intelligence>k__BackingField: 1
   <MaxHP>k__BackingField: 30
+  <MaxMana>k__BackingField: 0
+  regenPercent: 0
   <MoveSpeed>k__BackingField: 3
   defaultWeapon: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}
   <AttackSpeed>k__BackingField: 2.5
@@ -633,6 +635,14 @@ MonoBehaviour:
   unitVisual: {fileID: 551113106417395305}
   agent: {fileID: 3265220997278986497}
   followPlayerSensor: {fileID: 2366146653694173651}
+  droppedItemPref: {fileID: 7200458106229667149, guid: d11e455e2eba1fc4eb9546ce5859c796, type: 3}
+  drop:
+  - Item: {fileID: 11400000, guid: af8443f1122a1fe46a59550235772cb5, type: 2}
+    ItemAmount: 1
+    ChanceToDrop: 1
+  - Item: {fileID: 11400000, guid: ec10e58ca5581f14e9ee73b0bd1c1eb3, type: 2}
+    ItemAmount: 2
+    ChanceToDrop: 1
   meleeAttackDuration: 0.4
   meleeAttackPreparation: 0.5
 --- !u!1 &6202605588344640915
