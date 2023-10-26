@@ -1,11 +1,11 @@
 using Zenject;
 
-public class PlayerUIHealthBar : HealthBarController
+public class PlayerUIHealthBar : BarController
 {
     [Inject]
     private void Cunstruct(Player player)
     {
-        player.OnHealthChanged += UpdateHealth;
-        player.OnMaxHealthChanged += SetMaxHP;
+        player.OnHealthChanged += UpdateValue;
+        player.OnMaxHealthChanged += SetMaxValue;
     }
 }

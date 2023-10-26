@@ -41,14 +41,15 @@ public class Enemy : Unit
         EnemyFSM.OnLogic();
         RotateAttackDir();
         TryFlipVisual(agent.desiredVelocity.x);
-        Debug.Log(EnemyFSM.ActiveStateName);
     }
 
-    public override void GetStunned(StunInfo stunInfo)
+    public override bool GetStunned(StunInfo stunInfo)
     {
-        base.GetStunned(stunInfo);
+        if (!base.GetStunned(stunInfo)) return false;
+        
         unitVisual.AbortAlert();
         agent.enabled = false;
+        return true;
     }
 
     public override void GetUnStunned()
@@ -83,7 +84,7 @@ public class Enemy : Unit
         && !IsStunned;
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 
-        !IsStunned 
+        !IsStunned
         && agent.remainingDistance <= agent.stoppingDistance;
 
     protected bool IsNotWithinIdleRange(Transition<EnemyState> transition) => 
