@@ -10,12 +10,13 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public UnitStats Stats;
     public Inventory Inventory;
     private List<Debuff> Debuffs;
-    
+
     public bool IsStunned { get; private set; }
 
     [field: SerializeField] public int MaxHP { get; private set; }
 
     private int _currentHP;
+
     public int CurrentHP
     {
         get => _currentHP;
@@ -28,26 +29,30 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     public event Action<int> OnHealthChanged;
     public event Action<int> OnMaxHealthChanged;
-    
+
     [field: SerializeField] public int MaxMana { get; private set; }
-    
+
     private int _currentMana;
-    public int CurrentMana 
+
+    public int CurrentMana
     {
         get => _currentMana;
         private set
         {
             if (value > MaxMana) value = MaxMana;
             _currentMana = value;
-        } }
-    
+        }
+    }
+
     public event Action<int> OnManaChanged;
     public event Action<int> OnMaxManaChanged;
 
+    [SerializeField] [Range(0f, 1f)] private float regenPercent;
+
     [field: SerializeField] public int MoveSpeed { get; private set; }
 
-    [field: Header("Attack Setup")] 
-    [SerializeField] private MeleeWeapon defaultWeapon;
+    [field: Header("Attack Setup")] [SerializeField]
+    private MeleeWeapon defaultWeapon;
 
     [field: SerializeField] public float AttackSpeed { get; private set; }
     public event Action<float, float, float> OnBaseAttack;
@@ -70,6 +75,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     protected float attackDirAngle;
     protected float attackCDTimer;
     private float actionCDTimer;
+    private float hpRegenBuffer;
+    private float manaRegenBuffer;
 
     protected virtual void Awake()
     {
@@ -97,10 +104,10 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     {
         OnMaxHealthChanged?.Invoke(MaxHP);
         OnHealthChanged?.Invoke(CurrentHP);
-        
+
         OnMaxManaChanged?.Invoke(CurrentMana);
         OnManaChanged?.Invoke(CurrentMana);
-        
+
         SetAttackCollider();
     }
 
@@ -123,7 +130,33 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     private void Regeneration()
     {
-        
+        if (CurrentHP < MaxHP)
+        {
+            hpRegenBuffer += MaxHP * regenPercent * Time.deltaTime;
+            if (hpRegenBuffer >= 1)
+            {
+                RestoreHP((int)Mathf.Floor(hpRegenBuffer));
+                hpRegenBuffer %= 1;
+            }
+        }
+        else
+        {
+            hpRegenBuffer = 0;
+        }
+
+        if (CurrentMana < MaxMana)
+        {
+            manaRegenBuffer += MaxMana * regenPercent * Time.deltaTime;
+            if (manaRegenBuffer >= 1)
+            {
+                RestoreMana((int)Mathf.Floor(manaRegenBuffer));
+                manaRegenBuffer %= 1;
+            }
+        }
+        else
+        {
+            manaRegenBuffer = 0;
+        }
     }
 
     protected void TryFlipVisual(float moveDir)
@@ -143,13 +176,13 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public virtual bool TakeDamage(Unit sender, float damage, bool evadable = true)
     {
         var newEffect = Instantiate(damageNumberEffect, transform.position, Quaternion.identity);
-        
+
         if (evadable && TryToEvade(sender, this))
         {
             newEffect.WriteDamage("Evaded!");
             return false;
         }
-        
+
         var newDamage = CalculateDamage(damage);
         CurrentHP -= newDamage;
         unitVisual.StartWhiteOut();
@@ -157,6 +190,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         newEffect.WriteDamage(newDamage);
         OnHealthChanged?.Invoke(CurrentHP);
         return true;
+    }
+
+    private void RestoreHP(int hp)
+    {
+        CurrentHP += hp;
+        OnHealthChanged?.Invoke(CurrentHP);
     }
 
     public void GetPoisoned(PoisonInfo poisonInfo)
@@ -167,7 +206,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
             newPoison.Init(poisonInfo, this);
         }
     }
-    
+
     public virtual void GetStunned(StunInfo stunInfo)
     {
         if (Random.Range(0f, 1f) > stunInfo.chance) return;
@@ -191,7 +230,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     private int CalculateDamage(float damage)
     {
-        return (int) Mathf.Floor(damage * (damage / (damage + GetTotalArmor())));
+        return (int)Mathf.Floor(damage * (damage / (damage + GetTotalArmor())));
     }
 
     private int GetTotalArmor()
@@ -211,7 +250,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public virtual void Move(Vector3 dir)
     {
         if (IsStunned) return;
-        
+
         dir = dir.normalized;
         rb.MovePosition(rb.position + (Vector2)dir * MoveSpeed * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
@@ -247,10 +286,10 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     private bool TryToEvade(Unit attacker, Unit receiver)
     {
-        var chance = attacker.Stats.Dexterity / (float) (attacker.Stats.Dexterity + receiver.Stats.Dexterity);
+        var chance = attacker.Stats.Dexterity / (float)(attacker.Stats.Dexterity + receiver.Stats.Dexterity);
         return Random.Range(0f, 1f) > chance;
     }
-    
+
     private void SetAttackCollider()
     {
         int pointStep = 10;
@@ -273,13 +312,24 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     {
         if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsStunned) return;
         if (ActiveAbilities[index].ManaCost > CurrentMana) return;
-        
-        CurrentMana -= ActiveAbilities[index].ManaCost;
-        OnManaChanged?.Invoke(CurrentMana);
+
+        SpendMana(ActiveAbilities[index].ManaCost);
         var newAbility = Instantiate(ActiveAbilities[index], transform.position, Quaternion.identity);
         newAbility.Execute(this);
         SetActionCD(newAbility.CastTime);
         ActiveAbilitiesCD[index] = newAbility.cooldown;
+    }
+
+    private void SpendMana(int manaCost)
+    {
+        CurrentMana -= manaCost;
+        OnManaChanged?.Invoke(CurrentMana);
+    }
+
+    private void RestoreMana(int mana)
+    {
+        CurrentMana += mana;
+        OnManaChanged?.Invoke(CurrentMana);
     }
 
     private void SetActionCD(float cd)
