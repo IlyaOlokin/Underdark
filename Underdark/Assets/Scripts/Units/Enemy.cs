@@ -7,6 +7,7 @@ using UnityEngine.AI;
 using UnityEngine.Serialization;
 using UnityHFSM;
 using Zenject;
+using Random = UnityEngine.Random;
 
 public class Enemy : Unit
 {
@@ -14,6 +15,10 @@ public class Enemy : Unit
     [SerializeField] protected NavMeshAgent agent;
     protected StateMachine<EnemyState, StateEvent> EnemyFSM;
     [SerializeField] protected PlayerSensor followPlayerSensor;
+    
+    [Header("Drop")]
+    [SerializeField] private DroppedItem droppedItemPref;
+    [SerializeField] private List<ItemToDrop> drop;
     
     protected bool isPlayerInMeleeRange;
     protected bool isPlayerInChasingRange;
@@ -41,6 +46,19 @@ public class Enemy : Unit
         EnemyFSM.OnLogic();
         RotateAttackDir();
         TryFlipVisual(agent.desiredVelocity.x);
+    }
+
+    protected override void Death()
+    {
+        foreach (var itemToDrop in drop)
+        {
+            if (Random.Range(0f, 1f) < itemToDrop.ChanceToDrop)
+            {
+                var newDrop = Instantiate(droppedItemPref, transform.position, Quaternion.identity);
+                newDrop.SetDroppedItem(itemToDrop.Item, itemToDrop.ItemAmount);
+            }
+        }
+        base.Death();
     }
 
     public override bool GetStunned(StunInfo stunInfo)

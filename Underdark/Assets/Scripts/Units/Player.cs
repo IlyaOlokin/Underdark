@@ -55,7 +55,7 @@ public class Player : Unit, IPickUper
         baseAttackCollider.transform.eulerAngles = new Vector3(0, 0, attackDirAngle - 90);
     }
 
-    public bool TryPickUpItem(Item item, int amount)
+    public int TryPickUpItem(Item item, int amount)
     {
         return Inventory.TryAddItem(item, amount);
     }

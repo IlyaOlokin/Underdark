@@ -6,8 +6,6 @@ public class Stun : Debuff
 {
     private StunInfo stunInfo;
     private IStunable receiver;
-    
-    private float duration;
 
     public void Init(StunInfo stunInfo, IStunable receiver)
     {

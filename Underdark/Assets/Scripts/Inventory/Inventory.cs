@@ -35,7 +35,7 @@ public class Inventory : IInventory
         throw new NotImplementedException();
     }
 
-    public bool TryAddItem(Item item, int amount)
+    public int TryAddItem(Item item, int amount)
     {
         var sameItemSlot = slots.Find(slot => !slot.IsEmpty && slot.Item.ID == item.ID && !slot.IsFull);
 
@@ -46,10 +46,10 @@ public class Inventory : IInventory
         if (emptySlot != null)
             return TryAddToSlot(emptySlot, item, amount);
 
-        return false;
+        return amount;
     }
 
-    private bool TryAddToSlot(IInventorySlot slot, Item item, int itemAmount)
+    private int TryAddToSlot(IInventorySlot slot, Item item, int itemAmount)
     {
         bool hasEnoughSpace = slot.Amount + itemAmount <= item.StackCapacity;
         var amountToAdd = hasEnoughSpace ? itemAmount : item.StackCapacity - slot.Amount;
@@ -68,7 +68,7 @@ public class Inventory : IInventory
         
         OnInventoryItemAdded?.Invoke(item, amountToAdd);
 
-        if (amountLeft <= 0) return true;
+        if (amountLeft <= 0) return amountLeft;
 
         itemAmount = amountLeft;
         return TryAddItem(item, itemAmount);
@@ -94,9 +94,22 @@ public class Inventory : IInventory
         return item != null;
     }
 
-    public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot, ItemType itemType = ItemType.Any)
+    public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot,ItemType fromSlotItemType = ItemType.Any, ItemType toSlotItemType = ItemType.Any)
     {
         if (fromSlot.IsEmpty) return;
+        
+        // check requirements
+        bool equipmentChanged = false;
+        if (fromSlot.Item.ItemType != ItemType.Any && toSlotItemType != ItemType.Any) {
+            if (!unit.Stats.RequirementsMet(fromSlot.Item.Requirements)) return;
+            equipmentChanged = true;
+        } 
+        // check requirements for swap case
+        if (!toSlot.IsEmpty && toSlot.Item.ItemType != ItemType.Any && fromSlotItemType != ItemType.Any) {
+            if (!unit.Stats.RequirementsMet(toSlot.Item.Requirements)) return;
+            equipmentChanged = true;
+        } 
+
         if (!toSlot.IsEmpty && fromSlot.ItemID != toSlot.ItemID)
         {
             var tempItem = fromSlot.Item;
@@ -109,12 +122,6 @@ public class Inventory : IInventory
             return;
         }
         if (toSlot.IsFull) return;
-
-        bool equipmentChanged = false;
-        if (fromSlot.Item.ItemType != ItemType.Any) {
-            if (!unit.Stats.RequirementsMet(fromSlot.Item.Requirements)) return;
-            equipmentChanged = true;
-        } 
         
         var slotCapacity = fromSlot.Item.StackCapacity;
         var fits = fromSlot.Amount + toSlot.Amount <= slotCapacity;
