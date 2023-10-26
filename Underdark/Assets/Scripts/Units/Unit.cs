@@ -40,6 +40,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         private set
         {
             if (value > MaxMana) value = MaxMana;
+            if (value < 0) value = 0;
             _currentMana = value;
         }
     }
@@ -320,7 +321,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         ActiveAbilitiesCD[index] = newAbility.cooldown;
     }
 
-    private void SpendMana(int manaCost)
+    public void SpendMana(int manaCost)
     {
         CurrentMana -= manaCost;
         OnManaChanged?.Invoke(CurrentMana);

@@ -38,7 +38,7 @@ public class Enemy : Unit
     protected override void Update()
     {
         base.Update();
-        EnemyFSM.OnLogic();
+        if (!IsStunned) EnemyFSM.OnLogic();
         RotateAttackDir();
         TryFlipVisual(agent.desiredVelocity.x);
     }
@@ -82,7 +82,7 @@ public class Enemy : Unit
         && !IsStunned;
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 
-        !IsStunned 
+        agent.enabled
         && agent.remainingDistance <= agent.stoppingDistance;
 
     protected bool IsNotWithinIdleRange(Transition<EnemyState> transition) => 

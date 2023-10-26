@@ -5,11 +5,11 @@ using UnityEngine;
 public class Poison : Debuff
 {
     private PoisonInfo poisonInfo;
-    private IDamageable receiver;
+    private Unit receiver;
     
     private float dmgTimer;
     
-    public void Init(PoisonInfo poisonInfo, IDamageable receiver)
+    public void Init(PoisonInfo poisonInfo, Unit receiver)
     {
         this.poisonInfo = poisonInfo;
         this.receiver = receiver;
@@ -23,6 +23,7 @@ public class Poison : Debuff
         if (dmgTimer <= 0)
         {
             receiver.TakeDamage(null, poisonInfo.Damage, false);
+            receiver.SpendMana(poisonInfo.Damage);
             dmgTimer = poisonInfo.DmgDelay;
         }
 

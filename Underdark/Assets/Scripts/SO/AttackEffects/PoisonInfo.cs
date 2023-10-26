@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 [CreateAssetMenu(menuName = "DebuffInfos/Poison", fileName = "New PoisonInfo")]
 public class PoisonInfo : DebuffInfo
 {
-    public float Damage;
+    public int Damage;
     public float DmgDelay;
     public float Duration;
     
