@@ -208,9 +208,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         }
     }
 
-    public virtual void GetStunned(StunInfo stunInfo)
+    public virtual bool GetStunned(StunInfo stunInfo)
     {
-        if (Random.Range(0f, 1f) > stunInfo.chance) return;
+        if (Random.Range(0f, 1f) > stunInfo.chance) return false;
 
         IsStunned = true;
         if (transform.TryGetComponent(out Stun stunComponent))
@@ -222,6 +222,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
             var newStun = gameObject.AddComponent<Stun>();
             newStun.Init(stunInfo, this);
         }
+
+        return true;
     }
 
     public virtual void GetUnStunned()

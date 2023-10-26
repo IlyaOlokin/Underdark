@@ -6,7 +6,7 @@ public interface IStunable
 {
     bool IsStunned { get; }
     
-    void GetStunned(StunInfo stunInfo);
+    bool GetStunned(StunInfo stunInfo);
 
     void GetUnStunned();
 
