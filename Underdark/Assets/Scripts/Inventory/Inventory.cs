@@ -94,9 +94,22 @@ public class Inventory : IInventory
         return item != null;
     }
 
-    public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot, ItemType itemType = ItemType.Any)
+    public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot,ItemType fromSlotItemType = ItemType.Any, ItemType toSlotItemType = ItemType.Any)
     {
         if (fromSlot.IsEmpty) return;
+        
+        // check requirements
+        bool equipmentChanged = false;
+        if (fromSlot.Item.ItemType != ItemType.Any && toSlotItemType != ItemType.Any) {
+            if (!unit.Stats.RequirementsMet(fromSlot.Item.Requirements)) return;
+            equipmentChanged = true;
+        } 
+        // check requirements for swap case
+        if (!toSlot.IsEmpty && toSlot.Item.ItemType != ItemType.Any && fromSlotItemType != ItemType.Any) {
+            if (!unit.Stats.RequirementsMet(toSlot.Item.Requirements)) return;
+            equipmentChanged = true;
+        } 
+
         if (!toSlot.IsEmpty && fromSlot.ItemID != toSlot.ItemID)
         {
             var tempItem = fromSlot.Item;
@@ -109,12 +122,6 @@ public class Inventory : IInventory
             return;
         }
         if (toSlot.IsFull) return;
-
-        bool equipmentChanged = false;
-        if (fromSlot.Item.ItemType != ItemType.Any) {
-            if (!unit.Stats.RequirementsMet(fromSlot.Item.Requirements)) return;
-            equipmentChanged = true;
-        } 
         
         var slotCapacity = fromSlot.Item.StackCapacity;
         var fits = fromSlot.Amount + toSlot.Amount <= slotCapacity;
