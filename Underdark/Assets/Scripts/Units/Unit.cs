@@ -4,7 +4,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoisonable, IStunable
+public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoisonable, IStunable, IBleedable
 {
     private Rigidbody2D rb;
     public UnitStats Stats;
@@ -207,6 +207,15 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
             newPoison.Init(poisonInfo, this);
         }
     }
+    public void GetBleed(BleedInfo bleedInfo)
+    {
+        if (Random.Range(0f, 1f) < bleedInfo.chance)
+        {
+            var newBleed = gameObject.AddComponent<Bleed>();
+            newBleed.Init(bleedInfo, this);
+        }
+    }
+    
 
     public virtual bool GetStunned(StunInfo stunInfo)
     {

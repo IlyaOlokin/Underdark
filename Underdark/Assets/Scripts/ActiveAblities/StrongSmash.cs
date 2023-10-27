@@ -11,7 +11,13 @@ public class StrongSmash : ActiveAblity
 
         foreach (var target in targets)
         {
-            target.GetComponent<IDamageable>().TakeDamage(caster, damage);
+            if (target.GetComponent<IDamageable>().TakeDamage(caster, damage))
+            {
+                foreach (var debuffInfo in debuffInfos)
+                {
+                    debuffInfo.Execute(target.GetComponent<Unit>());
+                }
+            }
         }
         
         // Instantiate visual
