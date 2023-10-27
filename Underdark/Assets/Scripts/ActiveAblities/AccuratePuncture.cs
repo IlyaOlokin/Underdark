@@ -6,7 +6,6 @@ public class AccuratePuncture : ActiveAblity
     {
         damage = Mathf.Min(caster.Stats.Dexterity * damageStatMultiplier, maxDamage);
         
-        OverrideWeaponStats(caster.GetWeapon());
         var target = FindClosestTarget(caster);
         
         if (target == null) return;

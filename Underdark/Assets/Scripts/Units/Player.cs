@@ -45,7 +45,7 @@ public class Player : Unit, IPickUper
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(transform.position, GetWeapon().AttackDistance + 0.5f);
+        //Gizmos.DrawWireSphere(transform.position, GetWeapon().AttackDistance + 0.5f);
     }
 
     private void RotateAttackDir()
