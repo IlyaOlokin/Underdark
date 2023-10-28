@@ -15,7 +15,9 @@ public class Enemy : Unit
     [SerializeField] protected NavMeshAgent agent;
     protected StateMachine<EnemyState, StateEvent> EnemyFSM;
     [SerializeField] protected PlayerSensor followPlayerSensor;
-    
+
+    public bool CanMove => !IsStunned && !IsPushing;
+
     [Header("Drop")]
     [SerializeField] private DroppedItem droppedItemPref;
     [SerializeField] private List<ItemToDrop> drop;
@@ -48,6 +50,14 @@ public class Enemy : Unit
         TryFlipVisual(agent.desiredVelocity.x);
     }
 
+    private void UpdateMovementAbility()
+    {
+        if (!IsStunned && !IsPushing)
+            agent.enabled = true;
+        else
+            agent.enabled = false;
+    }
+
     protected override void Death()
     {
         foreach (var itemToDrop in drop)
@@ -66,16 +76,28 @@ public class Enemy : Unit
         if (!base.GetStunned(stunInfo)) return false;
         
         unitVisual.AbortAlert();
-        agent.enabled = false;
+        UpdateMovementAbility();
         return true;
     }
 
     public override void GetUnStunned()
     {
         base.GetUnStunned();
-        agent.enabled = true;
+        UpdateMovementAbility();
+    }
+
+    public override bool GetPushed(PushInfo pushInfo, Vector2 pushDir)
+    {
+        if (!base.GetPushed(pushInfo, pushDir)) return false;
+        UpdateMovementAbility();
+        return true;
     }
     
+    public override void EndPush()
+    {
+        base.EndPush();
+        UpdateMovementAbility();
+    }
     private void RotateAttackDir()
     {
         var dirToPlayer = player.transform.position - transform.position;
@@ -102,7 +124,7 @@ public class Enemy : Unit
         && !IsStunned;
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 
-        !IsStunned
+        CanMove
         && agent.remainingDistance <= agent.stoppingDistance;
 
     protected bool IsNotWithinIdleRange(Transition<EnemyState> transition) => 

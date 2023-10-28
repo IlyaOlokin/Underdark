@@ -5,11 +5,13 @@ using UnityHFSM;
 
 public class ChaseState : EnemyStateBase
 {
-    private Transform Target;
+    private Transform target;
+    private Enemy enemy;
 
     public ChaseState(bool needsExitTime, Enemy Enemy, Transform Target) : base(needsExitTime, Enemy) 
     {
-        this.Target = Target;
+        target = Target;
+        enemy = Enemy;
     }
 
     public override void OnEnter()
@@ -24,9 +26,10 @@ public class ChaseState : EnemyStateBase
         base.OnLogic();
         if (!RequestedExit)
         {
-            Agent.SetDestination(Target.position);
+            if (Agent.enabled)
+                Agent.SetDestination(target.position);
         }
-        else if (Agent.remainingDistance <= Agent.stoppingDistance)
+        else if (!Agent.enabled || Agent.remainingDistance <= Agent.stoppingDistance)
         {
             fsm.StateCanExit();
         }

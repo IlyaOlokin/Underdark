@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class FireBall : ActiveAblity
+public class FireBall : ActiveAblity, IAttacker
 {
     [SerializeField] private float projSpeed;
     
@@ -39,9 +39,19 @@ public class FireBall : ActiveAblity
         {
             if (other.TryGetComponent(out IDamageable damageable))
             {
-                damageable.TakeDamage(caster, damage);
+                Attack(damageable);
             }
             Destroy(gameObject);
         }
+    }
+
+    public void Attack()
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Attack(IDamageable damageable)
+    {
+        damageable.TakeDamage(caster, damage);
     }
 }

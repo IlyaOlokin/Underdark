@@ -9,7 +9,7 @@ public class BleedInfo : DebuffInfo
     public float DmgDelay;
     public float Duration;
     
-    public override void Execute(Unit receiver)
+    public override void Execute(IAttacker caster, Unit receiver)
     {
         receiver.GetBleed(this);
     }

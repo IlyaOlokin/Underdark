@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArrowShot : ActiveAblity
+public class ArrowShot : ActiveAblity, IAttacker
 {
     [SerializeField] private float projSpeed;
     
@@ -35,11 +35,28 @@ public class ArrowShot : ActiveAblity
     {
         if(attackMask == (attackMask | (1 << other.gameObject.layer)))
         {
-            if (other.TryGetComponent(out IDamageable damageable))
+            if (other.TryGetComponent(out Unit damageable))
             {
-                damageable.TakeDamage(caster, damage);
+                Attack(damageable);
+                //damageable.TakeDamage(caster, damage);
             }
             Destroy(gameObject);
+        }
+    }
+
+    public void Attack()
+    {
+        
+    }
+
+    public void Attack(IDamageable damageable)
+    {
+        if (damageable.TakeDamage(caster, damage))
+        {
+            foreach (var debuffInfo in debuffInfos)
+            {
+                debuffInfo.Execute(this, (Unit) damageable);
+            }
         }
     }
 }

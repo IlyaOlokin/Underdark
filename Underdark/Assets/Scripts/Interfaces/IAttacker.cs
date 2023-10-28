@@ -5,7 +5,6 @@ using UnityHFSM;
 
 public interface IAttacker
 {
-    float AttackSpeed { get; }
-
     void Attack();
+    void Attack(IDamageable unit);
 }

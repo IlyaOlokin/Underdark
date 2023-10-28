@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoisonable, IStunable, IBleedable
+public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoisonable, IStunable, IBleedable, IPushable
 {
     private Rigidbody2D rb;
     public UnitStats Stats;
@@ -12,6 +13,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     private List<Debuff> Debuffs;
 
     public bool IsStunned { get; private set; }
+    public bool IsPushing { get; private set; }
 
     [field: SerializeField] public int MaxHP { get; private set; }
 
@@ -55,7 +57,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     [field: Header("Attack Setup")] [SerializeField]
     private MeleeWeapon defaultWeapon;
 
-    [field: SerializeField] public float AttackSpeed { get; private set; }
+    [SerializeField] private float attackSpeed;
     public event Action<float, float, float> OnBaseAttack;
 
     [SerializeField] private LayerMask attackMask;
@@ -184,7 +186,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
             return false;
         }
 
-        var newDamage = CalculateDamage(damage);
+        var newDamage = CalculateTakenDamage(damage);
         CurrentHP -= newDamage;
         unitVisual.StartWhiteOut();
         if (CurrentHP <= 0) Death();
@@ -216,7 +218,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         }
     }
     
-
     public virtual bool GetStunned(StunInfo stunInfo)
     {
         if (Random.Range(0f, 1f) > stunInfo.chance) return false;
@@ -239,8 +240,28 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     {
         IsStunned = false;
     }
+    
+    public virtual bool GetPushed(PushInfo pushInfo, Vector2 pushDir)
+    {
+        if (Random.Range(0f, 1f) > pushInfo.chance) return false;
+        
+        IsPushing = true;
+        if (transform.TryGetComponent(out Push pushComponent))
+            Destroy(pushComponent);
+        
+        var newPush = gameObject.AddComponent<Push>();
+        newPush.Init(1f, this);
+        
+        rb.AddForce(pushDir, ForceMode2D.Impulse);
+        return true;
+    }
 
-    private int CalculateDamage(float damage)
+    public virtual void EndPush()
+    {
+        IsPushing = false;
+    }
+
+    private int CalculateTakenDamage(float damage)
     {
         return (int)Mathf.Floor(damage * (damage / (damage + GetTotalArmor())));
     }
@@ -261,7 +282,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     public virtual void Move(Vector3 dir)
     {
-        if (IsStunned) return;
+        if (IsStunned || IsPushing) return;
 
         dir = dir.normalized;
         rb.MovePosition(rb.position + (Vector2)dir * MoveSpeed * Time.fixedDeltaTime);
@@ -285,15 +306,20 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
             {
                 foreach (var debuffInfo in GetWeapon().DebuffInfos)
                 {
-                    debuffInfo.Execute(unit.GetComponent<Unit>());
+                    debuffInfo.Execute(this, unit.GetComponent<Unit>());
                 }
             }
         }
 
-        attackCDTimer = 1 / AttackSpeed;
-        SetActionCD(1 / (AttackSpeed * 2));
+        attackCDTimer = 1 / attackSpeed;
+        SetActionCD(1 / (attackSpeed * 2));
 
         OnBaseAttack?.Invoke(attackDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
+    }
+
+    public void Attack(IDamageable damageable)
+    {
+        throw new NotImplementedException();
     }
 
     private bool TryToEvade(Unit attacker, Unit receiver)

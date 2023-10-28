@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class DroppedItem : MonoBehaviour
@@ -15,18 +16,18 @@ public class DroppedItem : MonoBehaviour
     private Transform target;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private SpriteRenderer sr;
-    [SerializeField] private Collider2D collider;
+    [SerializeField] private Collider2D coll;
     [SerializeField] private TextMeshProUGUI text;
 
     private void Awake()
     {
-        SetDroppedItem(containedItem, itemAmount);
+        //SetDroppedItem(containedItem, itemAmount);
     }
 
     private void Update()
     {
         timeToIntractable -= Time.deltaTime;
-        if (timeToIntractable <= 0) collider.enabled = true;
+        if (timeToIntractable <= 0) coll.enabled = true;
         if (!picked) return;
 
         if (Vector3.Distance(transform.position, target.position) <= 0.1f)
@@ -46,7 +47,7 @@ public class DroppedItem : MonoBehaviour
         text.text = itemAmount.ToString();
         rb.AddForce(new Vector2(Random.Range(-1f,1f), Random.Range(-1f, 1f)) * 3, ForceMode2D.Impulse);
         
-        collider.enabled = false;
+        coll.enabled = false;
     }
     
     private void OnTriggerEnter2D(Collider2D other)
