@@ -530,7 +530,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 5
+  m_LinearDrag: 3
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -620,10 +620,10 @@ MonoBehaviour:
     <Intelligence>k__BackingField: 1
   <MaxHP>k__BackingField: 30
   <MaxMana>k__BackingField: 0
-  regenPercent: 0
+  regenPercent: 0.01
   <MoveSpeed>k__BackingField: 3
   defaultWeapon: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}
-  <AttackSpeed>k__BackingField: 2.5
+  attackSpeed: 2.5
   attackMask:
     serializedVersion: 2
     m_Bits: 128

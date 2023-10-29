@@ -1,10 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-[CreateAssetMenu(menuName = "DebuffInfos/Poison", fileName = "New PoisonInfo")]
-public class PoisonInfo : DebuffInfo
+[CreateAssetMenu(menuName = "DebuffInfos/Bleed", fileName = "New BleedInfo")]
+public class BleedInfo : DebuffInfo
 {
     public int Damage;
     public float DmgDelay;
@@ -12,6 +11,6 @@ public class PoisonInfo : DebuffInfo
     
     public override void Execute(IAttacker caster, Unit receiver)
     {
-        receiver.GetPoisoned(this);
+        receiver.GetBleed(this);
     }
 }

@@ -15,7 +15,8 @@ public class BaseAttackPrepState : EnemyStateBase
     
     public override void OnEnter()
     {
-        Agent.isStopped = true;
+        if (Agent.enabled)
+            Agent.isStopped = true;
         base.OnEnter();
     }
 }

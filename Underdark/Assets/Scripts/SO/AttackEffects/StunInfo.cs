@@ -8,8 +8,8 @@ public class StunInfo : DebuffInfo
 {
     public float Duration;
     
-    public override void Execute(Unit damageable)
+    public override void Execute(Unit receiver)
     {
-        damageable.GetStunned(this);
+        receiver.GetStunned(this);
     }
 }

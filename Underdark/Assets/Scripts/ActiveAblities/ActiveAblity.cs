@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public abstract class ActiveAblity : MonoBehaviour
@@ -16,7 +17,9 @@ public abstract class ActiveAblity : MonoBehaviour
     [SerializeField] protected int damageStatMultiplier;
     
     protected float damage;
-
+    
+    [SerializeField] protected List<DebuffInfo> debuffInfos;
+    
     [SerializeField] private bool needAutoDestroy;
     [SerializeField] private float autoDestroyDelay;
     
