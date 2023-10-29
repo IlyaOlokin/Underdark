@@ -9,10 +9,12 @@ public class Poison : Debuff
     
     private float dmgTimer;
     
-    public void Init(PoisonInfo poisonInfo, Unit receiver)
+    public void Init(PoisonInfo poisonInfo, Unit receiver, Unit caster)
     {
         this.poisonInfo = poisonInfo;
         this.receiver = receiver;
+        this.caster = caster;
+
         dmgTimer = poisonInfo.DmgDelay;
         duration = poisonInfo.Duration;
     }
@@ -22,7 +24,7 @@ public class Poison : Debuff
         duration -= Time.deltaTime;
         if (dmgTimer <= 0)
         {
-            receiver.TakeDamage(null, poisonInfo.Damage, false);
+            receiver.TakeDamage(caster, poisonInfo.Damage, false);
             receiver.SpendMana(poisonInfo.Damage);
             dmgTimer = poisonInfo.DmgDelay;
         }

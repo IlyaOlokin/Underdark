@@ -54,7 +54,7 @@ public class ArrowShot : ActiveAblity, IAttacker
         {
             foreach (var debuffInfo in debuffInfos)
             {
-                debuffInfo.Execute(this, (Unit) damageable);
+                debuffInfo.Execute(this, (Unit) damageable, caster);
             }
         }
     }

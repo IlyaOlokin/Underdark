@@ -9,8 +9,8 @@ public class BleedInfo : DebuffInfo
     public float DmgDelay;
     public float Duration;
     
-    public override void Execute(IAttacker caster, Unit receiver)
+    public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)
     {
-        receiver.GetBleed(this);
+        receiver.GetBleed(this, unitCaster);
     }
 }

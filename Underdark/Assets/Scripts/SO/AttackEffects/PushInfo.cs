@@ -9,7 +9,7 @@ public class PushInfo : DebuffInfo
     public PushType PushType;
     private Vector2 pushDir;
     
-    public override void Execute(IAttacker caster, Unit receiver)
+    public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)
     {
         switch (PushType)
         {

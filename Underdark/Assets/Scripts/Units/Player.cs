@@ -42,11 +42,6 @@ public class Player : Unit, IPickUper
     {
         base.Update();
         RotateAttackDir();
-
-        if (Input.GetKeyDown(KeyCode.F)) // debug
-        {
-            GetExp(100);
-        }
     }
 
     private void OnDrawGizmos()

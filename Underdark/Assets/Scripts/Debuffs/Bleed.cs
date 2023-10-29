@@ -9,11 +9,12 @@ public class Bleed : Debuff
     
     private float dmgTimer;
     
-    public void Init(BleedInfo bleedInfo, Unit receiver)
+    public void Init(BleedInfo bleedInfo, Unit receiver, Unit caster)
     {
         this.bleedInfo = bleedInfo;
         this.receiver = receiver;
         this.caster = caster;
+        
         dmgTimer = bleedInfo.DmgDelay;
         duration = bleedInfo.Duration;
     }
