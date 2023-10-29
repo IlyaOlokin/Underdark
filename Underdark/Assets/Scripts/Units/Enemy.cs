@@ -21,6 +21,7 @@ public class Enemy : Unit
     [Header("Drop")]
     [SerializeField] private DroppedItem droppedItemPref;
     [SerializeField] private List<ItemToDrop> drop;
+    [SerializeField] private int expPerLevel;
     
     protected bool isPlayerInMeleeRange;
     protected bool isPlayerInChasingRange;
@@ -58,7 +59,7 @@ public class Enemy : Unit
             agent.enabled = false;
     }
 
-    protected override void Death()
+    protected override void Death(Unit killer)
     {
         foreach (var itemToDrop in drop)
         {
@@ -68,7 +69,13 @@ public class Enemy : Unit
                 newDrop.SetDroppedItem(itemToDrop.Item, itemToDrop.ItemAmount);
             }
         }
-        base.Death();
+
+        if (killer.TryGetComponent(out Player player))
+        {
+            player.GetExp(Stats.Level * expPerLevel);
+        }
+        
+        base.Death(killer);
     }
 
     public override bool GetStunned(StunInfo stunInfo)

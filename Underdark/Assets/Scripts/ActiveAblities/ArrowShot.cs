@@ -38,7 +38,6 @@ public class ArrowShot : ActiveAblity, IAttacker
             if (other.TryGetComponent(out Unit damageable))
             {
                 Attack(damageable);
-                //damageable.TakeDamage(caster, damage);
             }
             Destroy(gameObject);
         }

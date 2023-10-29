@@ -31,6 +31,7 @@ public class CharacterWindowUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI dexText;
     [SerializeField] private TextMeshProUGUI intText;
     [SerializeField] private TextMeshProUGUI FreePointsText;
+    [SerializeField] private TextMeshProUGUI LevelText;
     
     public void Init(Player player)
     {
@@ -39,8 +40,6 @@ public class CharacterWindowUI : MonoBehaviour
 
     private void Awake()
     {
-        OnStatsChanged += UpdateUI;
-        
         ResetStatsUI();
 
         strPlusButton.onClick.AddListener(AddStr);
@@ -54,6 +53,12 @@ public class CharacterWindowUI : MonoBehaviour
 
         confirmChangesButton.onClick.AddListener(ApplyStats);
         canselChangesButton.onClick.AddListener(ResetStatsUI);
+    }
+
+    private void OnEnable()
+    {
+        OnStatsChanged += UpdateUI;
+        ResetStatsUI();
     }
 
     private void ResetStatsUI()
@@ -87,6 +92,7 @@ public class CharacterWindowUI : MonoBehaviour
         dexText.text = stats.Dexterity.ToString();
         intText.text = stats.Intelligence.ToString();
         FreePointsText.text = stats.FreePoints.ToString();
+        LevelText.text = player.Stats.Level.ToString();
     }
 
     private void AddStr()

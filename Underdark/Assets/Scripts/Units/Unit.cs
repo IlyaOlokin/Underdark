@@ -189,7 +189,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         var newDamage = CalculateTakenDamage(damage);
         CurrentHP -= newDamage;
         unitVisual.StartWhiteOut();
-        if (CurrentHP <= 0) Death();
+        if (CurrentHP <= 0) Death(sender);
         newEffect.WriteDamage(newDamage);
         OnHealthChanged?.Invoke(CurrentHP);
         return true;
@@ -275,7 +275,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         return armor;
     }
 
-    protected virtual void Death()
+    protected virtual void Death(Unit killer)
     {
         Destroy(gameObject);
     }

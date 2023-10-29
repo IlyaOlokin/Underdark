@@ -13,6 +13,7 @@ public class Bleed : Debuff
     {
         this.bleedInfo = bleedInfo;
         this.receiver = receiver;
+        this.caster = caster;
         dmgTimer = bleedInfo.DmgDelay;
         duration = bleedInfo.Duration;
     }
@@ -22,7 +23,7 @@ public class Bleed : Debuff
         duration -= Time.deltaTime;
         if (dmgTimer <= 0)
         {
-            receiver.TakeDamage(null, bleedInfo.Damage, false);
+            receiver.TakeDamage(caster, bleedInfo.Damage, false);
             dmgTimer = bleedInfo.DmgDelay;
         }
 

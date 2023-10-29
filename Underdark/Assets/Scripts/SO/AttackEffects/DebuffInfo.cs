@@ -13,9 +13,4 @@ public abstract class DebuffInfo : ScriptableObject
         throw new NotImplementedException();
 
     }
-    
-    public virtual void Execute(Unit receiver)
-    {
-        throw new NotImplementedException();
-    }
 }

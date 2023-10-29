@@ -24,7 +24,7 @@ public class Player : Unit, IPickUper
         input.ActiveAbilityInput += ExecuteActiveAbility;
     }
 
-    protected override void Death()
+    protected override void Death(Unit killer)
     {
         Destroy(gameObject);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -42,11 +42,21 @@ public class Player : Unit, IPickUper
     {
         base.Update();
         RotateAttackDir();
+
+        if (Input.GetKeyDown(KeyCode.F)) // debug
+        {
+            GetExp(100);
+        }
     }
 
     private void OnDrawGizmos()
     {
         //Gizmos.DrawWireSphere(transform.position, GetWeapon().AttackDistance + 0.5f);
+    }
+
+    public void GetExp(int exp)
+    {
+        Stats.GetExp(exp);
     }
 
     private void RotateAttackDir()
