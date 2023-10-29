@@ -15,20 +15,25 @@ public class PlayerInputUI : MonoBehaviour
     public List<Image> buttonsCD;
     [Header("Inventory")]
     public Button inventoryButton;
+    private GameObject inventory;
+    [Header("Character")]
+    public Button characterButton;
+    private GameObject characterWindow;
     
-    [NonSerialized]public GameObject inventory;
-    [NonSerialized] public Player player;
+    private Player player;
     
-    public void Init(Player player, GameObject inventoryUI)
+    public void Init(Player player, GameObject inventoryUI, GameObject characterWindowUI)
     {
         this.player = player;
         inventory = inventoryUI;
+        characterWindow = characterWindowUI;
     }
     
     private void Awake()
     {
         transform.localScale = new Vector3(1, 1, 1);
         inventoryButton.onClick.AddListener(ToggleInventory);
+        characterButton.onClick.AddListener(ToggleCharacterWindow);
     }
 
     private void Start()
@@ -47,5 +52,10 @@ public class PlayerInputUI : MonoBehaviour
     private void ToggleInventory()
     {
         inventory.SetActive(!inventory.activeSelf);
+    }
+    
+    private void ToggleCharacterWindow()
+    {
+        characterWindow.SetActive(!characterWindow.activeSelf);
     }
 }

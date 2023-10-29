@@ -16,10 +16,12 @@ public class GameSceneInstaller : MonoInstaller
     [SerializeField] private PlayerInputUI playerInputUIMobile;
     [SerializeField] private PlayerInputUI playerInputUIDesktop;
     [SerializeField] private InventoryUI playerInventoryUI;
+    [SerializeField] private CharacterWindowUI characterWindowUI;
     
     public override void InstallBindings()
     {
         BindPlayerInventoryUI();
+        BindCharacterWindowUI();
         BindPlayerUI();
         BindInput();
         BindPlayer();
@@ -29,6 +31,11 @@ public class GameSceneInstaller : MonoInstaller
     private void BindPlayerInventoryUI()
     {
         Container.Bind<InventoryUI>().FromInstance(playerInventoryUI).AsSingle();
+    }
+    
+    private void BindCharacterWindowUI()
+    {
+        Container.Bind<CharacterWindowUI>().FromInstance(characterWindowUI).AsSingle();
     }
 
     private void BindPlayerUI()

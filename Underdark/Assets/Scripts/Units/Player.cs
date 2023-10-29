@@ -11,10 +11,11 @@ public class Player : Unit, IPickUper
     private IInput input;
     
     [Inject]
-    private void Construct(IInput userInput, PlayerInputUI inputUI, InventoryUI playerInventoryUI)
+    private void Construct(IInput userInput, PlayerInputUI inputUI, InventoryUI playerInventoryUI, CharacterWindowUI characterWindowUI)
     {
-        inputUI.Init(this, playerInventoryUI.gameObject);
+        inputUI.Init(this, playerInventoryUI.gameObject, characterWindowUI.gameObject);
         playerInventoryUI.Init(this);
+        characterWindowUI.Init(this);
         
         input = userInput;
         input.MoveInput += Move;
