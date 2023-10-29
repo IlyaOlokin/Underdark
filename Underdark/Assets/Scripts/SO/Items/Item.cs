@@ -10,5 +10,5 @@ public class Item : ScriptableObject
     public ItemType ItemType;
     public Sprite Sprite;
     public int StackCapacity;
-    public UnitStats Requirements;
+    public Requirements Requirements;
 }
