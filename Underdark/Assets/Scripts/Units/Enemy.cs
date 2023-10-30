@@ -12,6 +12,9 @@ using Random = UnityEngine.Random;
 public class Enemy : Unit
 {
     protected Player player;
+    
+    [Header("Enemy Setup")] 
+    [SerializeField] protected Transform moveTarget;
     [SerializeField] protected NavMeshAgent agent;
     protected StateMachine<EnemyState, StateEvent> EnemyFSM;
     [SerializeField] protected PlayerSensor followPlayerSensor;
@@ -37,6 +40,7 @@ public class Enemy : Unit
         base.Awake();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        moveTarget.transform.SetParent(transform.parent);
         
         EnemyFSM = new();
         followPlayerSensor.OnPlayerEnter += FollowPlayerSensor_OnPlayerEnter;
@@ -49,6 +53,8 @@ public class Enemy : Unit
         EnemyFSM.OnLogic();
         RotateAttackDir();
         TryFlipVisual(agent.desiredVelocity.x);
+        if (isPlayerInChasingRange)
+            moveTarget.position = player.transform.position;
     }
 
     private void UpdateMovementAbility()
@@ -122,6 +128,7 @@ public class Enemy : Unit
     private void FollowPlayerSensor_OnPlayerExit(Vector3 lastKnownPosition)
     {
         EnemyFSM.Trigger(StateEvent.LostPlayer);
+        moveTarget.position = lastKnownPosition;
         isPlayerInChasingRange = false;
     }
 

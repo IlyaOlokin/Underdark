@@ -20,7 +20,7 @@ public class MeleeEnemy : Enemy
     private void AddStates()
     {
         EnemyFSM.AddState(EnemyState.Idle, new IdleState(false, this));
-        EnemyFSM.AddState(EnemyState.Chase, new ChaseState(true, this, player.transform));
+        EnemyFSM.AddState(EnemyState.Chase, new ChaseState(true, this, moveTarget));
         EnemyFSM.AddState(EnemyState.BaseAttackPrep, new BaseAttackPrepState(true, this, unitVisual.StartAlert, meleeAttackPreparation));
         EnemyFSM.AddState(EnemyState.BaseAttack, new BaseAttackState(true, this, Attack, meleeAttackDuration));
     }
@@ -28,7 +28,7 @@ public class MeleeEnemy : Enemy
     private void AddTransitions()
     {
         EnemyFSM.AddTriggerTransition(StateEvent.DetectPlayer, new Transition<EnemyState>(EnemyState.Idle, EnemyState.Chase));
-        EnemyFSM.AddTriggerTransition(StateEvent.LostPlayer, new Transition<EnemyState>(EnemyState.Chase, EnemyState.Idle));
+        //EnemyFSM.AddTriggerTransition(StateEvent.LostPlayer, new Transition<EnemyState>(EnemyState.Chase, EnemyState.Idle));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle, EnemyState.Chase,
             (transition) => isPlayerInChasingRange
                             && Vector3.Distance(player.transform.position, transform.position) > agent.stoppingDistance
@@ -36,8 +36,7 @@ public class MeleeEnemy : Enemy
         );
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase, EnemyState.Idle,
             (transition) => !isPlayerInChasingRange
-                            || Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance
-                            && !IsStunned)
+                            && Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
         );
 
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase, EnemyState.BaseAttackPrep, ShouldMelee ,
