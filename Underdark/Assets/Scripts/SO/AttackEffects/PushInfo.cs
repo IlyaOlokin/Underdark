@@ -14,10 +14,10 @@ public class PushInfo : DebuffInfo
         switch (PushType)
         {
             case PushType.Position:
-                pushDir = receiver.transform.position - ((MonoBehaviour) caster).transform.position;
+                pushDir = receiver.transform.position -  caster.Transform.position;
                 break;
             case PushType.Rotation:
-                var eulerAnglesZ = (((MonoBehaviour)caster).transform.eulerAngles.z + 90) * Mathf.Deg2Rad;
+                var eulerAnglesZ = (caster.Transform.eulerAngles.z + 90) * Mathf.Deg2Rad;
                 
                 pushDir = new Vector2(Mathf.Cos(eulerAnglesZ), Mathf.Sin(eulerAnglesZ));
                 break;

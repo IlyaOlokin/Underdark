@@ -7,7 +7,8 @@ using UnityEngine.Serialization;
 public class FireBall : ActiveAblity, IAttacker
 {
     [SerializeField] private float projSpeed;
-    
+    public Transform Transform => transform;
+
     private Rigidbody2D rb;
 
     private void Awake()
@@ -44,7 +45,7 @@ public class FireBall : ActiveAblity, IAttacker
             Destroy(gameObject);
         }
     }
-
+    
     public void Attack()
     {
         throw new NotImplementedException();

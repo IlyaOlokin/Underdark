@@ -8,6 +8,7 @@ public class AccuratePuncture : ActiveAblity, IAttacker
     [SerializeField] private float visualDuration;
     [SerializeField] private float endXScale;
     [SerializeField] private float startYScale;
+    public Transform Transform => transform;
     
     public override void Execute(Unit caster)
     {
@@ -37,7 +38,6 @@ public class AccuratePuncture : ActiveAblity, IAttacker
             yield return null;
         }
     }
-    
     
     public void Attack()
     {

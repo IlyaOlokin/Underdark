@@ -62,6 +62,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
+    public Transform Transform => transform;
 
     [field: Header("Abilities Setup")]
     [field: SerializeField]
@@ -290,7 +291,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
             lastMoveDir = dir;
         TryFlipVisual(dir.x);
     }
-
+    
     public virtual void Attack()
     {
         if (attackCDTimer > 0 || actionCDTimer > 0 || IsStunned) return;

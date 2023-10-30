@@ -5,6 +5,7 @@ using UnityHFSM;
 
 public interface IAttacker
 {
+    Transform Transform { get; }
     void Attack();
     void Attack(IDamageable unit);
 }

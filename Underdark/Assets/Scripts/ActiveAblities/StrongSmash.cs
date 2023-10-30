@@ -15,12 +15,13 @@ public class StrongSmash : ActiveAblity
         OverrideWeaponStats(caster.GetWeapon());
         Attack();
         
-        visualSR.material = new Material(visualSR.material);
         StartCoroutine(StartVisual());
     }
 
     IEnumerator StartVisual()
     {
+        visualSR.material = new Material(visualSR.material);
+
         transform.localScale = Vector3.zero;
         float scaleSpeed = (attackDistance * 2 + 0.77f) / visualDuration;
         var attackDir = Vector2.Angle(Vector2.right, caster.GetAttackDirection());

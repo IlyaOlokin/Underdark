@@ -5,6 +5,7 @@ using UnityEngine;
 public class ArrowShot : ActiveAblity, IAttacker
 {
     [SerializeField] private float projSpeed;
+    public Transform Transform => transform;
     
     private Rigidbody2D rb;
 
@@ -42,7 +43,7 @@ public class ArrowShot : ActiveAblity, IAttacker
             Destroy(gameObject);
         }
     }
-
+    
     public void Attack()
     {
         
