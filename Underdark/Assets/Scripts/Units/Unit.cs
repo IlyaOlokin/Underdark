@@ -336,8 +336,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         float currentPointAngle = -GetWeapon().AttackRadius / 2f;
         for (int i = 0; i < pointsCount; i++)
         {
-            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * GetWeapon().AttackDistance;
-            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * GetWeapon().AttackDistance;
+            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * (GetWeapon().AttackDistance + 1);
+            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * (GetWeapon().AttackDistance + 1);
             path.Add(new Vector2(sin, cos));
             currentPointAngle += pointStep;
         }
