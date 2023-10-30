@@ -18,6 +18,8 @@ public class Enemy : Unit
     [SerializeField] protected NavMeshAgent agent;
     protected StateMachine<EnemyState, StateEvent> EnemyFSM;
     [SerializeField] protected PlayerSensor followPlayerSensor;
+    [SerializeField] protected Collider2D allySensor;
+    [SerializeField] protected LayerMask alliesLayer;
 
     public bool CanMove => !IsStunned && !IsPushing;
 
@@ -60,10 +62,34 @@ public class Enemy : Unit
     public override bool TakeDamage(Unit sender, float damage, bool evadable = true)
     {
         var res = base.TakeDamage(sender, damage, evadable);
-        EnemyFSM.Trigger(StateEvent.DetectPlayer);
-        moveTarget.position = sender.transform.position;
-        
+        Agr(sender.transform.position);
+        AgrNearbyAllies();
+
         return res;
+    }
+
+    public void Agr(Vector3 pos)
+    {
+        moveTarget.position = pos;
+        EnemyFSM.Trigger(StateEvent.DetectPlayer);
+    }
+
+    private void AgrNearbyAllies()
+    {
+        var contactFilter = new ContactFilter2D();
+        contactFilter.SetLayerMask(alliesLayer);
+        List<Collider2D> hitColliders = new List<Collider2D>();
+
+        allySensor.OverlapCollider(contactFilter, hitColliders);
+
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.transform.TryGetComponent(out Enemy enemy))
+            {
+                if (enemy != this)
+                    enemy.Agr(moveTarget.position);
+            }
+        }
     }
 
     private void UpdateMovementAbility()
@@ -130,8 +156,10 @@ public class Enemy : Unit
     
     private void FollowPlayerSensor_OnPlayerEnter(Transform player)
     {
+        moveTarget.position = player.position;
         EnemyFSM.Trigger(StateEvent.DetectPlayer);
         isPlayerInChasingRange = true;
+        AgrNearbyAllies();
     }
     
     private void FollowPlayerSensor_OnPlayerExit(Vector3 lastKnownPosition)
