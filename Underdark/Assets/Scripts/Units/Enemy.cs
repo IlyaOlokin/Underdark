@@ -57,6 +57,15 @@ public class Enemy : Unit
             moveTarget.position = player.transform.position;
     }
 
+    public override bool TakeDamage(Unit sender, float damage, bool evadable = true)
+    {
+        var res = base.TakeDamage(sender, damage, evadable);
+        EnemyFSM.Trigger(StateEvent.DetectPlayer);
+        moveTarget.position = sender.transform.position;
+        
+        return res;
+    }
+
     private void UpdateMovementAbility()
     {
         if (!IsStunned && !IsPushing)
