@@ -11,7 +11,7 @@ public class BaseAttackVisual : MonoBehaviour
 
     public void Swing(float dir, float angle, float dist)
     {
-        StartCoroutine(StartSwing(dir, angle, dist));
+        StartCoroutine(StartSwing(dir, angle, dist + 1));
         Destroy(gameObject, 0.3f);
     }
 
