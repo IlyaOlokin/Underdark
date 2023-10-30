@@ -33,10 +33,10 @@ public class InventoryUI : MonoBehaviour
             slots[i].SetSlot(inventorySlots[i]);
         }
 
-        SetEquipmetSlots();
+        SetEquipmentSlots();
     }
 
-    private void SetEquipmetSlots()
+    private void SetEquipmentSlots()
     {
         var equipmentSlots = Inventory.Equipment;
         head.SetSlot(equipmentSlots.Head);
@@ -66,13 +66,5 @@ public class InventoryUI : MonoBehaviour
         {
             //slot.Clear();
         }
-    }
-
-    public enum MoveResult
-    {
-        Success,
-        Fail,
-        SameItem,
-        SameItemOverflow
     }
 }

@@ -614,10 +614,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stats:
-    <Level>k__BackingField: 0
+    <Level>k__BackingField: 1
+    FreePoints: 0
     <Strength>k__BackingField: 2
     <Dexterity>k__BackingField: 2
     <Intelligence>k__BackingField: 1
+    pointsPerLevel: 0
+    expNeeded: 
   <MaxHP>k__BackingField: 30
   <MaxMana>k__BackingField: 0
   regenPercent: 0.01
@@ -643,6 +646,7 @@ MonoBehaviour:
   - Item: {fileID: 11400000, guid: ec10e58ca5581f14e9ee73b0bd1c1eb3, type: 2}
     ItemAmount: 2
     ChanceToDrop: 1
+  expPerLevel: 5
   meleeAttackDuration: 0.4
   meleeAttackPreparation: 0.5
 --- !u!1 &6202605588344640915

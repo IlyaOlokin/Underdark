@@ -189,7 +189,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         var newDamage = CalculateTakenDamage(damage);
         CurrentHP -= newDamage;
         unitVisual.StartWhiteOut();
-        if (CurrentHP <= 0) Death();
+        if (CurrentHP <= 0) Death(sender);
         newEffect.WriteDamage(newDamage);
         OnHealthChanged?.Invoke(CurrentHP);
         return true;
@@ -201,20 +201,20 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         OnHealthChanged?.Invoke(CurrentHP);
     }
 
-    public void GetPoisoned(PoisonInfo poisonInfo)
+    public void GetPoisoned(PoisonInfo poisonInfo, Unit caster)
     {
         if (Random.Range(0f, 1f) < poisonInfo.chance)
         {
             var newPoison = gameObject.AddComponent<Poison>();
-            newPoison.Init(poisonInfo, this);
+            newPoison.Init(poisonInfo, this, caster);
         }
     }
-    public void GetBleed(BleedInfo bleedInfo)
+    public void GetBleed(BleedInfo bleedInfo, Unit caster)
     {
         if (Random.Range(0f, 1f) < bleedInfo.chance)
         {
             var newBleed = gameObject.AddComponent<Bleed>();
-            newBleed.Init(bleedInfo, this);
+            newBleed.Init(bleedInfo, this, caster);
         }
     }
     
@@ -275,7 +275,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         return armor;
     }
 
-    protected virtual void Death()
+    protected virtual void Death(Unit killer)
     {
         Destroy(gameObject);
     }
@@ -306,7 +306,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
             {
                 foreach (var debuffInfo in GetWeapon().DebuffInfos)
                 {
-                    debuffInfo.Execute(this, unit.GetComponent<Unit>());
+                    debuffInfo.Execute(this, unit.GetComponent<Unit>(), this);
                 }
             }
         }

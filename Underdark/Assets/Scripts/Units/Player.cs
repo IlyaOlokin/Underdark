@@ -11,10 +11,11 @@ public class Player : Unit, IPickUper
     private IInput input;
     
     [Inject]
-    private void Construct(IInput userInput, PlayerInputUI inputUI, InventoryUI playerInventoryUI)
+    private void Construct(IInput userInput, PlayerInputUI inputUI, InventoryUI playerInventoryUI, CharacterWindowUI characterWindowUI)
     {
-        inputUI.Init(this, playerInventoryUI.gameObject);
+        inputUI.Init(this, playerInventoryUI.gameObject, characterWindowUI.gameObject);
         playerInventoryUI.Init(this);
+        characterWindowUI.Init(this);
         
         input = userInput;
         input.MoveInput += Move;
@@ -23,7 +24,7 @@ public class Player : Unit, IPickUper
         input.ActiveAbilityInput += ExecuteActiveAbility;
     }
 
-    protected override void Death()
+    protected override void Death(Unit killer)
     {
         Destroy(gameObject);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -46,6 +47,11 @@ public class Player : Unit, IPickUper
     private void OnDrawGizmos()
     {
         //Gizmos.DrawWireSphere(transform.position, GetWeapon().AttackDistance + 0.5f);
+    }
+
+    public void GetExp(int exp)
+    {
+        Stats.GetExp(exp);
     }
 
     private void RotateAttackDir()

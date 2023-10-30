@@ -10,8 +10,8 @@ public class PoisonInfo : DebuffInfo
     public float DmgDelay;
     public float Duration;
     
-    public override void Execute(IAttacker caster, Unit receiver)
+    public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)
     {
-        receiver.GetPoisoned(this);
+        receiver.GetPoisoned(this, unitCaster);
     }
 }

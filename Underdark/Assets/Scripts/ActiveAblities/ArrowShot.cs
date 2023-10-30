@@ -38,7 +38,6 @@ public class ArrowShot : ActiveAblity, IAttacker
             if (other.TryGetComponent(out Unit damageable))
             {
                 Attack(damageable);
-                //damageable.TakeDamage(caster, damage);
             }
             Destroy(gameObject);
         }
@@ -55,7 +54,7 @@ public class ArrowShot : ActiveAblity, IAttacker
         {
             foreach (var debuffInfo in debuffInfos)
             {
-                debuffInfo.Execute(this, (Unit) damageable);
+                debuffInfo.Execute(this, (Unit) damageable, caster);
             }
         }
     }

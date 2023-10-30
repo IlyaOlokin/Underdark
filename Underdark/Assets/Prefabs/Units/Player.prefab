@@ -427,10 +427,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stats:
-    <Level>k__BackingField: 3
-    <Strength>k__BackingField: 3
-    <Dexterity>k__BackingField: 3
-    <Intelligence>k__BackingField: 3
+    <Level>k__BackingField: 1
+    FreePoints: 9
+    <Strength>k__BackingField: 1
+    <Dexterity>k__BackingField: 1
+    <Intelligence>k__BackingField: 1
+    pointsPerLevel: 6
+    expNeeded: 64000000c80000005e010000
   <MaxHP>k__BackingField: 100
   <MaxMana>k__BackingField: 0
   regenPercent: 0.01

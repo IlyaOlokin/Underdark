@@ -23,7 +23,7 @@ public class StrongSmash : ActiveAblity
             {
                 foreach (var debuffInfo in debuffInfos)
                 {
-                    debuffInfo.Execute(target.GetComponent<Unit>());
+                    debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
                 }
             }
         }

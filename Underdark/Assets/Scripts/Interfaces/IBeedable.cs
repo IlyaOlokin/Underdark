@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IBleedable
 {
-    void GetBleed(BleedInfo bleedInfo);
+    void GetBleed(BleedInfo bleedInfo, Unit caster);
 }
