@@ -12,9 +12,14 @@ using Random = UnityEngine.Random;
 public class Enemy : Unit
 {
     protected Player player;
+    
+    [Header("Enemy Setup")] 
+    [SerializeField] protected Transform moveTarget;
     [SerializeField] protected NavMeshAgent agent;
     protected StateMachine<EnemyState, StateEvent> EnemyFSM;
     [SerializeField] protected PlayerSensor followPlayerSensor;
+    [SerializeField] protected Collider2D allySensor;
+    [SerializeField] protected LayerMask alliesLayer;
 
     public bool CanMove => !IsStunned && !IsPushing;
 
@@ -37,6 +42,7 @@ public class Enemy : Unit
         base.Awake();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        moveTarget.transform.SetParent(transform.parent);
         
         EnemyFSM = new();
         followPlayerSensor.OnPlayerEnter += FollowPlayerSensor_OnPlayerEnter;
@@ -49,6 +55,41 @@ public class Enemy : Unit
         EnemyFSM.OnLogic();
         RotateAttackDir();
         TryFlipVisual(agent.desiredVelocity.x);
+        if (isPlayerInChasingRange)
+            moveTarget.position = player.transform.position;
+    }
+
+    public override bool TakeDamage(Unit sender, float damage, bool evadable = true)
+    {
+        var res = base.TakeDamage(sender, damage, evadable);
+        Agr(sender.transform.position);
+        AgrNearbyAllies();
+
+        return res;
+    }
+
+    public void Agr(Vector3 pos)
+    {
+        moveTarget.position = pos;
+        EnemyFSM.Trigger(StateEvent.DetectPlayer);
+    }
+
+    private void AgrNearbyAllies()
+    {
+        var contactFilter = new ContactFilter2D();
+        contactFilter.SetLayerMask(alliesLayer);
+        List<Collider2D> hitColliders = new List<Collider2D>();
+
+        allySensor.OverlapCollider(contactFilter, hitColliders);
+
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.transform.TryGetComponent(out Enemy enemy))
+            {
+                if (enemy != this)
+                    enemy.Agr(moveTarget.position);
+            }
+        }
     }
 
     private void UpdateMovementAbility()
@@ -115,13 +156,16 @@ public class Enemy : Unit
     
     private void FollowPlayerSensor_OnPlayerEnter(Transform player)
     {
+        moveTarget.position = player.position;
         EnemyFSM.Trigger(StateEvent.DetectPlayer);
         isPlayerInChasingRange = true;
+        AgrNearbyAllies();
     }
     
     private void FollowPlayerSensor_OnPlayerExit(Vector3 lastKnownPosition)
     {
         EnemyFSM.Trigger(StateEvent.LostPlayer);
+        moveTarget.position = lastKnownPosition;
         isPlayerInChasingRange = false;
     }
 
