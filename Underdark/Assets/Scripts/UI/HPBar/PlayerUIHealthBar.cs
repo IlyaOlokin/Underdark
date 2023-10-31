@@ -8,4 +8,16 @@ public class PlayerUIHealthBar : BarController
         player.OnHealthChanged += UpdateValue;
         player.OnMaxHealthChanged += SetMaxValue;
     }
+    
+    protected override void SetMaxValue(int maxValue)
+    {
+        base.SetMaxValue(maxValue);
+        maxValueText.text = $@"/{maxValue}";
+    }
+    
+    protected override void UpdateValue(int currentValue)
+    {
+        base.UpdateValue(currentValue);
+        currentValueText.text = currentValue.ToString();
+    }
 }

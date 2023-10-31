@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Zenject;
 
 public class PlayerUIManaBar : BarController
@@ -10,5 +7,17 @@ public class PlayerUIManaBar : BarController
     {
         player.OnManaChanged += UpdateValue;
         player.OnMaxManaChanged += SetMaxValue;
+    }
+    
+    protected override void SetMaxValue(int maxValue)
+    {
+        base.SetMaxValue(maxValue);
+        maxValueText.text = $@"/{maxValue}";
+    }
+    
+    protected override void UpdateValue(int currentValue)
+    {
+        base.UpdateValue(currentValue);
+        currentValueText.text = currentValue.ToString();
     }
 }
