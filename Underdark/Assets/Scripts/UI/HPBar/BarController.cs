@@ -1,17 +1,19 @@
-using System;
+using TMPro;
 using UnityEngine;
 using Slider = UnityEngine.UI.Slider;
 
 public class BarController : MonoBehaviour
 {
+    [SerializeField] protected TextMeshProUGUI currentValueText;
+    [SerializeField] protected TextMeshProUGUI maxValueText;
     [SerializeField] private Slider slider;
     
-    protected void SetMaxValue(int maxValue)
+    protected virtual void SetMaxValue(int maxValue)
     {
         slider.maxValue = maxValue;
     }
     
-    protected void UpdateValue(int currentValue)
+    protected virtual void UpdateValue(int currentValue)
     {
         slider.value = currentValue;
     }

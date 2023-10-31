@@ -10,6 +10,7 @@ public class DesktopInput : MonoBehaviour, IInput
     public event Action<Vector3> MoveInput;
     public event Action ShootInput;
     public event Action<int> ActiveAbilityInput;
+    public event Action<int> ExecutableItemInput;
 
     private Vector2 dir;
     private PlayerInputUI inputUI;
@@ -38,6 +39,12 @@ public class DesktopInput : MonoBehaviour, IInput
             ActiveAbilityInput?.Invoke(2);
         if (Input.GetKeyDown(KeyCode.Alpha4))
             ActiveAbilityInput?.Invoke(3);
+
+        if (Input.GetKeyDown(KeyCode.Q))
+            ExecutableItemInput?.Invoke(0);
+        if (Input.GetKeyDown(KeyCode.E))
+            ExecutableItemInput?.Invoke(1);
+        
 
         if (Input.GetKeyDown(KeyCode.Tab))
             inputUI.inventoryButton.onClick?.Invoke();

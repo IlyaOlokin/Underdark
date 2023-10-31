@@ -23,6 +23,8 @@ public class Player : Unit, IPickUper
         input.ShootInput += Attack;
 
         input.ActiveAbilityInput += ExecuteActiveAbility;
+
+        input.ExecutableItemInput += ExecuteExecutableItem;
     }
 
     protected override void Death(Unit killer)
@@ -37,6 +39,8 @@ public class Player : Unit, IPickUper
         input.ShootInput -= Attack;
 
         input.ActiveAbilityInput -= ExecuteActiveAbility;
+        
+        input.ExecutableItemInput -= ExecuteExecutableItem;
     }
 
     protected override void Update()

@@ -691,8 +691,8 @@ MonoBehaviour:
     <Intelligence>k__BackingField: 1
     pointsPerLevel: 0
     expNeeded: 
-  <MaxHP>k__BackingField: 30
-  <MaxMana>k__BackingField: 0
+  baseMaxHP: 30
+  baseMaxMana: 0
   regenPercent: 0.01
   <MoveSpeed>k__BackingField: 3
   defaultWeapon: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}

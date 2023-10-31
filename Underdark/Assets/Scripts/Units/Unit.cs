@@ -15,7 +15,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public bool IsStunned { get; private set; }
     public bool IsPushing { get; private set; }
 
-    [field: SerializeField] public int MaxHP { get; private set; }
+    [SerializeField] private int baseMaxHP;
+    public int MaxHP { get; private set; }
 
     private int _currentHP;
 
@@ -32,7 +33,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public event Action<int> OnHealthChanged;
     public event Action<int> OnMaxHealthChanged;
 
-    [field: SerializeField] public int MaxMana { get; private set; }
+    [SerializeField] private int baseMaxMana;
+    public int MaxMana { get; private set; }
 
     private int _currentMana;
 
@@ -59,6 +61,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     [SerializeField] private float attackSpeed;
     public event Action<float, float, float> OnBaseAttack;
+    public event Action<int> OnExecutableItemUse;
 
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
@@ -86,32 +89,46 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     {
         rb = GetComponent<Rigidbody2D>();
         ActiveAbilitiesCD = new List<float>(new float[ActiveAbilities.Count]);
-        SetHP();
-        SetMana();
+        
         Inventory = new Inventory(10, this);
         Inventory.OnEquipmentChanged += SetAttackCollider;
+        Stats.OnStatsChanged += SetHP;
+        Stats.OnStatsChanged += SetMana;
+        Stats.OnLevelUp += OnLevelUp;
     }
 
-    private void SetMana()
+    private void SetMana(bool toFull = false)
     {
-        MaxMana += Stats.Intelligence * 10;
-        CurrentMana = MaxMana;
+        float currentPart = CurrentMana / (float) MaxMana;
+        MaxMana = baseMaxMana + Stats.Intelligence * 10;
+
+        if (toFull)
+            CurrentMana = MaxMana;
+        else
+            CurrentMana = (int)Mathf.Floor(MaxMana * currentPart);
+        
+        OnMaxManaChanged?.Invoke(MaxMana);
+        OnManaChanged?.Invoke(CurrentMana);
     }
 
-    private void SetHP()
+    private void SetHP(bool toFull = false)
     {
-        MaxHP += Stats.Strength * 10;
-        CurrentHP = MaxHP;
+        float currentPart = CurrentHP / (float) MaxHP;
+        MaxHP = baseMaxHP + Stats.Strength * 10;
+        
+        if (toFull)
+            CurrentHP = MaxHP;
+        else
+            CurrentHP = (int)Mathf.Floor(MaxHP * currentPart);
+
+        OnMaxHealthChanged?.Invoke(MaxHP);
+        OnHealthChanged?.Invoke(CurrentHP);
     }
 
     private void Start()
     {
-        OnMaxHealthChanged?.Invoke(MaxHP);
-        OnHealthChanged?.Invoke(CurrentHP);
-
-        OnMaxManaChanged?.Invoke(CurrentMana);
-        OnManaChanged?.Invoke(CurrentMana);
-
+        SetHP(true);
+        SetMana(true);
         SetAttackCollider();
     }
 
@@ -162,6 +179,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
             manaRegenBuffer = 0;
         }
     }
+    
+    private void OnLevelUp()
+    {
+        SetHP(true);
+        SetMana(true);
+    }
 
     protected void TryFlipVisual(float moveDir)
     {
@@ -196,7 +219,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         return true;
     }
 
-    private void RestoreHP(int hp)
+    public void RestoreHP(int hp, bool showVisual = false)
     {
         CurrentHP += hp;
         OnHealthChanged?.Invoke(CurrentHP);
@@ -357,6 +380,15 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         newAbility.Execute(this);
         SetActionCD(newAbility.CastTime);
         ActiveAbilitiesCD[index] = newAbility.cooldown;
+    }
+
+    public void ExecuteExecutableItem(int index)
+    {
+        if (IsStunned || Inventory.ExecutableSlots[index].IsEmpty) return;
+        
+        Inventory.GetExecutableItem(index).Execute(this);
+        Inventory.Remove(Inventory.ExecutableSlots[index]);
+        OnExecutableItemUse?.Invoke(index);
     }
 
     public void SpendMana(int manaCost)

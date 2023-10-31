@@ -19,6 +19,9 @@ public class PlayerInputUI : MonoBehaviour
     [Header("Character")]
     public Button characterButton;
     private GameObject characterWindow;
+
+    [Header("Executable Items")] [SerializeField]
+    public ExecutableSlotsHandler executableSlotsHandler;
     
     private Player player;
     
@@ -32,12 +35,14 @@ public class PlayerInputUI : MonoBehaviour
     private void Awake()
     {
         transform.localScale = new Vector3(1, 1, 1);
+        
         inventoryButton.onClick.AddListener(ToggleInventory);
         characterButton.onClick.AddListener(ToggleCharacterWindow);
     }
 
     private void Start()
     {
+        executableSlotsHandler.Init(player);
         inventory.SetActive(false);
     }
 
@@ -52,6 +57,7 @@ public class PlayerInputUI : MonoBehaviour
     private void ToggleInventory()
     {
         inventory.SetActive(!inventory.activeSelf);
+        executableSlotsHandler.RefreshAllSlots();
     }
     
     private void ToggleCharacterWindow()

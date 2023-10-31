@@ -11,6 +11,7 @@ public class Inventory : IInventory
     
     private List<IInventorySlot> slots;
     public Equipment Equipment { get; private set; }
+    public List<IInventorySlot> ExecutableSlots { get; private set; }
     public event Action<Item, int> OnInventoryItemAdded;
     public event Action OnInventoryChanged;
     public event Action OnEquipmentChanged;
@@ -27,6 +28,12 @@ public class Inventory : IInventory
             slots.Add(new InventorySlot());
         }
 
+        ExecutableSlots = new List<IInventorySlot>();
+        for (int i = 0; i < 2; i++)
+        {
+            ExecutableSlots.Add(new InventorySlot());
+        }
+        
         Equipment = new Equipment();
     }
     
@@ -74,9 +81,13 @@ public class Inventory : IInventory
         return TryAddItem(item, itemAmount);
     }
 
-    public void Remove(string itemID, int amount = 1)
+    public bool Remove(IInventorySlot inventorySlot, int amount = 1)
     {
-        throw new NotImplementedException();
+        if (inventorySlot.Amount < amount) return false;
+        inventorySlot.Amount -= amount;
+        if (inventorySlot.Amount == 0)
+            inventorySlot.Clear();
+        return true;
     }
 
     public IInventorySlot[] GetAllSlots(string itemID)
@@ -97,6 +108,9 @@ public class Inventory : IInventory
     public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot,ItemType fromSlotItemType = ItemType.Any, ItemType toSlotItemType = ItemType.Any)
     {
         if (fromSlot.IsEmpty) return;
+        /*if (!toSlot.IsEmpty && fromSlotItemType != ItemType.Any && toSlot.Item.ItemType != fromSlotItemType)
+            return;*/
+        
         
         // check requirements
         bool equipmentChanged = false;
@@ -180,5 +194,11 @@ public class Inventory : IInventory
         throw new NotImplementedException();
     }
 
+    public ExecutableItemSO GetExecutableItem(int index)
+    {
+        if (!ExecutableSlots[index].IsEmpty)
+            return (ExecutableItemSO) ExecutableSlots[index].Item;
+        return null;
+    }
     
 }
