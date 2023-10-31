@@ -5,6 +5,19 @@ using UnityEngine;
 [Serializable]
 public class UnitStats
 {
+    public override bool Equals(object obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((UnitStats)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Strength, Dexterity, Intelligence);
+    }
+
     [field: Header("Stats")]
     [field: SerializeField] public int Level { get; private set; }
 
@@ -87,5 +100,10 @@ public class UnitStats
     public static bool operator !=(UnitStats a, UnitStats b)
     {
         return !(a == b);
+    }
+    
+    protected bool Equals(UnitStats other)
+    {
+        return Strength == other.Strength && Dexterity == other.Dexterity && Intelligence == other.Intelligence;
     }
 }

@@ -81,9 +81,13 @@ public class Inventory : IInventory
         return TryAddItem(item, itemAmount);
     }
 
-    public void Remove(string itemID, int amount = 1)
+    public bool Remove(IInventorySlot inventorySlot, int amount = 1)
     {
-        throw new NotImplementedException();
+        if (inventorySlot.Amount < amount) return false;
+        inventorySlot.Amount -= amount;
+        if (inventorySlot.Amount == 0)
+            inventorySlot.Clear();
+        return true;
     }
 
     public IInventorySlot[] GetAllSlots(string itemID)

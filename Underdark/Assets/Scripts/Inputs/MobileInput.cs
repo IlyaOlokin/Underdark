@@ -28,8 +28,8 @@ public class MobileInput : MonoBehaviour, IInput
         inputUI.activeAbilityButtons[2].onClick.AddListener(ActiveAbility3);
         inputUI.activeAbilityButtons[3].onClick.AddListener(ActiveAbility4);
         
-        inputUI.executableSlotsHandler.executableSlots[0].onClick.AddListener(ExecuteExecutableSlot1);
-        inputUI.executableSlotsHandler.executableSlots[1].onClick.AddListener(ExecuteExecutableSlot2);
+        inputUI.executableSlotsHandler.executableButtons[0].onClick.AddListener(ExecuteExecutableSlot1);
+        inputUI.executableSlotsHandler.executableButtons[1].onClick.AddListener(ExecuteExecutableSlot2);
     }
 
     void FixedUpdate()

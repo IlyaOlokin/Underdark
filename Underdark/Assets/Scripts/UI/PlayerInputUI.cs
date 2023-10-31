@@ -42,6 +42,7 @@ public class PlayerInputUI : MonoBehaviour
 
     private void Start()
     {
+        executableSlotsHandler.Init(player);
         inventory.SetActive(false);
     }
 
@@ -56,6 +57,7 @@ public class PlayerInputUI : MonoBehaviour
     private void ToggleInventory()
     {
         inventory.SetActive(!inventory.activeSelf);
+        executableSlotsHandler.RefreshAllSlots();
     }
     
     private void ToggleCharacterWindow()

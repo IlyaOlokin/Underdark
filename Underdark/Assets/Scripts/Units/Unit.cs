@@ -59,6 +59,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     [SerializeField] private float attackSpeed;
     public event Action<float, float, float> OnBaseAttack;
+    public event Action<int> OnExecutableItemUse;
 
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
@@ -361,8 +362,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     public void ExecuteExecutableItem(int index)
     {
-        if (IsStunned) return;
+        if (IsStunned || Inventory.ExecutableSlots[index].IsEmpty) return;
+        
         Inventory.GetExecutableItem(index).Execute(this);
+        Inventory.Remove(Inventory.ExecutableSlots[index]);
+        OnExecutableItemUse?.Invoke(index);
     }
 
     public void SpendMana(int manaCost)

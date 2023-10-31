@@ -10,15 +10,15 @@ public class InventoryUI : MonoBehaviour
 {
     private Player player;
     public Inventory Inventory { get; private set; }
-    [SerializeField] protected UIInventorySlot[] slots;
+    [SerializeField] private UIInventorySlot[] slots;
     
-    [SerializeField] protected UIInventorySlot head;
-    [SerializeField] protected UIInventorySlot body;
-    [SerializeField] protected UIInventorySlot legs;
-    [SerializeField] protected UIInventorySlot weapon;
-    [SerializeField] protected UIInventorySlot shield;
+    [SerializeField] private UIInventorySlot head;
+    [SerializeField] private UIInventorySlot body;
+    [SerializeField] private UIInventorySlot legs;
+    [SerializeField] private UIInventorySlot weapon;
+    [SerializeField] private UIInventorySlot shield;
     
-    [SerializeField] protected UIInventorySlot[] executableSlots;
+    [SerializeField] private UIInventorySlot[] executableSlots;
     
     public void Init(Player player)
     {
@@ -69,6 +69,17 @@ public class InventoryUI : MonoBehaviour
         foreach (var slot in slots)
         {
             slot.Refresh();
+        }
+        
+        head.Refresh();
+        body.Refresh();
+        legs.Refresh();
+        weapon.Refresh();
+        shield.Refresh();
+
+        foreach (var executableSlot in executableSlots)
+        {
+            executableSlot.Refresh();
         }
     }
 

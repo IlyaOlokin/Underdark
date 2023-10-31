@@ -1,22 +1,49 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class ExecutableSlotsHandler : MonoBehaviour
 {
-    public Button[] executableSlots;
+    public Button[] executableButtons;
+    private List<IInventorySlot> executableSlots;
+    private Player player;
     
-    [SerializeField] private UIItem item1;
-    [SerializeField] private UIItem item2;
+    [SerializeField] private UIInventoryItem[] items;
     
-    void Init(Inventory inventory)
+    public void Init(Player player)
     {
-        //executableSlots[0].onClick.AddListener(inventory.GetExecutableItem1().Execute());
+        this.player = player;
+        executableSlots = new List<IInventorySlot>();
+        for (int i = 0; i < player.Inventory.ExecutableSlots.Count; i++)
+        {
+            executableSlots.Add(player.Inventory.ExecutableSlots[i]);
+        }
+
+        for (int i = 0; i < executableSlots.Count; i++)
+        {
+            RefreshSlot(i);
+        }
+        player.OnExecutableItemUse += RefreshSlot;
     }
-    
-    void Update()
+
+    private void OnDisable()
     {
-        
+        player.OnExecutableItemUse -= RefreshSlot;
+    }
+
+    private void RefreshSlot(int index)
+    {
+        items[index].Refresh(executableSlots[index]);
+    }
+
+    public void RefreshAllSlots()
+    {
+        for (int i = 0; i < executableSlots.Count; i++)
+        {
+            items[i].Refresh(executableSlots[i]);
+        }
     }
 }

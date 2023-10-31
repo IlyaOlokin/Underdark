@@ -9,7 +9,7 @@ public interface IInventory
     int GetItemAmount(string itemID);
 
     int TryAddItem(Item item, int amount);
-    void Remove(string itemID, int amount = 1);
+    bool Remove(IInventorySlot inventorySlot, int amount = 1);
     bool HasItem(string itemID, out Item item);
 
     Item GetItem(string itemID);

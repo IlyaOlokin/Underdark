@@ -50,11 +50,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44e7f270a47d9824cb466be284e2e0af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  executableSlots:
+  executableButtons:
   - {fileID: 6111165382017933108}
   - {fileID: 5174848175318579592}
-  item1: {fileID: 1913209449489109142}
-  item2: {fileID: 3825594369928602777}
+  items:
+  - {fileID: 1913209449489109142}
+  - {fileID: 3825594369928602777}
 --- !u!1 &914427667432794183
 GameObject:
   m_ObjectHideFlags: 0
