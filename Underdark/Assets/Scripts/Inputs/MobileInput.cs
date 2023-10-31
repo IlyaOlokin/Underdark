@@ -10,6 +10,7 @@ public class MobileInput : MonoBehaviour, IInput
     public event Action<Vector3> MoveInput;
     public event Action ShootInput;
     public event Action<int> ActiveAbilityInput;
+    public event Action<int> ExecutableItemInput;
 
     private PlayerInputUI inputUI;
     
@@ -26,6 +27,9 @@ public class MobileInput : MonoBehaviour, IInput
         inputUI.activeAbilityButtons[1].onClick.AddListener(ActiveAbility2);
         inputUI.activeAbilityButtons[2].onClick.AddListener(ActiveAbility3);
         inputUI.activeAbilityButtons[3].onClick.AddListener(ActiveAbility4);
+        
+        inputUI.executableSlotsHandler.executableSlots[0].onClick.AddListener(ExecuteExecutableSlot1);
+        inputUI.executableSlotsHandler.executableSlots[1].onClick.AddListener(ExecuteExecutableSlot2);
     }
 
     void FixedUpdate()
@@ -54,6 +58,17 @@ public class MobileInput : MonoBehaviour, IInput
     {
         ActiveAbilityInput?.Invoke(3);
     }
+
+    private void ExecuteExecutableSlot1()
+    {
+        ExecutableItemInput?.Invoke(0);
+    }
+    
+    private void ExecuteExecutableSlot2()
+    {
+        ExecutableItemInput?.Invoke(1);
+    }
+    
     
     
     public void PlayerMoveInput()

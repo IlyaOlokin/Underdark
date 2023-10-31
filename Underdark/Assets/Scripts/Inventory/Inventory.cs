@@ -11,6 +11,7 @@ public class Inventory : IInventory
     
     private List<IInventorySlot> slots;
     public Equipment Equipment { get; private set; }
+    public List<IInventorySlot> ExecutableSlots { get; private set; }
     public event Action<Item, int> OnInventoryItemAdded;
     public event Action OnInventoryChanged;
     public event Action OnEquipmentChanged;
@@ -27,6 +28,12 @@ public class Inventory : IInventory
             slots.Add(new InventorySlot());
         }
 
+        ExecutableSlots = new List<IInventorySlot>();
+        for (int i = 0; i < 2; i++)
+        {
+            ExecutableSlots.Add(new InventorySlot());
+        }
+        
         Equipment = new Equipment();
     }
     
@@ -180,5 +187,11 @@ public class Inventory : IInventory
         throw new NotImplementedException();
     }
 
+    public ExecutableItemSO GetExecutableItem(int index)
+    {
+        if (!ExecutableSlots[index].IsEmpty)
+            return (ExecutableItemSO) ExecutableSlots[index].Item;
+        return null;
+    }
     
 }

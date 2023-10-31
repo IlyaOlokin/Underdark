@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class InventoryUI : MonoBehaviour
@@ -16,6 +17,8 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] protected UIInventorySlot legs;
     [SerializeField] protected UIInventorySlot weapon;
     [SerializeField] protected UIInventorySlot shield;
+    
+    [SerializeField] protected UIInventorySlot[] executableSlots;
     
     public void Init(Player player)
     {
@@ -34,6 +37,15 @@ public class InventoryUI : MonoBehaviour
         }
 
         SetEquipmentSlots();
+        SetExecutableSlots();
+    }
+
+    private void SetExecutableSlots()
+    {
+        for (int i = 0; i < Inventory.ExecutableSlots.Count; i++)
+        {
+            executableSlots[i].SetSlot(Inventory.ExecutableSlots[i]);
+        }
     }
 
     private void SetEquipmentSlots()

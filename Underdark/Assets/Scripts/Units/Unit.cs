@@ -196,7 +196,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         return true;
     }
 
-    private void RestoreHP(int hp)
+    public void RestoreHP(int hp, bool showVisual = false)
     {
         CurrentHP += hp;
         OnHealthChanged?.Invoke(CurrentHP);
@@ -357,6 +357,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         newAbility.Execute(this);
         SetActionCD(newAbility.CastTime);
         ActiveAbilitiesCD[index] = newAbility.cooldown;
+    }
+
+    public void ExecuteExecutableItem(int index)
+    {
+        if (IsStunned) return;
+        Inventory.GetExecutableItem(index).Execute(this);
     }
 
     public void SpendMana(int manaCost)

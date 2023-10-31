@@ -9,5 +9,6 @@ public enum ItemType
     Body,
     Legs,
     Weapon,
-    Shield
+    Shield,
+    Executable
 }
