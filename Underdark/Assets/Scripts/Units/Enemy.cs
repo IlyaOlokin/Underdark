@@ -22,10 +22,7 @@ public class Enemy : Unit
     [SerializeField] protected LayerMask alliesLayer;
 
     public bool CanMove => !IsStunned && !IsPushing;
-
-    [Header("Drop")]
-    [SerializeField] private DroppedItem droppedItemPref;
-    [SerializeField] private List<ItemToDrop> drop;
+    
     [SerializeField] private int expPerLevel;
     
     protected bool isPlayerInMeleeRange;
@@ -102,19 +99,11 @@ public class Enemy : Unit
 
     protected override void Death(Unit killer)
     {
-        foreach (var itemToDrop in drop)
-        {
-            if (Random.Range(0f, 1f) < itemToDrop.ChanceToDrop)
-            {
-                var newDrop = Instantiate(droppedItemPref, transform.position, Quaternion.identity);
-                newDrop.SetDroppedItem(itemToDrop.Item, itemToDrop.ItemAmount);
-            }
-        }
-
+        if (TryGetComponent(out Drop drop))
+            drop.DropItems();
+        
         if (killer.TryGetComponent(out Player player))
-        {
             player.GetExp(Stats.Level * expPerLevel);
-        }
         
         base.Death(killer);
     }
