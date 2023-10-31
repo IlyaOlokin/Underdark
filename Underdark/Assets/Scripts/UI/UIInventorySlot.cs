@@ -29,13 +29,24 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler
       
       var otherSlot = otherSlotUI.slot;
       var inventory = inventoryUI.Inventory;
-      
-      if (SlotType == ItemType.Any) 
-         inventory.MoveItem(otherSlot, slot,otherSlotUI.SlotType, SlotType);
-      else if (SlotType == otherItemUI.Item.ItemType)
+
+
+      bool canMoveItem = false;
+      if (SlotType == ItemType.Any && otherSlotUI.SlotType == ItemType.Any)
       {
-         inventory.MoveItem(otherSlot, slot,otherSlotUI.SlotType, SlotType);
+         canMoveItem = true;
       }
+      else if (SlotType == ItemType.Any && otherSlotUI.SlotType != ItemType.Any)
+      {
+         if (slot.Item.ItemType == otherSlotUI.SlotType)
+            canMoveItem = true;
+      }
+      else if (otherSlotUI.SlotType == ItemType.Any && SlotType != ItemType.Any )
+      {
+         if (SlotType == otherItemUI.Item.ItemType)
+            canMoveItem = true;
+      }
+      if (canMoveItem) inventory.MoveItem(otherSlot, slot,otherSlotUI.SlotType, SlotType);
       
       Refresh();
       otherSlotUI.Refresh();

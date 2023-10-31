@@ -10432,7 +10432,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: drop.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: drop.Array.data[0].Item
@@ -10455,6 +10455,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cfff7a563d6e39f40bfe7215fcecc0ea, type: 2}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
+      propertyPath: drop.Array.data[5].Item
+      value: 
+      objectReference: {fileID: 11400000, guid: 55886dc31b3a814438e4faeb0b9a00e7, type: 2}
+    - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: drop.Array.data[0].ItemAmount
       value: 1
       objectReference: {fileID: 0}
@@ -10475,6 +10479,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
+      propertyPath: drop.Array.data[5].ItemAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: drop.Array.data[0].ChanceToDrop
       value: 1
       objectReference: {fileID: 0}
@@ -10492,6 +10500,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: drop.Array.data[4].ChanceToDrop
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
+      propertyPath: drop.Array.data[5].ChanceToDrop
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

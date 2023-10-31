@@ -8,8 +8,8 @@ using Random = UnityEngine.Random;
 
 public class DroppedItem : MonoBehaviour
 {
-    [SerializeField] private Item containedItem;
-    [SerializeField] private int itemAmount = 1;
+    private Item containedItem;
+    private int itemAmount = 1;
     [SerializeField] private float speed;
     [SerializeField] private float timeToIntractable;
     private bool picked;

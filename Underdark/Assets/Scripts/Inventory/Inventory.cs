@@ -108,6 +108,9 @@ public class Inventory : IInventory
     public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot,ItemType fromSlotItemType = ItemType.Any, ItemType toSlotItemType = ItemType.Any)
     {
         if (fromSlot.IsEmpty) return;
+        /*if (!toSlot.IsEmpty && fromSlotItemType != ItemType.Any && toSlot.Item.ItemType != fromSlotItemType)
+            return;*/
+        
         
         // check requirements
         bool equipmentChanged = false;

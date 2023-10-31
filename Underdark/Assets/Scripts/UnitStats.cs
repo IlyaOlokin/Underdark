@@ -5,19 +5,6 @@ using UnityEngine;
 [Serializable]
 public class UnitStats
 {
-    public override bool Equals(object obj)
-    {
-        if (ReferenceEquals(null, obj)) return false;
-        if (ReferenceEquals(this, obj)) return true;
-        if (obj.GetType() != this.GetType()) return false;
-        return Equals((UnitStats)obj);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(Strength, Dexterity, Intelligence);
-    }
-
     [field: Header("Stats")]
     [field: SerializeField] public int Level { get; private set; }
 
@@ -30,6 +17,9 @@ public class UnitStats
     public int DexInt => Dexterity + Intelligence;
     public int IntStr => Intelligence + Strength;
     public int AllStats => Strength + Dexterity + Intelligence;
+
+    public event Action<bool> OnStatsChanged;
+    public event Action OnLevelUp;
 
     [Header("Exp")] 
     [SerializeField] private int pointsPerLevel;
@@ -44,6 +34,7 @@ public class UnitStats
         Dexterity = 1;
         Intelligence = 1;
         CurrentExp = 0;
+        OnStatsChanged?.Invoke(false);
     }
 
     public bool RequirementsMet(Requirements requirements)
@@ -64,6 +55,7 @@ public class UnitStats
         Strength = unitStats.Strength;
         Dexterity = unitStats.Dexterity;
         Intelligence = unitStats.Intelligence;
+        OnStatsChanged?.Invoke(false);
     }
 
     public void GetExp(int exp)
@@ -80,6 +72,7 @@ public class UnitStats
             CurrentExp -= ExpToLevelUp();
             Level += 1;
             FreePoints += pointsPerLevel;
+            OnLevelUp?.Invoke();
             TryLevelUp();
         }
     }
@@ -105,5 +98,18 @@ public class UnitStats
     protected bool Equals(UnitStats other)
     {
         return Strength == other.Strength && Dexterity == other.Dexterity && Intelligence == other.Intelligence;
+    }
+    
+    public override bool Equals(object obj)
+    {
+        if (ReferenceEquals(null, obj)) return false;
+        if (ReferenceEquals(this, obj)) return true;
+        if (obj.GetType() != this.GetType()) return false;
+        return Equals((UnitStats)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Strength, Dexterity, Intelligence);
     }
 }
