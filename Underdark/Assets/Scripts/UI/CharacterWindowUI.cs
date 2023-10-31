@@ -25,6 +25,8 @@ public class CharacterWindowUI : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private Button confirmChangesButton;
     [SerializeField] private Button canselChangesButton;
+    [SerializeField] private Button LevelUpButton; // debug
+    [SerializeField] private Button ResetButton;  // debug
     
     [Header("Texts")]
     [SerializeField] private TextMeshProUGUI strText;
@@ -53,6 +55,18 @@ public class CharacterWindowUI : MonoBehaviour
 
         confirmChangesButton.onClick.AddListener(ApplyStats);
         canselChangesButton.onClick.AddListener(ResetStatsUI);
+        
+        // debug
+        LevelUpButton.onClick.AddListener(() =>
+        {
+            player.GetExp(100);
+            ResetStatsUI();
+        });
+        ResetButton.onClick.AddListener(() =>
+        {
+            player.Stats.Reset();
+            ResetStatsUI(); 
+        });
     }
 
     private void OnEnable()

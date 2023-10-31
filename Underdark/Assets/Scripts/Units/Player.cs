@@ -9,6 +9,7 @@ using Zenject;
 public class Player : Unit, IPickUper
 {
     private IInput input;
+    public event Action OnExpGained;
     
     [Inject]
     private void Construct(IInput userInput, PlayerInputUI inputUI, InventoryUI playerInventoryUI, CharacterWindowUI characterWindowUI)
@@ -52,6 +53,7 @@ public class Player : Unit, IPickUper
     public void GetExp(int exp)
     {
         Stats.GetExp(exp);
+        OnExpGained?.Invoke();
     }
 
     private void RotateAttackDir()

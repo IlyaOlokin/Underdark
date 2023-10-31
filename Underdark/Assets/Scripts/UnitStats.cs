@@ -21,7 +21,17 @@ public class UnitStats
     [Header("Exp")] 
     [SerializeField] private int pointsPerLevel;
     [SerializeField] private List<int> expNeeded;
-    private int currentExp;
+    public int CurrentExp { get; private set; }
+
+    public void Reset()
+    {
+        Level = 1;
+        FreePoints = 9;
+        Strength = 1;
+        Dexterity = 1;
+        Intelligence = 1;
+        CurrentExp = 0;
+    }
 
     public bool RequirementsMet(Requirements requirements)
     {
@@ -45,22 +55,28 @@ public class UnitStats
 
     public void GetExp(int exp)
     {
-        currentExp += exp;
+        CurrentExp += exp;
         TryLevelUp();
     }
 
     private void TryLevelUp()
     {
         if (Level - 1 == expNeeded.Count) return;
-        if (expNeeded[Level - 1] <= currentExp)
+        if (ExpToLevelUp() <= CurrentExp)
         {
-            currentExp -= expNeeded[Level - 1];
+            CurrentExp -= ExpToLevelUp();
             Level += 1;
             FreePoints += pointsPerLevel;
             TryLevelUp();
         }
     }
-    
+
+    public int ExpToLevelUp()
+    {
+        if (Level - 1 == expNeeded.Count) return -1;
+        return expNeeded[Level - 1];
+    }
+
     public static bool operator ==(UnitStats a, UnitStats b)
     {
         return a.Strength == b.Strength 
