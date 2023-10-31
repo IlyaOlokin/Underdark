@@ -26,8 +26,6 @@ public class DroppedItem : MonoBehaviour
 
     private void Update()
     {
-        timeToIntractable -= Time.deltaTime;
-        if (timeToIntractable <= 0) coll.enabled = true;
         if (!picked) return;
 
         if (Vector3.Distance(transform.position, target.position) <= 0.1f)
@@ -46,8 +44,15 @@ public class DroppedItem : MonoBehaviour
         sr.sprite = item.Sprite;
         text.text = itemAmount.ToString();
         rb.AddForce(new Vector2(Random.Range(-1f,1f), Random.Range(-1f, 1f)) * 3, ForceMode2D.Impulse);
-        
+
+        StartCoroutine(InteractDelay(timeToIntractable));
+    }
+
+    IEnumerator InteractDelay(float timeToInteractable)
+    {
         coll.enabled = false;
+        yield return new WaitForSeconds(timeToInteractable);
+        coll.enabled = true;
     }
     
     private void OnTriggerEnter2D(Collider2D other)

@@ -557,6 +557,7 @@ GameObject:
   - component: {fileID: 3265220997278986497}
   - component: {fileID: 4055569685898743565}
   - component: {fileID: -7415035348111076708}
+  - component: {fileID: 7841391831421293534}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Enemy
@@ -712,17 +713,26 @@ MonoBehaviour:
   alliesLayer:
     serializedVersion: 2
     m_Bits: 64
+  expPerLevel: 5
+  meleeAttackDuration: 0.4
+  meleeAttackPreparation: 0.5
+--- !u!114 &7841391831421293534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6202605587541706060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6cb303b44e2cd48b95b375843c4ecc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   droppedItemPref: {fileID: 7200458106229667149, guid: d11e455e2eba1fc4eb9546ce5859c796, type: 3}
   drop:
   - Item: {fileID: 11400000, guid: af8443f1122a1fe46a59550235772cb5, type: 2}
     ItemAmount: 1
-    ChanceToDrop: 1
-  - Item: {fileID: 11400000, guid: ec10e58ca5581f14e9ee73b0bd1c1eb3, type: 2}
-    ItemAmount: 2
-    ChanceToDrop: 1
-  expPerLevel: 5
-  meleeAttackDuration: 0.4
-  meleeAttackPreparation: 0.5
+    ChanceToDrop: 0.1
 --- !u!1 &6202605588344640915
 GameObject:
   m_ObjectHideFlags: 0
