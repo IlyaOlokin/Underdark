@@ -732,7 +732,8 @@ MonoBehaviour:
   drop:
   - Item: {fileID: 11400000, guid: af8443f1122a1fe46a59550235772cb5, type: 2}
     ItemAmount: 1
-    ChanceToDrop: 0.1
+    ChanceToDropLeft: 0
+    ChanceToDropRight: 0.5
 --- !u!1 &6202605588344640915
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,6 +914,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dae21e8440a59d347a8a93164f7582da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentValueText: {fileID: 0}
+  maxValueText: {fileID: 0}
   slider: {fileID: 7553657344697027935}
   damageable: {fileID: -7415035348111076708}
 --- !u!1 &7094751624174755692
