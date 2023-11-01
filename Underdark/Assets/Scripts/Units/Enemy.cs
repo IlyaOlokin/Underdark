@@ -56,7 +56,7 @@ public class Enemy : Unit
             moveTarget.position = player.transform.position;
     }
 
-    public override bool TakeDamage(Unit sender, float damage, bool evadable = true)
+    public override bool TakeDamage(Unit sender, float damage, bool evadable = true, float armorPierce = 0f)
     {
         var res = base.TakeDamage(sender, damage, evadable);
         Agr(sender.transform.position);
@@ -160,7 +160,7 @@ public class Enemy : Unit
 
     protected bool ShouldMelee(Transition<EnemyState> transition) =>
         attackCDTimer < 0 
-        && Vector2.Distance(player.transform.position, transform.position) <= 2
+        && Vector2.Distance(player.transform.position, transform.position) <= GetWeapon().AttackDistance + 1
         && !IsStunned;
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 
