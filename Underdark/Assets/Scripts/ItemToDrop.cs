@@ -8,5 +8,6 @@ public struct ItemToDrop
 {
     public Item Item;
     public int ItemAmount;
-    [Range(0f, 1f)] public float ChanceToDrop;
+    public float ChanceToDropLeft;
+    public float ChanceToDropRight;
 }

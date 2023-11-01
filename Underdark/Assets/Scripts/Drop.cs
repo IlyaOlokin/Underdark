@@ -11,9 +11,10 @@ public class Drop : MonoBehaviour
     
     public void DropItems()
     {
+        var roll = Random.Range(0f, 1f);
         foreach (var itemToDrop in drop)
         {
-            if (Random.Range(0f, 1f) < itemToDrop.ChanceToDrop)
+            if (itemToDrop.ChanceToDropLeft <= roll && roll <= itemToDrop.ChanceToDropRight)
             {
                 var newDrop = Instantiate(droppedItemPref, transform.position, Quaternion.identity);
                 newDrop.SetDroppedItem(itemToDrop.Item, itemToDrop.ItemAmount);
