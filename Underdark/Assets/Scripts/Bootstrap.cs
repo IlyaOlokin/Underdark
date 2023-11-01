@@ -22,7 +22,7 @@ public class Bootstrap : MonoBehaviour
     {
         if (Input.anyKey)
         {
-            SceneManager.LoadScene("GameScene");
+            SceneManager.LoadScene("MainMenu");
         }
     }
 }
