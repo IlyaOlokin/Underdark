@@ -200,7 +200,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         visuals.transform.Rotate(0, 180, 0);
     }
 
-    public virtual bool TakeDamage(Unit sender, float damage, bool evadable = true)
+    public virtual bool TakeDamage(Unit sender, float damage, bool evadable = true, float armorPierce = 0f)
     {
         var newEffect = Instantiate(damageNumberEffect, transform.position, Quaternion.identity);
 
@@ -210,7 +210,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
             return false;
         }
 
-        var newDamage = CalculateTakenDamage(damage);
+        var newDamage = CalculateTakenDamage(damage, armorPierce);
         CurrentHP -= newDamage;
         unitVisual.StartWhiteOut();
         if (CurrentHP <= 0) Death(sender);
@@ -285,9 +285,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         IsPushing = false;
     }
 
-    private int CalculateTakenDamage(float damage)
+    private int CalculateTakenDamage(float damage, float armorPierce)
     {
-        return (int)Mathf.Floor(damage * (damage / (damage + GetTotalArmor())));
+        return (int)Mathf.Floor(damage * (damage / (damage + GetTotalArmor() * (1 - armorPierce))));
     }
 
     private int GetTotalArmor()
@@ -326,7 +326,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
         foreach (var unit in hitUnits)
         {
-            if (unit.GetComponent<IDamageable>().TakeDamage(this, Stats.Strength + GetWeapon().Damage.GetValue()))
+            if (unit.GetComponent<IDamageable>().TakeDamage(this, Stats.Strength + GetWeapon().Damage.GetValue(),
+                    armorPierce: GetWeapon().ArmorPierce))
             {
                 foreach (var debuffInfo in GetWeapon().DebuffInfos)
                 {

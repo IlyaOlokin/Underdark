@@ -8,5 +8,6 @@ public class MeleeWeapon : Item
     public Damage Damage;
     public int AttackRadius;
     public int AttackDistance;
+    [Range(0f, 1f)] public float ArmorPierce;
     public List<DebuffInfo> DebuffInfos;
 }

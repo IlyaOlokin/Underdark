@@ -8,6 +8,6 @@ public interface IDamageable
     public event Action<int> OnMaxHealthChanged;
 
     
-    bool TakeDamage(Unit sender, float damage, bool evadable = true);
+    bool TakeDamage(Unit sender, float damage, bool evadable = true, float armorPierce = 0f);
     
 }
