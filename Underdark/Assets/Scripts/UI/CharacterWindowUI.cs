@@ -35,6 +35,10 @@ public class CharacterWindowUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI FreePointsText;
     [SerializeField] private TextMeshProUGUI LevelText;
     
+    [Space]
+    [NonSerialized] public GameObject blackOut;
+
+    
     public void Init(Player player)
     {
         this.player = player;
@@ -73,6 +77,8 @@ public class CharacterWindowUI : MonoBehaviour
     {
         OnStatsChanged += UpdateUI;
         ResetStatsUI();
+        transform.SetAsLastSibling();
+        blackOut.SetActive(true);
     }
 
     private void ResetStatsUI()
@@ -157,5 +163,6 @@ public class CharacterWindowUI : MonoBehaviour
     private void OnDisable()
     {
         OnStatsChanged -= UpdateUI;
+        blackOut.SetActive(false);
     }
 }

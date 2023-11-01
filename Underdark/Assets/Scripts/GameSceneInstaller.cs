@@ -40,19 +40,31 @@ public class GameSceneInstaller : MonoInstaller
 
     private void BindPlayerUI()
     {
+        RectTransform rectTransform;
         switch (Bootstrap.InputType)
         {
             case InputType.Mobile:
                 PlayerInputUI mobileUI = Container
                     .InstantiatePrefabForComponent<PlayerInputUI>(playerInputUIMobile, Vector3.zero, Quaternion.identity, canvas.transform);
                 mobileUI.gameObject.SetActive(true);
+                rectTransform = mobileUI.transform.GetComponent<RectTransform>();
+                rectTransform.SetLeft(1030); // debug
+                rectTransform.SetRight(1030); // debug
+                rectTransform.SetTop(490); // debug
+                rectTransform.SetBottom(490); // debug
                 
                 Container.Bind<PlayerInputUI>().FromInstance(mobileUI).AsSingle();
                 break;
             case InputType.Desktop:
                 PlayerInputUI desktopUI = Container
-                    .InstantiatePrefabForComponent<PlayerInputUI>(playerInputUIDesktop, Vector3.zero, Quaternion.identity,  canvas.transform);
+                    .InstantiatePrefabForComponent<PlayerInputUI>(playerInputUIDesktop, Vector3.zero, Quaternion.identity, canvas.transform);
                 desktopUI.gameObject.SetActive(true);
+                
+                rectTransform = desktopUI.transform.GetComponent<RectTransform>();
+                rectTransform.SetLeft(1030); // debug
+                rectTransform.SetRight(1030); // debug
+                rectTransform.SetTop(490); // debug
+                rectTransform.SetBottom(490); // debug
                 
                 Container.Bind<PlayerInputUI>().FromInstance(desktopUI).AsSingle();
                 break;

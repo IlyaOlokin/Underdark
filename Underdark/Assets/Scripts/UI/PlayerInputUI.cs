@@ -20,8 +20,10 @@ public class PlayerInputUI : MonoBehaviour
     public Button characterButton;
     private GameObject characterWindow;
 
-    [Header("Executable Items")] [SerializeField]
-    public ExecutableSlotsHandler executableSlotsHandler;
+    [Header("Executable Items")] 
+    [SerializeField] public ExecutableSlotsHandler executableSlotsHandler;
+
+    [SerializeField] private GameObject blackOut;
     
     private Player player;
     
@@ -30,6 +32,9 @@ public class PlayerInputUI : MonoBehaviour
         this.player = player;
         inventory = inventoryUI;
         characterWindow = characterWindowUI;
+
+        inventory.GetComponent<InventoryUI>().blackOut = blackOut;
+        characterWindow.GetComponent<CharacterWindowUI>().blackOut = blackOut;
     }
     
     private void Awake()
@@ -56,12 +61,14 @@ public class PlayerInputUI : MonoBehaviour
 
     private void ToggleInventory()
     {
+        characterWindow.SetActive(false);
         inventory.SetActive(!inventory.activeSelf);
         executableSlotsHandler.RefreshAllSlots();
     }
     
     private void ToggleCharacterWindow()
     {
+        inventory.SetActive(false);
         characterWindow.SetActive(!characterWindow.activeSelf);
     }
 }

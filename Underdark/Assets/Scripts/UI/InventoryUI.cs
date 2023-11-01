@@ -20,6 +20,9 @@ public class InventoryUI : MonoBehaviour
     
     [SerializeField] private UIInventorySlot[] executableSlots;
     
+    [Space]
+    [NonSerialized] public GameObject blackOut;
+    
     public void Init(Player player)
     {
         this.player = player;
@@ -62,6 +65,7 @@ public class InventoryUI : MonoBehaviour
     {
         UpdateUI();
         transform.SetAsLastSibling();
+        blackOut.SetActive(true);
     }
 
     private void UpdateUI()
@@ -81,6 +85,11 @@ public class InventoryUI : MonoBehaviour
         {
             executableSlot.Refresh();
         }
+    }
+
+    private void OnDisable()
+    {
+        blackOut.SetActive(false);
     }
 
     private void ClearSlots()
