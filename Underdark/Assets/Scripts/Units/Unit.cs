@@ -75,7 +75,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     [Header("Visual")] [SerializeField] private GameObject visuals;
     private bool facingRight = true;
-    [SerializeField] protected DamageNumberEffect damageNumberEffect;
+    [SerializeField] protected UnitNotificationEffect unitNotificationEffect;
     [SerializeField] protected UnitVisual unitVisual;
 
     protected Vector3 lastMoveDir;
@@ -202,11 +202,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     public virtual bool TakeDamage(Unit sender, float damage, bool evadable = true, float armorPierce = 0f)
     {
-        var newEffect = Instantiate(damageNumberEffect, transform.position, Quaternion.identity);
+        var newEffect = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
 
         if (evadable && TryToEvade(sender, this))
         {
-            newEffect.WriteDamage("Evaded!");
+            newEffect.WriteMessage("Evaded!");
             return false;
         }
 
@@ -222,6 +222,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public void RestoreHP(int hp, bool showVisual = false)
     {
         CurrentHP += hp;
+        if (showVisual)
+        {
+            var newEffect = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
+            newEffect.WriteHeal(hp);
+        }
         OnHealthChanged?.Invoke(CurrentHP);
     }
 

@@ -7,7 +7,7 @@ using UnityEngine.PlayerLoop;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public class DamageNumberEffect : MonoBehaviour
+public class UnitNotificationEffect : MonoBehaviour
 {
     [SerializeField] private Transform criticalEffect;
     [SerializeField] private Transform objectToMove;
@@ -17,13 +17,18 @@ public class DamageNumberEffect : MonoBehaviour
     [SerializeField] private float scaleMultiplier;
     [SerializeField] private float moveDistance;
     [SerializeField] private float lerpSpeed;
+    [SerializeField] private float posSpreading;
+    
+    [Header("Colors")]
+    [SerializeField] private Color dmgColor;
+    [SerializeField] private Color healColor;
+    [SerializeField] private Color messageColor;
     private float timer;
     private Vector3 targetScale;
     private Vector3 startScale;
     private Vector3 startPos;
     private Vector3 targetPos;
 
-    [SerializeField] private float posSpreading;
     
     //[SerializeField] private List<InnerColor> colors = new List<InnerColor>();
 
@@ -56,11 +61,19 @@ public class DamageNumberEffect : MonoBehaviour
 
     public void WriteDamage(float dmg)
     {
-        text.text = (Math.Round(dmg)).ToString();
+        text.color = dmgColor;
+        text.text = Math.Round(dmg).ToString();
     }
 
-    public void WriteDamage(string message)
+    public void WriteHeal(float heal)
     {
+        text.color = healColor;
+        text.text = Math.Round(heal).ToString();
+    }
+    
+    public void WriteMessage(string message)
+    {
+        text.color = messageColor;
         text.text = message;
     }
 
