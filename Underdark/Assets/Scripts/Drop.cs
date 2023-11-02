@@ -21,4 +21,10 @@ public class Drop : MonoBehaviour
             }
         }
     }
+
+    public void DropItem(Item item, int amount, Vector2 pos, int force = 4, bool droppedByPlayer = false)
+    {
+        var newDrop = Instantiate(droppedItemPref, pos, Quaternion.identity);
+        newDrop.SetDroppedItem(item, amount, force, droppedByPlayer);
+    }
 }

@@ -11,8 +11,10 @@ public class DroppedItem : MonoBehaviour
     private Item containedItem;
     private int itemAmount = 1;
     [SerializeField] private float speed;
-    [SerializeField] private float timeToIntractable;
+    [SerializeField] private float timeToInteractable;
+    [SerializeField] private float timeToInteractableAfterPlayerDrop;
     private bool picked;
+    private bool readyToPickUpAfterPlayerDrop;
     private Transform target;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private SpriteRenderer sr;
@@ -37,27 +39,30 @@ public class DroppedItem : MonoBehaviour
         else transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
     }
 
-    public void SetDroppedItem(Item item, int amount)
+    public void SetDroppedItem(Item item, int amount, int force = 4, bool droppedByPlayer = false)
     {
         containedItem = item;
         itemAmount = amount;
         sr.sprite = item.Sprite;
         text.text = itemAmount.ToString();
-        rb.AddForce(new Vector2(Random.Range(-1f,1f), Random.Range(-1f, 1f)) * 3, ForceMode2D.Impulse);
+        readyToPickUpAfterPlayerDrop = !droppedByPlayer;
+        rb.AddForce(new Vector2(Random.Range(-1f,1f), Random.Range(-1f, 1f)) * force, ForceMode2D.Impulse);
 
-        StartCoroutine(InteractDelay(timeToIntractable));
+        StartCoroutine(InteractDelay());
     }
 
-    IEnumerator InteractDelay(float timeToInteractable)
+    IEnumerator InteractDelay()
     {
         coll.enabled = false;
         yield return new WaitForSeconds(timeToInteractable);
         coll.enabled = true;
+        yield return new WaitForSeconds(timeToInteractableAfterPlayerDrop);
+        readyToPickUpAfterPlayerDrop = true;
     }
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!picked && other.TryGetComponent(out IPickUper pickUper))
+        if (!picked && readyToPickUpAfterPlayerDrop && other.TryGetComponent(out IPickUper pickUper))
         {
             var itemsLeft = pickUper.TryPickUpItem(containedItem, itemAmount);
             if (itemsLeft != itemAmount)
@@ -67,6 +72,14 @@ public class DroppedItem : MonoBehaviour
                 picked = true;
                 target = other.transform;
             }
+        }
+    }
+    
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.TryGetComponent(out Player player))
+        {
+            readyToPickUpAfterPlayerDrop = true;
         }
     }
 }
