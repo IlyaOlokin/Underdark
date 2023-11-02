@@ -13,7 +13,7 @@ public class AccuratePuncture : ActiveAblity, IAttacker
     public override void Execute(Unit caster)
     {
         this.caster = caster;
-        damage = Mathf.Min(caster.Stats.Dexterity * damageStatMultiplier, maxDamage);
+        damage = Mathf.Min(caster.Stats.Dexterity * statMultiplier, maxValue);
         
         var target = FindClosestTarget(caster);
         

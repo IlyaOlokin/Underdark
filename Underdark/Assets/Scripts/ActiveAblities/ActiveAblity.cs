@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public abstract class ActiveAblity : MonoBehaviour
 {
     public float CastTime;
@@ -10,8 +10,8 @@ public abstract class ActiveAblity : MonoBehaviour
     [SerializeField] protected LayerMask attackMask;
     [SerializeField] protected int attackDistance;
     [SerializeField] protected float attackAngle;
-    [SerializeField] protected float maxDamage;
-    [SerializeField] protected int damageStatMultiplier;
+    [SerializeField] protected float maxValue;
+    [SerializeField] protected int statMultiplier;
     
     protected float damage;
     
