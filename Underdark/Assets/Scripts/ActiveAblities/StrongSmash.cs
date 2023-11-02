@@ -10,7 +10,7 @@ public class StrongSmash : ActiveAblity
     public override void Execute(Unit caster)
     {
         this.caster = caster;
-        damage = Mathf.Min(caster.Stats.Strength * damageStatMultiplier, maxDamage);
+        damage = Mathf.Min(caster.Stats.Strength * statMultiplier, maxValue);
 
         OverrideWeaponStats(caster.GetWeapon());
         Attack();
