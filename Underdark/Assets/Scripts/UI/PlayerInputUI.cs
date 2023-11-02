@@ -13,6 +13,7 @@ public class PlayerInputUI : MonoBehaviour
     [Header("Ability Buttons")]
     public List<Button> activeAbilityButtons;
     public List<Image> buttonsCD;
+    public List<float> abilitiesCDMax;
     [Header("Inventory")]
     public Button inventoryButton;
     private GameObject inventory;
@@ -43,19 +44,42 @@ public class PlayerInputUI : MonoBehaviour
         
         inventoryButton.onClick.AddListener(ToggleInventory);
         characterButton.onClick.AddListener(ToggleCharacterWindow);
+
     }
 
     private void Start()
     {
         executableSlotsHandler.Init(player);
         inventory.SetActive(false);
+        characterWindow.SetActive(false);
+        player.Inventory.OnActiveAbilitiesChanged += UpdateAbilitiesCDs;
+        UpdateAbilitiesCDs();
     }
 
     private void Update()
     {
-        for (int i = 0; i < buttonsCD.Count; i++)
+        for (int i = 0; i < abilitiesCDMax.Count; i++)
         {
-            buttonsCD[i].fillAmount = player.ActiveAbilitiesCD[i] / player.ActiveAbilities[i].cooldown;
+            if (abilitiesCDMax[i] == 0)
+                buttonsCD[i].fillAmount = 0;
+            else
+                buttonsCD[i].fillAmount = player.ActiveAbilitiesCD[i] / abilitiesCDMax[i];
+        }
+    }
+
+    private void UpdateAbilitiesCDs()
+    {
+        abilitiesCDMax = new List<float>();
+        for (int i = 0; i < player.Inventory.EquippedActiveAbilitySlots.Count; i++)
+        {
+            activeAbilityButtons[i].interactable = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
+            if (player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty)
+            {
+                abilitiesCDMax.Add(0);
+                continue;
+            }
+            ActiveAbility activeAbility = player.Inventory.GetActiveAbility(i); // debug
+            abilitiesCDMax.Add(activeAbility.cooldown);
         }
     }
 

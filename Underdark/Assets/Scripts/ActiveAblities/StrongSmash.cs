@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class StrongSmash : ActiveAblity
+public class StrongSmash : ActiveAbility
 {
     [Header("Visual")]
     [SerializeField] private SpriteRenderer visualSR;

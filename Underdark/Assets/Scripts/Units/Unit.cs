@@ -68,8 +68,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public Transform Transform => transform;
 
     [field: Header("Abilities Setup")]
-    [field: SerializeField]
-    public List<ActiveAblity> ActiveAbilities { get; private set; }
+    //[field: SerializeField]
+    //public List<ActiveAbility> ActiveAbilities { get; private set; }
+    private string[] lastActiveAbilitiesIDs;
 
     [field: SerializeField] public List<float> ActiveAbilitiesCD { get; private set; }
 
@@ -88,13 +89,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        ActiveAbilitiesCD = new List<float>(new float[ActiveAbilities.Count]);
         
         Inventory = new Inventory(10, 14, this);
         Inventory.OnEquipmentChanged += SetAttackCollider;
+        Inventory.OnActiveAbilitiesChanged += SetActiveAbilitiesCDs;
         Stats.OnStatsChanged += SetHP;
         Stats.OnStatsChanged += SetMana;
         Stats.OnLevelUp += OnLevelUp;
+        
+        ActiveAbilitiesCD = new List<float>(new float[Inventory.EquippedActiveAbilitySlots.Count]);
+        lastActiveAbilitiesIDs = new string[Inventory.EquippedActiveAbilitySlots.Count];
     }
 
     private void SetMana(bool toFull = false)
@@ -130,6 +134,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         SetHP(true);
         SetMana(true);
         SetAttackCollider();
+        SetActiveAbilitiesCDs();
     }
 
     protected virtual void Update()
@@ -378,14 +383,36 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     public void ExecuteActiveAbility(int index)
     {
-        if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsStunned) return;
-        if (ActiveAbilities[index].ManaCost > CurrentMana) return;
+        if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsStunned || Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
+        ActiveAbility activeAbility = Inventory.GetActiveAbility(index);
+        if (activeAbility.ManaCost > CurrentMana) return;
 
-        SpendMana(ActiveAbilities[index].ManaCost);
-        var newAbility = Instantiate(ActiveAbilities[index], transform.position, Quaternion.identity);
+        SpendMana(activeAbility.ManaCost);
+        var newAbility = Instantiate(activeAbility, transform.position, Quaternion.identity);
         newAbility.Execute(this);
         SetActionCD(newAbility.CastTime);
         ActiveAbilitiesCD[index] = newAbility.cooldown;
+    }
+
+    private void SetActiveAbilitiesCDs()
+    {
+        for (int i = 0; i < Inventory.EquippedActiveAbilitySlots.Count; i++)
+        {
+            string newID = Inventory.EquippedActiveAbilitySlots[i].IsEmpty ? "" : Inventory.EquippedActiveAbilitySlots[i].ItemID;
+            
+            if (newID == "" && lastActiveAbilitiesIDs[i] != "")
+            {
+                ActiveAbilitiesCD[i] = 0;
+                lastActiveAbilitiesIDs[i] = newID;
+                continue;
+            }
+            if (newID != lastActiveAbilitiesIDs[i])
+            {
+                ActiveAbilitiesCD[i] = Inventory.GetActiveAbility(i).cooldown;
+            }
+
+            lastActiveAbilitiesIDs[i] = newID;
+        }
     }
 
     public void ExecuteExecutableItem(int index)

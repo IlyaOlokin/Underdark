@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public abstract class ActiveAblity : MonoBehaviour
+public abstract class ActiveAbility : MonoBehaviour
 {
     public float CastTime;
     public float cooldown;

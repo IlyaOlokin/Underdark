@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MagicalRestoration : ActiveAblity
+public class MagicalRestoration : ActiveAbility
 {
     public override void Execute(Unit caster)
     {

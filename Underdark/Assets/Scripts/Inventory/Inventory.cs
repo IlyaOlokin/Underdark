@@ -16,6 +16,7 @@ public class Inventory : IInventory
     public List<IInventorySlot> EquippedActiveAbilitySlots { get; private set; }
     public event Action OnInventoryChanged;
     public event Action OnEquipmentChanged;
+    public event Action OnActiveAbilitiesChanged;
     private Unit unit;
     
     public Inventory(int capacity, int activeAbilityCapacity,  Unit unit)
@@ -162,6 +163,9 @@ public class Inventory : IInventory
             toSlot.Clear();
             toSlot.SetItem(tempItem,tempAmount);
             
+            if (equipmentChanged) OnEquipmentChanged?.Invoke();
+            if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke();
+
             return;
         }
         if (toSlot.IsFull) return;
@@ -187,6 +191,7 @@ public class Inventory : IInventory
         
         OnInventoryChanged?.Invoke();
         if (equipmentChanged) OnEquipmentChanged?.Invoke();
+        if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke();
     }
     
     public Item GetItem(string itemID)
@@ -230,4 +235,11 @@ public class Inventory : IInventory
         return null;
     }
     
+    public ActiveAbility GetActiveAbility(int index)
+    {
+        if (!EquippedActiveAbilitySlots[index].IsEmpty)
+            return ((ActiveAbilityItem)EquippedActiveAbilitySlots[index].Item).ActiveAbility
+                .GetComponent<ActiveAbility>();
+        return null;
+    }
 }
