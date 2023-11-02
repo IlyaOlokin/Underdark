@@ -136,7 +136,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 25
-  timeToIntractable: 1
+  timeToInteractable: 1
+  timeToInteractableAfterPlayerDrop: 4
   rb: {fileID: 2720262317212325334}
   sr: {fileID: 6195665983633522413}
   coll: {fileID: 523747191851668206}
