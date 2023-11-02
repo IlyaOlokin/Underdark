@@ -90,7 +90,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         rb = GetComponent<Rigidbody2D>();
         ActiveAbilitiesCD = new List<float>(new float[ActiveAbilities.Count]);
         
-        Inventory = new Inventory(10, this);
+        Inventory = new Inventory(10, 14, this);
         Inventory.OnEquipmentChanged += SetAttackCollider;
         Stats.OnStatsChanged += SetHP;
         Stats.OnStatsChanged += SetMana;

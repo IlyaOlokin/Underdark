@@ -18,7 +18,7 @@ public class Inventory : IInventory
     public event Action OnEquipmentChanged;
     private Unit unit;
     
-    public Inventory(int capacity, Unit unit)
+    public Inventory(int capacity, int activeAbilityCapacity,  Unit unit)
     {
         Capacity = capacity;
         this.unit = unit;
@@ -36,6 +36,12 @@ public class Inventory : IInventory
         }
         
         Equipment = new Equipment();
+        
+        activeAbilitySlots = new List<IInventorySlot>();
+        for (int i = 0; i < activeAbilityCapacity; i++)
+        {
+            activeAbilitySlots.Add(new InventorySlot());
+        }
 
         EquippedActiveAbilitySlots = new List<IInventorySlot>();
         for (int i = 0; i < 4; i++)
@@ -61,6 +67,20 @@ public class Inventory : IInventory
             return TryAddToSlot(emptySlot, item, amount);
 
         return amount;
+    }
+    
+    public int TryAddActiveAbilityItem(Item item)
+    {
+        var sameItemSlot = activeAbilitySlots.Find(slot => !slot.IsEmpty && slot.Item.ID == item.ID && !slot.IsFull);
+
+        if (sameItemSlot != null)
+            return TryAddToSlot(sameItemSlot, item, 1);
+
+        var emptySlot = activeAbilitySlots.Find(slot => slot.IsEmpty);
+        if (emptySlot != null)
+            return TryAddToSlot(emptySlot, item, 1);
+
+        return 1;
     }
 
     private int TryAddToSlot(IInventorySlot slot, Item item, int itemAmount)
@@ -120,9 +140,6 @@ public class Inventory : IInventory
     public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot,ItemType fromSlotItemType = ItemType.Any, ItemType toSlotItemType = ItemType.Any)
     {
         if (fromSlot.IsEmpty) return;
-        /*if (!toSlot.IsEmpty && fromSlotItemType != ItemType.Any && toSlot.Item.ItemType != fromSlotItemType)
-            return;*/
-        
         
         // check requirements
         bool equipmentChanged = false;

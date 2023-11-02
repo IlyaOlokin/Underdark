@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
 using Zenject;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : MonoBehaviour, IInventoryUI
 {
     private Player player;
     public Inventory Inventory { get; private set; }
