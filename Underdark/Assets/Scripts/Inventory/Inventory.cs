@@ -12,7 +12,8 @@ public class Inventory : IInventory
     private List<IInventorySlot> slots;
     public Equipment Equipment { get; private set; }
     public List<IInventorySlot> ExecutableSlots { get; private set; }
-    public event Action<Item, int> OnInventoryItemAdded;
+    private List<IInventorySlot> activeAbilitySlots;
+    public List<IInventorySlot> EquippedActiveAbilitySlots { get; private set; }
     public event Action OnInventoryChanged;
     public event Action OnEquipmentChanged;
     private Unit unit;
@@ -35,6 +36,12 @@ public class Inventory : IInventory
         }
         
         Equipment = new Equipment();
+
+        EquippedActiveAbilitySlots = new List<IInventorySlot>();
+        for (int i = 0; i < 4; i++)
+        {
+            EquippedActiveAbilitySlots.Add(new InventorySlot());
+        }
     }
     
     public int GetItemAmount(string itemID)
@@ -73,7 +80,7 @@ public class Inventory : IInventory
             slot.Amount += amountToAdd;
         }
         
-        OnInventoryItemAdded?.Invoke(item, amountToAdd);
+        OnInventoryChanged?.Invoke();
 
         if (amountLeft <= 0) return amountLeft;
 
@@ -97,6 +104,11 @@ public class Inventory : IInventory
     public IInventorySlot[] GetAllSlots()
     {
         return slots.ToArray();
+    }
+    
+    public IInventorySlot[] GetAllActiveAbilitySlots()
+    {
+        return activeAbilitySlots.ToArray();
     }
     
     public bool HasItem(string itemID, out Item item)
