@@ -9,11 +9,11 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler
    [SerializeField] private UIInventoryItem uiInventoryItem;
    public IInventorySlot slot { get; private set; }
    [field:SerializeField] public ItemType SlotType { get; private set; }
-   private InventoryUI inventoryUI;
+   private IInventoryUI inventoryUI;
 
    private void Awake()
    {
-      inventoryUI = GetComponentInParent<InventoryUI>();
+      inventoryUI = GetComponentInParent<IInventoryUI>();
       Refresh();
    }
 
@@ -38,12 +38,17 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler
       }
       else if (SlotType == ItemType.Any && otherSlotUI.SlotType != ItemType.Any)
       {
-         if (slot.Item.ItemType == otherSlotUI.SlotType)
+         if (slot.IsEmpty || slot.Item.ItemType == otherSlotUI.SlotType)
             canMoveItem = true;
       }
       else if (otherSlotUI.SlotType == ItemType.Any && SlotType != ItemType.Any )
       {
          if (SlotType == otherItemUI.Item.ItemType)
+            canMoveItem = true;
+      }
+      else if (SlotType != ItemType.Any && otherSlotUI.SlotType != ItemType.Any)
+      {
+         if (SlotType == otherItemUI.Item.ItemType && (slot.IsEmpty || slot.Item.ItemType == otherSlotUI.SlotType))
             canMoveItem = true;
       }
       if (canMoveItem) inventory.MoveItem(otherSlot, slot,otherSlotUI.SlotType, SlotType);

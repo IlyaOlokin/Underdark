@@ -9,6 +9,7 @@ using Zenject;
 public class Player : Unit, IPickUper
 {
     private IInput input;
+    [SerializeField] private List<Item> act; // debug
     public event Action OnExpGained;
     
     [Inject]
@@ -47,6 +48,13 @@ public class Player : Unit, IPickUper
     {
         base.Update();
         RotateAttackDir();
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            foreach (var a in act)
+            {
+                Inventory.TryAddActiveAbilityItem(a);
+            }
+        }
     }
 
     private void OnDrawGizmos()

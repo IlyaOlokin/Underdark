@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class AccuratePuncture : ActiveAblity, IAttacker
+public class AccuratePuncture : ActiveAbility, IAttacker
 {
     [Header("Visual")]
     [SerializeField] private Transform visual;

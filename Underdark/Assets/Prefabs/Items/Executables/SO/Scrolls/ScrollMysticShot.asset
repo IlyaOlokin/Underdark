@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8886e2241f3c0b4bbdc9e769b1a9c82, type: 3}
+  m_Name: ScrollMysticShot
+  m_EditorClassIdentifier: 
+  ID: scroll_mystic_shot
+  ItemType: 6
+  Sprite: {fileID: 21300000, guid: 7c00ea4006710ea4994e82ed1d0387ac, type: 3}
+  StackCapacity: 1
+  Requirements:
+    <Level>k__BackingField: 0
+    <Strength>k__BackingField: 0
+    <Dexterity>k__BackingField: 0
+    <Intelligence>k__BackingField: 0
+    <StrDex>k__BackingField: 0
+    <DexInt>k__BackingField: 0
+    <IntStr>k__BackingField: 0
+    <AllStats>k__BackingField: 0
+  executableItem: {fileID: -2832681209090287796, guid: af6275a3c2345624fa4e5bbce57846c8, type: 3}

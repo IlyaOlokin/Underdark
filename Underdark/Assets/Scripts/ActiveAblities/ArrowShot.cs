@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArrowShot : ActiveAblity, IAttacker
+public class ArrowShot : ActiveAbility, IAttacker
 {
     [SerializeField] private float projSpeed;
     public Transform Transform => transform;

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class FireBall : ActiveAblity, IAttacker
+public class FireBall : ActiveAbility, IAttacker
 {
     [SerializeField] private float projSpeed;
     public Transform Transform => transform;
