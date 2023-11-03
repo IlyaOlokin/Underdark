@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Poison : Debuff
 {
+    private GameObject currentVisualPrefab;
+    
     private PoisonInfo poisonInfo;
     private Unit receiver;
     
     private float dmgTimer;
     
-    public void Init(PoisonInfo poisonInfo, Unit receiver, Unit caster)
+    public void Init(PoisonInfo poisonInfo, Unit receiver, Unit caster, GameObject visual)
     {
         this.poisonInfo = poisonInfo;
         this.receiver = receiver;
@@ -17,6 +19,8 @@ public class Poison : Debuff
 
         dmgTimer = poisonInfo.DmgDelay;
         duration = poisonInfo.Duration;
+
+        currentVisualPrefab = Instantiate(visual, transform.position, Quaternion.identity, transform);
     }
     public void Update()
     {
@@ -31,6 +35,7 @@ public class Poison : Debuff
 
         if (duration <= 0)
         {
+            Destroy(currentVisualPrefab);
             Destroy(this);
         }
     }

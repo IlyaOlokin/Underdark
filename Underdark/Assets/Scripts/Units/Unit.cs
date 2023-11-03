@@ -235,12 +235,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         OnHealthChanged?.Invoke(CurrentHP);
     }
 
-    public void GetPoisoned(PoisonInfo poisonInfo, Unit caster)
+    public void GetPoisoned(PoisonInfo poisonInfo, Unit caster, GameObject visual)
     {
         if (Random.Range(0f, 1f) < poisonInfo.chance)
         {
             var newPoison = gameObject.AddComponent<Poison>();
-            newPoison.Init(poisonInfo, this, caster);
+            newPoison.Init(poisonInfo, this, caster, visual);
         }
     }
     public void GetBleed(BleedInfo bleedInfo, Unit caster)
