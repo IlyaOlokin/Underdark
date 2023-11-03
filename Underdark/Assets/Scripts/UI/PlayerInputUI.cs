@@ -12,8 +12,9 @@ public class PlayerInputUI : MonoBehaviour
     public Button shootButton;
     [Header("Ability Buttons")]
     public List<Button> activeAbilityButtons;
+    public List<Image> buttonsIcons;
     public List<Image> buttonsCD;
-    public List<float> abilitiesCDMax;
+    private List<float> abilitiesCDMax;
     [Header("Inventory")]
     public Button inventoryButton;
     private GameObject inventory;
@@ -52,8 +53,9 @@ public class PlayerInputUI : MonoBehaviour
         executableSlotsHandler.Init(player);
         inventory.SetActive(false);
         characterWindow.SetActive(false);
-        player.Inventory.OnActiveAbilitiesChanged += UpdateAbilitiesCDs;
-        UpdateAbilitiesCDs();
+        player.Inventory.OnActiveAbilitiesChanged += UpdateEquippedAbilities;
+       
+        UpdateEquippedAbilities();
     }
 
     private void Update()
@@ -67,19 +69,22 @@ public class PlayerInputUI : MonoBehaviour
         }
     }
 
-    private void UpdateAbilitiesCDs()
+    private void UpdateEquippedAbilities()
     {
         abilitiesCDMax = new List<float>();
         for (int i = 0; i < player.Inventory.EquippedActiveAbilitySlots.Count; i++)
         {
             activeAbilityButtons[i].interactable = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
+            buttonsIcons[i].enabled = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
             if (player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty)
             {
                 abilitiesCDMax.Add(0);
                 continue;
             }
-            ActiveAbility activeAbility = player.Inventory.GetActiveAbility(i); // debug
+            
+            ActiveAbility activeAbility = player.Inventory.GetActiveAbility(i);
             abilitiesCDMax.Add(activeAbility.cooldown);
+            buttonsIcons[i].sprite = player.Inventory.EquippedActiveAbilitySlots[i].Item.Sprite;
         }
     }
 

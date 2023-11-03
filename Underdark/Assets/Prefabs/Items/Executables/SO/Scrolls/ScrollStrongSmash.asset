@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3737e909d9d41c43b65b43a7612808a, type: 3}
-  m_Name: FireBall
+  m_Script: {fileID: 11500000, guid: e8886e2241f3c0b4bbdc9e769b1a9c82, type: 3}
+  m_Name: ScrollStrongSmash
   m_EditorClassIdentifier: 
-  ID: fire_ball
-  ItemType: 7
-  Sprite: {fileID: 21300000, guid: 5df4b9cfda870304c9e2decfcc0b094f, type: 3}
+  ID: scroll_strong_smash
+  ItemType: 6
+  Sprite: {fileID: 21300000, guid: 60c1d42986dc0094c808b9e135f31ba2, type: 3}
   StackCapacity: 1
   Requirements:
     <Level>k__BackingField: 0
@@ -25,4 +25,4 @@ MonoBehaviour:
     <DexInt>k__BackingField: 0
     <IntStr>k__BackingField: 0
     <AllStats>k__BackingField: 0
-  ActiveAbility: {fileID: 1584095297098294153, guid: 7497daa92ca9b974bac7ab847e7df7b3, type: 3}
+  executableItem: {fileID: -2832681209090287796, guid: 5a3b00934324ff4458c954b3e34b9674, type: 3}

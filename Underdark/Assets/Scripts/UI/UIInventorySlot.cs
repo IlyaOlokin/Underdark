@@ -38,7 +38,7 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler
       }
       else if (SlotType == ItemType.Any && otherSlotUI.SlotType != ItemType.Any)
       {
-         if (slot.Item.ItemType == otherSlotUI.SlotType)
+         if (slot.IsEmpty || slot.Item.ItemType == otherSlotUI.SlotType)
             canMoveItem = true;
       }
       else if (otherSlotUI.SlotType == ItemType.Any && SlotType != ItemType.Any )

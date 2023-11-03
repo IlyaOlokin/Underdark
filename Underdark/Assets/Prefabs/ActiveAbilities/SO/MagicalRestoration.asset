@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3737e909d9d41c43b65b43a7612808a, type: 3}
-  m_Name: FireBall
+  m_Name: MagicalRestoration
   m_EditorClassIdentifier: 
-  ID: fire_ball
+  ID: magical_restoration
   ItemType: 7
-  Sprite: {fileID: 21300000, guid: 5df4b9cfda870304c9e2decfcc0b094f, type: 3}
+  Sprite: {fileID: 21300000, guid: 6f17b16f02b2246499ac554b97a16d4a, type: 3}
   StackCapacity: 1
   Requirements:
     <Level>k__BackingField: 0
@@ -25,4 +25,4 @@ MonoBehaviour:
     <DexInt>k__BackingField: 0
     <IntStr>k__BackingField: 0
     <AllStats>k__BackingField: 0
-  ActiveAbility: {fileID: 1584095297098294153, guid: 7497daa92ca9b974bac7ab847e7df7b3, type: 3}
+  ActiveAbility: {fileID: 72827358929148271, guid: 5c9550785028a5e4bb6ec56e32b1f6b9, type: 3}
