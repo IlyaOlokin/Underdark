@@ -17,6 +17,7 @@ public class Inventory : IInventory
     public event Action OnInventoryChanged;
     public event Action OnEquipmentChanged;
     public event Action OnActiveAbilitiesChanged;
+    public event Action OnExecutableItemChanged;
     private Unit unit;
     
     public Inventory(int capacity, int activeAbilityCapacity,  Unit unit)
@@ -165,6 +166,7 @@ public class Inventory : IInventory
             
             if (equipmentChanged) OnEquipmentChanged?.Invoke();
             if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke();
+            if (fromSlotItemType == ItemType.Executable || toSlotItemType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
 
             return;
         }
@@ -192,6 +194,8 @@ public class Inventory : IInventory
         OnInventoryChanged?.Invoke();
         if (equipmentChanged) OnEquipmentChanged?.Invoke();
         if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke();
+        if (fromSlotItemType == ItemType.Executable || toSlotItemType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
+
     }
     
     public Item GetItem(string itemID)

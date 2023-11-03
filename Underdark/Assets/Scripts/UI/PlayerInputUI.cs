@@ -54,6 +54,7 @@ public class PlayerInputUI : MonoBehaviour
         inventory.SetActive(false);
         characterWindow.SetActive(false);
         player.Inventory.OnActiveAbilitiesChanged += UpdateEquippedAbilities;
+        player.Inventory.OnExecutableItemChanged += UpdateExecutableSlots;
        
         UpdateEquippedAbilities();
     }
@@ -67,6 +68,11 @@ public class PlayerInputUI : MonoBehaviour
             else
                 buttonsCD[i].fillAmount = player.ActiveAbilitiesCD[i] / abilitiesCDMax[i];
         }
+    }
+
+    private void UpdateExecutableSlots()
+    {
+        executableSlotsHandler.RefreshAllSlots();
     }
 
     private void UpdateEquippedAbilities()
