@@ -68,13 +68,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public Transform Transform => transform;
 
     [field: Header("Abilities Setup")]
-    //[field: SerializeField]
-    //public List<ActiveAbility> ActiveAbilities { get; private set; }
     private string[] lastActiveAbilitiesIDs;
 
     [field: SerializeField] public List<float> ActiveAbilitiesCD { get; private set; }
 
-    [Header("Visual")] [SerializeField] private GameObject visuals;
+    [Header("Visual")] 
+    [SerializeField] private GameObject visuals;
     private bool facingRight = true;
     [SerializeField] protected UnitNotificationEffect unitNotificationEffect;
     [SerializeField] protected UnitVisual unitVisual;
@@ -255,8 +254,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public virtual bool GetStunned(StunInfo stunInfo)
     {
         if (Random.Range(0f, 1f) > stunInfo.chance) return false;
-
+        
         IsStunned = true;
+       
         if (transform.TryGetComponent(out Stun stunComponent))
         {
             stunComponent.AddDuration(stunInfo.Duration);
@@ -264,7 +264,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         else
         {
             var newStun = gameObject.AddComponent<Stun>();
-            newStun.Init(stunInfo, this);
+            newStun.Init(stunInfo, this, unitVisual.StunBar);
         }
 
         return true;

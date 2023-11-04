@@ -17,6 +17,9 @@ public class UnitVisual : MonoBehaviour
     [SerializeField] private float whiteOutDuration;
     [SerializeField] private float whiteOutAmount;
 
+    [Header("Debuffs")] 
+    public GameObject StunBar;
+
     private void Awake()
     {
         GetComponent<SpriteRenderer>().material = new Material(mat);
