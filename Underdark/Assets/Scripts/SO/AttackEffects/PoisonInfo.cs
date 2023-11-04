@@ -9,9 +9,11 @@ public class PoisonInfo : DebuffInfo
     public int Damage;
     public float DmgDelay;
     public float Duration;
+    [SerializeField] private GameObject visualPrefab;
+
     
     public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)
     {
-        receiver.GetPoisoned(this, unitCaster);
+        receiver.GetPoisoned(this, unitCaster, visualPrefab);
     }
 }

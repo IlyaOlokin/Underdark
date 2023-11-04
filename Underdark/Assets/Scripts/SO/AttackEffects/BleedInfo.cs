@@ -8,9 +8,10 @@ public class BleedInfo : DebuffInfo
     public int Damage;
     public float DmgDelay;
     public float Duration;
+    [SerializeField] private GameObject visualPrefab;
     
     public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)
     {
-        receiver.GetBleed(this, unitCaster);
+        receiver.GetBleed(this, unitCaster, visualPrefab);
     }
 }

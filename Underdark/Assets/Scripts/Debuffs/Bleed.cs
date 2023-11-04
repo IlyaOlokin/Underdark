@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class Bleed : Debuff
 {
+    private GameObject currentVisualPrefab;
+    
     private BleedInfo bleedInfo;
     private Unit receiver;
     
     private float dmgTimer;
     
-    public void Init(BleedInfo bleedInfo, Unit receiver, Unit caster)
+    public void Init(BleedInfo bleedInfo, Unit receiver, Unit caster, GameObject visual)
     {
         this.bleedInfo = bleedInfo;
         this.receiver = receiver;
@@ -17,6 +19,8 @@ public class Bleed : Debuff
         
         dmgTimer = bleedInfo.DmgDelay;
         duration = bleedInfo.Duration;
+        
+        currentVisualPrefab = Instantiate(visual, transform.position, Quaternion.identity, transform);
     }
     public void Update()
     {
@@ -30,6 +34,7 @@ public class Bleed : Debuff
 
         if (duration <= 0)
         {
+            Destroy(currentVisualPrefab);
             Destroy(this);
         }
     }
