@@ -1,8 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-public class StrongSmash : ActiveAbility
+public class StrongSmash : ActiveAbility, IAttacker
 {
+    public Transform Transform => transform;
+    
     [Header("Visual")]
     [SerializeField] private SpriteRenderer visualSR;
     [SerializeField] private float visualDuration;
@@ -36,7 +38,7 @@ public class StrongSmash : ActiveAbility
             yield return null;
         }
     }
-
+    
     public void Attack()
     {
         var targets = FindAllTargets(caster);
