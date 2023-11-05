@@ -4,8 +4,9 @@ using UnityEngine;
 
 public abstract class ExecutableItem : MonoBehaviour
 {
-    public virtual void Execute(Unit caster)
-    {
-        
-    }
+    [SerializeField] protected string description;
+    
+    public abstract void Execute(Unit caster);
+
+    public abstract string[] ToString();
 }

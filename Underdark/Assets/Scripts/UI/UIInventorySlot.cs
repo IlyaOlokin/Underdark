@@ -9,6 +9,7 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
     [SerializeField] private UIInventoryItem uiInventoryItem;
     public IInventorySlot slot { get; private set; }
     [field: SerializeField] public ItemType SlotType { get; private set; }
+    [SerializeField] private GameObject selectIndicator;
     private IInventoryUI inventoryUI;
 
     private Vector2 pressPos;
@@ -70,12 +71,12 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void OnSelect()
     {
-        transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
+        selectIndicator.SetActive(true);
     }
     
     public void OnDeselect()
     {
-        transform.localScale = new Vector3(1, 1, 1);
+        selectIndicator.SetActive(false);
     }
 
     public void OnPointerClick(PointerEventData eventData)

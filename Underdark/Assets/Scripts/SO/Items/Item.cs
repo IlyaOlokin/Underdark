@@ -12,8 +12,8 @@ public class Item : ScriptableObject
     public int StackCapacity;
     public Requirements Requirements;
 
-    public new string ToString()
+    public virtual string[] ToString()
     {
-        return name;
+        throw new NotImplementedException();
     }
 }

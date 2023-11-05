@@ -9,4 +9,11 @@ public class ScrollActiveAbility : ExecutableItem
     {
         caster.Inventory.TryAddActiveAbilityItem(item);
     }
+
+    public override string[] ToString()
+    {
+        var res = new string[1];
+        res[0] = string.Format(description, item.name , "100%");
+        return res;
+    }
 }
