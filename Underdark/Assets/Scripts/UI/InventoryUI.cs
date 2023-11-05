@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
@@ -10,6 +11,8 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
 {
     private Player player;
     public Inventory Inventory { get; private set; }
+    
+    [Header("Slots")]
     [SerializeField] private UIInventorySlot[] slots;
     
     [SerializeField] private UIInventorySlot head;
@@ -19,6 +22,10 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     [SerializeField] private UIInventorySlot shield;
     
     [SerializeField] private UIInventorySlot[] executableSlots;
+
+    [Header("Stats Text")] 
+    [SerializeField] private TextMeshProUGUI attackText; 
+    [SerializeField] private TextMeshProUGUI armorText; 
     
     [Space]
     [NonSerialized] public GameObject blackOut;
@@ -85,6 +92,9 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         {
             executableSlot.Refresh();
         }
+
+        armorText.text = player.GetTotalArmor().ToString();
+        attackText.text = player.GetTotalDamage().ToString();
     }
 
     private void OnDisable()

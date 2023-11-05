@@ -300,7 +300,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         return (int)Mathf.Floor(damage * (damage / (damage + GetTotalArmor() * (1 - armorPierce))));
     }
 
-    private int GetTotalArmor()
+    public int GetTotalArmor()
     {
         var armor = GetArmorAmount(ItemType.Head) +
                     GetArmorAmount(ItemType.Body) +
@@ -336,7 +336,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
         foreach (var unit in hitUnits)
         {
-            if (unit.GetComponent<IDamageable>().TakeDamage(this, Stats.Strength + GetWeapon().Damage.GetValue(),
+            if (unit.GetComponent<IDamageable>().TakeDamage(this, GetTotalDamage().GetValue(),
                     armorPierce: GetWeapon().ArmorPierce))
             {
                 foreach (var debuffInfo in GetWeapon().DebuffInfos)
@@ -350,6 +350,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         SetActionCD(1 / (attackSpeed * 2));
 
         OnBaseAttack?.Invoke(attackDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
+    }
+
+    public Damage GetTotalDamage()
+    {
+        return new Damage(GetWeapon().Damage, Stats.Strength);
     }
 
     public void Attack(IDamageable damageable)
