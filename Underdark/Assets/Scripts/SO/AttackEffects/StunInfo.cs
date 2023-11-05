@@ -12,4 +12,11 @@ public class StunInfo : DebuffInfo
     {
         receiver.GetStunned(this);
     }
+    
+    public override string ToString()
+    {
+        return
+            $"With a {chance * 100}% chance stuns the enemy for {Duration} seconds.";
+    }
+    
 }

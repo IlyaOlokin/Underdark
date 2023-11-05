@@ -27,6 +27,12 @@ public class PushInfo : DebuffInfo
         
         receiver.GetPushed( this, pushDir.normalized * Force);
     }
+
+    public override string ToString()
+    {
+        return
+            $"With a {chance * 100}% chance pushes the enemy away.";
+    }
 }
 
 public enum PushType

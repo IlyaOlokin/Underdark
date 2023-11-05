@@ -12,8 +12,14 @@ public class Item : ScriptableObject
     public int StackCapacity;
     public Requirements Requirements;
 
-    public virtual string[] ToString()
+    public new virtual string[] ToString()
     {
         throw new NotImplementedException();
     }
+    
+    public  virtual string[] ToStringAdditional()
+    {
+        return new string[]{};
+    }
+    
 }

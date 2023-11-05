@@ -21,4 +21,16 @@ public class MeleeWeapon : Item
           
         return res.ToArray();
     }
+    
+    public  override string[] ToStringAdditional()
+    {
+        List<string> res = new List<string>();
+
+        foreach (var debuffInfo in DebuffInfos)
+        {
+            res.Add(debuffInfo.ToString());
+        }
+
+        return res.ToArray();
+    }
 }

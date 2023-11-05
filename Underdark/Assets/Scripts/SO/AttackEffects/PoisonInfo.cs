@@ -16,4 +16,10 @@ public class PoisonInfo : DebuffInfo
     {
         receiver.GetPoisoned(this, unitCaster, visualPrefab);
     }
+    
+    public override string ToString()
+    {
+        return
+            $"With a {chance * 100}% chance inflicts poison on the enemy, taking away {Damage} HP and MP per second for {Duration} seconds.";
+    }
 }
