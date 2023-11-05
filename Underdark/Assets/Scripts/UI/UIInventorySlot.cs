@@ -56,8 +56,8 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
         if (canMoveItem) inventory.MoveItem(otherSlot, slot, otherSlotUI.SlotType, SlotType);
 
-        Refresh();
-        otherSlotUI.Refresh();
+        //Refresh();
+        //otherSlotUI.Refresh();
     }
 
     public void Refresh()

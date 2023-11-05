@@ -26,9 +26,11 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
 
     [Header("Stats Text")] 
     [SerializeField] private TextMeshProUGUI attackText; 
-    [SerializeField] private TextMeshProUGUI armorText; 
+    [SerializeField] private TextMeshProUGUI armorText;
+
+    [Header("Item Description")] 
+    [SerializeField] private ItemDescription itemDescription;
     
-    [Space]
     [NonSerialized] public GameObject blackOut;
     
     public void Init(Player player)
@@ -93,6 +95,8 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         {
             executableSlot.Refresh();
         }
+        
+        UpdateSelectedSlot();
 
         armorText.text = player.GetTotalArmor().ToString();
         attackText.text = player.GetTotalDamage().ToString();
@@ -106,16 +110,29 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     
     public void SelectSlot(UIInventorySlot selectedSlot)
     {
-        if (this.selectedSlot != null) 
+        if (this.selectedSlot != null)
             this.selectedSlot.OnDeselect();
         
         this.selectedSlot = selectedSlot;
         this.selectedSlot.OnSelect();
+
+        UpdateSelectedSlot();
+    }
+
+    private void UpdateSelectedSlot()
+    {
+        if (selectedSlot == null || selectedSlot.slot.IsEmpty)
+            itemDescription.SetDescriptionActive(false);
+        else
+            itemDescription.ShowItemDescription(selectedSlot.slot.Item);
     }
 
     private void DeselectSlot()
     {
-        if (selectedSlot == null) return;
+        if (selectedSlot == null)
+        {
+            return;
+        }
         selectedSlot.OnDeselect();
         selectedSlot = null;
     }
