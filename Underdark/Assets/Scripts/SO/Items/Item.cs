@@ -11,4 +11,9 @@ public class Item : ScriptableObject
     public Sprite Sprite;
     public int StackCapacity;
     public Requirements Requirements;
+
+    public new string ToString()
+    {
+        return name;
+    }
 }

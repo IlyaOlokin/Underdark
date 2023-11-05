@@ -8,7 +8,7 @@ public class ActiveAbilityInventoryUI : MonoBehaviour, IInventoryUI
 {
     private Player player;
     public Inventory Inventory { get; private set; }
-    
+
     [SerializeField] private UIInventorySlot[] slots;
     [SerializeField] private UIInventorySlot[] equippedSlots;
     
@@ -50,5 +50,10 @@ public class ActiveAbilityInventoryUI : MonoBehaviour, IInventoryUI
         {
             slot.Refresh();
         }
+    }
+    
+    public void SelectSlot(UIInventorySlot selectedSlot)
+    {
+        
     }
 }

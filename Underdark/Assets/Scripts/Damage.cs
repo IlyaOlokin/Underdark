@@ -21,7 +21,7 @@ public class Damage
         return Random.Range(minDamage, maxDamage + 1);
     }
 
-    public string ToString()
+    public new string ToString()
     {
         if (minDamage == maxDamage) return minDamage.ToString();
         return $"{minDamage}-{maxDamage}";

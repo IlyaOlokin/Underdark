@@ -11,7 +11,8 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
 {
     private Player player;
     public Inventory Inventory { get; private set; }
-    
+    private UIInventorySlot selectedSlot;
+
     [Header("Slots")]
     [SerializeField] private UIInventorySlot[] slots;
     
@@ -100,6 +101,23 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     private void OnDisable()
     {
         blackOut.SetActive(false);
+        DeselectSlot();
+    }
+    
+    public void SelectSlot(UIInventorySlot selectedSlot)
+    {
+        if (this.selectedSlot != null) 
+            this.selectedSlot.OnDeselect();
+        
+        this.selectedSlot = selectedSlot;
+        this.selectedSlot.OnSelect();
+    }
+
+    private void DeselectSlot()
+    {
+        if (selectedSlot == null) return;
+        selectedSlot.OnDeselect();
+        selectedSlot = null;
     }
 
     private void ClearSlots()
