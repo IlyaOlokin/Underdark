@@ -12,4 +12,9 @@ public class ExecutableItemSO : Item
     {
         executableItem.Execute(caster);
     }
+
+    public override string[] ToString()
+    {
+        return executableItem.ToString();
+    }
 }

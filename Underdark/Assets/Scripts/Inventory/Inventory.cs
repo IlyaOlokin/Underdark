@@ -164,6 +164,7 @@ public class Inventory : IInventory
             toSlot.Clear();
             toSlot.SetItem(tempItem,tempAmount);
             
+            OnInventoryChanged?.Invoke();
             if (equipmentChanged) OnEquipmentChanged?.Invoke();
             if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke();
             if (fromSlotItemType == ItemType.Executable || toSlotItemType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
@@ -242,8 +243,7 @@ public class Inventory : IInventory
     public ActiveAbility GetActiveAbility(int index)
     {
         if (!EquippedActiveAbilitySlots[index].IsEmpty)
-            return ((ActiveAbilityItem)EquippedActiveAbilitySlots[index].Item).ActiveAbility
-                .GetComponent<ActiveAbility>();
+            return ((ActiveAbilitySO)EquippedActiveAbilitySlots[index].Item).ActiveAbility;
         return null;
     }
 }

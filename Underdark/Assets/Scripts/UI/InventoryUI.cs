@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
@@ -10,6 +11,9 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
 {
     private Player player;
     public Inventory Inventory { get; private set; }
+    private UIInventorySlot selectedSlot;
+
+    [Header("Slots")]
     [SerializeField] private UIInventorySlot[] slots;
     
     [SerializeField] private UIInventorySlot head;
@@ -19,8 +23,14 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     [SerializeField] private UIInventorySlot shield;
     
     [SerializeField] private UIInventorySlot[] executableSlots;
+
+    [Header("Stats Text")] 
+    [SerializeField] private TextMeshProUGUI attackText; 
+    [SerializeField] private TextMeshProUGUI armorText;
+
+    [Header("Item Description")] 
+    [SerializeField] private ItemDescription itemDescription;
     
-    [Space]
     [NonSerialized] public GameObject blackOut;
     
     public void Init(Player player)
@@ -85,11 +95,46 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         {
             executableSlot.Refresh();
         }
+        
+        UpdateSelectedSlot();
+
+        armorText.text = player.GetTotalArmor().ToString();
+        attackText.text = player.GetTotalDamage().ToString();
     }
 
     private void OnDisable()
     {
         blackOut.SetActive(false);
+        DeselectSlot();
+    }
+    
+    public void SelectSlot(UIInventorySlot selectedSlot)
+    {
+        if (this.selectedSlot != null)
+            this.selectedSlot.OnDeselect();
+        
+        this.selectedSlot = selectedSlot;
+        this.selectedSlot.OnSelect();
+
+        UpdateSelectedSlot();
+    }
+
+    private void UpdateSelectedSlot()
+    {
+        if (selectedSlot == null || selectedSlot.slot.IsEmpty)
+            itemDescription.ResetDescriptionActive(false);
+        else
+            itemDescription.ShowItemDescription(selectedSlot.slot.Item);
+    }
+
+    private void DeselectSlot()
+    {
+        if (selectedSlot == null)
+        {
+            return;
+        }
+        selectedSlot.OnDeselect();
+        selectedSlot = null;
     }
 
     private void ClearSlots()

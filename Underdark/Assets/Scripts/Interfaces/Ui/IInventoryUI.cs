@@ -5,4 +5,6 @@ using UnityEngine;
 public interface IInventoryUI
 {
     Inventory Inventory { get; }
+
+    void SelectSlot(UIInventorySlot selectedSlot);
 }

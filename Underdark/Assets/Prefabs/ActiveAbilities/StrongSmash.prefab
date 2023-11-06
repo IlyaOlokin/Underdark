@@ -167,9 +167,12 @@ MonoBehaviour:
   attackAngle: 120
   maxValue: 80
   statMultiplier: 3
+  baseStat: 0
   debuffInfos:
   - {fileID: 11400000, guid: 3189324a1652f15439fe077e31727e8c, type: 2}
   needAutoDestroy: 1
   autoDestroyDelay: 0.3
+  description: You deliver a powerful sweeping blow, putting all your strength into
+    it.
   visualSR: {fileID: 4027578320368709652}
   visualDuration: 0.3

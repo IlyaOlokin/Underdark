@@ -20,7 +20,7 @@ public class FireBall : ActiveAbility, IAttacker
     public override void Execute(Unit caster)
     {
         this.caster = caster;
-        damage = Mathf.Min(caster.Stats.Intelligence * statMultiplier, maxValue);
+        damage = Mathf.Min(caster.Stats.GetStatValue(baseStat) * statMultiplier, maxValue);
         
         var target = FindClosestTarget(caster);
 
