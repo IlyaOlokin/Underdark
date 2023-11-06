@@ -16,7 +16,7 @@ public class ItemDescription : MonoBehaviour
         ResetDescriptionActive(true);
         
         icon.sprite = item.Sprite;
-        itemName.text = item.name;
+        itemName.text = item.Name;
 
         var properties = item.ToString();
 

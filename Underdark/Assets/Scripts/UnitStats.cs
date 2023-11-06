@@ -83,6 +83,21 @@ public class UnitStats
         return expNeeded[Level - 1];
     }
 
+    public int GetStatValue(BaseStat baseStat)
+    {
+        switch (baseStat)
+        {
+            case BaseStat.Strength:
+                return Strength;
+            case BaseStat.Dexterity:
+                return Dexterity;
+            case BaseStat.Intelligence:
+                return Intelligence;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null);
+        }
+    } 
+
     public static bool operator ==(UnitStats a, UnitStats b)
     {
         return a.Strength == b.Strength 

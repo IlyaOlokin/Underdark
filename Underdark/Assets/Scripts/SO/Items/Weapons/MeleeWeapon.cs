@@ -22,7 +22,7 @@ public class MeleeWeapon : Item
         return res.ToArray();
     }
     
-    public  override string[] ToStringAdditional()
+    public override string[] ToStringAdditional()
     {
         List<string> res = new List<string>();
 

@@ -8,9 +8,13 @@ public class ActiveAbilityInventoryUI : MonoBehaviour, IInventoryUI
 {
     private Player player;
     public Inventory Inventory { get; private set; }
+    private UIInventorySlot selectedSlot;
 
     [SerializeField] private UIInventorySlot[] slots;
     [SerializeField] private UIInventorySlot[] equippedSlots;
+    
+    [Header("Item Description")] 
+    [SerializeField] private ItemDescription itemDescription;
     
     [Inject]
     private void Construct(Player player)
@@ -50,10 +54,36 @@ public class ActiveAbilityInventoryUI : MonoBehaviour, IInventoryUI
         {
             slot.Refresh();
         }
+        
+        UpdateSelectedSlot();
     }
     
     public void SelectSlot(UIInventorySlot selectedSlot)
     {
+        if (this.selectedSlot != null)
+            this.selectedSlot.OnDeselect();
         
+        this.selectedSlot = selectedSlot;
+        this.selectedSlot.OnSelect();
+
+        UpdateSelectedSlot();
+    }
+
+    private void UpdateSelectedSlot()
+    {
+        if (selectedSlot == null || selectedSlot.slot.IsEmpty)
+            itemDescription.ResetDescriptionActive(false);
+        else
+            itemDescription.ShowItemDescription(selectedSlot.slot.Item);
+    }
+
+    private void DeselectSlot()
+    {
+        if (selectedSlot == null)
+        {
+            return;
+        }
+        selectedSlot.OnDeselect();
+        selectedSlot = null;
     }
 }

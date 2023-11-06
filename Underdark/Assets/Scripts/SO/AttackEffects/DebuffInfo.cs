@@ -10,5 +10,5 @@ public abstract class DebuffInfo : ScriptableObject
 
     public abstract void Execute(IAttacker caster, Unit receiver, Unit unitCaster);
 
-    public abstract string ToString();
+    public new abstract string ToString();
 }

@@ -57,9 +57,11 @@ MonoBehaviour:
   attackAngle: 30
   maxValue: 50
   statMultiplier: 2
+  baseStat: 0
   debuffInfos: []
   needAutoDestroy: 0
   autoDestroyDelay: 0
+  description: You create a spark that flies in a straight line over a short distance.
   projSpeed: 8
 --- !u!58 &6474251892847437154
 CircleCollider2D:

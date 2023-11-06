@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -12,6 +13,7 @@ public abstract class ActiveAbility : MonoBehaviour
     [SerializeField] protected float attackAngle;
     [SerializeField] protected float maxValue;
     [SerializeField] protected int statMultiplier;
+    [SerializeField] protected BaseStat baseStat;
     
     protected float damage;
     
@@ -19,6 +21,9 @@ public abstract class ActiveAbility : MonoBehaviour
     
     [SerializeField] private bool needAutoDestroy;
     [SerializeField] private float autoDestroyDelay;
+    
+    [Header("Description")] 
+    [Multiline] [SerializeField] protected string description;
     
     protected Unit caster;
 
@@ -81,5 +86,42 @@ public abstract class ActiveAbility : MonoBehaviour
         if (weapon.ID == "empty") return;
         attackDistance = weapon.AttackDistance;
         attackAngle = weapon.AttackRadius;
+    }
+
+    protected string GetStatString(BaseStat baseStat)
+    {
+        switch (baseStat)
+        {
+            case BaseStat.Strength:
+                return "Str";
+            case BaseStat.Dexterity:
+                return "Dex";
+            case BaseStat.Intelligence:
+                return "Int";
+            default:
+                throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null);
+        }
+    }
+
+    public new virtual string[] ToString()
+    {
+        var res = new string[4];
+        res[0] = description;
+        res[1] = $"Damage: {statMultiplier} * {GetStatString(baseStat)} (max: {maxValue})";
+        res[2] = $"Distance: {attackDistance}";
+        res[3] = $"Radius: {attackAngle}";
+        return res;
+    }
+    
+    public string[] ToStringAdditional()
+    {
+        List<string> res = new List<string>();
+
+        foreach (var debuffInfo in debuffInfos)
+        {
+            res.Add(debuffInfo.ToString());
+        }
+
+        return res.ToArray();
     }
 }

@@ -287,10 +287,12 @@ MonoBehaviour:
   attackAngle: 30
   maxValue: 50
   statMultiplier: 3
+  baseStat: 0
   debuffInfos:
   - {fileID: 11400000, guid: 79781878cac3dc04aa80e53098438616, type: 2}
   needAutoDestroy: 0
   autoDestroyDelay: 0
+  description: You fire an arrow from your summoned bow.
   projSpeed: 10
 --- !u!1 &6087113740218247915
 GameObject:
