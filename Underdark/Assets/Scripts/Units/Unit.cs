@@ -317,8 +317,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public virtual void Move(Vector3 dir)
     {
         if (IsStunned || IsPushing) return;
-
-        dir = dir.normalized;
+        
         rb.MovePosition(rb.position + (Vector2)dir * MoveSpeed * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
             lastMoveDir = dir;
