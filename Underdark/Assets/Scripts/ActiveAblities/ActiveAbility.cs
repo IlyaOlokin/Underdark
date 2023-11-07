@@ -32,10 +32,7 @@ public abstract class ActiveAbility : MonoBehaviour
         if (needAutoDestroy) Destroy(gameObject, autoDestroyDelay);
     }
 
-    public virtual void Execute(Unit caster)
-    {
-        
-    }
+    public abstract void Execute(Unit caster);
     
     protected Collider2D FindClosestTarget(Unit caster)
     {

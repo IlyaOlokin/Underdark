@@ -5,7 +5,6 @@ using UnityEngine;
 public class PushInfo : DebuffInfo
 {
     public float Force;
-    public Vector2 DirectionOffset;
     public PushType PushType;
     private Vector2 pushDir;
     
