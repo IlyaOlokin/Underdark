@@ -1,10 +1,9 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class StrongSmash : ActiveAbility, IAttacker
+public class EnergyWave : ActiveAbility
 {
-    public Transform Transform => transform;
-    
     [Header("Visual")]
     [SerializeField] private SpriteRenderer visualSR;
     [SerializeField] private float visualDuration;
@@ -13,10 +12,17 @@ public class StrongSmash : ActiveAbility, IAttacker
     public override void Execute(Unit caster)
     {
         this.caster = caster;
-        damage = Mathf.Min(caster.Stats.GetStatValue(baseStat) * statMultiplier, maxValue);
+        
+        
+        var targets = FindAllTargets(caster);
 
-        OverrideWeaponStats(caster.GetWeapon());
-        Attack();
+        foreach (var target in targets)
+        {
+            foreach (var debuffInfo in debuffInfos)
+            {
+                debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
+            }
+        }
         
         StartCoroutine(StartVisual());
     }
@@ -27,6 +33,7 @@ public class StrongSmash : ActiveAbility, IAttacker
         
         var targetScale = transform.localScale * (attackDistance * 2 + 1);
         transform.localScale = Vector3.zero;
+        
         var attackDir = Vector2.Angle(Vector2.right, caster.GetAttackDirection());
         if (caster.GetAttackDirection().y < 0) attackDir *= -1;
         visualSR.material.SetFloat("_Turn", attackDir);
@@ -38,26 +45,5 @@ public class StrongSmash : ActiveAbility, IAttacker
             visualDuration -= Time.deltaTime;
             yield return null;
         }
-    }
-    
-    public void Attack()
-    {
-        var targets = FindAllTargets(caster);
-
-        foreach (var target in targets)
-        {
-            if (target.GetComponent<IDamageable>().TakeDamage(caster, damage))
-            {
-                foreach (var debuffInfo in debuffInfos)
-                {
-                    debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
-                }
-            }
-        }
-    }
-
-    public void Attack(IDamageable unit)
-    {
-        throw new System.NotImplementedException();
     }
 }

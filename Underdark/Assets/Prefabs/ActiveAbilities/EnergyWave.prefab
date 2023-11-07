@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 1, g: 0.42948258, b: 0.23113209, a: 1}
+  m_Color: {r: 0.16509432, g: 0.5743185, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -94,9 +94,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8170032374961837674}
   - component: {fileID: 3995346816480911205}
-  - component: {fileID: 4622702471863553492}
+  - component: {fileID: 4949812109997606170}
   m_Layer: 0
-  m_Name: StrongSmash
+  m_Name: EnergyWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -145,7 +145,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4622702471863553492
+--- !u!114 &4949812109997606170
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,26 +154,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 7555566392093547892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f63f2fec80dacf45a0a2b38310f8bbe, type: 3}
+  m_Script: {fileID: 11500000, guid: 34eaaba3137648945bd9bc7b52a86f1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CastTime: 0.1
-  cooldown: 2
-  ManaCost: 0
+  cooldown: 5
+  ManaCost: 5
   attackMask:
     serializedVersion: 2
     m_Bits: 64
-  attackDistance: 1
+  attackDistance: 5
   attackAngle: 120
-  maxValue: 80
-  statMultiplier: 3
+  maxValue: 0
+  statMultiplier: 0
   baseStat: 0
   debuffInfos:
-  - {fileID: 11400000, guid: 3189324a1652f15439fe077e31727e8c, type: 2}
+  - {fileID: 11400000, guid: 41e3e8d7a78efba44bda9fb1d36e71f2, type: 2}
   needAutoDestroy: 1
-  autoDestroyDelay: 0.3
-  description: You deliver a powerful sweeping blow, putting all your strength into
-    it.
+  autoDestroyDelay: 0.5
+  description: Release a stream of magic in front of you, knocking enemies back.
   visualSR: {fileID: 4027578320368709652}
-  visualDuration: 0.3
+  visualDuration: 0.5
   scaleLerpSpeed: 4
