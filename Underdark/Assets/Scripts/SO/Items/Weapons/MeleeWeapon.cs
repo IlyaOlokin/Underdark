@@ -30,6 +30,8 @@ public class MeleeWeapon : Item
         {
             res.Add(debuffInfo.ToString());
         }
+        
+        if (ArmorPierce != 0) res.Add($"Attacks ignore {ArmorPierce * 100}% of target's armor");
 
         return res.ToArray();
     }
