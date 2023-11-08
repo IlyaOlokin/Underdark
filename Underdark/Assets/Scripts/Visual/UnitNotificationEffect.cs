@@ -29,9 +29,6 @@ public class UnitNotificationEffect : MonoBehaviour
     private Vector3 startPos;
     private Vector3 targetPos;
 
-    
-    //[SerializeField] private List<InnerColor> colors = new List<InnerColor>();
-
     void Start()
     {
         objectToMove.position += new Vector3(Random.Range(-posSpreading, posSpreading),
@@ -41,7 +38,7 @@ public class UnitNotificationEffect : MonoBehaviour
         startScale = objectToMove.localScale;
         targetScale = startScale * scaleMultiplier;
         startPos = objectToMove.position;
-        targetPos = transform.position + Vector3.up;
+        targetPos = objectToMove.position + Vector3.up;
     }
 
     private void Update()

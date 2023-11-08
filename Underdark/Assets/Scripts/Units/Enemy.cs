@@ -56,9 +56,9 @@ public class Enemy : Unit
             moveTarget.position = player.transform.position;
     }
 
-    public override bool TakeDamage(Unit sender, float damage, bool evadable = true, float armorPierce = 0f)
+    public override bool TakeDamage(Unit sender, IAttacker attacker, float damage, bool evadable = true, float armorPierce = 0f)
     {
-        var res = base.TakeDamage(sender, damage, evadable);
+        var res = base.TakeDamage(sender, attacker, damage, evadable);
         Agr(sender.transform.position);
         AgrNearbyAllies();
 

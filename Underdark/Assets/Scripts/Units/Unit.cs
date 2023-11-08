@@ -10,7 +10,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     private Rigidbody2D rb;
     public UnitStats Stats;
     public Inventory Inventory;
-    private List<Debuff> Debuffs;
+    public EnergyShield EnergyShield;
 
     public bool IsStunned { get; private set; }
     public bool IsPushing { get; private set; }
@@ -88,6 +88,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     private float actionCDTimer;
     private float hpRegenBuffer;
     private float manaRegenBuffer;
+    
 
     protected virtual void Awake()
     {
@@ -208,7 +209,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         visuals.transform.Rotate(0, 180, 0);
     }
 
-    public virtual bool TakeDamage(Unit sender, float damage, bool evadable = true, float armorPierce = 0f)
+    public virtual bool TakeDamage(Unit sender, IAttacker attacker, float damage, bool evadable = true, float armorPierce = 0f)
     {
         var newEffect = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
 
@@ -219,6 +220,30 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         }
 
         var newDamage = CalculateTakenDamage(damage, armorPierce);
+
+        if (EnergyShield != null)
+        {
+            Vector3 dir = attacker.Transform.position - transform.position;
+            var angle = Vector2.Angle(dir, GetAttackDirection());
+            
+            var savedDamage = newDamage;
+
+            if (EnergyShield.AbsorbDamage(ref newDamage, angle))
+            {
+                newEffect.WriteDamage(savedDamage);
+
+                if (newDamage > 0)
+                {
+                    var newEffectForES = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
+                    newEffectForES.WriteDamage(savedDamage - newDamage);
+                    EnergyShield = null;
+                }
+                    
+                else
+                    return true;
+            }
+        }
+        
         CurrentHP -= newDamage;
         unitVisual.StartWhiteOut();
         if (CurrentHP <= 0) Death(sender);
@@ -236,6 +261,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
             newEffect.WriteHeal(hp);
         }
         OnHealthChanged?.Invoke(CurrentHP);
+    }
+
+    public void GetEnergyShield()
+    {
+        EnergyShield = new EnergyShield(9, 180f); // debug
     }
 
     public void GetPoisoned(PoisonInfo poisonInfo, Unit caster, GameObject visual)
@@ -340,7 +370,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
         foreach (var unit in hitUnits)
         {
-            if (unit.GetComponent<IDamageable>().TakeDamage(this, GetTotalDamage().GetValue(),
+            if (unit.GetComponent<IDamageable>().TakeDamage(this, this, GetTotalDamage().GetValue(),
                     armorPierce: GetWeapon().ArmorPierce))
             {
                 foreach (var debuffInfo in GetWeapon().DebuffInfos)

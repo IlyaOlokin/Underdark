@@ -53,6 +53,6 @@ public class FireBall : ActiveAbility, IAttacker
 
     public void Attack(IDamageable damageable)
     {
-        damageable.TakeDamage(caster, damage);
+        damageable.TakeDamage(caster, this, damage);
     }
 }

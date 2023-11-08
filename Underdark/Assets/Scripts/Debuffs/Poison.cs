@@ -28,7 +28,7 @@ public class Poison : Debuff
         duration -= Time.deltaTime;
         if (dmgTimer <= 0)
         {
-            receiver.TakeDamage(caster, poisonInfo.Damage, false);
+            receiver.TakeDamage(caster, caster, poisonInfo.Damage, false);
             receiver.SpendMana(poisonInfo.Damage);
             dmgTimer = poisonInfo.DmgDelay;
         }

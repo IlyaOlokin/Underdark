@@ -47,6 +47,11 @@ public class Player : Unit, IPickUper
     {
         base.Update();
         RotateAttackDir();
+
+        if (Input.GetKeyDown(KeyCode.R)) // debug
+        {
+            GetEnergyShield();
+        }
     }
 
     private void OnDrawGizmos()

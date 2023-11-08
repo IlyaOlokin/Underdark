@@ -51,7 +51,7 @@ public class ArrowShot : ActiveAbility, IAttacker
 
     public void Attack(IDamageable damageable)
     {
-        if (damageable.TakeDamage(caster, damage))
+        if (damageable.TakeDamage(caster, this, damage))
         {
             foreach (var debuffInfo in debuffInfos)
             {
