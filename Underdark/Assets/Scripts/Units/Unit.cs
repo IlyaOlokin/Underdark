@@ -71,6 +71,10 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     private string[] lastActiveAbilitiesIDs;
 
     [field: SerializeField] public List<float> ActiveAbilitiesCD { get; private set; }
+    
+    [Header("Inventory Setup")]
+    [SerializeField] private int inventoryCapacity;
+    [SerializeField] private int activeAbilityInventoryCapacity;
 
     [Header("Visual")] 
     [SerializeField] private GameObject visuals;
@@ -89,7 +93,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     {
         rb = GetComponent<Rigidbody2D>();
         
-        Inventory = new Inventory(35, 14, this);
+        Inventory = new Inventory(inventoryCapacity, activeAbilityInventoryCapacity, this);
         Inventory.OnEquipmentChanged += SetAttackCollider;
         Inventory.OnActiveAbilitiesChanged += SetActiveAbilitiesCDs;
         Stats.OnStatsChanged += SetHP;
@@ -304,7 +308,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     {
         var armor = GetArmorAmount(ItemType.Head) +
                     GetArmorAmount(ItemType.Body) +
-                    GetArmorAmount(ItemType.Legs);
+                    GetArmorAmount(ItemType.Legs) + 
+                    GetArmorAmount(ItemType.Shield);
 
         return armor;
     }

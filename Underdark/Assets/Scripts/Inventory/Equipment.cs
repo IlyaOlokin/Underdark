@@ -32,7 +32,7 @@ public class Equipment
             case ItemType.Weapon:
                 break;
             case ItemType.Shield:
-                break;
+                return (Armor)Shield.Item;
             default:
                 throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null);
         }

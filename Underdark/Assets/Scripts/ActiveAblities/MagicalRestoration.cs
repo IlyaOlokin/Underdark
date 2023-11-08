@@ -15,6 +15,7 @@ public class MagicalRestoration : ActiveAbility
         var res = new string[3];
         res[0] = description;
         res[1] = $"Heal: {statMultiplier} * {GetStatString(baseStat)} (max: {maxValue})";
+        if (ManaCost != 0) res[2] = $"Mana: {ManaCost}";
         return res;
     }
 }
