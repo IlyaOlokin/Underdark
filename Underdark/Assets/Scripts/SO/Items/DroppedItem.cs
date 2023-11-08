@@ -21,16 +21,11 @@ public class DroppedItem : MonoBehaviour
     [SerializeField] private Collider2D coll;
     [SerializeField] private TextMeshProUGUI text;
 
-    private void Awake()
-    {
-        //SetDroppedItem(containedItem, itemAmount);
-    }
-
     private void Update()
     {
         if (!picked) return;
 
-        if (Vector3.Distance(transform.position, target.position) <= 0.1f)
+        if (Vector3.Distance(transform.position, target.position) <= 0.5f)
         {
             picked = false;
             if (itemAmount == 0)
