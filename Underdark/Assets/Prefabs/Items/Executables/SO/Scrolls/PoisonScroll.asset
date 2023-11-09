@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8886e2241f3c0b4bbdc9e769b1a9c82, type: 3}
-  m_Name: BleedScroll
+  m_Name: PoisonScroll
   m_EditorClassIdentifier: 
-  ID: bleed_scroll
-  Name: Scroll of Healing
+  ID: poison_scroll
+  Name: Scroll of Detoxification
   ItemType: 6
-  Sprite: {fileID: 21300000, guid: fbe9cff0b2ea6864e81dcf18230686e8, type: 3}
+  Sprite: {fileID: 21300000, guid: 7469631d9db683d4d9ccbefa99f7e81f, type: 3}
   StackCapacity: 20
   Requirements:
     <Level>k__BackingField: 0
@@ -26,4 +26,4 @@ MonoBehaviour:
     <DexInt>k__BackingField: 0
     <IntStr>k__BackingField: 0
     <AllStats>k__BackingField: 0
-  executableItem: {fileID: 1027832047357731058, guid: 2002c1decf14f0646b973f2bb1c4c6fb, type: 3}
+  executableItem: {fileID: 1343943589323709886, guid: 7e259e0d11d931941b397d3e272dc101, type: 3}
