@@ -85,17 +85,16 @@ public class UnitStats
 
     public int GetStatValue(BaseStat baseStat)
     {
-        switch (baseStat)
+        return baseStat switch
         {
-            case BaseStat.Strength:
-                return Strength;
-            case BaseStat.Dexterity:
-                return Dexterity;
-            case BaseStat.Intelligence:
-                return Intelligence;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null);
-        }
+            BaseStat.Strength => Strength,
+            BaseStat.Dexterity => Dexterity,
+            BaseStat.Intelligence => Intelligence,
+            BaseStat.StrDex => StrDex,
+            BaseStat.DexInt => DexInt,
+            BaseStat.IntStr => IntStr,
+            _ => throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null)
+        };
     } 
 
     public static bool operator ==(UnitStats a, UnitStats b)

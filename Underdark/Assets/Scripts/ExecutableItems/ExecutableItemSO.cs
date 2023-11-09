@@ -13,8 +13,8 @@ public class ExecutableItemSO : Item
         executableItem.Execute(caster);
     }
 
-    public override string[] ToString()
+    public override string[] ToString(Unit owner)
     {
-        return executableItem.ToString();
+        return executableItem.ToString(owner);
     }
 }

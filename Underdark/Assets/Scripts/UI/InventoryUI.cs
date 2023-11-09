@@ -124,7 +124,7 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         if (selectedSlot == null || selectedSlot.slot.IsEmpty)
             itemDescription.ResetDescriptionActive(false);
         else
-            itemDescription.ShowItemDescription(selectedSlot.slot.Item);
+            itemDescription.ShowItemDescription(selectedSlot.slot.Item, player);
     }
 
     private void DeselectSlot()

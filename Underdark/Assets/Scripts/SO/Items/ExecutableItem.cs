@@ -8,5 +8,5 @@ public abstract class ExecutableItem : MonoBehaviour
     
     public abstract void Execute(Unit caster);
 
-    public new abstract string[] ToString();
+    public abstract string[] ToString(Unit owner);
 }

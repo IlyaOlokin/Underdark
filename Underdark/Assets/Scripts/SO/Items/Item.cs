@@ -18,6 +18,11 @@ public class Item : ScriptableObject
         throw new NotImplementedException();
     }
     
+    public virtual string[] ToString(Unit owner)
+    {
+        throw new NotImplementedException();
+    }
+    
     public  virtual string[] ToStringAdditional()
     {
         return new string[]{};
