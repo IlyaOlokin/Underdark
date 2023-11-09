@@ -75,9 +75,10 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     [Header("Inventory Setup")]
     [SerializeField] private int inventoryCapacity;
     [SerializeField] private int activeAbilityInventoryCapacity;
-
+    
     [Header("Visual")] 
-    [SerializeField] private GameObject visuals;
+    [SerializeField] private GameObject visualsFlipable;
+    [SerializeField] protected GameObject unitVisualRotatable;
     private bool facingRight = true;
     [SerializeField] protected UnitNotificationEffect unitNotificationEffect;
     [SerializeField] protected UnitVisual unitVisual;
@@ -206,7 +207,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     private void Flip()
     {
         facingRight = !facingRight;
-        visuals.transform.Rotate(0, 180, 0);
+        visualsFlipable.transform.Rotate(0, 180, 0);
     }
 
     public virtual bool TakeDamage(Unit sender, IAttacker attacker, float damage, bool evadable = true, float armorPierce = 0f)
@@ -236,7 +237,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
                 {
                     var newEffectForES = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
                     newEffectForES.WriteDamage(savedDamage - newDamage);
-                    EnergyShield = null;
+                    LooseEnergyShield();
                 }
                     
                 else
@@ -263,9 +264,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         OnHealthChanged?.Invoke(CurrentHP);
     }
 
-    public void GetEnergyShield()
+    public void GetEnergyShield(int maxHP, float radius)
     {
-        EnergyShield = new EnergyShield(9, 180f); // debug
+        EnergyShield = new EnergyShield(maxHP, radius);
+        unitVisual.ActivateEnergyShieldVisual(radius);
+    }
+    
+    private void LooseEnergyShield()
+    {
+        EnergyShield = null;
+        unitVisual.DeactivateEnergyShieldVisual();
     }
 
     public void GetPoisoned(PoisonInfo poisonInfo, Unit caster, GameObject visual)
