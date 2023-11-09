@@ -1,9 +1,11 @@
+using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class RestoreOverTimePotion : Potion
 {
-    [SerializeField] private int healHPAmount;
+    [SerializeField] private int healAmount;
     [SerializeField] private int manaRestoreAmount;
     [SerializeField] private float restoreDelay;
     [SerializeField] private float duration;
@@ -13,13 +15,13 @@ public class RestoreOverTimePotion : Potion
     {
         base.Execute(caster);
         var comp = caster.AddComponent<RestoreOverTimePotion>();
-        comp.Init(caster, healHPAmount, manaRestoreAmount, restoreDelay, duration);
+        comp.Init(caster, healAmount, manaRestoreAmount, restoreDelay, duration);
     }
 
     public void Init(Unit caster, int heal, int manaRestore, float delay, float duration)
     {
         this.caster = caster;
-        healHPAmount = heal;
+        healAmount = heal;
         manaRestoreAmount = manaRestore;
         restoreDelay = delay;
         this.duration = duration;
@@ -32,7 +34,7 @@ public class RestoreOverTimePotion : Potion
         duration -= Time.deltaTime;
         if (timer <= 0)
         {
-            if (healHPAmount > 0)      caster.RestoreHP(healHPAmount, true);
+            if (healAmount > 0)      caster.RestoreHP(healAmount, true);
             if (manaRestoreAmount > 0) caster.RestoreMP(manaRestoreAmount);
             timer = restoreDelay;
         }
@@ -44,8 +46,12 @@ public class RestoreOverTimePotion : Potion
     public override string[] ToString(Unit owner)
     {
         var res = new string[1];
-        string restore = (healHPAmount > 0 ? healHPAmount + " HP" : "") +
-                         (manaRestoreAmount > 0 ? manaRestoreAmount + " MP" : "");
+        StringBuilder restore = new StringBuilder();
+
+        if (healAmount > 0 && manaRestoreAmount > 0) restore.Append(healAmount + " HP and " + manaRestoreAmount + " MP");
+        else if (healAmount > 0) restore.Append(healAmount + " HP");
+        else if (manaRestoreAmount > 0) restore.Append(manaRestoreAmount + " MP");
+        
         res[0] = string.Format(description, restore, duration);
         return res;
     }

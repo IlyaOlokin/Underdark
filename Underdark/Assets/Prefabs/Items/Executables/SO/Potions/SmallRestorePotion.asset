@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8886e2241f3c0b4bbdc9e769b1a9c82, type: 3}
-  m_Name: HealthPotion
+  m_Name: SmallRestorePotion
   m_EditorClassIdentifier: 
-  ID: health_potion
-  Name: Health potion
+  ID: small_restore_potion
+  Name: Small restore potion
   ItemType: 6
-  Sprite: {fileID: 21300000, guid: dc98641484cb3724f9161856d6b33124, type: 3}
+  Sprite: {fileID: 21300000, guid: f6c8338ac999bc94e9a7d79c7262d443, type: 3}
   StackCapacity: 20
   Requirements:
     <Level>k__BackingField: 0
@@ -26,4 +26,4 @@ MonoBehaviour:
     <DexInt>k__BackingField: 0
     <IntStr>k__BackingField: 0
     <AllStats>k__BackingField: 0
-  executableItem: {fileID: 2422249336189364600, guid: 817f6bd7493923847b2e22a405f7c870, type: 3}
+  executableItem: {fileID: 2663514682042098932, guid: 8065c40728007ad4987acb96f6cb3705, type: 3}

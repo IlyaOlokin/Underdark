@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3232013923072872784}
-  - component: {fileID: -4994264158391483191}
+  - component: {fileID: 2663514682042098932}
   m_Layer: 0
-  m_Name: SmallHealOverTimePotion
+  m_Name: SmallRestorePotion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-4994264158391483191
+--- !u!114 &2663514682042098932
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -46,6 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: Restores {0} every second for {1} sec.
   healAmount: 5
-  manaRestoreAmount: 0
+  manaRestoreAmount: 5
   restoreDelay: 1
   duration: 20
