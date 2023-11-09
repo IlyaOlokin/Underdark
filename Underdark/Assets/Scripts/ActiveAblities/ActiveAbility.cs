@@ -85,26 +85,11 @@ public abstract class ActiveAbility : MonoBehaviour
         attackAngle = weapon.AttackRadius;
     }
 
-    protected string GetStatString(BaseStat baseStat)
-    {
-        switch (baseStat)
-        {
-            case BaseStat.Strength:
-                return "Str";
-            case BaseStat.Dexterity:
-                return "Dex";
-            case BaseStat.Intelligence:
-                return "Int";
-            default:
-                throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null);
-        }
-    }
-
     public new virtual string[] ToString()
     {
         var res = new string[5];
         res[0] = description;
-        if (statMultiplier != 0) res[1] = $"Damage: {statMultiplier} * {GetStatString(baseStat)} (max: {maxValue})";
+        if (statMultiplier != 0) res[1] = $"Damage: {statMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {maxValue})";
         if (ManaCost != 0)       res[2] = $"Mana: {ManaCost}";
         if (attackDistance != 0) res[3] = $"Distance: {attackDistance}";
         if (attackAngle != 0)    res[4] = $"Radius: {attackAngle}";

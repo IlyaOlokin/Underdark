@@ -9,9 +9,14 @@ public class UnitStats
     [field: SerializeField] public int Level { get; private set; }
 
     public int FreePoints;
+    
     [field: SerializeField] public int Strength { get; set; }
     [field: SerializeField] public int Dexterity { get; set; }
     [field: SerializeField] public int Intelligence { get; set; }
+    
+    public int BonusStrength { get; set; }
+    public int BonusDexterity { get; set; }
+    public int BonusIntelligence { get; set; }
 
     public int StrDex => Strength + Dexterity;
     public int DexInt => Dexterity + Intelligence;
@@ -83,7 +88,21 @@ public class UnitStats
         return expNeeded[Level - 1];
     }
 
-    public int GetStatValue(BaseStat baseStat)
+    public int GetTotalStatValue(BaseStat baseStat)
+    {
+        return baseStat switch
+        {
+            BaseStat.Strength => Strength + BonusStrength,
+            BaseStat.Dexterity => Dexterity + BonusDexterity,
+            BaseStat.Intelligence => Intelligence + BonusIntelligence,
+            BaseStat.StrDex => StrDex + BonusStrength + BonusDexterity,
+            BaseStat.DexInt => DexInt + BonusDexterity + BonusIntelligence,
+            BaseStat.IntStr => IntStr + BonusIntelligence + BonusStrength,
+            _ => throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null)
+        };
+    }
+
+    public int GetActualStat(BaseStat baseStat)
     {
         return baseStat switch
         {
@@ -95,7 +114,32 @@ public class UnitStats
             BaseStat.IntStr => IntStr,
             _ => throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null)
         };
-    } 
+    }
+    
+    public int ApplyBonusStat(BaseStat baseStat, int value)
+    {
+        return baseStat switch
+        {
+            BaseStat.Strength => BonusStrength += value,
+            BaseStat.Dexterity => Dexterity += value,
+            BaseStat.Intelligence => Intelligence += value,
+            _ => throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null)
+        };
+    }
+    
+    public static string GetStatString(BaseStat baseStat)
+    {
+        return baseStat switch
+        {
+            BaseStat.Strength => "Str",
+            BaseStat.Dexterity => "Dex",
+            BaseStat.Intelligence => "Int",
+            BaseStat.StrDex => "Str + Dex",
+            BaseStat.DexInt => "Dex + Int",
+            BaseStat.IntStr => "Int + Str",
+            _ => throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null)
+        };
+    }
 
     public static bool operator ==(UnitStats a, UnitStats b)
     {

@@ -5,6 +5,8 @@ using UnityEngine;
 public abstract class ExecutableItem : MonoBehaviour
 {
     [SerializeField] protected string description;
+    protected Unit caster;
+
     
     public abstract void Execute(Unit caster);
 

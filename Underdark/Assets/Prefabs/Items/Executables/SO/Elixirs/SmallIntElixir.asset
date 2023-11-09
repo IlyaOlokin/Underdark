@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8886e2241f3c0b4bbdc9e769b1a9c82, type: 3}
+  m_Name: SmallIntElixir
+  m_EditorClassIdentifier: 
+  ID: small_int_elixir
+  Name: Small Intelligence Elixir
+  ItemType: 6
+  Sprite: {fileID: 21300000, guid: 0290adc8f4725394d915c8e99c784df0, type: 3}
+  StackCapacity: 20
+  Requirements:
+    <Level>k__BackingField: 0
+    <Strength>k__BackingField: 0
+    <Dexterity>k__BackingField: 0
+    <Intelligence>k__BackingField: 0
+    <StrDex>k__BackingField: 0
+    <DexInt>k__BackingField: 0
+    <IntStr>k__BackingField: 0
+    <AllStats>k__BackingField: 0
+  executableItem: {fileID: -2254821999821517747, guid: 3d7bc3600b83e034db3c35e2a614513c, type: 3}

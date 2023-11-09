@@ -6,7 +6,7 @@ public class MagicalRestoration : ActiveAbility
 {
     public override void Execute(Unit caster)
     {
-        var healAmount = (int) Mathf.Min(caster.Stats.GetStatValue(baseStat) * statMultiplier, maxValue);
+        var healAmount = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
         caster.RestoreHP(healAmount, true);
     }
     
@@ -14,7 +14,7 @@ public class MagicalRestoration : ActiveAbility
     {
         var res = new string[3];
         res[0] = description;
-        res[1] = $"Heal: {statMultiplier} * {GetStatString(baseStat)} (max: {maxValue})";
+        res[1] = $"Heal: {statMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {maxValue})";
         if (ManaCost != 0) res[2] = $"Mana: {ManaCost}";
         return res;
     }

@@ -263,6 +263,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         }
         OnHealthChanged?.Invoke(CurrentHP);
     }
+    
+    public void RestoreMP(int mp)
+    {
+        CurrentMana += mp;
+        OnManaChanged?.Invoke(CurrentMana);
+    }
 
     public void GetEnergyShield(int maxHP, float radius)
     {
@@ -396,7 +402,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     public Damage GetTotalDamage()
     {
-        return new Damage(GetWeapon().Damage, Stats.Strength);
+        return new Damage(GetWeapon().Damage, Stats.GetTotalStatValue(BaseStat.Strength));
     }
 
     public void Attack(IDamageable damageable)
