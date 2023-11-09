@@ -11,7 +11,7 @@ public class HealthPotion : ExecutableItem
         caster.RestoreHP(healAmount, true);
     }
 
-    public override string[] ToString()
+    public override string[] ToString(Unit owner)
     {
         var res = new string[1];
         res[0] = string.Format(description, healAmount);

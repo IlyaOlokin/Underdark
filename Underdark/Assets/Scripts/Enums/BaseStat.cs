@@ -6,5 +6,8 @@ public enum BaseStat
 {
     Strength,
     Dexterity,
-    Intelligence
+    Intelligence,
+    StrDex,
+    DexInt,
+    IntStr
 }

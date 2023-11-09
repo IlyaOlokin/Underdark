@@ -6,15 +6,27 @@ using UnityEngine.Serialization;
 public class ScrollActiveAbility : ExecutableItem
 {
     [SerializeField] private ActiveAbilitySO item;
+    [SerializeField] private BaseStat baseStat;
+    [SerializeField] private int param;
     public override void Execute(Unit caster)
     {
-        caster.Inventory.TryAddActiveAbilityItem(item);
+        if (Random.Range(0f, 1f) <= CalculateChance(caster))
+        {
+            caster.Inventory.TryAddActiveAbilityItem(item);
+        }
     }
 
-    public override string[] ToString()
+    private float CalculateChance(Unit caster)
+    {
+        var x = Mathf.Exp(caster.Stats.GetStatValue(baseStat) - param);
+        var y = Mathf.Exp(param - caster.Stats.GetStatValue(baseStat));
+        return (x - y) / (2 * (x + y)) + 0.5f;
+    }
+
+    public override string[] ToString(Unit owner)
     {
         var res = new string[1];
-        res[0] = string.Format(description, item.Name , "100%");
+        res[0] = string.Format(description, item.Name , Mathf.Floor(CalculateChance(owner) * 100));
         return res;
     }
 }

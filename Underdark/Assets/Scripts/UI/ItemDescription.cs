@@ -11,14 +11,14 @@ public class ItemDescription : MonoBehaviour
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI itemName;
     
-    public void ShowItemDescription(Item item)
+    public void ShowItemDescription(Item item, Unit owner)
     {
         ResetDescriptionActive(true);
         
         icon.sprite = item.Sprite;
         itemName.text = item.Name;
 
-        var properties = item.ToString();
+        var properties = item.ItemType == ItemType.Executable ? item.ToString(owner) : item.ToString();
 
         for (int i = 0; i < properties.Length; i++)
         {
