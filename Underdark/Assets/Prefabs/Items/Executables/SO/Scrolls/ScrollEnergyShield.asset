@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3737e909d9d41c43b65b43a7612808a, type: 3}
-  m_Name: EnergyWave
+  m_Script: {fileID: 11500000, guid: e8886e2241f3c0b4bbdc9e769b1a9c82, type: 3}
+  m_Name: ScrollEnergyShield
   m_EditorClassIdentifier: 
-  ID: energy_wave
-  Name: Energy wave
-  ItemType: 7
-  Sprite: {fileID: 21300000, guid: 8661c2c7e325a33438f06b02458fd199, type: 3}
+  ID: scroll_energy_shield
+  Name: Scroll energy shield
+  ItemType: 6
+  Sprite: {fileID: 21300000, guid: dbaa50961e3cd37468021eb65d631c9f, type: 3}
   StackCapacity: 1
   Requirements:
     <Level>k__BackingField: 0
@@ -26,4 +26,4 @@ MonoBehaviour:
     <DexInt>k__BackingField: 0
     <IntStr>k__BackingField: 0
     <AllStats>k__BackingField: 0
-  ActiveAbility: {fileID: 4949812109997606170, guid: eced4197a597c4f44b8ea8373f952949, type: 3}
+  executableItem: {fileID: -2832681209090287796, guid: a1f742bffabe8994f9ca30a806ad961b, type: 3}

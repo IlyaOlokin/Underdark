@@ -26,7 +26,7 @@ public class CircularSwing : ActiveAbility, IAttacker
 
         foreach (var target in targets)
         {
-            if (target.GetComponent<IDamageable>().TakeDamage(caster, damage))
+            if (target.GetComponent<IDamageable>().TakeDamage(caster, this, damage))
             {
                 foreach (var debuffInfo in debuffInfos)
                 {

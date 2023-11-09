@@ -28,7 +28,7 @@ public class Bleed : Debuff
         duration -= Time.deltaTime;
         if (dmgTimer <= 0)
         {
-            receiver.TakeDamage(caster, bleedInfo.Damage, false);
+            receiver.TakeDamage(caster, caster, bleedInfo.Damage, false);
             dmgTimer = bleedInfo.DmgDelay;
         }
 

@@ -21,6 +21,7 @@ public class UnitNotificationEffect : MonoBehaviour
     
     [Header("Colors")]
     [SerializeField] private Color dmgColor;
+    [SerializeField] private Color dmgEnergyShieldColor;
     [SerializeField] private Color healColor;
     [SerializeField] private Color messageColor;
     private float timer;
@@ -28,9 +29,6 @@ public class UnitNotificationEffect : MonoBehaviour
     private Vector3 startScale;
     private Vector3 startPos;
     private Vector3 targetPos;
-
-    
-    //[SerializeField] private List<InnerColor> colors = new List<InnerColor>();
 
     void Start()
     {
@@ -41,7 +39,7 @@ public class UnitNotificationEffect : MonoBehaviour
         startScale = objectToMove.localScale;
         targetScale = startScale * scaleMultiplier;
         startPos = objectToMove.position;
-        targetPos = transform.position + Vector3.up;
+        targetPos = objectToMove.position + Vector3.up;
     }
 
     private void Update()
@@ -59,9 +57,10 @@ public class UnitNotificationEffect : MonoBehaviour
         }
     }
 
-    public void WriteDamage(float dmg)
+    public void WriteDamage(float dmg, bool energyShield = false)
     {
-        text.color = dmgColor;
+        if (energyShield) text.color = dmgEnergyShieldColor;
+        else text.color = dmgColor;
         text.text = Math.Round(dmg).ToString();
     }
 

@@ -47,6 +47,11 @@ public class Player : Unit, IPickUper
     {
         base.Update();
         RotateAttackDir();
+
+        if (Input.GetKeyDown(KeyCode.R)) // debug
+        {
+            GetEnergyShield(9, 180);
+        }
     }
 
     private void OnDrawGizmos()
@@ -65,6 +70,7 @@ public class Player : Unit, IPickUper
         attackDirAngle = Vector3.Angle(Vector3.right, lastMoveDir);
         if (lastMoveDir.y < 0) attackDirAngle *= -1;
         baseAttackCollider.transform.eulerAngles = new Vector3(0, 0, attackDirAngle - 90);
+        unitVisualRotatable.transform.eulerAngles = new Vector3(0, 0, attackDirAngle - 90);
     }
 
     public int TryPickUpItem(Item item, int amount)

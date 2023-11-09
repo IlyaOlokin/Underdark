@@ -20,10 +20,15 @@ public class UnitVisual : MonoBehaviour
     [Header("Debuffs")] 
     public GameObject StunBar;
 
+    [Header("Energy Shield")] 
+    [SerializeField] private GameObject EnergyShield;
+    private SpriteRenderer energyShieldSpriteRenderer;
+
     private void Awake()
     {
         GetComponent<SpriteRenderer>().material = new Material(mat);
         mat = GetComponent<SpriteRenderer>().material;
+        energyShieldSpriteRenderer = EnergyShield.GetComponent<SpriteRenderer>();
     }
 
     public void StartAlert()
@@ -70,5 +75,19 @@ public class UnitVisual : MonoBehaviour
             yield return null;
         }
         mat.SetFloat("_WhiteOut", 0);
+    }
+
+    public void ActivateEnergyShieldVisual(float radius)
+    {
+        EnergyShield.SetActive(true);
+        energyShieldSpriteRenderer.material = new Material(energyShieldSpriteRenderer.material);
+        
+        energyShieldSpriteRenderer.material.SetFloat("_Turn", 90);
+        energyShieldSpriteRenderer.material.SetFloat("_FillAmount", radius);
+    }
+
+    public void DeactivateEnergyShieldVisual()
+    {
+        EnergyShield.SetActive(false);
     }
 }

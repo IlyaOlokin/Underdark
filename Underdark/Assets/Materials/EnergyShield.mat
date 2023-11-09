@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RadialFill
+  m_Name: EnergyShield
   m_Shader: {fileID: -6465566751694194690, guid: 587b08343366c9145abbb85031e1c8b5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -28,7 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: a1e52b779b386844e9cf25714ede1cec, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_a652beac2ff24532b3afbedc414c7522_Out_0_Texture2D:
@@ -58,7 +58,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _FillAmount: 350
-    - _NeedOneMinusAlpha: 0
+    - _NeedOneMinusAlpha: 1
     - _Thikness: 8
     - _Turn: 0
     m_Colors:
