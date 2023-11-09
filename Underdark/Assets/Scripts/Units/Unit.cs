@@ -263,6 +263,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         }
         OnHealthChanged?.Invoke(CurrentHP);
     }
+    
+    public void RestoreMP(int mp)
+    {
+        CurrentMana += mp;
+        OnManaChanged?.Invoke(CurrentMana);
+    }
 
     public void GetEnergyShield(int maxHP, float radius)
     {

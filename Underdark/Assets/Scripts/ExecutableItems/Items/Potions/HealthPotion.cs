@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthPotion : ExecutableItem
+public class HealthPotion : Potion
 {
     [SerializeField] private int healAmount;
     
     public override void Execute(Unit caster)
     {
+        base.Execute(caster);
         caster.RestoreHP(healAmount, true);
     }
 
