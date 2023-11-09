@@ -18,8 +18,8 @@ public class ScrollActiveAbility : ExecutableItem
 
     private float CalculateChance(Unit caster)
     {
-        var x = Mathf.Exp(caster.Stats.GetStatValue(baseStat) - param);
-        var y = Mathf.Exp(param - caster.Stats.GetStatValue(baseStat));
+        var x = Mathf.Exp(caster.Stats.GetTotalStatValue(baseStat) - param);
+        var y = Mathf.Exp(param - caster.Stats.GetTotalStatValue(baseStat));
         return (x - y) / (2 * (x + y)) + 0.5f;
     }
 

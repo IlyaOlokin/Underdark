@@ -12,7 +12,7 @@ public class CircularSwing : ActiveAbility, IAttacker
     public override void Execute(Unit caster)
     {
         this.caster = caster;
-        damage = Mathf.Min(caster.Stats.GetStatValue(baseStat) * statMultiplier, maxValue);
+        damage = Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
         
         Attack();
         
