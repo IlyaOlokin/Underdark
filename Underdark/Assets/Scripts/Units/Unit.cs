@@ -231,12 +231,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
             if (EnergyShield.AbsorbDamage(ref newDamage, angle))
             {
-                newEffect.WriteDamage(savedDamage);
+                newEffect.WriteDamage(savedDamage, true);
 
                 if (newDamage > 0)
                 {
                     var newEffectForES = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
-                    newEffectForES.WriteDamage(savedDamage - newDamage);
+                    newEffectForES.WriteDamage(savedDamage - newDamage, true);
                     LooseEnergyShield();
                 }
                     

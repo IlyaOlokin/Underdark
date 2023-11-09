@@ -728,7 +728,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: drop.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: drop.Array.data[0].Item
@@ -761,7 +761,7 @@ PrefabInstance:
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: drop.Array.data[7].Item
       value: 
-      objectReference: {fileID: 11400000, guid: ee7d254080af1f04fb419e8b38375e1d, type: 2}
+      objectReference: {fileID: 11400000, guid: da13737303e01454bbb186f9e4dbe375, type: 2}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: drop.Array.data[8].Item
       value: 
@@ -1556,7 +1556,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 174c4b9e35453a643ae70de180be13fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camera: {fileID: 1898844489}
+  virtCamera: {fileID: 1898844489}
 --- !u!114 &1898844489
 MonoBehaviour:
   m_ObjectHideFlags: 0

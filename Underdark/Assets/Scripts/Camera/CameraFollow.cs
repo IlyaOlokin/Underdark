@@ -3,18 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using Cinemachine;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class CameraFollow : MonoBehaviour
 {
-    [SerializeField] private CinemachineVirtualCamera camera;
+    [SerializeField] private CinemachineVirtualCamera virtCamera;
     private Transform player;
 
     [Inject]
     private void Construct(Player player)
     {
-        
-        camera.Follow = player.transform;
+        virtCamera.Follow = player.transform;
     }
 
     private void Start()
