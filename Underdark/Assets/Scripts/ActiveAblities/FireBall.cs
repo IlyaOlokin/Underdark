@@ -10,11 +10,19 @@ public class FireBall : ActiveAbility, IAttacker
     public Transform Transform => transform;
 
     private Rigidbody2D rb;
+    private Collider2D coll;
+
+    [Header("Visual")] 
+    [SerializeField] private GameObject light;
+    [SerializeField] private List<ParticleSystem> particleSystems;
+    [SerializeField] private List<ParticleSystem> deathExplosion;
+    [SerializeField] private float destroyDelay = 1.5f;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        Destroy(gameObject, attackDistance / projSpeed);
+        coll = GetComponent<Collider2D>();
+        Invoke(nameof(Die),  attackDistance / projSpeed);
     }
 
     public override void Execute(Unit caster)
@@ -42,8 +50,23 @@ public class FireBall : ActiveAbility, IAttacker
             {
                 Attack(damageable);
             }
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        coll.enabled = false;
+        rb.velocity = Vector2.zero;
+        light.SetActive(false);
+        
+        foreach (var system in particleSystems)
+            system.Stop();
+        
+        foreach (var system in deathExplosion)
+            system.Play();
+        CancelInvoke(nameof(Die));
+        Destroy(gameObject, destroyDelay);
     }
     
     public void Attack()
