@@ -12,7 +12,7 @@ public class BaseAttackVisual : MonoBehaviour
     public void Swing(float dir, float angle, float dist)
     {
         StartCoroutine(StartSwing(dir, angle, dist + 1));
-        Destroy(gameObject, 0.3f);
+        Destroy(gameObject, swingDuration);
     }
 
     private IEnumerator StartSwing(float dir, float angle, float dist)

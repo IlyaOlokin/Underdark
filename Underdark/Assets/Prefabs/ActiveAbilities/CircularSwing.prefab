@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d888432bee62d47af9ff250e5b601b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swingDuration: 0.3
+  swingDuration: 0.5
   trailRenderer: {fileID: 4217598937188255408}
   swingPoint: {fileID: 2825220188116429564}
 --- !u!1 &7490984337324328252
@@ -279,6 +279,6 @@ MonoBehaviour:
   baseStat: 0
   debuffInfos: []
   needAutoDestroy: 1
-  autoDestroyDelay: 0.3
+  autoDestroyDelay: 0.5
   description: You quickly spin around yourself, cutting through all nearby enemies.
   visual: {fileID: 5458613704054157728}
