@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityHFSM;
 using Zenject;
@@ -22,7 +23,7 @@ public class MobileInput : MonoBehaviour, IInput
 
     private void Awake()
     {
-        inputUI.shootButton.onClick.AddListener(Shoot);
+        inputUI.shootButton.GetComponent<ShootButton>().OnShoot += Shoot;
         inputUI.activeAbilityButtons[0].onClick.AddListener(ActiveAbility1);
         inputUI.activeAbilityButtons[1].onClick.AddListener(ActiveAbility2);
         inputUI.activeAbilityButtons[2].onClick.AddListener(ActiveAbility3);

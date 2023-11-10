@@ -28,7 +28,7 @@ public class DesktopInput : MonoBehaviour, IInput
     void Update()
     {
         dir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
             ShootInput?.Invoke();
         
         if (Input.GetKeyDown(KeyCode.Alpha1))
