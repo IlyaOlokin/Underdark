@@ -139,9 +139,10 @@ public class Inventory : IInventory
         return item != null;
     }
 
-    public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot,ItemType fromSlotItemType = ItemType.Any, ItemType toSlotItemType = ItemType.Any)
+    public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot, ItemType fromSlotItemType = ItemType.Any, ItemType toSlotItemType = ItemType.Any)
     {
         if (fromSlot.IsEmpty) return;
+        if (fromSlot == toSlot) return;
         
         // check requirements
         bool equipmentChanged = false;
