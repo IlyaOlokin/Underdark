@@ -11,10 +11,12 @@ public class Bootstrap : MonoBehaviour
     {
 #if UNITY_ANDROID
         InputType = InputType.Mobile;
+        Application.targetFrameRate = 60;
 #endif
         
 #if UNITY_EDITOR || UNITY_STANDALONE
         InputType = InputType.Desktop;
+        Application.targetFrameRate = -1;
 #endif
     }
 
