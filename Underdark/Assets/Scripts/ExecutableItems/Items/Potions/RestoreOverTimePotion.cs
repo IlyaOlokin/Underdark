@@ -1,3 +1,4 @@
+using System;
 using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -14,10 +15,10 @@ public class RestoreOverTimePotion : Potion
     {
         base.Execute(caster);
         var comp = caster.AddComponent<RestoreOverTimePotion>();
-        comp.Init(caster, healAmount, manaRestoreAmount, restoreDelay, Duration);
+        comp.Init(caster, healAmount, manaRestoreAmount, restoreDelay, Duration, Icon);
     }
 
-    public void Init(Unit caster, int heal, int manaRestore, float delay, float duration)
+    public void Init(Unit caster, int heal, int manaRestore, float delay, float duration, Sprite icon)
     {
         this.caster = caster;
         healAmount = heal;
@@ -26,6 +27,7 @@ public class RestoreOverTimePotion : Potion
         Duration = duration;
         Timer = duration;
         timer = delay;
+        Icon = icon;
         caster.ReceiveBuff(this);
     }
 
@@ -43,8 +45,12 @@ public class RestoreOverTimePotion : Potion
         if (Timer <= 0)
         {
             Destroy(this);
-            caster.LooseBuff(this);
         }
+    }
+
+    private void OnDestroy()
+    {
+        caster.LooseBuff(this);
     }
 
     public override string[] ToString(Unit owner)

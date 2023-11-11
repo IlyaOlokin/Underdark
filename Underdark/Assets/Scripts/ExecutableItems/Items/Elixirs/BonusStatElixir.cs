@@ -16,15 +16,16 @@ public class BonusStatElixir : Elixir
     {
         base.Execute(caster);
         var comp = caster.AddComponent<BonusStatElixir>();
-        comp.Init(bonusStat, bonusValue, Duration, caster);
+        comp.Init(bonusStat, bonusValue, Duration, Icon, caster);
     }
 
-    public void Init(BaseStat bonusStat, int bonusValue, float duration, Unit caster)
+    public void Init(BaseStat bonusStat, int bonusValue, float duration, Sprite icon, Unit caster)
     {
         this.bonusStat = bonusStat;
         this.bonusValue = bonusValue;
         Duration = duration;
         Timer = duration;
+        Icon = icon;
         localCaster = caster;
         localCaster.Stats.ApplyBonusStat(bonusStat, bonusValue);
         caster.ReceiveBuff(this);
@@ -39,11 +40,10 @@ public class BonusStatElixir : Elixir
 
     private void OnDestroy()
     {
-        caster.LooseBuff(this);
+        localCaster.LooseBuff(this);
         localCaster.Stats.ApplyBonusStat(bonusStat, -bonusValue);
     }
-
-
+    
     public override string[] ToString(Unit owner)
     {
         var res = new string[1];

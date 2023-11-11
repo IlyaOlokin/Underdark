@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Potion : ExecutableItem, IBuff
 {
-    [field:SerializeField] public Sprite Icon { get; private set; }
+    [field:SerializeField] public Sprite Icon { get; protected set; }
     [field:SerializeField] public float Duration { get; protected set;}
     public float Timer { get; protected set; }
 
