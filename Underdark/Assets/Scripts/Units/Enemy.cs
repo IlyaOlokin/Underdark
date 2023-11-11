@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 public class Enemy : Unit
 {
-    protected Player player;
+    private Transform player;
     
     [Header("Enemy Setup")] 
     [SerializeField] protected Transform moveTarget;
@@ -27,12 +27,6 @@ public class Enemy : Unit
     
     protected bool isPlayerInMeleeRange;
     protected bool isPlayerInChasingRange;
-    
-    [Inject]
-    private void Construct(Player player)
-    {
-        this.player = player;
-    }
 
     protected override void Awake()
     {
@@ -137,7 +131,7 @@ public class Enemy : Unit
     }
     private void RotateAttackDir()
     {
-        var dirToPlayer = player.transform.position - transform.position;
+        var dirToPlayer = moveTarget.transform.position - transform.position;
         attackDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
         if (dirToPlayer.y < 0) attackDirAngle *= -1;
         baseAttackCollider.transform.eulerAngles = new Vector3(0, 0, attackDirAngle - 90);
@@ -148,6 +142,7 @@ public class Enemy : Unit
         moveTarget.position = player.position;
         EnemyFSM.Trigger(StateEvent.DetectPlayer);
         isPlayerInChasingRange = true;
+        this.player = player;
         AgrNearbyAllies();
     }
     
@@ -160,7 +155,8 @@ public class Enemy : Unit
 
     protected bool ShouldMelee(Transition<EnemyState> transition) =>
         attackCDTimer < 0 
-        && Vector2.Distance(player.transform.position, transform.position) <= GetWeapon().AttackDistance + 1
+        && isPlayerInChasingRange
+        && Vector2.Distance(moveTarget.transform.position, transform.position) <= GetWeapon().AttackDistance + 1
         && !IsStunned;
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 

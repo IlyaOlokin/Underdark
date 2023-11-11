@@ -31,12 +31,12 @@ public class MeleeEnemy : Enemy
         //EnemyFSM.AddTriggerTransition(StateEvent.LostPlayer, new Transition<EnemyState>(EnemyState.Chase, EnemyState.Idle));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle, EnemyState.Chase,
             (transition) => isPlayerInChasingRange
-                            && Vector3.Distance(player.transform.position, transform.position) > agent.stoppingDistance
+                            && Vector3.Distance(moveTarget.transform.position, transform.position) > agent.stoppingDistance
                             && !IsStunned)
         );
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase, EnemyState.Idle,
             (transition) => !isPlayerInChasingRange
-                            && Vector3.Distance(player.transform.position, transform.position) <= agent.stoppingDistance)
+                            && Vector3.Distance(moveTarget.transform.position, transform.position) <= agent.stoppingDistance)
         );
 
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase, EnemyState.BaseAttackPrep, ShouldMelee ,
