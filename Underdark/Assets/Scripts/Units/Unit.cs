@@ -64,6 +64,10 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public event Action<float, float, float> OnBaseAttack;
     public event Action<int> OnExecutableItemUse;
 
+    [NonSerialized] public List<IBuff> Buffs = new();
+    public event Action<IBuff> OnBuffReceive;
+    public event Action<IBuff> OnBuffLoose;
+
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
     public Transform Transform => transform;
@@ -339,6 +343,18 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         return true;
     }
 
+    public void ReceiveBuff(IBuff buff)
+    {
+        Buffs.Add(buff);
+        OnBuffReceive?.Invoke(buff);
+    }
+    
+    public void LooseBuff(IBuff buff)
+    {
+        Buffs.Remove(buff);
+        OnBuffLoose?.Invoke(buff);
+    }
+
     public virtual void EndPush()
     {
         IsPushing = false;
@@ -503,11 +519,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         return Inventory.Equipment.GetWeapon();
     }
 
-    public Armor GetArmor(ItemType itemType) => Inventory.Equipment.GetArmor(itemType);
-
     private int GetArmorAmount(ItemType itemType)
     {
-        var armor = GetArmor(itemType);
+        var armor = Inventory.Equipment.GetArmor(itemType);
         if (armor == null)
             return 0;
 

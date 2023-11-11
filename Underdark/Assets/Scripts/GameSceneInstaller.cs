@@ -15,6 +15,8 @@ public class GameSceneInstaller : MonoInstaller
     [Header("UI")] [SerializeField] private Canvas canvas;
     [SerializeField] private PlayerInputUI playerInputUIMobile;
     [SerializeField] private PlayerInputUI playerInputUIDesktop;
+    [SerializeField] private PlayerUI playerUI;
+    
     [SerializeField] private InventoryUI playerInventoryUI;
     [SerializeField] private CharacterWindowUI characterWindowUI;
     
@@ -22,12 +24,13 @@ public class GameSceneInstaller : MonoInstaller
     {
         BindPlayerInventoryUI();
         BindCharacterWindowUI();
+        
         BindPlayerUI();
+        BindPlayerInputUI();
         BindInput();
         BindPlayer();
-        //BindCamera();
     }
-
+    
     private void BindPlayerInventoryUI()
     {
         Container.Bind<InventoryUI>().FromInstance(playerInventoryUI).AsSingle();
@@ -37,8 +40,13 @@ public class GameSceneInstaller : MonoInstaller
     {
         Container.Bind<CharacterWindowUI>().FromInstance(characterWindowUI).AsSingle();
     }
-
+    
     private void BindPlayerUI()
+    {
+        Container.Bind<PlayerUI>().FromInstance(playerUI).AsSingle();
+    }
+
+    private void BindPlayerInputUI()
     {
         RectTransform rectTransform;
         switch (Bootstrap.InputType)

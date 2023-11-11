@@ -48,6 +48,9 @@ public class DesktopInput : MonoBehaviour, IInput
 
         if (Input.GetKeyDown(KeyCode.Tab))
             inputUI.inventoryButton.onClick?.Invoke();
+        
+        if (Input.GetKeyDown(KeyCode.I))
+            inputUI.characterButton.onClick?.Invoke();
 
     }
 

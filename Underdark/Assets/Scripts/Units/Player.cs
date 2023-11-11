@@ -12,12 +12,11 @@ public class Player : Unit, IPickUper
     public event Action OnExpGained;
     
     [Inject]
-    private void Construct(IInput userInput, PlayerInputUI inputUI, InventoryUI playerInventoryUI, CharacterWindowUI characterWindowUI)
+    private void Construct(IInput userInput, PlayerInputUI inputUI, PlayerUI playerUI)
     {
-        inputUI.Init(this, playerInventoryUI.gameObject, characterWindowUI.gameObject);
-        playerInventoryUI.Init(this);
-        characterWindowUI.Init(this);
-        
+        inputUI.Init(this, playerUI.inventoryUI.gameObject, playerUI.characterWindowUI.gameObject);
+        playerUI.Init(this);
+
         input = userInput;
         input.MoveInput += Move;
         input.ShootInput += Attack;
@@ -26,7 +25,7 @@ public class Player : Unit, IPickUper
 
         input.ExecutableItemInput += ExecuteExecutableItem;
     }
-
+    
     private void OnEnable()
     {
         Inventory.OnEquipmentChanged += SetAttackCollider;
