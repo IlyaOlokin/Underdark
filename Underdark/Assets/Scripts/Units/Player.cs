@@ -27,9 +27,18 @@ public class Player : Unit, IPickUper
         input.ExecutableItemInput += ExecuteExecutableItem;
     }
 
+    private void OnEnable()
+    {
+        Inventory.OnEquipmentChanged += SetAttackCollider;
+        Inventory.OnActiveAbilitiesChanged += SetActiveAbilitiesCDs;
+        Stats.OnStatsChanged += SetHP;
+        Stats.OnStatsChanged += SetMana;
+        Stats.OnLevelUp += OnLevelUp;
+    }
+
     protected override void Death(Unit killer)
     {
-        Destroy(gameObject);
+        base.Death(killer);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
@@ -41,6 +50,12 @@ public class Player : Unit, IPickUper
         input.ActiveAbilityInput -= ExecuteActiveAbility;
         
         input.ExecutableItemInput -= ExecuteExecutableItem;
+        
+        Inventory.OnEquipmentChanged -= SetAttackCollider;
+        Inventory.OnActiveAbilitiesChanged -= SetActiveAbilitiesCDs;
+        Stats.OnStatsChanged -= SetHP;
+        Stats.OnStatsChanged -= SetMana;
+        Stats.OnLevelUp -= OnLevelUp;
     }
 
     protected override void Update()

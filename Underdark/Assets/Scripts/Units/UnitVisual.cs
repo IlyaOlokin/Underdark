@@ -31,6 +31,12 @@ public class UnitVisual : MonoBehaviour
         energyShieldSpriteRenderer = EnergyShield.GetComponent<SpriteRenderer>();
     }
 
+    private void OnEnable()
+    {
+        mat.SetFloat("_WhiteOut", 0);
+        mat.SetFloat("_Thickness", 0);
+    }
+
     public void StartAlert()
     {
         StartCoroutine(Alert());

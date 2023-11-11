@@ -32,6 +32,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     public event Action<int> OnHealthChanged;
     public event Action<int> OnMaxHealthChanged;
+    public event Action OnUnitDeath;
 
     [SerializeField] private int baseMaxMana;
     public int MaxMana { get; private set; }
@@ -96,17 +97,31 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         rb = GetComponent<Rigidbody2D>();
         
         Inventory = new Inventory(inventoryCapacity, activeAbilityInventoryCapacity, this);
-        Inventory.OnEquipmentChanged += SetAttackCollider;
-        Inventory.OnActiveAbilitiesChanged += SetActiveAbilitiesCDs;
-        Stats.OnStatsChanged += SetHP;
-        Stats.OnStatsChanged += SetMana;
-        Stats.OnLevelUp += OnLevelUp;
         
         ActiveAbilitiesCD = new List<float>(new float[Inventory.EquippedActiveAbilitySlots.Count]);
         lastActiveAbilitiesIDs = new string[Inventory.EquippedActiveAbilitySlots.Count];
     }
+    
+    private void Start()
+    {
+        SetUnit();
+    }
 
-    private void SetMana(bool toFull = false)
+    protected void SetUnit()
+    {
+        SetHP(true);
+        SetMana(true);
+        SetAttackCollider();
+        SetActiveAbilitiesCDs();
+    }
+
+    protected virtual void Update()
+    {
+        UpdateCoolDowns();
+        Regeneration();
+    }
+    
+    protected void SetMana(bool toFull = false)
     {
         float currentPart = CurrentMana / (float) MaxMana;
         MaxMana = baseMaxMana + Stats.Intelligence * 10;
@@ -120,7 +135,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         OnManaChanged?.Invoke(CurrentMana);
     }
 
-    private void SetHP(bool toFull = false)
+    protected void SetHP(bool toFull = false)
     {
         float currentPart = CurrentHP / (float) MaxHP;
         MaxHP = baseMaxHP + Stats.Strength * 10;
@@ -132,20 +147,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
         OnMaxHealthChanged?.Invoke(MaxHP);
         OnHealthChanged?.Invoke(CurrentHP);
-    }
-
-    private void Start()
-    {
-        SetHP(true);
-        SetMana(true);
-        SetAttackCollider();
-        SetActiveAbilitiesCDs();
-    }
-
-    protected virtual void Update()
-    {
-        UpdateCoolDowns();
-        Regeneration();
     }
 
     private void UpdateCoolDowns()
@@ -190,7 +191,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         }
     }
     
-    private void OnLevelUp()
+    protected void OnLevelUp()
     {
         SetHP(true);
         SetMana(true);
@@ -360,7 +361,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
 
     protected virtual void Death(Unit killer)
     {
-        Destroy(gameObject);
+        OnUnitDeath?.Invoke();
+        gameObject.SetActive(false);
     }
 
     public virtual void Move(Vector3 dir)
@@ -416,7 +418,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         return Random.Range(0f, 1f) > chance;
     }
 
-    private void SetAttackCollider()
+    protected void SetAttackCollider()
     {
         int pointStep = 10;
         int pointsCount = GetWeapon().AttackRadius / pointStep + 1;
@@ -447,7 +449,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         ActiveAbilitiesCD[index] = newAbility.cooldown;
     }
 
-    private void SetActiveAbilitiesCDs()
+    protected void SetActiveAbilitiesCDs()
     {
         for (int i = 0; i < Inventory.EquippedActiveAbilitySlots.Count; i++)
         {

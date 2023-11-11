@@ -12,8 +12,9 @@ using Random = UnityEngine.Random;
 public class Enemy : Unit
 {
     private Transform player;
-    
+
     [Header("Enemy Setup")] 
+    [SerializeField] private Transform spawnPont;
     [SerializeField] protected Transform moveTarget;
     [SerializeField] protected NavMeshAgent agent;
     protected StateMachine<EnemyState, StateEvent> EnemyFSM;
@@ -36,8 +37,14 @@ public class Enemy : Unit
         moveTarget.transform.SetParent(transform.parent);
         
         EnemyFSM = new();
+    }
+
+    private void OnEnable()
+    {
         followPlayerSensor.OnPlayerEnter += FollowPlayerSensor_OnPlayerEnter;
         followPlayerSensor.OnPlayerExit += FollowPlayerSensor_OnPlayerExit;
+        EnemyFSM.RequestStateChange(EnemyState.Idle, true);
+        SetUnit();
     }
 
     protected override void Update()
@@ -148,7 +155,6 @@ public class Enemy : Unit
     
     private void FollowPlayerSensor_OnPlayerExit(Vector3 lastKnownPosition)
     {
-        EnemyFSM.Trigger(StateEvent.LostPlayer);
         moveTarget.position = lastKnownPosition;
         isPlayerInChasingRange = false;
     }
