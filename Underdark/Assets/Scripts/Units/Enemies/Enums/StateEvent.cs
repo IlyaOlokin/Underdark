@@ -4,6 +4,6 @@ using UnityEngine;
 
 public enum StateEvent 
 {
-    DetectPlayer,
+    StartChase,
     LostPlayer
 }

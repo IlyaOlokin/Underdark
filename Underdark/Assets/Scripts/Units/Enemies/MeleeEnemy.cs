@@ -29,8 +29,8 @@ public class MeleeEnemy : Enemy
     
     private void AddTransitions()
     {
-        EnemyFSM.AddTriggerTransition(StateEvent.DetectPlayer, new Transition<EnemyState>(EnemyState.Idle, EnemyState.Chase));
-        EnemyFSM.AddTriggerTransition(StateEvent.LostPlayer, new Transition<EnemyState>(EnemyState.Chase, EnemyState.Idle));
+        EnemyFSM.AddTriggerTransition(StateEvent.StartChase, new Transition<EnemyState>(EnemyState.Idle, EnemyState.Chase));
+        
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle, EnemyState.Chase,
             (transition) => isPlayerInChasingRange
                             && Vector3.Distance(moveTarget.transform.position, transform.position) > agent.stoppingDistance

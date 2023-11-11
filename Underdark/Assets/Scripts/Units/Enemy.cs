@@ -21,6 +21,8 @@ public class Enemy : Unit
     [SerializeField] protected PlayerSensor followPlayerSensor;
     [SerializeField] protected Collider2D allySensor;
     [SerializeField] protected LayerMask alliesLayer;
+    [SerializeField] private float lostPlayerDelay;
+    private float lostPlayerTimer;
 
     public bool CanMove => !IsStunned && !IsPushing;
     
@@ -55,6 +57,15 @@ public class Enemy : Unit
         TryFlipVisual(agent.desiredVelocity.x);
         if (isPlayerInChasingRange)
             moveTarget.position = player.transform.position;
+        else
+        {
+            lostPlayerTimer -= Time.deltaTime;
+            if (lostPlayerTimer <= 0)
+            {
+                moveTarget.position = spawnPont.position;
+                EnemyFSM.Trigger(StateEvent.StartChase);
+            }
+        }
     }
 
     public override bool TakeDamage(Unit sender, IAttacker attacker, float damage, bool evadable = true, float armorPierce = 0f)
@@ -69,7 +80,7 @@ public class Enemy : Unit
     public void Agr(Vector3 pos)
     {
         moveTarget.position = pos;
-        EnemyFSM.Trigger(StateEvent.DetectPlayer);
+        EnemyFSM.Trigger(StateEvent.StartChase);
     }
 
     private void AgrNearbyAllies()
@@ -147,9 +158,10 @@ public class Enemy : Unit
     private void FollowPlayerSensor_OnPlayerEnter(Transform player)
     {
         moveTarget.position = player.position;
-        EnemyFSM.Trigger(StateEvent.DetectPlayer);
+        EnemyFSM.Trigger(StateEvent.StartChase);
         isPlayerInChasingRange = true;
         this.player = player;
+        lostPlayerTimer = lostPlayerDelay;
         AgrNearbyAllies();
     }
     
