@@ -11,15 +11,18 @@ using Random = UnityEngine.Random;
 
 public class Enemy : Unit
 {
-    protected Player player;
-    
+    private Transform player;
+
     [Header("Enemy Setup")] 
+    [SerializeField] private Transform spawnPont;
     [SerializeField] protected Transform moveTarget;
     [SerializeField] protected NavMeshAgent agent;
     protected StateMachine<EnemyState, StateEvent> EnemyFSM;
     [SerializeField] protected PlayerSensor followPlayerSensor;
     [SerializeField] protected Collider2D allySensor;
     [SerializeField] protected LayerMask alliesLayer;
+    [SerializeField] private float lostPlayerDelay;
+    private float lostPlayerTimer;
 
     public bool CanMove => !IsStunned && !IsPushing;
     
@@ -27,12 +30,6 @@ public class Enemy : Unit
     
     protected bool isPlayerInMeleeRange;
     protected bool isPlayerInChasingRange;
-    
-    [Inject]
-    private void Construct(Player player)
-    {
-        this.player = player;
-    }
 
     protected override void Awake()
     {
@@ -42,8 +39,14 @@ public class Enemy : Unit
         moveTarget.transform.SetParent(transform.parent);
         
         EnemyFSM = new();
+    }
+
+    private void OnEnable()
+    {
         followPlayerSensor.OnPlayerEnter += FollowPlayerSensor_OnPlayerEnter;
         followPlayerSensor.OnPlayerExit += FollowPlayerSensor_OnPlayerExit;
+        EnemyFSM.RequestStateChange(EnemyState.Idle, true);
+        SetUnit();
     }
 
     protected override void Update()
@@ -54,6 +57,15 @@ public class Enemy : Unit
         TryFlipVisual(agent.desiredVelocity.x);
         if (isPlayerInChasingRange)
             moveTarget.position = player.transform.position;
+        else
+        {
+            lostPlayerTimer -= Time.deltaTime;
+            if (lostPlayerTimer <= 0)
+            {
+                moveTarget.position = spawnPont.position;
+                EnemyFSM.Trigger(StateEvent.StartChase);
+            }
+        }
     }
 
     public override bool TakeDamage(Unit sender, IAttacker attacker, float damage, bool evadable = true, float armorPierce = 0f)
@@ -68,7 +80,7 @@ public class Enemy : Unit
     public void Agr(Vector3 pos)
     {
         moveTarget.position = pos;
-        EnemyFSM.Trigger(StateEvent.DetectPlayer);
+        EnemyFSM.Trigger(StateEvent.StartChase);
     }
 
     private void AgrNearbyAllies()
@@ -137,7 +149,7 @@ public class Enemy : Unit
     }
     private void RotateAttackDir()
     {
-        var dirToPlayer = player.transform.position - transform.position;
+        var dirToPlayer = moveTarget.transform.position - transform.position;
         attackDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
         if (dirToPlayer.y < 0) attackDirAngle *= -1;
         baseAttackCollider.transform.eulerAngles = new Vector3(0, 0, attackDirAngle - 90);
@@ -146,21 +158,23 @@ public class Enemy : Unit
     private void FollowPlayerSensor_OnPlayerEnter(Transform player)
     {
         moveTarget.position = player.position;
-        EnemyFSM.Trigger(StateEvent.DetectPlayer);
+        EnemyFSM.Trigger(StateEvent.StartChase);
         isPlayerInChasingRange = true;
+        this.player = player;
+        lostPlayerTimer = lostPlayerDelay;
         AgrNearbyAllies();
     }
     
     private void FollowPlayerSensor_OnPlayerExit(Vector3 lastKnownPosition)
     {
-        EnemyFSM.Trigger(StateEvent.LostPlayer);
         moveTarget.position = lastKnownPosition;
         isPlayerInChasingRange = false;
     }
 
     protected bool ShouldMelee(Transition<EnemyState> transition) =>
         attackCDTimer < 0 
-        && Vector2.Distance(player.transform.position, transform.position) <= GetWeapon().AttackDistance + 1
+        && isPlayerInChasingRange
+        && Vector2.Distance(moveTarget.transform.position, transform.position) <= GetWeapon().AttackDistance + 1
         && !IsStunned;
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 

@@ -13,7 +13,7 @@ public class FireBall : ActiveAbility, IAttacker
     private Collider2D coll;
 
     [Header("Visual")] 
-    [SerializeField] private GameObject light;
+    [SerializeField] private GameObject lightSpot;
     [SerializeField] private List<ParticleSystem> particleSystems;
     [SerializeField] private List<ParticleSystem> deathExplosion;
     [SerializeField] private float destroyDelay = 1.5f;
@@ -58,7 +58,7 @@ public class FireBall : ActiveAbility, IAttacker
     {
         coll.enabled = false;
         rb.velocity = Vector2.zero;
-        light.SetActive(false);
+        lightSpot.SetActive(false);
         
         foreach (var system in particleSystems)
             system.Stop();
