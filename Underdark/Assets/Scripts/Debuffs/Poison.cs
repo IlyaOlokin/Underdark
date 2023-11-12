@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,8 +36,12 @@ public class Poison : Debuff
 
         if (duration <= 0)
         {
-            Destroy(currentVisualPrefab);
             Destroy(this);
         }
+    }
+    
+    private void OnDestroy()
+    {
+        Destroy(currentVisualPrefab);
     }
 }

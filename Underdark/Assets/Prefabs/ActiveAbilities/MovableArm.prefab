@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3995346816480911205}
   - component: {fileID: 1802181053929414290}
   m_Layer: 0
-  m_Name: AccuratePuncture
+  m_Name: MovableArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,21 +73,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CastTime: 0.1
-  cooldown: 2
+  cooldown: 10
   ManaCost: 0
   attackMask:
     serializedVersion: 2
     m_Bits: 64
   attackDistance: 2
   attackAngle: 120
-  maxValue: 80
-  statMultiplier: 3
-  baseStat: 1
+  maxValue: 100
+  statMultiplier: 2
+  baseStat: 3
   debuffInfos:
-  - {fileID: 11400000, guid: e78f4ea9f16a27d4d9cff98fad21f54e, type: 2}
+  - {fileID: 11400000, guid: fc228352a68d73e4496afa55dcf997d7, type: 2}
   needAutoDestroy: 1
-  autoDestroyDelay: 0.2
-  description: You deliver one precise thrust to the enemy's most vulnerable spot.
-  targetsCount: 1
-  attackDelay: 0
+  autoDestroyDelay: 0.5
+  description: You make three quick attacks.
+  targetsCount: 3
+  attackDelay: 0.1
   visualPrefab: {fileID: 2110307370418043212, guid: 4583219448fcf0e448026298a9af9738, type: 3}

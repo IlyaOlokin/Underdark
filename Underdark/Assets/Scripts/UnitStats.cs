@@ -134,9 +134,9 @@ public class UnitStats
             BaseStat.Strength => "Str",
             BaseStat.Dexterity => "Dex",
             BaseStat.Intelligence => "Int",
-            BaseStat.StrDex => "Str + Dex",
-            BaseStat.DexInt => "Dex + Int",
-            BaseStat.IntStr => "Int + Str",
+            BaseStat.StrDex => "(Str + Dex)",
+            BaseStat.DexInt => "(Dex + Int)",
+            BaseStat.IntStr => "(Int + Str)",
             _ => throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null)
         };
     }
