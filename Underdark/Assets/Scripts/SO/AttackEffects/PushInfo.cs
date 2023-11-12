@@ -6,6 +6,8 @@ public class PushInfo : DebuffInfo
 {
     public float Force;
     public PushType PushType;
+    public float PushDuration;
+
     private Vector2 pushDir;
     
     public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)

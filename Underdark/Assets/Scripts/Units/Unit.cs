@@ -337,10 +337,15 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
             Destroy(pushComponent);
         
         var newPush = gameObject.AddComponent<Push>();
-        newPush.Init(1f, this);
+        newPush.Init(pushInfo.PushDuration, this);
         
         rb.AddForce(pushDir, ForceMode2D.Impulse);
         return true;
+    }
+    
+    public virtual void EndPush()
+    {
+        IsPushing = false;
     }
 
     public void ReceiveBuff(IBuff buff)
@@ -354,12 +359,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         Buffs.Remove(buff);
         OnBuffLoose?.Invoke(buff);
     }
-
-    public virtual void EndPush()
-    {
-        IsPushing = false;
-    }
-
+    
     private int CalculateTakenDamage(float damage, float armorPierce)
     {
         return (int)Mathf.Floor(damage * (damage / (damage + GetTotalArmor() * (1 - armorPierce))));
