@@ -57,7 +57,7 @@ public class Enemy : Unit
         TryFlipVisual(agent.desiredVelocity.x);
         if (isPlayerInChasingRange)
             moveTarget.position = player.transform.position;
-        else
+        else if (DistToMovePos() < agent.stoppingDistance)
         {
             lostPlayerTimer -= Time.deltaTime;
             if (lostPlayerTimer <= 0)
@@ -174,7 +174,7 @@ public class Enemy : Unit
     protected bool ShouldMelee(Transition<EnemyState> transition) =>
         attackCDTimer < 0 
         && isPlayerInChasingRange
-        && Vector2.Distance(moveTarget.transform.position, transform.position) <= GetWeapon().AttackDistance + 1
+        && DistToMovePos() <= GetWeapon().AttackDistance + 1
         && !IsStunned;
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 
@@ -190,5 +190,10 @@ public class Enemy : Unit
     {
         followPlayerSensor.OnPlayerEnter -= FollowPlayerSensor_OnPlayerEnter;
         followPlayerSensor.OnPlayerExit -= FollowPlayerSensor_OnPlayerExit;
+    }
+
+    protected float DistToMovePos()
+    {
+        return Vector2.Distance(moveTarget.transform.position, transform.position);
     }
 }
