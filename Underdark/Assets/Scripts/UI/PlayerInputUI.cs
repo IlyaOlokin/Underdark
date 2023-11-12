@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using Zenject;
 using UnityEngine.UI;
@@ -14,6 +15,8 @@ public class PlayerInputUI : MonoBehaviour
     public List<Button> activeAbilityButtons;
     public List<Image> buttonsIcons;
     public List<Image> buttonsCD;
+    public List<TextMeshProUGUI> manaCost;
+    public List<GameObject> notEnoughManaIndicators;
     private List<float> abilitiesCDMax;
     [Header("Inventory")]
     public Button inventoryButton;
@@ -57,6 +60,7 @@ public class PlayerInputUI : MonoBehaviour
         player.Inventory.OnExecutableItemChanged += UpdateExecutableSlots;
         
         player.Inventory.OnEquipmentChanged += CheckActiveAbilitiesRequirements;
+        player.OnManaChanged += CheckActiveAbilitiesManaCost;
        
         UpdateEquippedAbilities();
     }
@@ -82,8 +86,10 @@ public class PlayerInputUI : MonoBehaviour
         abilitiesCDMax = new List<float>();
         for (int i = 0; i < player.Inventory.EquippedActiveAbilitySlots.Count; i++)
         {
-            activeAbilityButtons[i].interactable = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty || player.GetWeapon();
+            activeAbilityButtons[i].interactable = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
             buttonsIcons[i].enabled = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
+            manaCost[i].gameObject.SetActive(!(player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty || player.Inventory.GetActiveAbility(i).ManaCost == 0));
+            
             if (player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty)
             {
                 abilitiesCDMax.Add(0);
@@ -91,11 +97,14 @@ public class PlayerInputUI : MonoBehaviour
             }
             
             ActiveAbility activeAbility = player.Inventory.GetActiveAbility(i);
+
+            manaCost[i].text = activeAbility.ManaCost.ToString();
             abilitiesCDMax.Add(activeAbility.cooldown);
             buttonsIcons[i].sprite = player.Inventory.EquippedActiveAbilitySlots[i].Item.Sprite;
         }
 
         CheckActiveAbilitiesRequirements();
+        CheckActiveAbilitiesManaCost(player.CurrentMana);
     }
 
     private void CheckActiveAbilitiesRequirements()
@@ -106,6 +115,21 @@ public class PlayerInputUI : MonoBehaviour
             
             ActiveAbility activeAbility = player.Inventory.GetActiveAbility(i);
             activeAbilityButtons[i].interactable = activeAbility.RequirementsMet(player.GetWeapon());
+        }
+    }
+
+    private void CheckActiveAbilitiesManaCost(int mana)
+    {
+        for (int i = 0; i < player.Inventory.EquippedActiveAbilitySlots.Count; i++)
+        {
+            if (player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty)
+            {
+                notEnoughManaIndicators[i].SetActive(false);
+                continue;
+            }
+            
+            ActiveAbility activeAbility = player.Inventory.GetActiveAbility(i);
+            notEnoughManaIndicators[i].SetActive(mana < activeAbility.ManaCost);
         }
     }
 
@@ -128,5 +152,6 @@ public class PlayerInputUI : MonoBehaviour
         player.Inventory.OnExecutableItemChanged -= UpdateExecutableSlots;
         
         player.Inventory.OnEquipmentChanged -= CheckActiveAbilitiesRequirements;
+        player.OnManaChanged -= CheckActiveAbilitiesManaCost;
     }
 }

@@ -192,7 +192,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
             manaRegenBuffer += MaxMana * regenPercent * Time.deltaTime;
             if (manaRegenBuffer >= 1)
             {
-                RestoreMana((int)Mathf.Floor(manaRegenBuffer));
+                RestoreMP((int)Mathf.Floor(manaRegenBuffer));
                 manaRegenBuffer %= 1;
             }
         }
@@ -506,12 +506,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public void SpendMana(int manaCost)
     {
         CurrentMana -= manaCost;
-        OnManaChanged?.Invoke(CurrentMana);
-    }
-
-    private void RestoreMana(int mana)
-    {
-        CurrentMana += mana;
         OnManaChanged?.Invoke(CurrentMana);
     }
 

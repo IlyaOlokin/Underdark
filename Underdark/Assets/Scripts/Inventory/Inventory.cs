@@ -145,15 +145,12 @@ public class Inventory : IInventory
         if (fromSlot == toSlot) return;
         
         // check requirements
-        bool equipmentChanged = false;
         if (fromSlot.Item.ItemType != ItemType.Any && toSlotItemType != ItemType.Any) {
             if (!unit.Stats.RequirementsMet(fromSlot.Item.Requirements)) return;
-            equipmentChanged = true;
         } 
         // check requirements for swap case
         if (!toSlot.IsEmpty && toSlot.Item.ItemType != ItemType.Any && fromSlotItemType != ItemType.Any) {
             if (!unit.Stats.RequirementsMet(toSlot.Item.Requirements)) return;
-            equipmentChanged = true;
         } 
 
         if (!toSlot.IsEmpty && fromSlot.ItemID != toSlot.ItemID)
@@ -166,7 +163,7 @@ public class Inventory : IInventory
             toSlot.SetItem(tempItem,tempAmount);
             
             OnInventoryChanged?.Invoke();
-            if (equipmentChanged) OnEquipmentChanged?.Invoke();
+            if (fromSlotItemType != ItemType.Any || toSlotItemType != ItemType.Any) OnEquipmentChanged?.Invoke();
             if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke();
             if (fromSlotItemType == ItemType.Executable || toSlotItemType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
 
@@ -194,7 +191,7 @@ public class Inventory : IInventory
         }
         
         OnInventoryChanged?.Invoke();
-        if (equipmentChanged) OnEquipmentChanged?.Invoke();
+        if (fromSlotItemType != ItemType.Any || toSlotItemType != ItemType.Any) OnEquipmentChanged?.Invoke();
         if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke();
         if (fromSlotItemType == ItemType.Executable || toSlotItemType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
 
