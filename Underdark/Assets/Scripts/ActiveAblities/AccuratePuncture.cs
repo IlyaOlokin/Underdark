@@ -3,40 +3,35 @@ using UnityEngine;
 
 public class AccuratePuncture : ActiveAbility, IAttacker
 {
-    [Header("Visual")]
-    [SerializeField] private Transform visual;
-    [SerializeField] private float visualDuration;
-    [SerializeField] private float endXScale;
-    [SerializeField] private float startYScale;
     public Transform Transform => transform;
+    
+    [SerializeField] private int targetsCount;
+    [SerializeField] private float attackDelay;
+
+    [Header("Visual")] 
+    [SerializeField] private PunctureVisual visualPrefab;
     
     public override void Execute(Unit caster)
     {
         this.caster = caster;
-        damage = Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
-        
-        var target = FindClosestTarget(caster);
-        
-        if (target == null) return;
-        Attack(target.GetComponent<IDamageable>());
-        
-        StartCoroutine(StartVisual(target.transform));
+        StartCoroutine(PerformAttack());
     }
 
-    IEnumerator StartVisual(Transform target)
+    IEnumerator PerformAttack()
     {
-        visual.gameObject.SetActive(true);
-        visual.position = target.position;
-        visual.localScale = new Vector3(0, startYScale);
-        float scaleXSpeed =  endXScale / visualDuration;
-        float scaleYSpeed = -visual.localScale.y / visualDuration;
-        visual.eulerAngles = new Vector3(0, 0, Random.Range(0, 360));
-        
-        while (visualDuration > 0)
+        damage = Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
+
+        for (int i = 0; i < targetsCount; i++)
         {
-            visualDuration -= Time.deltaTime;
-            visual.localScale += new Vector3(scaleXSpeed * Time.deltaTime, scaleYSpeed * Time.deltaTime);
-            yield return null;
+            var target = FindClosestTarget(caster);
+        
+            if (target == null) continue;
+            Attack(target.GetComponent<IDamageable>());
+            
+            var newVisual = Instantiate(visualPrefab, target.transform.position, Quaternion.identity, transform);
+            newVisual.StartVisualEffect(target.transform);
+            
+            yield return new WaitForSeconds(attackDelay);
         }
     }
     
