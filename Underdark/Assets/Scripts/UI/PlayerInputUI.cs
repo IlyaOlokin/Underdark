@@ -55,6 +55,8 @@ public class PlayerInputUI : MonoBehaviour
         characterWindow.SetActive(false);
         player.Inventory.OnActiveAbilitiesChanged += UpdateEquippedAbilities;
         player.Inventory.OnExecutableItemChanged += UpdateExecutableSlots;
+        
+        player.Inventory.OnEquipmentChanged += CheckActiveAbilitiesRequirements;
        
         UpdateEquippedAbilities();
     }
@@ -80,7 +82,7 @@ public class PlayerInputUI : MonoBehaviour
         abilitiesCDMax = new List<float>();
         for (int i = 0; i < player.Inventory.EquippedActiveAbilitySlots.Count; i++)
         {
-            activeAbilityButtons[i].interactable = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
+            activeAbilityButtons[i].interactable = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty || player.GetWeapon();
             buttonsIcons[i].enabled = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
             if (player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty)
             {
@@ -91,6 +93,19 @@ public class PlayerInputUI : MonoBehaviour
             ActiveAbility activeAbility = player.Inventory.GetActiveAbility(i);
             abilitiesCDMax.Add(activeAbility.cooldown);
             buttonsIcons[i].sprite = player.Inventory.EquippedActiveAbilitySlots[i].Item.Sprite;
+        }
+
+        CheckActiveAbilitiesRequirements();
+    }
+
+    private void CheckActiveAbilitiesRequirements()
+    {
+        for (int i = 0; i < player.Inventory.EquippedActiveAbilitySlots.Count; i++)
+        {
+            if (player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty) continue;
+            
+            ActiveAbility activeAbility = player.Inventory.GetActiveAbility(i);
+            activeAbilityButtons[i].interactable = activeAbility.RequirementsMet(player.GetWeapon());
         }
     }
 
@@ -105,5 +120,13 @@ public class PlayerInputUI : MonoBehaviour
     {
         inventory.SetActive(false);
         characterWindow.SetActive(!characterWindow.activeSelf);
+    }
+
+    private void OnDisable()
+    {
+        player.Inventory.OnActiveAbilitiesChanged -= UpdateEquippedAbilities;
+        player.Inventory.OnExecutableItemChanged -= UpdateExecutableSlots;
+        
+        player.Inventory.OnEquipmentChanged -= CheckActiveAbilitiesRequirements;
     }
 }

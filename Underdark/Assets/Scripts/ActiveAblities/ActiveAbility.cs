@@ -14,6 +14,7 @@ public abstract class ActiveAbility : MonoBehaviour
     [SerializeField] protected float maxValue;
     [SerializeField] protected int statMultiplier;
     [SerializeField] protected BaseStat baseStat;
+    [SerializeField] protected List<WeaponType> validWeaponTypes;
     
     protected float damage;
     
@@ -83,6 +84,11 @@ public abstract class ActiveAbility : MonoBehaviour
         if (weapon.ID == "empty") return;
         attackDistance = weapon.AttackDistance;
         attackAngle = weapon.AttackRadius;
+    }
+
+    public bool RequirementsMet(MeleeWeapon weapon)
+    {
+        return validWeaponTypes.Contains(WeaponType.Any) || validWeaponTypes.Contains(weapon.WeaponType);
     }
 
     public new virtual string[] ToString()
