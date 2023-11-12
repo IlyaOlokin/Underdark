@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class AccuratePuncture : ActiveAbility, IAttacker
+public class Puncture : ActiveAbility, IAttacker
 {
     public Transform Transform => transform;
     

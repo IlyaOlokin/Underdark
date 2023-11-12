@@ -117,6 +117,13 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         SetMana(true);
         SetAttackCollider();
         SetActiveAbilitiesCDs();
+        GetUnStunned();
+        EndPush();
+        LooseEnergyShield();
+        foreach (var debuff in GetComponents<Debuff>())
+        {
+            Destroy(debuff);
+        }
     }
 
     protected virtual void Update()
@@ -346,6 +353,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public virtual void EndPush()
     {
         IsPushing = false;
+        rb.totalForce = Vector2.zero;
     }
 
     public void ReceiveBuff(IBuff buff)

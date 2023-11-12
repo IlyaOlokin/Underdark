@@ -6,4 +6,6 @@ public abstract class Debuff : MonoBehaviour
 {
     protected Unit caster;
     protected float duration;
+    
+    
 }
