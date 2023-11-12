@@ -6,6 +6,7 @@ using UnityEngine;
 public class MeleeWeapon : Item
 {
     public Damage Damage;
+    public WeaponType WeaponType;
     public int AttackRadius;
     public int AttackDistance;
     [Range(0f, 1f)] public float ArmorPierce;

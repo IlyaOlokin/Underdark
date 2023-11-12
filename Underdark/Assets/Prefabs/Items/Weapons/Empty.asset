@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Empty
   m_EditorClassIdentifier: 
   ID: empty
+  Name: 
   ItemType: 4
   Sprite: {fileID: 0}
   StackCapacity: 1
@@ -28,6 +29,8 @@ MonoBehaviour:
   Damage:
     minDamage: 0
     maxDamage: 0
+  WeaponType: 2
   AttackRadius: 90
   AttackDistance: 1
+  ArmorPierce: 0
   DebuffInfos: []
