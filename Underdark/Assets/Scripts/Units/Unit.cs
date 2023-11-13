@@ -414,11 +414,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         foreach (var collider in hitUnits)
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, 
-                collider.transform.position - transform.position, 
-                Mathf.Infinity, attackMask);
-            
-            if (hit.transform.CompareTag("Wall")) continue;
+            if (!HitCheck(collider.transform, contactFilter)) continue;
             
             if (collider.TryGetComponent(out IDamageable unit))
             {
@@ -437,6 +433,23 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         SetActionCD(1 / (attackSpeed * 2));
 
         OnBaseAttack?.Invoke(attackDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
+    }
+    
+    private bool HitCheck(Transform target, ContactFilter2D contactFilter)
+    {
+        List<RaycastHit2D> hits = new List<RaycastHit2D>();
+
+        Physics2D.Raycast(transform.position,
+            target.position - transform.position,
+            contactFilter,
+            hits);
+        foreach (var hit in hits)
+        {
+            if (hit.transform.CompareTag("Wall")) return false;
+            if (hit.transform == target) return true;
+        }
+        
+        return true;
     }
 
     public Damage GetTotalDamage()

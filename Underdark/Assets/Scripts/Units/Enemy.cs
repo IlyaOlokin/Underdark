@@ -54,7 +54,7 @@ public class Enemy : Unit
         base.Update();
         EnemyFSM.OnLogic();
         RotateAttackDir();
-        TryFlipVisual(agent.desiredVelocity.x);
+        TryFlipVisual(agent.velocity.x);
         if (isPlayerInChasingRange)
             moveTarget.position = player.transform.position;
         else if (DistToMovePos() < agent.stoppingDistance)

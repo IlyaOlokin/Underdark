@@ -46,7 +46,7 @@ public abstract class ActiveAbility : MonoBehaviour
         float minDist = float.MaxValue;
         foreach (var collider in hitColliders)
         {
-            if (HitCheck(collider)) continue;
+            if (!HitCheck(collider.transform, contactFilter)) continue;
 
             Vector3 dir = collider.transform.position - caster.transform.position;
             var angle = Vector2.Angle(dir, caster.GetAttackDirection());
@@ -70,7 +70,7 @@ public abstract class ActiveAbility : MonoBehaviour
         List<Collider2D> targets = new List<Collider2D>();
         foreach (var collider in hitColliders)
         {
-            if (HitCheck(collider)) continue;
+            if (!HitCheck(collider.transform, contactFilter)) continue;
             
             Vector3 dir = collider.transform.position - caster.transform.position;
             var angle = Vector2.Angle(dir, caster.GetAttackDirection());
@@ -83,14 +83,21 @@ public abstract class ActiveAbility : MonoBehaviour
         return targets;
     }
     
-    private bool HitCheck(Collider2D collider)
+    private bool HitCheck(Transform target, ContactFilter2D contactFilter)
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position,
-            collider.transform.position - transform.position,
-            Mathf.Infinity, attackMask);
+        List<RaycastHit2D> hits = new List<RaycastHit2D>();
 
-        if (hit.transform.CompareTag("Wall")) return true;
-        return false;
+        Physics2D.Raycast(transform.position,
+            target.position - transform.position,
+            contactFilter,
+            hits);
+        foreach (var hit in hits)
+        {
+            if (hit.transform.CompareTag("Wall")) return false;
+            if (hit.transform == target) return true;
+        }
+        
+        return true;
     }
 
     protected void OverrideWeaponStats(MeleeWeapon weapon)
