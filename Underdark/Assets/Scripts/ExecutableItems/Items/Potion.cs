@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Potion : ExecutableItem, IBuff
+public class Potion : ExecutableItem, IStatusEffect
 {
     [field:SerializeField] public Sprite Icon { get; protected set; }
     [field:SerializeField] public float Duration { get; protected set;}

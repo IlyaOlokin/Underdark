@@ -10,8 +10,6 @@ public class BonusStatElixir : Elixir
     [SerializeField] private BaseStat bonusStat;
     [SerializeField] private int bonusValue;
     
-    private Unit localCaster;
-    
     public override void Execute(Unit caster)
     {
         base.Execute(caster);
@@ -26,9 +24,9 @@ public class BonusStatElixir : Elixir
         Duration = duration;
         Timer = duration;
         Icon = icon;
-        localCaster = caster;
-        localCaster.Stats.ApplyBonusStat(bonusStat, bonusValue);
-        caster.ReceiveBuff(this);
+        this.caster = caster;
+        caster.Stats.ApplyBonusStat(bonusStat, bonusValue);
+        caster.ReceiveStatusEffect(this);
     }
 
     private void Update()
@@ -40,8 +38,8 @@ public class BonusStatElixir : Elixir
 
     private void OnDestroy()
     {
-        localCaster.LooseBuff(this);
-        localCaster.Stats.ApplyBonusStat(bonusStat, -bonusValue);
+        caster.LooseStatusEffect(this);
+        caster.Stats.ApplyBonusStat(bonusStat, -bonusValue);
     }
     
     public override string[] ToString(Unit owner)

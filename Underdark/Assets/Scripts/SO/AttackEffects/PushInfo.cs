@@ -26,7 +26,7 @@ public class PushInfo : DebuffInfo
                 throw new ArgumentOutOfRangeException();
         }
         
-        receiver.GetPushed( this, pushDir.normalized * Force);
+        receiver.GetPushed( this, pushDir.normalized * Force, effectIcon);
     }
 
     public override string ToString()

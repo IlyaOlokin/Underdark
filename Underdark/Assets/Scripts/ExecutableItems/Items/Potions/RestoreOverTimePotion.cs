@@ -8,8 +8,9 @@ public class RestoreOverTimePotion : Potion
 {
     [SerializeField] private int healAmount;
     [SerializeField] private int manaRestoreAmount;
+    
     [SerializeField] private float restoreDelay;
-    private float timer;
+    private float restoreTimer;
     
     public override void Execute(Unit caster)
     {
@@ -21,25 +22,29 @@ public class RestoreOverTimePotion : Potion
     public void Init(Unit caster, int heal, int manaRestore, float delay, float duration, Sprite icon)
     {
         this.caster = caster;
+        Icon = icon;
+        
         healAmount = heal;
         manaRestoreAmount = manaRestore;
-        restoreDelay = delay;
+        
         Duration = duration;
         Timer = duration;
-        timer = delay;
-        Icon = icon;
-        caster.ReceiveBuff(this);
+        
+        restoreDelay = delay;
+        restoreTimer = delay;
+        
+        caster.ReceiveStatusEffect(this);
     }
 
     private void Update()
     {
-        timer -= Time.deltaTime;
+        restoreTimer -= Time.deltaTime;
         Timer -= Time.deltaTime;
-        if (timer <= 0)
+        if (restoreTimer <= 0)
         {
             if (healAmount > 0)      caster.RestoreHP(healAmount, true);
             if (manaRestoreAmount > 0) caster.RestoreMP(manaRestoreAmount);
-            timer = restoreDelay;
+            restoreTimer = restoreDelay;
         }
 
         if (Timer <= 0)
@@ -50,7 +55,7 @@ public class RestoreOverTimePotion : Potion
 
     private void OnDestroy()
     {
-        caster.LooseBuff(this);
+        caster.LooseStatusEffect(this);
     }
 
     public override string[] ToString(Unit owner)

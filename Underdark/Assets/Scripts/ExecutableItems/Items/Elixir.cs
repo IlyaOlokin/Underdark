@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Elixir : ExecutableItem, IBuff
+public class Elixir : ExecutableItem, IStatusEffect
 {
     [field:SerializeField] public Sprite Icon { get; protected set; }
     [field:SerializeField] public float Duration { get; protected set;}

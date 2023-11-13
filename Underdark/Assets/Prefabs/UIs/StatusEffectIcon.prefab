@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+  m_Color: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 5349630500656462947}
   - component: {fileID: 1049010664631662826}
   m_Layer: 0
-  m_Name: BuffIcon
+  m_Name: StatusEffectIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -287,3 +287,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 7415691868622782350}
   durationIndicator: {fileID: 424763225854520858}
+  buffColor: {r: 0.1254902, g: 0.8117647, b: 0.06666667, a: 1}
+  debuffColor: {r: 0.7647059, g: 0.003921569, b: 0.003921569, a: 1}

@@ -6,34 +6,33 @@ using UnityEngine;
 public class Bleed : Debuff
 {
     private GameObject currentVisualPrefab;
-    
     private BleedInfo bleedInfo;
-    private Unit receiver;
     
     private float dmgTimer;
     
-    public void Init(BleedInfo bleedInfo, Unit receiver, Unit caster, GameObject visual)
+    public void Init(BleedInfo bleedInfo, Unit receiver, Unit caster, GameObject visual, Sprite effectIcon)
     {
         this.bleedInfo = bleedInfo;
         this.receiver = receiver;
-        this.caster = caster;
-        
+        base.caster = caster;
+        Icon = effectIcon;
         dmgTimer = bleedInfo.DmgDelay;
-        duration = bleedInfo.Duration;
-        
+        Duration = bleedInfo.Duration;
+        Timer = Duration;
+
         currentVisualPrefab = Instantiate(visual, transform.position, Quaternion.identity, transform);
     }
     public void Update()
     {
         dmgTimer -= Time.deltaTime;
-        duration -= Time.deltaTime;
+        Timer -= Time.deltaTime;
         if (dmgTimer <= 0)
         {
             receiver.TakeDamage(caster, caster, bleedInfo.Damage, false);
             dmgTimer = bleedInfo.DmgDelay;
         }
 
-        if (duration <= 0)
+        if (Timer <= 0)
         {
             Destroy(this);
         }
@@ -41,6 +40,7 @@ public class Bleed : Debuff
 
     private void OnDestroy()
     {
+        receiver.LooseStatusEffect(this);
         Destroy(currentVisualPrefab);
     }
 }

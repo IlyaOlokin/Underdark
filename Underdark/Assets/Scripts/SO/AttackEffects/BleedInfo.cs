@@ -12,7 +12,7 @@ public class BleedInfo : DebuffInfo
     
     public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)
     {
-        receiver.GetBleed(this, unitCaster, visualPrefab);
+        receiver.GetBleed(this, unitCaster, visualPrefab, effectIcon);
     }
     
     public override string ToString()
