@@ -258,6 +258,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 450e4ac8054594b46a8a7370b9208f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 136
 --- !u!1 &1814848553333675600
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,7 +1219,7 @@ MonoBehaviour:
   attackSpeed: 2.5
   attackMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 136
   baseAttackCollider: {fileID: 8534802088583917232}
   <ActiveAbilitiesCD>k__BackingField: []
   inventoryCapacity: 1

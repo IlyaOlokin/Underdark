@@ -54,7 +54,7 @@ public class Enemy : Unit
         base.Update();
         EnemyFSM.OnLogic();
         RotateAttackDir();
-        TryFlipVisual(agent.desiredVelocity.x);
+        TryFlipVisual(agent.velocity.x);
         if (isPlayerInChasingRange)
             moveTarget.position = player.transform.position;
         else if (DistToMovePos() < agent.stoppingDistance)
@@ -172,10 +172,16 @@ public class Enemy : Unit
     }
 
     protected bool ShouldMelee(Transition<EnemyState> transition) =>
-        attackCDTimer < 0 
+        attackCDTimer < 0
         && isPlayerInChasingRange
         && DistToMovePos() <= GetWeapon().AttackDistance + 1
-        && !IsStunned;
+        && !IsStunned
+        && Physics2D
+            .Raycast(transform.position,
+                this.player.transform.position - transform.position, 
+                Mathf.Infinity,
+                attackMask)
+            .collider.TryGetComponent(out Player player);
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 
         CanMove

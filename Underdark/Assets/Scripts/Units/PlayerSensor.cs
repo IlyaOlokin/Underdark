@@ -6,14 +6,29 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))]
 public class PlayerSensor : MonoBehaviour
 {
+    [SerializeField] private LayerMask layerMask;
     public event Action<Transform> OnPlayerEnter;
     public event Action<Vector3> OnPlayerExit;
-
-    private void OnTriggerEnter2D(Collider2D other)
+    
+    private bool foundPlayer;
+    
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (other.TryGetComponent(out Player player))
         {
-            OnPlayerEnter?.Invoke(player.transform);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position, Mathf.Infinity, layerMask);
+            if (hit.collider == null) return;
+            
+            if (hit.transform.CompareTag("Player"))
+            {
+                OnPlayerEnter?.Invoke(player.transform);
+                foundPlayer = true;
+            }
+            else if (foundPlayer && hit.transform.CompareTag("Wall"))
+            {
+                OnPlayerExit?.Invoke(player.transform.position);
+                foundPlayer = false;
+            }
         }
     }
 
@@ -21,7 +36,9 @@ public class PlayerSensor : MonoBehaviour
     {
         if (other.TryGetComponent(out Player player))
         {
-            OnPlayerExit?.Invoke(other.transform.position);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position, Mathf.Infinity, layerMask);
+            if (hit.collider != null && hit.transform.CompareTag("Player"))
+                OnPlayerExit?.Invoke(other.transform.position);
         }
     }
 }
