@@ -5,7 +5,6 @@ using UnityEngine;
 public class Potion : ExecutableItem, IStatusEffect
 {
     [field:SerializeField] public Sprite Icon { get; protected set; }
-    public Unit Caster => caster;
     [field:SerializeField] public float Duration { get; protected set;}
     public float Timer { get; protected set; }
 

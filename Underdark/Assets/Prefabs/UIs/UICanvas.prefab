@@ -820,7 +820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 79420641873071089}
   characterWindowUI: {fileID: 6072686482466349216}
-  buffsUI: {fileID: 5576223691854098406}
+  statusEffectUI: {fileID: 5576223691854098406}
 --- !u!1 &666717030968972347
 GameObject:
   m_ObjectHideFlags: 0
@@ -4117,7 +4117,7 @@ GameObject:
   - component: {fileID: 7224181674849188332}
   - component: {fileID: 5576223691854098406}
   m_Layer: 0
-  m_Name: Buffs
+  m_Name: StatusEffects
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4155,7 +4155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   xOffset: 65
-  buffIconPref: {fileID: 1049010664631662826, guid: f2335adc009fc094394fb04d23bb3eed, type: 3}
+  statusEffectIconPref: {fileID: 1049010664631662826, guid: f2335adc009fc094394fb04d23bb3eed, type: 3}
 --- !u!1 &2972501229738760146
 GameObject:
   m_ObjectHideFlags: 0

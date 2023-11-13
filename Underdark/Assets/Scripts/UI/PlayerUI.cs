@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -8,7 +9,7 @@ public class PlayerUI : MonoBehaviour
 
     public InventoryUI inventoryUI;
     public CharacterWindowUI characterWindowUI;
-    [SerializeField] private BuffsUI buffsUI;
+    [FormerlySerializedAs("buffsUI")] [SerializeField] private StatusEffectUI statusEffectUI;
     
     public void Init(Player player)
     {
@@ -16,6 +17,6 @@ public class PlayerUI : MonoBehaviour
         
         inventoryUI.Init(player);
         characterWindowUI.Init(player);
-        buffsUI.Init(player);
+        statusEffectUI.Init(player);
     }
 }

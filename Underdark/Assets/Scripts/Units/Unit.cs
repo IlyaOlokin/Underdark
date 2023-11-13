@@ -66,8 +66,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     public event Action<int> OnExecutableItemUse;
 
     [NonSerialized] public List<IStatusEffect> Buffs = new();
-    public event Action<IStatusEffect> OnBuffReceive;
-    public event Action<IStatusEffect> OnBuffLoose;
+    public event Action<IStatusEffect> OnStatusEffectReceive;
+    public event Action<IStatusEffect> OnStatusEffectLoose;
 
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
@@ -297,21 +297,19 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public void GetPoisoned(PoisonInfo poisonInfo, Unit caster, GameObject visual, Sprite effectIcon)
     {
-        if (Random.Range(0f, 1f) < poisonInfo.chance)
-        {
-            var newPoison = gameObject.AddComponent<Poison>();
-            newPoison.Init(poisonInfo, this, caster, visual, effectIcon);
-            ReceiveBuff(newPoison);
-        }
+        if (Random.Range(0f, 1f) > poisonInfo.chance) return;
+        
+        var newPoison = gameObject.AddComponent<Poison>();
+        newPoison.Init(poisonInfo, this, caster, visual, effectIcon);
+        ReceiveStatusEffect(newPoison);
     }
     public void GetBleed(BleedInfo bleedInfo, Unit caster, GameObject visual, Sprite effectIcon)
     {
-        if (Random.Range(0f, 1f) < bleedInfo.chance)
-        {
-            var newBleed = gameObject.AddComponent<Bleed>();
-            newBleed.Init(bleedInfo, this, caster, visual, effectIcon);
-            ReceiveBuff(newBleed);
-        }
+        if (Random.Range(0f, 1f) > bleedInfo.chance) return;
+        
+        var newBleed = gameObject.AddComponent<Bleed>();
+        newBleed.Init(bleedInfo, this, caster, visual, effectIcon);
+        ReceiveStatusEffect(newBleed);
     }
     
     public virtual bool GetStunned(StunInfo stunInfo, Sprite effectIcon)
@@ -328,7 +326,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         {
             var newStun = gameObject.AddComponent<Stun>();
             newStun.Init(stunInfo, this, unitVisual.StunBar, effectIcon);
-            ReceiveBuff(newStun);
+            ReceiveStatusEffect(newStun);
         }
 
         return true;
@@ -349,8 +347,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         
         var newPush = gameObject.AddComponent<Push>();
         newPush.Init(pushInfo.PushDuration, this, effectIcon);
-        ReceiveBuff(newPush);
-
+        ReceiveStatusEffect(newPush);
         
         rb.AddForce(pushDir, ForceMode2D.Impulse);
         return true;
@@ -362,16 +359,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         rb.totalForce = Vector2.zero;
     }
 
-    public void ReceiveBuff(IStatusEffect statusEffect)
+    public void ReceiveStatusEffect(IStatusEffect statusEffect)
     {
         Buffs.Add(statusEffect);
-        OnBuffReceive?.Invoke(statusEffect);
+        OnStatusEffectReceive?.Invoke(statusEffect);
     }
     
-    public void LooseBuff(IStatusEffect statusEffect)
+    public void LooseStatusEffect(IStatusEffect statusEffect)
     {
         Buffs.Remove(statusEffect);
-        OnBuffLoose?.Invoke(statusEffect);
+        OnStatusEffectLoose?.Invoke(statusEffect);
     }
     
     private int CalculateTakenDamage(float damage, float armorPierce)

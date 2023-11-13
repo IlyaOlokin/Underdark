@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,6 @@ using UnityEngine.UI;
 public class Stun : Debuff
 {
     private StunInfo stunInfo;
-    private Unit receiver;
     private Slider stunBar;
 
     public void Init(StunInfo stunInfo, Unit receiver, GameObject stunBar, Sprite effectIcon)
@@ -25,12 +25,15 @@ public class Stun : Debuff
         stunBar.value = Timer / Duration;
         if (Timer <= 0)
         {
-            receiver.GetUnStunned();
-            stunBar.gameObject.SetActive(false);
-            receiver.LooseBuff(this);
-
             Destroy(this);
         }
+    }
+
+    private void OnDestroy()
+    {
+        stunBar.gameObject.SetActive(false);
+        receiver.GetUnStunned();
+        receiver.LooseStatusEffect(this);
     }
 
     public void AddDuration(float addDuration)

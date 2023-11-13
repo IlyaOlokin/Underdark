@@ -5,11 +5,8 @@ using UnityEngine;
 
 public class Poison : Debuff
 {
-    
     private GameObject currentVisualPrefab;
-    
     private PoisonInfo poisonInfo;
-    private Unit receiver;
     
     private float dmgTimer;
     
@@ -17,7 +14,7 @@ public class Poison : Debuff
     {
         this.poisonInfo = poisonInfo;
         this.receiver = receiver;
-        Caster = caster;
+        base.caster = caster;
         Icon = effectIcon;
         dmgTimer = poisonInfo.DmgDelay;
         Duration = poisonInfo.Duration;
@@ -31,7 +28,7 @@ public class Poison : Debuff
         Timer -= Time.deltaTime;
         if (dmgTimer <= 0)
         {
-            receiver.TakeDamage(Caster, Caster, poisonInfo.Damage, false);
+            receiver.TakeDamage(caster, caster, poisonInfo.Damage, false);
             receiver.SpendMana(poisonInfo.Damage);
             dmgTimer = poisonInfo.DmgDelay;
         }
@@ -44,7 +41,7 @@ public class Poison : Debuff
     
     private void OnDestroy()
     {
-        receiver.LooseBuff(this);
+        receiver.LooseStatusEffect(this);
         Destroy(currentVisualPrefab);
     }
 

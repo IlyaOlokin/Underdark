@@ -2,29 +2,32 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class BuffsUI : MonoBehaviour
+public class StatusEffectUI : MonoBehaviour
 {
     private Player player;
     [SerializeField] private float xOffset;
-    [SerializeField] private BuffIcon buffIconPref;
-    private List<BuffIcon> buffIcons = new();
+    [SerializeField] private StatusEffectIcon statusEffectIconPref;
+    private List<StatusEffectIcon> buffIcons = new();
+    
+    
     
     public void Init(Player player)
     {
         this.player = player;
 
-        this.player.OnBuffReceive += ReceiveBuff;
-        this.player.OnBuffLoose += LooseBuff;
+        this.player.OnStatusEffectReceive += ReceiveStatusEffect;
+        this.player.OnStatusEffectLoose += LooseStatusEffect;
     }
 
-    private void ReceiveBuff(IStatusEffect statusEffect)
+    private void ReceiveStatusEffect(IStatusEffect statusEffect)
     {
-        buffIcons.Add(Instantiate(buffIconPref, transform.position, Quaternion.identity, transform));
+        buffIcons.Add(Instantiate(statusEffectIconPref, transform.position, Quaternion.identity, transform));
         UpdateBuffsIcons();
     }
 
-    private void LooseBuff(IStatusEffect statusEffect)
+    private void LooseStatusEffect(IStatusEffect statusEffect)
     {
         foreach (var buffIcon in buffIcons)
         {
