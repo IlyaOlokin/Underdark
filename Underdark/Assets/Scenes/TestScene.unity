@@ -2544,13 +2544,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 2989269700952815197, guid: fd0175574af916c48a88107f7394ce4b, type: 3}
+      propertyPath: defaultWeapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f2d600dcf593e04da2b399c181152aa, type: 2}
     - target: {fileID: 3887350311143016167, guid: fd0175574af916c48a88107f7394ce4b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.88
+      value: 2.9
       objectReference: {fileID: 0}
     - target: {fileID: 3887350311143016167, guid: fd0175574af916c48a88107f7394ce4b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -13.29
+      value: -12.21
       objectReference: {fileID: 0}
     - target: {fileID: 3887350311143016167, guid: fd0175574af916c48a88107f7394ce4b, type: 3}
       propertyPath: m_LocalPosition.z
