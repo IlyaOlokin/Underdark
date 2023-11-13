@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnerguShieldAbility : ActiveAbility
+public class EnergyShieldAbility : ActiveAbility
 {
     [SerializeField] private int shieldHP;
     [SerializeField] private float shieldRadius;

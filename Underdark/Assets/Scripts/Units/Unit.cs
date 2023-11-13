@@ -69,7 +69,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     public event Action<IStatusEffect> OnStatusEffectReceive;
     public event Action<IStatusEffect> OnStatusEffectLoose;
 
-    [SerializeField] private LayerMask attackMask;
+    [SerializeField] protected LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
     public Transform Transform => transform;
 
@@ -405,20 +405,30 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     public virtual void Attack()
     {
         if (attackCDTimer > 0 || actionCDTimer > 0 || IsStunned) return;
+        
 
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(attackMask);
         List<Collider2D> hitUnits = new List<Collider2D>();
         baseAttackCollider.OverlapCollider(contactFilter, hitUnits);
 
-        foreach (var unit in hitUnits)
+        foreach (var collider in hitUnits)
         {
-            if (unit.GetComponent<IDamageable>().TakeDamage(this, this, GetTotalDamage().GetValue(),
-                    armorPierce: GetWeapon().ArmorPierce))
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, 
+                collider.transform.position - transform.position, 
+                Mathf.Infinity, attackMask);
+            
+            if (hit.transform.CompareTag("Wall")) continue;
+            
+            if (collider.TryGetComponent(out IDamageable unit))
             {
-                foreach (var debuffInfo in GetWeapon().DebuffInfos)
+                if (unit.TakeDamage(this, this, GetTotalDamage().GetValue(),
+                        armorPierce: GetWeapon().ArmorPierce))
                 {
-                    debuffInfo.Execute(this, unit.GetComponent<Unit>(), this);
+                    foreach (var debuffInfo in GetWeapon().DebuffInfos)
+                    {
+                        debuffInfo.Execute(this, collider.GetComponent<Unit>(), this);
+                    }
                 }
             }
         }

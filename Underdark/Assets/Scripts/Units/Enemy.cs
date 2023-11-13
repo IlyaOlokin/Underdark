@@ -172,10 +172,16 @@ public class Enemy : Unit
     }
 
     protected bool ShouldMelee(Transition<EnemyState> transition) =>
-        attackCDTimer < 0 
+        attackCDTimer < 0
         && isPlayerInChasingRange
         && DistToMovePos() <= GetWeapon().AttackDistance + 1
-        && !IsStunned;
+        && !IsStunned
+        && Physics2D
+            .Raycast(transform.position,
+                this.player.transform.position - transform.position, 
+                Mathf.Infinity,
+                attackMask)
+            .collider.TryGetComponent(out Player player);
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 
         CanMove
