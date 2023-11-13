@@ -10,7 +10,7 @@ public class StunInfo : DebuffInfo
     
     public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)
     {
-        receiver.GetStunned(this);
+        receiver.GetStunned(this, effectIcon);
     }
     
     public override string ToString()

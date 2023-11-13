@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class DebuffInfo : ScriptableObject
 {
+    [SerializeField] protected Sprite effectIcon;
     [Range(0f, 1f)] public float chance;
     protected Unit caster;
 

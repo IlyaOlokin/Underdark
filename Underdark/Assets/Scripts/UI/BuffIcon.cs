@@ -6,19 +6,19 @@ using UnityEngine.UI;
 
 public class BuffIcon : MonoBehaviour
 {
-    public IBuff Buff { get; private set; }
+    public IStatusEffect StatusEffect { get; private set; }
 
     [SerializeField] private Image icon;
     [SerializeField] private Image durationIndicator;
 
     private void Update()
     {
-        durationIndicator.fillAmount = Buff.Timer / Buff.Duration;
+        durationIndicator.fillAmount = StatusEffect.Timer / StatusEffect.Duration;
     }
 
-    public void SetData(IBuff buff)
+    public void SetData(IStatusEffect statusEffect)
     {
-        Buff = buff;
-        icon.sprite = buff.Icon;
+        StatusEffect = statusEffect;
+        icon.sprite = statusEffect.Icon;
     }
 }

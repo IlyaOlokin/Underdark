@@ -18,17 +18,17 @@ public class BuffsUI : MonoBehaviour
         this.player.OnBuffLoose += LooseBuff;
     }
 
-    private void ReceiveBuff(IBuff buff)
+    private void ReceiveBuff(IStatusEffect statusEffect)
     {
         buffIcons.Add(Instantiate(buffIconPref, transform.position, Quaternion.identity, transform));
         UpdateBuffsIcons();
     }
 
-    private void LooseBuff(IBuff buff)
+    private void LooseBuff(IStatusEffect statusEffect)
     {
         foreach (var buffIcon in buffIcons)
         {
-            if (buffIcon.Buff == buff)
+            if (buffIcon.StatusEffect == statusEffect)
             {
                 buffIcons.Remove(buffIcon);
                 if (buffIcon != null) Destroy(buffIcon.gameObject);

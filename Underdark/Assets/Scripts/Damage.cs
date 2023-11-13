@@ -10,10 +10,10 @@ public class Damage
     [SerializeField] private int minDamage;
     [SerializeField] private int maxDamage;
 
-    public Damage(Damage damage, int str)
+    public Damage(Damage damage, int strength)
     {
-        minDamage = damage.minDamage + str;
-        maxDamage = damage.maxDamage + str;
+        minDamage = damage.minDamage + strength;
+        maxDamage = damage.maxDamage + strength;
     }
     
     public int GetValue()

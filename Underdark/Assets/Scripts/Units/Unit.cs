@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoisonable, IStunable, IBleedable, IPushable
+public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 {
     private Rigidbody2D rb;
     public UnitStats Stats;
@@ -64,9 +65,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
     public event Action<float, float, float> OnBaseAttack;
     public event Action<int> OnExecutableItemUse;
 
-    [NonSerialized] public List<IBuff> Buffs = new();
-    public event Action<IBuff> OnBuffReceive;
-    public event Action<IBuff> OnBuffLoose;
+    [NonSerialized] public List<IStatusEffect> Buffs = new();
+    public event Action<IStatusEffect> OnBuffReceive;
+    public event Action<IStatusEffect> OnBuffLoose;
 
     [SerializeField] private LayerMask attackMask;
     [SerializeField] protected PolygonCollider2D baseAttackCollider;
@@ -120,9 +121,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         GetUnStunned();
         EndPush();
         LooseEnergyShield();
-        foreach (var debuff in GetComponents<Debuff>())
+        foreach (var debuff in GetComponents<IStatusEffect>())
         {
-            Destroy(debuff);
+            Destroy((Object)debuff);
         }
     }
 
@@ -294,24 +295,26 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         unitVisual.DeactivateEnergyShieldVisual();
     }
 
-    public void GetPoisoned(PoisonInfo poisonInfo, Unit caster, GameObject visual)
+    public void GetPoisoned(PoisonInfo poisonInfo, Unit caster, GameObject visual, Sprite effectIcon)
     {
         if (Random.Range(0f, 1f) < poisonInfo.chance)
         {
             var newPoison = gameObject.AddComponent<Poison>();
-            newPoison.Init(poisonInfo, this, caster, visual);
+            newPoison.Init(poisonInfo, this, caster, visual, effectIcon);
+            ReceiveBuff(newPoison);
         }
     }
-    public void GetBleed(BleedInfo bleedInfo, Unit caster, GameObject visual)
+    public void GetBleed(BleedInfo bleedInfo, Unit caster, GameObject visual, Sprite effectIcon)
     {
         if (Random.Range(0f, 1f) < bleedInfo.chance)
         {
             var newBleed = gameObject.AddComponent<Bleed>();
-            newBleed.Init(bleedInfo, this, caster, visual);
+            newBleed.Init(bleedInfo, this, caster, visual, effectIcon);
+            ReceiveBuff(newBleed);
         }
     }
     
-    public virtual bool GetStunned(StunInfo stunInfo)
+    public virtual bool GetStunned(StunInfo stunInfo, Sprite effectIcon)
     {
         if (Random.Range(0f, 1f) > stunInfo.chance) return false;
         
@@ -324,7 +327,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         else
         {
             var newStun = gameObject.AddComponent<Stun>();
-            newStun.Init(stunInfo, this, unitVisual.StunBar);
+            newStun.Init(stunInfo, this, unitVisual.StunBar, effectIcon);
+            ReceiveBuff(newStun);
         }
 
         return true;
@@ -335,7 +339,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         IsStunned = false;
     }
     
-    public virtual bool GetPushed(PushInfo pushInfo, Vector2 pushDir)
+    public virtual bool GetPushed(PushInfo pushInfo, Vector2 pushDir, Sprite effectIcon)
     {
         if (Random.Range(0f, 1f) > pushInfo.chance) return false;
         
@@ -344,7 +348,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
             Destroy(pushComponent);
         
         var newPush = gameObject.AddComponent<Push>();
-        newPush.Init(pushInfo.PushDuration, this);
+        newPush.Init(pushInfo.PushDuration, this, effectIcon);
+        ReceiveBuff(newPush);
+
         
         rb.AddForce(pushDir, ForceMode2D.Impulse);
         return true;
@@ -356,16 +362,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster, IPoi
         rb.totalForce = Vector2.zero;
     }
 
-    public void ReceiveBuff(IBuff buff)
+    public void ReceiveBuff(IStatusEffect statusEffect)
     {
-        Buffs.Add(buff);
-        OnBuffReceive?.Invoke(buff);
+        Buffs.Add(statusEffect);
+        OnBuffReceive?.Invoke(statusEffect);
     }
     
-    public void LooseBuff(IBuff buff)
+    public void LooseBuff(IStatusEffect statusEffect)
     {
-        Buffs.Remove(buff);
-        OnBuffLoose?.Invoke(buff);
+        Buffs.Remove(statusEffect);
+        OnBuffLoose?.Invoke(statusEffect);
     }
     
     private int CalculateTakenDamage(float damage, float armorPierce)

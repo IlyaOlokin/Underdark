@@ -70,8 +70,8 @@ public class Enemy : Unit
 
     public override bool TakeDamage(Unit sender, IAttacker attacker, float damage, bool evadable = true, float armorPierce = 0f)
     {
-        var res = base.TakeDamage(sender, attacker, damage, evadable);
         Agr(sender.transform.position);
+        var res = base.TakeDamage(sender, attacker, damage, evadable);
         AgrNearbyAllies();
 
         return res;
@@ -120,9 +120,9 @@ public class Enemy : Unit
         base.Death(killer);
     }
 
-    public override bool GetStunned(StunInfo stunInfo)
+    public override bool GetStunned(StunInfo stunInfo, Sprite effectIcon)
     {
-        if (!base.GetStunned(stunInfo)) return false;
+        if (!base.GetStunned(stunInfo, effectIcon)) return false;
         
         unitVisual.AbortAlert();
         UpdateMovementAbility();
@@ -135,9 +135,9 @@ public class Enemy : Unit
         UpdateMovementAbility();
     }
 
-    public override bool GetPushed(PushInfo pushInfo, Vector2 pushDir)
+    public override bool GetPushed(PushInfo pushInfo, Vector2 pushDir, Sprite effectIcon)
     {
-        if (!base.GetPushed(pushInfo, pushDir)) return false;
+        if (!base.GetPushed(pushInfo, pushDir, effectIcon)) return false;
         UpdateMovementAbility();
         return true;
     }

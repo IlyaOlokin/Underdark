@@ -14,7 +14,7 @@ public class PoisonInfo : DebuffInfo
     
     public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)
     {
-        receiver.GetPoisoned(this, unitCaster, visualPrefab);
+        receiver.GetPoisoned(this, unitCaster, visualPrefab, effectIcon);
     }
     
     public override string ToString()
