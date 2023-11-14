@@ -18,6 +18,6 @@ public class BleedInfo : DebuffInfo
     public override string ToString()
     {
         return
-            $"With a {chance * 100}% chance inflicts bleed on the enemy, dealing {Damage} damage per second for {Duration} seconds.";
+            $"With a {chance * 100}% chance inflicts bleed on the target, dealing {Damage} damage per second for {Duration} seconds.";
     }
 }

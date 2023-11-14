@@ -16,7 +16,7 @@ public class StunInfo : DebuffInfo
     public override string ToString()
     {
         return
-            $"With a {chance * 100}% chance stuns the enemy for {Duration} seconds.";
+            $"With a {chance * 100}% chance stuns the target for {Duration} seconds.";
     }
     
 }

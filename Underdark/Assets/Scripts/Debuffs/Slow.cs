@@ -41,7 +41,6 @@ public class Slow : Debuff
         receiver.ApplySlow(slow);
     }
     
-
     private void OnDestroy()
     {
         ApplySlow();
