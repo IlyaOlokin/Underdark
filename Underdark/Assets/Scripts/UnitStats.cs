@@ -116,15 +116,22 @@ public class UnitStats
         };
     }
     
-    public int ApplyBonusStat(BaseStat baseStat, int value)
+    public void ApplyBonusStat(BaseStat baseStat, int value)
     {
-        return baseStat switch
+        switch (baseStat)
         {
-            BaseStat.Strength => BonusStrength += value,
-            BaseStat.Dexterity => Dexterity += value,
-            BaseStat.Intelligence => Intelligence += value,
-            _ => throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null)
-        };
+            case BaseStat.Strength:
+                BonusStrength += value;
+                break;
+            case BaseStat.Dexterity:
+                BonusDexterity += value;
+                break;
+            case BaseStat.Intelligence:
+                BonusIntelligence += value;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null);
+        }
     }
     
     public static string GetStatString(BaseStat baseStat)

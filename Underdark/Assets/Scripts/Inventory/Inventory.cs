@@ -116,6 +116,8 @@ public class Inventory : IInventory
         inventorySlot.Amount -= amount;
         if (inventorySlot.Amount == 0)
             inventorySlot.Clear();
+        
+        OnInventoryChanged?.Invoke();
         return true;
     }
 
