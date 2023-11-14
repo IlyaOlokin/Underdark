@@ -20,6 +20,6 @@ public class PoisonInfo : DebuffInfo
     public override string ToString()
     {
         return
-            $"With a {chance * 100}% chance inflicts poison on the enemy, taking away {Damage} HP and MP per second for {Duration} seconds.";
+            $"With a {chance * 100}% chance inflicts poison on the target, taking away {Damage} HP and MP per second for {Duration} seconds.";
     }
 }

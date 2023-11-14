@@ -32,7 +32,7 @@ public class PushInfo : DebuffInfo
     public override string ToString()
     {
         return
-            $"With a {chance * 100}% chance pushes the enemy away.";
+            $"With a {chance * 100}% chance pushes the target away.";
     }
 }
 

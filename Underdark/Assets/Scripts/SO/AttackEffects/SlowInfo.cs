@@ -16,6 +16,7 @@ public class SlowInfo : DebuffInfo
 
     public override string ToString()
     {
-        throw new System.NotImplementedException();
+        return
+            $"With a {chance * 100}% chance slows the target by {(SlowAmount - 1) * 100}% for {Duration} seconds.";
     }
 }

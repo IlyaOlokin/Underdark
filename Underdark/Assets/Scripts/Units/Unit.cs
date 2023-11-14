@@ -327,6 +327,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         slowAmount = slow;
     }
+    public void GetBashed(BashInfo bashInfo)
+    {
+        if (Random.Range(0f, 1f) > bashInfo.chance) return;
+        
+        for (int i = 0; i < ActiveAbilitiesCD.Count; i++)
+        {
+            if (Inventory.EquippedActiveAbilitySlots[i].IsEmpty) continue;
+            ActiveAbilitiesCD[i] = Inventory.GetActiveAbility(i).cooldown;
+        }
+    }
     
     public virtual bool GetStunned(StunInfo stunInfo, Sprite effectIcon)
     {
@@ -422,7 +432,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         if (attackCDTimer > 0 || actionCDTimer > 0 || IsStunned) return;
         
-
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(attackMask);
         List<Collider2D> hitUnits = new List<Collider2D>();
