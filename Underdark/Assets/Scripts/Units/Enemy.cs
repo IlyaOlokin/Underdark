@@ -17,6 +17,7 @@ public class Enemy : Unit
     [SerializeField] private Transform spawnPont;
     [SerializeField] protected Transform moveTarget;
     [SerializeField] protected NavMeshAgent agent;
+    [SerializeField] protected float moveSpeed;
     protected StateMachine<EnemyState, StateEvent> EnemyFSM;
     [SerializeField] protected PlayerSensor followPlayerSensor;
     [SerializeField] protected Collider2D allySensor;
@@ -36,6 +37,7 @@ public class Enemy : Unit
         base.Awake();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        agent.speed = moveSpeed;
         moveTarget.transform.SetParent(transform.parent);
         
         EnemyFSM = new();
@@ -119,7 +121,11 @@ public class Enemy : Unit
         
         base.Death(killer);
     }
-
+    public override void ApplySlow(float slow)
+    {
+        agent.speed = moveSpeed / slow;
+    }
+    
     public override bool GetStunned(StunInfo stunInfo, Sprite effectIcon)
     {
         if (!base.GetStunned(stunInfo, effectIcon)) return false;

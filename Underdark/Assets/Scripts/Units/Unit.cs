@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -96,6 +96,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     private float hpRegenBuffer;
     private float manaRegenBuffer;
     
+    // Unit Multipliers
+    protected float slowAmount = 1;
 
     protected virtual void Awake()
     {
@@ -168,7 +170,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         for (var index = 0; index < ActiveAbilitiesCD.Count; index++)
         {
-            ActiveAbilitiesCD[index] -= Time.deltaTime;
+            ActiveAbilitiesCD[index] -= Time.deltaTime / slowAmount;
         }
     }
 
@@ -312,6 +314,20 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         ReceiveStatusEffect(newBleed);
     }
     
+    public void GetSlowed(SlowInfo slowInfo, Sprite effectIcon)
+    {
+        if (Random.Range(0f, 1f) > slowInfo.chance) return;
+
+        var newSlow = transform.AddComponent<Slow>();
+        newSlow.Init(slowInfo, this, effectIcon);
+        ReceiveStatusEffect(newSlow);
+    }
+    
+    public virtual void ApplySlow(float slow)
+    {
+        slowAmount = slow;
+    }
+    
     public virtual bool GetStunned(StunInfo stunInfo, Sprite effectIcon)
     {
         if (Random.Range(0f, 1f) > stunInfo.chance) return false;
@@ -392,11 +408,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         gameObject.SetActive(false);
     }
 
-    public virtual void Move(Vector3 dir)
+    public void Move(Vector3 dir)
     {
         if (IsStunned || IsPushing) return;
         
-        rb.MovePosition(rb.position + (Vector2)dir * MoveSpeed * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + (Vector2)dir * (MoveSpeed / slowAmount) * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
             lastMoveDir = dir;
         TryFlipVisual(dir.x);
