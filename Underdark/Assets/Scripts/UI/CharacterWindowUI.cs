@@ -107,10 +107,19 @@ public class CharacterWindowUI : MonoBehaviour
         var statsChanged = stats != player.Stats;
         confirmChangesButton.interactable = statsChanged;
         canselChangesButton.interactable = statsChanged;
-
-        strText.text = stats.Strength.ToString();
-        dexText.text = stats.Dexterity.ToString();
-        intText.text = stats.Intelligence.ToString();
+        
+        strText.text = player.Stats.BonusStrength == 0
+            ? stats.Strength.ToString()
+            : $"{stats.Strength} (+{player.Stats.BonusStrength})";
+        
+        dexText.text =  player.Stats.BonusDexterity == 0
+            ? stats.Dexterity.ToString()
+            : $"{stats.Dexterity} (+{player.Stats.BonusDexterity})";
+        
+        intText.text =  player.Stats.BonusIntelligence == 0
+            ? stats.Intelligence.ToString()
+            : $"{stats.Intelligence} (+{player.Stats.BonusIntelligence})";
+        
         FreePointsText.text = stats.FreePoints.ToString();
         LevelText.text = player.Stats.Level.ToString();
     }
