@@ -74,7 +74,7 @@ public class ActiveAbilityInventoryUI : MonoBehaviour, IInventoryUI
         if (selectedSlot == null || selectedSlot.slot.IsEmpty)
             itemDescription.ResetDescriptionActive(false);
         else
-            itemDescription.ShowItemDescription(selectedSlot.slot.Item, player);
+            itemDescription.ShowItemDescription(selectedSlot.slot.Item, player, selectedSlot.slot);
     }
 
     private void DeselectSlot()
