@@ -139,6 +139,21 @@ public class Enemy : Unit
         base.GetUnStunned();
         UpdateMovementAbility();
     }
+    
+    public override bool GetFrozen(FreezeInfo freezeInfo, Sprite effectIcon)
+    {
+        if (!base.GetFrozen(freezeInfo, effectIcon)) return false;
+        
+        unitVisual.AbortAlert();
+        UpdateMovementAbility();
+        return true;
+    }
+
+    public override void GetUnFrozen()
+    {
+        base.GetUnFrozen();
+        UpdateMovementAbility();
+    }
 
     public override bool GetPushed(PushInfo pushInfo, Vector2 pushDir, Sprite effectIcon)
     {

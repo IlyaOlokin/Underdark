@@ -13,8 +13,10 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     public Inventory Inventory;
     public EnergyShield EnergyShield;
 
-    public bool IsStunned { get; private set; }
-    public bool IsPushing { get; private set; }
+    private bool isStunned;
+    private bool isFrozen;
+    protected bool IsStunned => isStunned || isFrozen;
+    protected bool IsPushing { get; private set; }
 
     [SerializeField] private int baseMaxHP;
     public int MaxHP { get; private set; }
@@ -342,7 +344,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         if (Random.Range(0f, 1f) > stunInfo.chance) return false;
         
-        IsStunned = true;
+        isStunned = true;
        
         if (transform.TryGetComponent(out Stun stunComponent))
         {
@@ -360,7 +362,33 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public virtual void GetUnStunned()
     {
-        IsStunned = false;
+        isStunned = false;
+    }
+    
+    public virtual bool GetFrozen(FreezeInfo freezeInfo, Sprite effectIcon)
+    {
+        // -burn
+        if (Random.Range(0f, 1f) > freezeInfo.chance) return false;
+        
+        isFrozen = true;
+       
+        if (transform.TryGetComponent(out Freeze stunComponent))
+        {
+            stunComponent.AddDuration(freezeInfo.Duration);
+        }
+        else
+        {
+            var newStun = gameObject.AddComponent<Freeze>();
+            newStun.Init(freezeInfo, this, unitVisual.StunBar, effectIcon);
+            ReceiveStatusEffect(newStun);
+        }
+
+        return true;
+    }
+    
+    public virtual void GetUnFrozen()
+    {
+        isFrozen = false;
     }
     
     public virtual bool GetPushed(PushInfo pushInfo, Vector2 pushDir, Sprite effectIcon)
