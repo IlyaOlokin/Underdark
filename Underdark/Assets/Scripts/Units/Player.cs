@@ -1,11 +1,8 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-[RequireComponent(typeof(Rigidbody2D))]
 public class Player : Unit, IPickUper
 {
     private IInput input;

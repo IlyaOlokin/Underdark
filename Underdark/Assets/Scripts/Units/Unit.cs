@@ -76,7 +76,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     [field: Header("Abilities Setup")]
     private string[] lastActiveAbilitiesIDs;
 
-    [field: SerializeField] public List<float> ActiveAbilitiesCD { get; private set; }
+    [field: NonSerialized] public List<float> ActiveAbilitiesCD { get; private set; }
     
     [Header("Inventory Setup")]
     [SerializeField] private int inventoryCapacity;
