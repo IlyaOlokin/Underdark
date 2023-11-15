@@ -22,7 +22,7 @@ public class FireBall : ActiveAbility, IAttacker
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
-        Invoke(nameof(Die),  attackDistance / projSpeed);
+        Invoke(nameof(Die),  AttackDistance / projSpeed);
     }
 
     public override void Execute(Unit caster)

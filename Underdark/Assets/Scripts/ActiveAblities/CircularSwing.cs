@@ -17,7 +17,7 @@ public class CircularSwing : ActiveAbility, IAttacker
         Attack();
         
         var attackDirAngle = Vector3.Angle(Vector3.right, caster.GetAttackDirection());
-        visual.Swing(attackDirAngle, attackAngle, attackDistance);
+        visual.Swing(attackDirAngle, AttackAngle, AttackDistance);
     }
     
     public void Attack()

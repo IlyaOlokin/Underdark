@@ -4,23 +4,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ShootButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class HoldButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
-    public event Action OnShoot;
+    public event Action OnButtonHoldStart;
+    public event Action OnButtonHold;
+    public event Action OnButtonHoldEnd;
     private bool isPressed;
 
     private void Update()
     {
-        if (isPressed) OnShoot?.Invoke();
+        if (isPressed) OnButtonHold?.Invoke();
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         isPressed = true;
+        OnButtonHoldStart?.Invoke();
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
         isPressed = false;
+        OnButtonHoldEnd?.Invoke();
     }
 }
