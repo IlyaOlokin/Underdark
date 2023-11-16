@@ -325,6 +325,19 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         ReceiveStatusEffect(newSlow);
     }
     
+    public void GetBurn(BurnInfo burnInfo, Unit caster, GameObject visual, Sprite effectIcon)
+    {
+        if (TryGetComponent(out Freeze freeze))
+            Destroy(freeze);
+        
+        if (Random.Range(0f, 1f) > burnInfo.chance) return;
+        if (TryGetComponent(out Burn burn)) return;
+        
+        var newBurn = gameObject.AddComponent<Burn>();
+        newBurn.Init(burnInfo, this, caster, visual, effectIcon);
+        ReceiveStatusEffect(newBurn);
+    }
+    
     public virtual void ApplySlow(float slow)
     {
         slowAmount = slow;
@@ -367,7 +380,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     
     public virtual bool GetFrozen(FreezeInfo freezeInfo, Sprite effectIcon)
     {
-        // -burn
+        if (TryGetComponent(out Burn burn))
+            Destroy(burn);
+        
         if (Random.Range(0f, 1f) > freezeInfo.chance) return false;
         
         isFrozen = true;
