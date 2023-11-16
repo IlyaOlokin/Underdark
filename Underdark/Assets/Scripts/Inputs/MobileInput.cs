@@ -11,6 +11,8 @@ public class MobileInput : MonoBehaviour, IInput
     public event Action<Vector3> MoveInput;
     public event Action ShootInput;
     public event Action<int> ActiveAbilityInput;
+    public event Action<int> ActiveAbilityHoldStart;
+    public event Action<int> ActiveAbilityHoldEnd;
     public event Action<int> ExecutableItemInput;
 
     private PlayerInputUI inputUI;
@@ -23,11 +25,25 @@ public class MobileInput : MonoBehaviour, IInput
 
     private void Awake()
     {
-        inputUI.shootButton.GetComponent<ShootButton>().OnShoot += Shoot;
-        inputUI.activeAbilityButtons[0].onClick.AddListener(ActiveAbility1);
-        inputUI.activeAbilityButtons[1].onClick.AddListener(ActiveAbility2);
-        inputUI.activeAbilityButtons[2].onClick.AddListener(ActiveAbility3);
-        inputUI.activeAbilityButtons[3].onClick.AddListener(ActiveAbility4);
+        inputUI.shootButton.GetComponent<HoldButton>().OnButtonHold += ButtonHold;
+        
+
+        inputUI.activeAbilityButtons[0].OnButtonHoldStart += ActiveAbilityHoldStart1;
+        inputUI.activeAbilityButtons[0].OnButtonHoldEnd += ActiveAbilityHoldEnd1;
+        inputUI.activeAbilityButtons[0].OnButtonClick += ActiveAbility1;
+        
+        inputUI.activeAbilityButtons[1].OnButtonHoldStart += ActiveAbilityHoldStart2;
+        inputUI.activeAbilityButtons[1].OnButtonHoldEnd += ActiveAbilityHoldEnd2;
+        inputUI.activeAbilityButtons[1].OnButtonClick += ActiveAbility2;
+        
+        inputUI.activeAbilityButtons[2].OnButtonHoldStart += ActiveAbilityHoldStart3;
+        inputUI.activeAbilityButtons[2].OnButtonHoldEnd += ActiveAbilityHoldEnd3;
+        inputUI.activeAbilityButtons[2].OnButtonClick += ActiveAbility3;
+        
+        inputUI.activeAbilityButtons[3].OnButtonHoldStart += ActiveAbilityHoldStart4;
+        inputUI.activeAbilityButtons[3].OnButtonHoldEnd += ActiveAbilityHoldEnd4;
+        inputUI.activeAbilityButtons[3].OnButtonClick += ActiveAbility4;
+
         
         inputUI.executableSlotsHandler.executableButtons[0].onClick.AddListener(ExecuteExecutableSlot1);
         inputUI.executableSlotsHandler.executableButtons[1].onClick.AddListener(ExecuteExecutableSlot2);
@@ -38,7 +54,7 @@ public class MobileInput : MonoBehaviour, IInput
         PlayerMoveInput();
     }
 
-    private void Shoot()
+    private void ButtonHold()
     {
         ShootInput?.Invoke();
     }
@@ -59,6 +75,46 @@ public class MobileInput : MonoBehaviour, IInput
     {
         ActiveAbilityInput?.Invoke(3);
     }
+    
+    private void ActiveAbilityHoldStart1()
+    {
+        ActiveAbilityHoldStart?.Invoke(0);
+    }
+    
+    private void ActiveAbilityHoldEnd1()
+    {
+        ActiveAbilityHoldEnd?.Invoke(0);
+    }
+    
+    private void ActiveAbilityHoldStart2()
+    {
+        ActiveAbilityHoldStart?.Invoke(1);
+    }
+    
+    private void ActiveAbilityHoldEnd2()
+    {
+        ActiveAbilityHoldEnd?.Invoke(1);
+    }
+    
+    private void ActiveAbilityHoldStart3()
+    {
+        ActiveAbilityHoldStart?.Invoke(2);
+    }
+    
+    private void ActiveAbilityHoldEnd3()
+    {
+        ActiveAbilityHoldEnd?.Invoke(2);
+    }
+    
+    private void ActiveAbilityHoldStart4()
+    {
+        ActiveAbilityHoldStart?.Invoke(3);
+    }
+    
+    private void ActiveAbilityHoldEnd4()
+    {
+        ActiveAbilityHoldEnd?.Invoke(3);
+    }
 
     private void ExecuteExecutableSlot1()
     {
@@ -69,8 +125,6 @@ public class MobileInput : MonoBehaviour, IInput
     {
         ExecutableItemInput?.Invoke(1);
     }
-    
-    
     
     public void PlayerMoveInput()
     {

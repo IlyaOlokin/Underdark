@@ -22,11 +22,13 @@ public class FireBall : ActiveAbility, IAttacker
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
-        Invoke(nameof(Die),  attackDistance / projSpeed);
+        Invoke(nameof(Die),  AttackDistance / projSpeed);
     }
 
     public override void Execute(Unit caster)
     {
+        base.Execute(caster);
+
         this.caster = caster;
         damage = Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
         

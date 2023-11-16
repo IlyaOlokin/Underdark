@@ -163,8 +163,9 @@ MonoBehaviour:
   attackMask:
     serializedVersion: 2
     m_Bits: 72
-  attackDistance: 5
-  attackAngle: 120
+  <NeedOverrideWithWeaponStats>k__BackingField: 0
+  <AttackDistance>k__BackingField: 5
+  <AttackAngle>k__BackingField: 120
   maxValue: 0
   statMultiplier: 0
   baseStat: 0

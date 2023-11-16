@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RadialFill
+  m_Name: AbilityHighLight
   m_Shader: {fileID: -6465566751694194690, guid: 587b08343366c9145abbb85031e1c8b5, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -57,12 +57,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FillAmount: 60
+    - _FillAmount: 120
     - _NeedOneMinusAlpha: 0
     - _Thikness: 8
     - _Turn: 90
     m_Colors:
-    - _Color: {r: 7.9999995, g: 7.9999995, b: 7.9999995, a: 0}
+    - _Color: {r: 0.19954473, g: 1.1433374, b: 0.23595281, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &1432994576061147601
 MonoBehaviour:

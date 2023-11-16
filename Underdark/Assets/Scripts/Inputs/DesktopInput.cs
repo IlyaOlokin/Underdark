@@ -10,6 +10,8 @@ public class DesktopInput : MonoBehaviour, IInput
     public event Action<Vector3> MoveInput;
     public event Action ShootInput;
     public event Action<int> ActiveAbilityInput;
+    public event Action<int> ActiveAbilityHoldStart;
+    public event Action<int> ActiveAbilityHoldEnd;
     public event Action<int> ExecutableItemInput;
 
     private Vector2 dir;
@@ -21,7 +23,7 @@ public class DesktopInput : MonoBehaviour, IInput
         this.inputUI = inputUI;
         foreach (var button in inputUI.activeAbilityButtons)
         {
-            button.interactable = false;
+            button.Button.interactable = false;
         }
     }
     

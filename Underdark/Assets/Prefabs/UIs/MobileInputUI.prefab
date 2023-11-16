@@ -136,10 +136,10 @@ MonoBehaviour:
   joystick: {fileID: 3243698763817478161}
   shootButton: {fileID: 3749740006323656697}
   activeAbilityButtons:
-  - {fileID: 6532331711461706333}
-  - {fileID: 3905539459666387690}
-  - {fileID: 759791943425575792}
-  - {fileID: 4878132252543144206}
+  - {fileID: 7859070573048808115}
+  - {fileID: 1015904511059910333}
+  - {fileID: 6214148041361399702}
+  - {fileID: 9000901448729664955}
   buttonsIcons:
   - {fileID: 744135983096676592}
   - {fileID: 1838347560213777371}
@@ -251,6 +251,7 @@ GameObject:
   - component: {fileID: 3032411856864802017}
   - component: {fileID: 2526199114612781494}
   - component: {fileID: 6532331711461706333}
+  - component: {fileID: 7859070573048808115}
   m_Layer: 0
   m_Name: AbilityButton
   m_TagString: Untagged
@@ -363,6 +364,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7859070573048808115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1849962219870585549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef0f30a68028a54796ad80ad980379d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdDelay: 0.5
 --- !u!1 &1886021503492998164
 GameObject:
   m_ObjectHideFlags: 0
@@ -375,6 +389,7 @@ GameObject:
   - component: {fileID: 6738622501306914998}
   - component: {fileID: 5113140461676142797}
   - component: {fileID: 3905539459666387690}
+  - component: {fileID: 1015904511059910333}
   m_Layer: 0
   m_Name: AbilityButton
   m_TagString: Untagged
@@ -487,6 +502,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1015904511059910333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886021503492998164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef0f30a68028a54796ad80ad980379d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdDelay: 0.5
 --- !u!1 &2250116132485912845
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,6 +649,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fef0f30a68028a54796ad80ad980379d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  holdDelay: 0
 --- !u!1 &2251161299810671181
 GameObject:
   m_ObjectHideFlags: 0
@@ -2304,6 +2333,7 @@ GameObject:
   - component: {fileID: 7464261970570932025}
   - component: {fileID: 6549199233136463897}
   - component: {fileID: 759791943425575792}
+  - component: {fileID: 6214148041361399702}
   m_Layer: 0
   m_Name: AbilityButton
   m_TagString: Untagged
@@ -2416,6 +2446,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6214148041361399702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6469501493577217096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef0f30a68028a54796ad80ad980379d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdDelay: 0.5
 --- !u!1 &6658617296359202286
 GameObject:
   m_ObjectHideFlags: 0
@@ -2428,6 +2471,7 @@ GameObject:
   - component: {fileID: 3820478610079569454}
   - component: {fileID: 4583450022387020992}
   - component: {fileID: 4878132252543144206}
+  - component: {fileID: 9000901448729664955}
   m_Layer: 0
   m_Name: AbilityButton
   m_TagString: Untagged
@@ -2540,6 +2584,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &9000901448729664955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6658617296359202286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef0f30a68028a54796ad80ad980379d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  holdDelay: 0.5
 --- !u!1 &6932194575016039443
 GameObject:
   m_ObjectHideFlags: 0

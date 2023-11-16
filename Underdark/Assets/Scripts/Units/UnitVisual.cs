@@ -24,11 +24,17 @@ public class UnitVisual : MonoBehaviour
     [SerializeField] private GameObject EnergyShield;
     private SpriteRenderer energyShieldSpriteRenderer;
 
+    [Header("AbilityHighLight")] 
+    [SerializeField] private GameObject highLightZone;
+    [SerializeField] private Material highLightZoneMat;
+
+
     private void Awake()
     {
         GetComponent<SpriteRenderer>().material = new Material(mat);
         mat = GetComponent<SpriteRenderer>().material;
         energyShieldSpriteRenderer = EnergyShield.GetComponent<SpriteRenderer>();
+        if (highLightZone != null) highLightZone.GetComponent<SpriteRenderer>().material = highLightZoneMat;
     }
 
     private void OnEnable()
@@ -95,5 +101,32 @@ public class UnitVisual : MonoBehaviour
     public void DeactivateEnergyShieldVisual()
     {
         EnergyShield.SetActive(false);
+    }
+
+    public void StartHighLightActiveAbility(ActiveAbility activeAbility, MeleeWeapon weapon)
+    {
+        float dist;
+        float angle;
+        
+        if (activeAbility.NeedOverrideWithWeaponStats && weapon.ID != "empty")
+        {
+            dist = weapon.AttackDistance;
+            angle = weapon.AttackRadius;
+        }
+        else
+        {
+            dist = activeAbility.AttackDistance;
+            angle = activeAbility.AttackAngle;
+        }
+        
+        highLightZone.SetActive(true);
+        highLightZone.transform.localScale = new Vector3(dist * 2 + 1, dist * 2 + 1);
+        highLightZoneMat.SetFloat("_Turn", 90);
+        highLightZoneMat.SetFloat("_FillAmount", angle);
+    }
+
+    public void EndHighLightActiveAbility()
+    {
+        highLightZone.SetActive(false);
     }
 }

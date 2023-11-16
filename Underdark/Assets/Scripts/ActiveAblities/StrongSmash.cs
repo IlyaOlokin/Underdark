@@ -12,10 +12,10 @@ public class StrongSmash : ActiveAbility, IAttacker
     
     public override void Execute(Unit caster)
     {
+        base.Execute(caster);
         this.caster = caster;
         damage = Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
-
-        OverrideWeaponStats(caster.GetWeapon());
+        
         Attack();
         
         StartCoroutine(StartVisual());
@@ -25,12 +25,12 @@ public class StrongSmash : ActiveAbility, IAttacker
     {
         visualSR.material = new Material(visualSR.material);
         
-        var targetScale = transform.localScale * (attackDistance * 2 + 1);
+        var targetScale = transform.localScale * (AttackDistance * 2 + 1);
         transform.localScale = Vector3.zero;
         var attackDir = Vector2.Angle(Vector2.right, caster.GetAttackDirection());
         if (caster.GetAttackDirection().y < 0) attackDir *= -1;
         visualSR.material.SetFloat("_Turn", attackDir);
-        visualSR.material.SetFloat("_FillAmount", attackAngle);
+        visualSR.material.SetFloat("_FillAmount", AttackAngle);
         
         while (visualDuration > 0)
         {

@@ -9,8 +9,9 @@ public abstract class ActiveAbility : MonoBehaviour
     public float cooldown;
     public int ManaCost;
     [SerializeField] protected LayerMask attackMask;
-    [SerializeField] protected int attackDistance;
-    [SerializeField] protected float attackAngle;
+    [field:SerializeField] public bool NeedOverrideWithWeaponStats { get; private set; }
+    [field:SerializeField] public float AttackDistance { get; protected set; }
+    [field:SerializeField] public float AttackAngle { get; protected set; }
     [SerializeField] protected float maxValue;
     [SerializeField] protected int statMultiplier;
     [SerializeField] protected BaseStat baseStat;
@@ -33,14 +34,18 @@ public abstract class ActiveAbility : MonoBehaviour
         if (needAutoDestroy) Destroy(gameObject, autoDestroyDelay);
     }
 
-    public abstract void Execute(Unit caster);
+    public virtual void Execute(Unit caster)
+    {
+        if (NeedOverrideWithWeaponStats) 
+            OverrideWeaponStats(caster.GetWeapon());
+    }
     
     protected Collider2D FindClosestTarget(Unit caster)
     {
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(attackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(caster.transform.position, attackDistance + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(caster.transform.position, AttackDistance + 0.5f, contactFilter, hitColliders);
 
         Collider2D target = null;
         float minDist = float.MaxValue;
@@ -50,7 +55,7 @@ public abstract class ActiveAbility : MonoBehaviour
 
             Vector3 dir = collider.transform.position - caster.transform.position;
             var angle = Vector2.Angle(dir, caster.GetAttackDirection());
-            if (angle < attackAngle / 2f && dir.magnitude < minDist)
+            if (angle < AttackAngle / 2f && dir.magnitude < minDist)
             {
                 minDist = dir.magnitude;
                 target = collider;
@@ -65,7 +70,7 @@ public abstract class ActiveAbility : MonoBehaviour
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(attackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(caster.transform.position, attackDistance + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(caster.transform.position, AttackDistance + 0.5f, contactFilter, hitColliders);
 
         List<Collider2D> targets = new List<Collider2D>();
         foreach (var collider in hitColliders)
@@ -74,7 +79,7 @@ public abstract class ActiveAbility : MonoBehaviour
             
             Vector3 dir = collider.transform.position - caster.transform.position;
             var angle = Vector2.Angle(dir, caster.GetAttackDirection());
-            if (angle < attackAngle / 2f)
+            if (angle < AttackAngle / 2f)
             {
                 targets.Add(collider);
             }
@@ -103,8 +108,8 @@ public abstract class ActiveAbility : MonoBehaviour
     protected void OverrideWeaponStats(MeleeWeapon weapon)
     {
         if (weapon.ID == "empty") return;
-        attackDistance = weapon.AttackDistance;
-        attackAngle = weapon.AttackRadius;
+        AttackDistance = weapon.AttackDistance;
+        AttackAngle = weapon.AttackRadius;
     }
 
     public bool RequirementsMet(MeleeWeapon weapon)
@@ -118,8 +123,8 @@ public abstract class ActiveAbility : MonoBehaviour
         res[0] = description;
         if (statMultiplier != 0) res[1] = $"Damage: {statMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {maxValue})";
         if (ManaCost != 0)       res[2] = $"Mana: {ManaCost}";
-        if (attackDistance != 0) res[3] = $"Distance: {attackDistance}";
-        if (attackAngle != 0)    res[4] = $"Radius: {attackAngle}";
+        if (AttackDistance != 0) res[3] = $"Distance: {AttackDistance}";
+        if (AttackAngle != 0)    res[4] = $"Radius: {AttackAngle}";
         return res;
     }
     

@@ -11,13 +11,15 @@ public class CircularSwing : ActiveAbility, IAttacker
     
     public override void Execute(Unit caster)
     {
+        base.Execute(caster);
+
         this.caster = caster;
         damage = Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
         
         Attack();
         
         var attackDirAngle = Vector3.Angle(Vector3.right, caster.GetAttackDirection());
-        visual.Swing(attackDirAngle, attackAngle, attackDistance);
+        visual.Swing(attackDirAngle, AttackAngle, AttackDistance);
     }
     
     public void Attack()
