@@ -9,6 +9,8 @@ public class EnergyShieldAbility : ActiveAbility
     
     public override void Execute(Unit caster)
     {
+        base.Execute(caster);
+
         caster.GetEnergyShield(shieldHP, shieldRadius);
     }
     

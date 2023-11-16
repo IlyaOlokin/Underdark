@@ -23,7 +23,7 @@ public class DesktopInput : MonoBehaviour, IInput
         this.inputUI = inputUI;
         foreach (var button in inputUI.activeAbilityButtons)
         {
-            button.interactable = false;
+            button.Button.interactable = false;
         }
     }
     

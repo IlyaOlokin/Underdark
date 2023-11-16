@@ -12,7 +12,7 @@ public class PlayerInputUI : MonoBehaviour
     public FloatingJoystick joystick;
     public Button shootButton;
     [Header("Ability Buttons")]
-    public List<Button> activeAbilityButtons;
+    public List<HoldButton> activeAbilityButtons;
     public List<Image> buttonsIcons;
     public List<Image> buttonsCD;
     public List<TextMeshProUGUI> manaCost;
@@ -86,7 +86,7 @@ public class PlayerInputUI : MonoBehaviour
         abilitiesCDMax = new List<float>();
         for (int i = 0; i < player.Inventory.EquippedActiveAbilitySlots.Count; i++)
         {
-            activeAbilityButtons[i].interactable = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
+            activeAbilityButtons[i].Button.interactable = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
             buttonsIcons[i].enabled = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
             manaCost[i].gameObject.SetActive(!(player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty || player.Inventory.GetActiveAbility(i).ManaCost == 0));
             
@@ -114,7 +114,7 @@ public class PlayerInputUI : MonoBehaviour
             if (player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty) continue;
             
             ActiveAbility activeAbility = player.Inventory.GetActiveAbility(i);
-            activeAbilityButtons[i].interactable = activeAbility.RequirementsMet(player.GetWeapon());
+            activeAbilityButtons[i].Button.interactable = activeAbility.RequirementsMet(player.GetWeapon());
         }
     }
 

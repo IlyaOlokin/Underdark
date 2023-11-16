@@ -9,6 +9,7 @@ public abstract class ActiveAbility : MonoBehaviour
     public float cooldown;
     public int ManaCost;
     [SerializeField] protected LayerMask attackMask;
+    [field:SerializeField] public bool NeedOverrideWithWeaponStats { get; private set; }
     [field:SerializeField] public float AttackDistance { get; protected set; }
     [field:SerializeField] public float AttackAngle { get; protected set; }
     [SerializeField] protected float maxValue;
@@ -33,7 +34,11 @@ public abstract class ActiveAbility : MonoBehaviour
         if (needAutoDestroy) Destroy(gameObject, autoDestroyDelay);
     }
 
-    public abstract void Execute(Unit caster);
+    public virtual void Execute(Unit caster)
+    {
+        if (NeedOverrideWithWeaponStats) 
+            OverrideWeaponStats(caster.GetWeapon());
+    }
     
     protected Collider2D FindClosestTarget(Unit caster)
     {

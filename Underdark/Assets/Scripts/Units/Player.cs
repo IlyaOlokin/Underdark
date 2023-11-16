@@ -59,10 +59,9 @@ public class Player : Unit, IPickUper
     private void StartHighLightActiveAbility(int index)
     {  
         if (Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
-        var dist = ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility.AttackDistance;
-        var angle = ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility.AttackAngle;
-
-        unitVisual.StartHighLightActiveAbility(dist, angle);
+        var activeAbility = ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility;
+        
+        unitVisual.StartHighLightActiveAbility(activeAbility, GetWeapon());
     }
     
     private void EndHighLightActiveAbility(int index)

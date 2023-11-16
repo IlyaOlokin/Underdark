@@ -103,10 +103,24 @@ public class UnitVisual : MonoBehaviour
         EnergyShield.SetActive(false);
     }
 
-    public void StartHighLightActiveAbility(float distance, float angle)
+    public void StartHighLightActiveAbility(ActiveAbility activeAbility, MeleeWeapon weapon)
     {
+        float dist;
+        float angle;
+        
+        if (activeAbility.NeedOverrideWithWeaponStats && weapon.ID != "empty")
+        {
+            dist = weapon.AttackDistance;
+            angle = weapon.AttackRadius;
+        }
+        else
+        {
+            dist = activeAbility.AttackDistance;
+            angle = activeAbility.AttackAngle;
+        }
+        
         highLightZone.SetActive(true);
-        highLightZone.transform.localScale = new Vector3(distance * 2 + 1, distance * 2 + 1);
+        highLightZone.transform.localScale = new Vector3(dist * 2 + 1, dist * 2 + 1);
         highLightZoneMat.SetFloat("_Turn", 90);
         highLightZoneMat.SetFloat("_FillAmount", angle);
     }

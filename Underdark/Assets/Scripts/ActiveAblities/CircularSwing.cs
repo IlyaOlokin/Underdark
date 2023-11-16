@@ -11,6 +11,8 @@ public class CircularSwing : ActiveAbility, IAttacker
     
     public override void Execute(Unit caster)
     {
+        base.Execute(caster);
+
         this.caster = caster;
         damage = Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
         

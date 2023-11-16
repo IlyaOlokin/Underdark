@@ -26,22 +26,23 @@ public class MobileInput : MonoBehaviour, IInput
     private void Awake()
     {
         inputUI.shootButton.GetComponent<HoldButton>().OnButtonHold += ButtonHold;
-        inputUI.activeAbilityButtons[0].onClick.AddListener(ActiveAbility1);
-        inputUI.activeAbilityButtons[1].onClick.AddListener(ActiveAbility2);
-        inputUI.activeAbilityButtons[2].onClick.AddListener(ActiveAbility3);
-        inputUI.activeAbilityButtons[3].onClick.AddListener(ActiveAbility4);
+        
 
-        inputUI.activeAbilityButtons[0].GetComponent<HoldButton>().OnButtonHoldStart += ActiveAbilityHoldStart1;
-        inputUI.activeAbilityButtons[0].GetComponent<HoldButton>().OnButtonHoldEnd += ActiveAbilityHoldEnd1;
+        inputUI.activeAbilityButtons[0].OnButtonHoldStart += ActiveAbilityHoldStart1;
+        inputUI.activeAbilityButtons[0].OnButtonHoldEnd += ActiveAbilityHoldEnd1;
+        inputUI.activeAbilityButtons[0].OnButtonClick += ActiveAbility1;
         
-        inputUI.activeAbilityButtons[1].GetComponent<HoldButton>().OnButtonHoldStart += ActiveAbilityHoldStart2;
-        inputUI.activeAbilityButtons[1].GetComponent<HoldButton>().OnButtonHoldEnd += ActiveAbilityHoldEnd2;
+        inputUI.activeAbilityButtons[1].OnButtonHoldStart += ActiveAbilityHoldStart2;
+        inputUI.activeAbilityButtons[1].OnButtonHoldEnd += ActiveAbilityHoldEnd2;
+        inputUI.activeAbilityButtons[1].OnButtonClick += ActiveAbility2;
         
-        inputUI.activeAbilityButtons[2].GetComponent<HoldButton>().OnButtonHoldStart += ActiveAbilityHoldStart3;
-        inputUI.activeAbilityButtons[2].GetComponent<HoldButton>().OnButtonHoldEnd += ActiveAbilityHoldEnd3;
+        inputUI.activeAbilityButtons[2].OnButtonHoldStart += ActiveAbilityHoldStart3;
+        inputUI.activeAbilityButtons[2].OnButtonHoldEnd += ActiveAbilityHoldEnd3;
+        inputUI.activeAbilityButtons[2].OnButtonClick += ActiveAbility3;
         
-        inputUI.activeAbilityButtons[3].GetComponent<HoldButton>().OnButtonHoldStart += ActiveAbilityHoldStart4;
-        inputUI.activeAbilityButtons[3].GetComponent<HoldButton>().OnButtonHoldEnd += ActiveAbilityHoldEnd4;
+        inputUI.activeAbilityButtons[3].OnButtonHoldStart += ActiveAbilityHoldStart4;
+        inputUI.activeAbilityButtons[3].OnButtonHoldEnd += ActiveAbilityHoldEnd4;
+        inputUI.activeAbilityButtons[3].OnButtonClick += ActiveAbility4;
 
         
         inputUI.executableSlotsHandler.executableButtons[0].onClick.AddListener(ExecuteExecutableSlot1);

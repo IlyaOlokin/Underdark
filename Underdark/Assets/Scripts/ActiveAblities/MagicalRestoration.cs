@@ -6,8 +6,9 @@ public class MagicalRestoration : ActiveAbility
 {
     public override void Execute(Unit caster)
     {
+        base.Execute(caster);
+        
         var healAmount = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
-        //var t = base.caster.transform
         transform.SetParent(caster.transform);
         caster.RestoreHP(healAmount, true);
     }

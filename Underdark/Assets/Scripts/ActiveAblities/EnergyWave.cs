@@ -11,8 +11,9 @@ public class EnergyWave : ActiveAbility
     
     public override void Execute(Unit caster)
     {
+        base.Execute(caster);
+
         this.caster = caster;
-        
         
         var targets = FindAllTargets(caster);
 
