@@ -86,11 +86,7 @@ public class Enemy : Unit
 
     private void AgrNearbyAllies()
     {
-        var contactFilter = new ContactFilter2D();
-        contactFilter.SetLayerMask(alliesLayer);
-        List<Collider2D> hitColliders = new List<Collider2D>();
-
-        allySensor.OverlapCollider(contactFilter, hitColliders);
+        var hitColliders = GetNearbyAllies();
 
         foreach (var hitCollider in hitColliders)
         {
@@ -100,6 +96,16 @@ public class Enemy : Unit
                     enemy.Agr(moveTarget.position);
             }
         }
+    }
+
+    public List<Collider2D> GetNearbyAllies()
+    {
+        var contactFilter = new ContactFilter2D();
+        contactFilter.SetLayerMask(alliesLayer);
+        List<Collider2D> hitColliders = new List<Collider2D>();
+
+        allySensor.OverlapCollider(contactFilter, hitColliders);
+        return hitColliders;
     }
 
     private void UpdateMovementAbility()
@@ -137,6 +143,21 @@ public class Enemy : Unit
     public override void GetUnStunned()
     {
         base.GetUnStunned();
+        UpdateMovementAbility();
+    }
+    
+    public override bool GetFrozen(FreezeInfo freezeInfo, Sprite effectIcon)
+    {
+        if (!base.GetFrozen(freezeInfo, effectIcon)) return false;
+        
+        unitVisual.AbortAlert();
+        UpdateMovementAbility();
+        return true;
+    }
+
+    public override void GetUnFrozen()
+    {
+        base.GetUnFrozen();
         UpdateMovementAbility();
     }
 

@@ -46,6 +46,7 @@ public class StatusEffectUI : MonoBehaviour
     {
         for (int i = 0; i < player.Buffs.Count; i++)
         {
+            if (buffIcons[i] == null) continue;
             buffIcons[i].transform.localPosition = new Vector3(i * xOffset, 0);
             buffIcons[i].SetData(player.Buffs[i]);
         }

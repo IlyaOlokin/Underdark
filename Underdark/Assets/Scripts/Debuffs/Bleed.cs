@@ -14,7 +14,7 @@ public class Bleed : Debuff
     {
         this.bleedInfo = bleedInfo;
         this.receiver = receiver;
-        base.caster = caster;
+        this.caster = caster;
         Icon = effectIcon;
         dmgTimer = bleedInfo.DmgDelay;
         Duration = bleedInfo.Duration;
