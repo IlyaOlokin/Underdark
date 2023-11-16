@@ -10,13 +10,13 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
     public IInventorySlot slot { get; private set; }
     [field: SerializeField] public ItemType SlotType { get; private set; }
     [SerializeField] private GameObject selectIndicator;
-    private IInventoryUI inventoryUI;
+    public IInventoryUI InventoryUI { get; private set; }
 
     private Vector2 pressPos;
 
     private void Awake()
     {
-        inventoryUI = GetComponentInParent<IInventoryUI>();
+        InventoryUI = GetComponentInParent<IInventoryUI>();
         Refresh();
     }
 
@@ -31,7 +31,7 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
         UIInventorySlot otherSlotUI = otherItemUI.GetComponentInParent<UIInventorySlot>();
 
         var otherSlot = otherSlotUI.slot;
-        var inventory = inventoryUI.Inventory;
+        var inventory = InventoryUI.Inventory;
 
 
         bool canMoveItem = false;
@@ -81,6 +81,6 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        inventoryUI.SelectSlot(this);
+        InventoryUI.SelectSlot(this);
     }
 }

@@ -7,4 +7,5 @@ public interface IInventoryUI
     Inventory Inventory { get; }
 
     void SelectSlot(UIInventorySlot selectedSlot);
+    void UpdateSelectedSlot();
 }

@@ -19,5 +19,6 @@ public class DropZone : MonoBehaviour, IDropHandler
         
         otherSlot.Clear();
         otherSlotUI.Refresh();
+        otherSlotUI.InventoryUI.UpdateSelectedSlot();
     }
 }

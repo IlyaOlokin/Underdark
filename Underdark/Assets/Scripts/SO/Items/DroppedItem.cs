@@ -39,9 +39,9 @@ public class DroppedItem : MonoBehaviour
         containedItem = item;
         itemAmount = amount;
         sr.sprite = item.Sprite;
-        text.text = itemAmount.ToString();
+        text.text = itemAmount == 0 ? "" : itemAmount.ToString();
         readyToPickUpAfterPlayerDrop = !droppedByPlayer;
-        rb.AddForce(new Vector2(Random.Range(-1f,1f), Random.Range(-1f, 1f)) * force, ForceMode2D.Impulse);
+        rb.AddForce(new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * force, ForceMode2D.Impulse);
 
         StartCoroutine(InteractDelay());
     }
@@ -63,7 +63,7 @@ public class DroppedItem : MonoBehaviour
             if (itemsLeft != itemAmount)
             {
                 itemAmount = itemsLeft;
-                text.text = itemAmount.ToString();
+                text.text = itemAmount == 0 ? "" : itemAmount.ToString();
                 picked = true;
                 target = other.transform;
             }
