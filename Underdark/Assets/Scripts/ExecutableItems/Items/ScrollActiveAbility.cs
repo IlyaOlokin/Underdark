@@ -12,6 +12,7 @@ public class ScrollActiveAbility : ExecutableItem
     {
         if (caster.Inventory.HasActiveAbility(item.ID, out Item itemInInventory))
         {
+            NotificationManager.Instance.GetNotification(new Notification(itemInInventory.Sprite, "You already know this spell."));
             return false;
         }
         
