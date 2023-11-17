@@ -9,12 +9,14 @@ public class Elixir : ExecutableItem, IStatusEffect
     public float Timer { get; protected set; }
 
     
-    public override void Execute(Unit caster)
+    public override bool Execute(Unit caster)
     {
         if (caster.TryGetComponent(out Elixir elixir))
         {
             Destroy(elixir);
         }
+
+        return true;
     }
 
     public override string[] ToString(Unit owner)

@@ -88,7 +88,7 @@ public class PlayerInputUI : MonoBehaviour
         {
             activeAbilityButtons[i].Button.interactable = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
             buttonsIcons[i].enabled = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
-            manaCost[i].gameObject.SetActive(!(player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty || player.Inventory.GetActiveAbility(i).ManaCost == 0));
+            manaCost[i].gameObject.SetActive(!(player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty || player.Inventory.GetEquippedActiveAbility(i).ManaCost == 0));
             
             if (player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty)
             {
@@ -96,7 +96,7 @@ public class PlayerInputUI : MonoBehaviour
                 continue;
             }
             
-            ActiveAbility activeAbility = player.Inventory.GetActiveAbility(i);
+            ActiveAbility activeAbility = player.Inventory.GetEquippedActiveAbility(i);
 
             manaCost[i].text = activeAbility.ManaCost.ToString();
             abilitiesCDMax.Add(activeAbility.cooldown);
@@ -113,7 +113,7 @@ public class PlayerInputUI : MonoBehaviour
         {
             if (player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty) continue;
             
-            ActiveAbility activeAbility = player.Inventory.GetActiveAbility(i);
+            ActiveAbility activeAbility = player.Inventory.GetEquippedActiveAbility(i);
             activeAbilityButtons[i].Button.interactable = activeAbility.RequirementsMet(player.GetWeapon());
         }
     }
@@ -128,7 +128,7 @@ public class PlayerInputUI : MonoBehaviour
                 continue;
             }
             
-            ActiveAbility activeAbility = player.Inventory.GetActiveAbility(i);
+            ActiveAbility activeAbility = player.Inventory.GetEquippedActiveAbility(i);
             notEnoughManaIndicators[i].SetActive(mana < activeAbility.ManaCost);
         }
     }

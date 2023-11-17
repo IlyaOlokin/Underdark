@@ -12,11 +12,12 @@ public class RestoreOverTimePotion : Potion
     [SerializeField] private float restoreDelay;
     private float restoreTimer;
     
-    public override void Execute(Unit caster)
+    public override bool Execute(Unit caster)
     {
         base.Execute(caster);
         var comp = caster.AddComponent<RestoreOverTimePotion>();
         comp.Init(caster, healAmount, manaRestoreAmount, restoreDelay, Duration, Icon);
+        return true;
     }
 
     public void Init(Unit caster, int heal, int manaRestore, float delay, float duration, Sprite icon)

@@ -30,6 +30,7 @@ public class DesktopInput : MonoBehaviour, IInput
     void Update()
     {
         dir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
+        
         if (Input.GetMouseButton(0))
             ShootInput?.Invoke();
         
@@ -47,13 +48,11 @@ public class DesktopInput : MonoBehaviour, IInput
         if (Input.GetKeyDown(KeyCode.E))
             ExecutableItemInput?.Invoke(1);
         
-
         if (Input.GetKeyDown(KeyCode.Tab))
             inputUI.inventoryButton.onClick?.Invoke();
         
         if (Input.GetKeyDown(KeyCode.I))
             inputUI.characterButton.onClick?.Invoke();
-
     }
 
     private void FixedUpdate()
@@ -64,5 +63,15 @@ public class DesktopInput : MonoBehaviour, IInput
     public void PlayerMoveInput()
     {
         MoveInput?.Invoke(dir);
+    }
+
+    protected virtual void OnActiveAbilityHoldEnd(int obj)
+    {
+        ActiveAbilityHoldEnd?.Invoke(obj);
+    }
+
+    protected virtual void OnActiveAbilityHoldStart(int obj)
+    {
+        ActiveAbilityHoldStart?.Invoke(obj);
     }
 }

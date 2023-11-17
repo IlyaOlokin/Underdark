@@ -8,12 +8,19 @@ public class ScrollActiveAbility : ExecutableItem
     [SerializeField] private ActiveAbilitySO item;
     [SerializeField] private BaseStat baseStat;
     [SerializeField] private int param;
-    public override void Execute(Unit caster)
+    public override bool Execute(Unit caster)
     {
+        if (caster.Inventory.HasActiveAbility(item.ID, out Item itemInInventory))
+        {
+            return false;
+        }
+        
         if (Random.Range(0f, 1f) <= CalculateChance(caster))
         {
             caster.Inventory.TryAddActiveAbilityItem(item);
         }
+        
+        return true;
     }
 
     private float CalculateChance(Unit caster)

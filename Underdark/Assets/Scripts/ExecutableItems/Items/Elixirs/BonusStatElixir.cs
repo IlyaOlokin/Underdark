@@ -10,11 +10,12 @@ public class BonusStatElixir : Elixir
     [SerializeField] private BaseStat bonusStat;
     [SerializeField] private int bonusValue;
     
-    public override void Execute(Unit caster)
+    public override bool Execute(Unit caster)
     {
         base.Execute(caster);
         var comp = caster.AddComponent<BonusStatElixir>();
         comp.Init(bonusStat, bonusValue, Duration, Icon, caster);
+        return true;
     }
 
     public void Init(BaseStat bonusStat, int bonusValue, float duration, Sprite icon, Unit caster)

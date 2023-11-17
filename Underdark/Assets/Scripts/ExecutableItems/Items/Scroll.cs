@@ -8,12 +8,14 @@ public class Scroll : ExecutableItem, IStatusEffect
     [field:SerializeField] public float Duration { get; private set;}
     public float Timer { get; protected set; }
 
-    public override void Execute(Unit caster)
+    public override bool Execute(Unit caster)
     {
         if (caster.TryGetComponent(out Scroll scroll))
         {
             Destroy(scroll);
         }
+        
+        return true;
     }
 
     public override string[] ToString(Unit owner)
