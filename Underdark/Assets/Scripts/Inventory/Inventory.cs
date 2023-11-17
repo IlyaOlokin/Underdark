@@ -140,6 +140,12 @@ public class Inventory : IInventory
         item = GetItem(itemID);
         return item != null;
     }
+    
+    public bool HasActiveAbility(string itemID, out Item item)
+    {
+        item = GetActiveAbility(itemID);
+        return item != null;
+    }
 
     public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot, ItemType fromSlotItemType = ItemType.Any, ItemType toSlotItemType = ItemType.Any)
     {
@@ -203,6 +209,11 @@ public class Inventory : IInventory
     {
         return slots.Find(slot => slot.ItemID == itemID).Item;
     }
+    
+    public Item GetActiveAbility(string itemID)
+    {
+        return activeAbilitySlots.Find(slot => slot.ItemID == itemID)?.Item;
+    }
 
     public Item[] GetAllItems()
     {
@@ -240,7 +251,7 @@ public class Inventory : IInventory
         return null;
     }
     
-    public ActiveAbility GetActiveAbility(int index)
+    public ActiveAbility GetEquippedActiveAbility(int index)
     {
         if (!EquippedActiveAbilitySlots[index].IsEmpty)
             return ((ActiveAbilitySO)EquippedActiveAbilitySlots[index].Item).ActiveAbility;

@@ -8,11 +8,12 @@ public class RestorePotion : Potion
     [SerializeField] private int healAmount;
     [SerializeField] private int manaRestoreAmount;
     
-    public override void Execute(Unit caster)
+    public override bool Execute(Unit caster)
     {
         base.Execute(caster);
         if (healAmount > 0)        caster.RestoreHP(healAmount, true);
         if (manaRestoreAmount > 0) caster.RestoreMP(manaRestoreAmount);
+        return true;
     }
 
     public override string[] ToString(Unit owner)

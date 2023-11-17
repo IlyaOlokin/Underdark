@@ -2,7 +2,7 @@ public class InventorySlot : IInventorySlot
 {
     public Item Item { get; private set; }
 
-    public string ItemID => Item.ID;
+    public string ItemID => IsEmpty ? "" : Item.ID;
     public int Amount { get; set; }
     
     public bool IsFull => !IsEmpty && Amount == Item.StackCapacity;

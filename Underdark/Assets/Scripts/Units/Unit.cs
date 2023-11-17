@@ -349,7 +349,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         for (int i = 0; i < ActiveAbilitiesCD.Count; i++)
         {
             if (Inventory.EquippedActiveAbilitySlots[i].IsEmpty) continue;
-            ActiveAbilitiesCD[i] = Inventory.GetActiveAbility(i).cooldown;
+            ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).cooldown;
         }
     }
     
@@ -557,7 +557,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     public void ExecuteActiveAbility(int index)
     {
         if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsStunned || Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
-        ActiveAbility activeAbility = Inventory.GetActiveAbility(index);
+        ActiveAbility activeAbility = Inventory.GetEquippedActiveAbility(index);
         if (activeAbility.ManaCost > CurrentMana) return;
 
         SpendMana(activeAbility.ManaCost);
@@ -581,7 +581,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
             }
             if (newID != lastActiveAbilitiesIDs[i])
             {
-                ActiveAbilitiesCD[i] = Inventory.GetActiveAbility(i).cooldown;
+                ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).cooldown;
             }
 
             lastActiveAbilitiesIDs[i] = newID;
@@ -591,8 +591,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     public void ExecuteExecutableItem(int index)
     {
         if (IsStunned || Inventory.ExecutableSlots[index].IsEmpty) return;
+
+        if (!Inventory.GetExecutableItem(index).Execute(this)) return;
         
-        Inventory.GetExecutableItem(index).Execute(this);
         Inventory.Remove(Inventory.ExecutableSlots[index]);
         OnExecutableItemUse?.Invoke(index);
     }

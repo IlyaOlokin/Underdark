@@ -8,9 +8,9 @@ public class ExecutableItemSO : Item
 {
     [SerializeField] private ExecutableItem executableItem;
 
-    public void Execute(Unit caster)
+    public bool Execute(Unit caster)
     {
-        executableItem.Execute(caster);
+        return executableItem.Execute(caster);
     }
 
     public override string[] ToString(Unit owner)

@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class PoisonScroll : Scroll
 {
-    public override void Execute(Unit caster)
+    public override bool Execute(Unit caster)
     {
         base.Execute(caster);
         if (caster.transform.TryGetComponent(out Poison poison))
             Destroy(poison);
+        
+        return true;
     }
 
     public override string[] ToString(Unit owner)

@@ -71,7 +71,8 @@ public class ItemDescription : MonoBehaviour
 
     private void UseItem()
     {
-        currItem.Execute(currOwner);
+        if (!currItem.Execute(currOwner)) return;
+
         currOwner.Inventory.Remove(currInventorySlot);
     }
 }
