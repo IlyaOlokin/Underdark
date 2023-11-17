@@ -685,6 +685,8 @@ MonoBehaviour:
   whiteOutAmount: 0.5
   StunBar: {fileID: 3743688560195123424}
   EnergyShield: {fileID: 4897007037507409590}
+  highLightZone: {fileID: 0}
+  highLightZoneMat: {fileID: 0}
 --- !u!1 &4897007037507409590
 GameObject:
   m_ObjectHideFlags: 0
@@ -1120,7 +1122,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 50
-  m_LinearDrag: 1
+  m_LinearDrag: 3
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -1221,7 +1223,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 136
   baseAttackCollider: {fileID: 8534802088583917232}
-  <ActiveAbilitiesCD>k__BackingField: []
   inventoryCapacity: 1
   activeAbilityInventoryCapacity: 1
   visualsFlipable: {fileID: 7394194429042638207}
@@ -1231,7 +1232,6 @@ MonoBehaviour:
   spawnPont: {fileID: 3887350311143016167}
   moveTarget: {fileID: 5120903447323990012}
   agent: {fileID: 8583875203054404754}
-  moveSpeed: 3
   followPlayerSensor: {fileID: 6012931007409671687}
   allySensor: {fileID: 5963353059792218333}
   alliesLayer:

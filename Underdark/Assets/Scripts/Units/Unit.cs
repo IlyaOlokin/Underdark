@@ -418,7 +418,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         newPush.Init(pushInfo.PushDuration, this, effectIcon);
         ReceiveStatusEffect(newPush);
         
-        rb.AddForce(pushDir, ForceMode2D.Impulse);
+        rb.velocity = pushDir;
         return true;
     }
     
