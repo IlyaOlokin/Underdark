@@ -1,17 +1,13 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
+using TMPro;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class UnitNotificationEffect : MonoBehaviour
 {
     [SerializeField] private Transform criticalEffect;
     [SerializeField] private Transform objectToMove;
-    [SerializeField] private Text text;
+    [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private float lifeTime;
     [SerializeField] private float effectDuration;
     [SerializeField] private float scaleMultiplier;

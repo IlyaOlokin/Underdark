@@ -10,28 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce3d00c96bc6aa44e881e146998641af, type: 3}
-  m_Name: BadRustySword
+  m_Name: TestBurnWeapon
   m_EditorClassIdentifier: 
-  ID: bad_rusty_sword
-  Name: Bad rusty sword
+  ID: empty
+  Name: 
   ItemType: 4
-  Sprite: {fileID: 21300000, guid: 789e518168d493d4396ec984b1b5bcb3, type: 3}
+  Sprite: {fileID: 0}
   StackCapacity: 1
   Requirements:
-    <Level>k__BackingField: 2
-    <Strength>k__BackingField: 3
-    <Dexterity>k__BackingField: 3
+    <Level>k__BackingField: 0
+    <Strength>k__BackingField: 0
+    <Dexterity>k__BackingField: 0
     <Intelligence>k__BackingField: 0
     <StrDex>k__BackingField: 0
     <DexInt>k__BackingField: 0
     <IntStr>k__BackingField: 0
     <AllStats>k__BackingField: 0
   Damage:
-    minDamage: 3
-    maxDamage: 5
+    minDamage: 1
+    maxDamage: 1
   WeaponType: 0
   AttackRadius: 120
   AttackDistance: 2
   ArmorPierce: 0
   DebuffInfos:
-  - {fileID: 11400000, guid: 966a81d4018cfce48a6fe59c1321b860, type: 2}
+  - {fileID: 11400000, guid: 823302e7061c4bd4dac73aff2e4c1ce3, type: 2}
