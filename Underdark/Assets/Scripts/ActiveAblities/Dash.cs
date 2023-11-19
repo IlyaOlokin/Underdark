@@ -7,7 +7,11 @@ public class Dash : ActiveAbility
 {
     [SerializeField] private float dashSpeed;
     [SerializeField] private Collider2D stopCollider;
+    [SerializeField] private LayerMask stopMask;
     private float resetTimer = 1f;
+
+    [Header("Visual")] 
+    [SerializeField] private List<ParticleSystem> particleSystems;
     
     public override void Execute(Unit caster)
     {
@@ -21,24 +25,26 @@ public class Dash : ActiveAbility
         var destinationPoint = FindDestinationPoint(caster);
         
         StartCoroutine(PushCaster(destinationPoint));
-        
-        
     }
 
     private IEnumerator PushCaster(Vector2 destinationPoint)
     {
-        caster.StartPush();
+        caster.StartPush(true);
 
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(attackMask);
         List<Collider2D> hits= new List<Collider2D>();
         
+        yield return null;
+        
         while (Vector2.Distance(caster.transform.position, destinationPoint) > 0.1f)
         {
             var hitCount = Physics2D.OverlapCollider(stopCollider, contactFilter, hits); 
             if (hitCount != 0) break;
+
+            var a = Vector3.MoveTowards(caster.transform.position, destinationPoint, dashSpeed * Time.fixedDeltaTime);
             
-            caster.GetMoved((destinationPoint - (Vector2) caster.transform.position).normalized * (dashSpeed * Time.fixedDeltaTime));
+            caster.GetMoved(a - caster.transform.position);
             resetTimer -= Time.fixedDeltaTime;
             if (resetTimer <= 0)
                 break;
@@ -46,6 +52,9 @@ public class Dash : ActiveAbility
         }
 
         caster.EndPush();
+        transform.SetParent(null);
+        foreach (var particleSystem in particleSystems)
+            particleSystem.Stop();
     }
 
     private Vector2 FindDestinationPoint(Unit caster)
@@ -53,7 +62,7 @@ public class Dash : ActiveAbility
         Vector2 destinationPoint = transform.position;
 
         var contactFilter = new ContactFilter2D();
-        contactFilter.SetLayerMask(attackMask);
+        contactFilter.SetLayerMask(stopMask);
         var hits = new List<RaycastHit2D>();
 
        Physics2D.Raycast(transform.position, caster.GetAttackDirection(), contactFilter, hits,

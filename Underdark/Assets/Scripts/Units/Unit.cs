@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 {
     private Rigidbody2D rb;
+    private Collider2D coll;
     public UnitStats Stats;
     public Inventory Inventory;
     public EnergyShield EnergyShield;
@@ -104,6 +105,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        coll = GetComponent<Collider2D>();
         
         Inventory = new Inventory(inventoryCapacity, activeAbilityInventoryCapacity, this);
         
@@ -422,14 +424,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         return true;
     }
 
-    public void StartPush()
+    public void StartPush(bool isTrigger = false)
     {
         IsPushing = true;
+        coll.isTrigger = isTrigger;
     }
     
     public virtual void EndPush()
     {
         IsPushing = false;
+        coll.isTrigger = false;
         rb.totalForce = Vector2.zero;
         
         if (transform.TryGetComponent(out Push pushComponent))

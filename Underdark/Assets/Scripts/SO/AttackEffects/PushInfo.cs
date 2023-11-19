@@ -10,15 +10,15 @@ public class PushInfo : DebuffInfo
 
     private Vector2 pushDir;
     
-    public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)
+    public override void Execute(IAttacker attacker, Unit receiver, Unit unitCaster)
     {
         switch (PushType)
         {
             case PushType.Position:
-                pushDir = receiver.transform.position -  caster.Transform.position;
+                pushDir = receiver.transform.position -  attacker.Transform.position;
                 break;
             case PushType.Rotation:
-                var eulerAnglesZ = (caster.Transform.eulerAngles.z + 90) * Mathf.Deg2Rad;
+                var eulerAnglesZ = (attacker.Transform.eulerAngles.z + 90) * Mathf.Deg2Rad;
                 
                 pushDir = new Vector2(Mathf.Cos(eulerAnglesZ), Mathf.Sin(eulerAnglesZ));
                 break;
