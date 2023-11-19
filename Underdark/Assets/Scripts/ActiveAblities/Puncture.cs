@@ -14,8 +14,7 @@ public class Puncture : ActiveAbility, IAttacker
     public override void Execute(Unit caster)
     {
         base.Execute(caster);
-
-        this.caster = caster;
+        
         StartCoroutine(PerformAttack());
     }
 

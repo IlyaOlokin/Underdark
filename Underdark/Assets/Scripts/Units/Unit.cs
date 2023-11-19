@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 {
     private Rigidbody2D rb;
+    private Collider2D coll;
     public UnitStats Stats;
     public Inventory Inventory;
     public EnergyShield EnergyShield;
@@ -104,6 +105,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        coll = GetComponent<Collider2D>();
         
         Inventory = new Inventory(inventoryCapacity, activeAbilityInventoryCapacity, this);
         
@@ -409,8 +411,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     public virtual bool GetPushed(PushInfo pushInfo, Vector2 pushDir, Sprite effectIcon)
     {
         if (Random.Range(0f, 1f) > pushInfo.chance) return false;
-        
-        IsPushing = true;
+
+        StartPush();
         if (transform.TryGetComponent(out Push pushComponent))
             Destroy(pushComponent);
         
@@ -421,11 +423,21 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         rb.velocity = pushDir;
         return true;
     }
+
+    public void StartPush(bool isTrigger = false)
+    {
+        IsPushing = true;
+        coll.isTrigger = isTrigger;
+    }
     
     public virtual void EndPush()
     {
         IsPushing = false;
+        coll.isTrigger = false;
         rb.totalForce = Vector2.zero;
+        
+        if (transform.TryGetComponent(out Push pushComponent))
+            Destroy(pushComponent);
     }
 
     public void ReceiveStatusEffect(IStatusEffect statusEffect)
@@ -469,6 +481,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         if (dir != Vector3.zero)
             lastMoveDir = dir;
         TryFlipVisual(dir.x);
+    }
+    
+    public void GetMoved(Vector2 addVector)
+    {
+        rb.MovePosition(rb.position + addVector);
+        //transform.position += (Vector3)addVector;
     }
     
     public virtual void Attack()
