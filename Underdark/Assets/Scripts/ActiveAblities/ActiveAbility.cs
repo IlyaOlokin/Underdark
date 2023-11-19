@@ -38,6 +38,7 @@ public abstract class ActiveAbility : MonoBehaviour
     {
         if (NeedOverrideWithWeaponStats) 
             OverrideWeaponStats(caster.GetWeapon());
+        this.caster = caster;
     }
     
     protected Collider2D FindClosestTarget(Unit caster)
@@ -114,7 +115,7 @@ public abstract class ActiveAbility : MonoBehaviour
 
     public bool RequirementsMet(MeleeWeapon weapon)
     {
-        return validWeaponTypes.Contains(WeaponType.Any) || validWeaponTypes.Contains(weapon.WeaponType);
+        return validWeaponTypes.Contains(WeaponType.Any) || validWeaponTypes.Contains(weapon.WeaponType) || validWeaponTypes.Count == 0;
     }
 
     public new virtual string[] ToString()
