@@ -26,9 +26,8 @@ public class StrongSmash : ActiveAbility, IAttacker
         
         var targetScale = transform.localScale * (AttackDistance * 2 + 1);
         transform.localScale = Vector3.zero;
-        var attackDir = Vector2.Angle(Vector2.right, caster.GetAttackDirection());
-        if (caster.GetAttackDirection().y < 0) attackDir *= -1;
-        visualSR.material.SetFloat("_Turn", attackDir);
+        
+        visualSR.material.SetFloat("_Turn", caster.GetAttackDirAngle());
         visualSR.material.SetFloat("_FillAmount", AttackAngle);
         
         while (visualDuration > 0)

@@ -10,7 +10,7 @@ public class BurnInfo : DebuffInfo
     public float BurnJumpDistance;
     [SerializeField] private GameObject visualPrefab;
     
-    public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)
+    public override void Execute(IAttacker attacker, Unit receiver, Unit unitCaster)
     {
         receiver.GetBurn(this, unitCaster, visualPrefab, effectIcon);
     }

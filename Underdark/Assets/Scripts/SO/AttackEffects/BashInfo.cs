@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class BashInfo : DebuffInfo
 {
-    public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)
+    public override void Execute(IAttacker attacker, Unit receiver, Unit unitCaster)
     {
         receiver.GetBashed(this);
     }

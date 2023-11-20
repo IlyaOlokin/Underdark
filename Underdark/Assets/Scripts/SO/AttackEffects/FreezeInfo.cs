@@ -8,7 +8,7 @@ public class FreezeInfo : DebuffInfo
 {
     public float Duration;
     
-    public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)
+    public override void Execute(IAttacker attacker, Unit receiver, Unit unitCaster)
     {
         receiver.GetFrozen(this, effectIcon);
     }

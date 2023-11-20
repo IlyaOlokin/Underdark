@@ -12,7 +12,7 @@ public class PoisonInfo : DebuffInfo
     [SerializeField] private GameObject visualPrefab;
 
     
-    public override void Execute(IAttacker caster, Unit receiver, Unit unitCaster)
+    public override void Execute(IAttacker attacker, Unit receiver, Unit unitCaster)
     {
         receiver.GetPoisoned(this, unitCaster, visualPrefab, effectIcon);
     }

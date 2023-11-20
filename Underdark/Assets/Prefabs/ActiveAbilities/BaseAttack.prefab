@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6197893003717166819
+--- !u!1 &6351065995215210891
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5884425502295651116}
-  - component: {fileID: 6582127091644841045}
+  - component: {fileID: 6884174070770416708}
+  - component: {fileID: 6158878861667496765}
   m_Layer: 0
-  m_Name: BaseAttackVisual
+  m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5884425502295651116
+--- !u!4 &6884174070770416708
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6197893003717166819}
+  m_GameObject: {fileID: 6351065995215210891}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.97175545, w: 0.23599027}
   m_LocalPosition: {x: 0.02071388, y: 0.00042775273, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4012073140413540105}
-  m_Father: {fileID: 0}
+  - {fileID: 4147090977088170081}
+  m_Father: {fileID: 8170032374961837674}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -152.7}
---- !u!114 &6582127091644841045
+--- !u!114 &6158878861667496765
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6197893003717166819}
+  m_GameObject: {fileID: 6351065995215210891}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05d888432bee62d47af9ff250e5b601b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   swingDuration: 0.2
-  trailRenderer: {fileID: 3035257280664095557}
-  swingPoint: {fileID: 4012073140413540105}
---- !u!1 &8605779764327106761
+  trailRenderer: {fileID: 2612004687402730541}
+  swingPoint: {fileID: 4147090977088170081}
+--- !u!1 &7555566392093547892
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -56,8 +56,96 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4012073140413540105}
-  - component: {fileID: 3035257280664095557}
+  - component: {fileID: 8170032374961837674}
+  - component: {fileID: 3995346816480911205}
+  - component: {fileID: 4412631732704353108}
+  m_Layer: 0
+  m_Name: BaseAttack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8170032374961837674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7555566392093547892}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6884174070770416708}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &3995346816480911205
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7555566392093547892}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &4412631732704353108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7555566392093547892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e36e3bedf5468a41b29ab684761d072, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CastTime: 0.1
+  cooldown: 0
+  ManaCost: 0
+  <NeedOverrideWithWeaponStats>k__BackingField: 1
+  <AttackDistance>k__BackingField: 1
+  <AttackAngle>k__BackingField: 90
+  maxValue: 0
+  statMultiplier: 0
+  baseStat: 0
+  validWeaponTypes: 
+  debuffInfos: []
+  needAutoDestroy: 1
+  autoDestroyDelay: 0.3
+  description: 
+  baseAttackVisual: {fileID: 6158878861667496765}
+--- !u!1 &8740656880677488545
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4147090977088170081}
+  - component: {fileID: 2612004687402730541}
   m_Layer: 0
   m_Name: SwingPoint
   m_TagString: Untagged
@@ -65,29 +153,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4012073140413540105
+--- !u!4 &4147090977088170081
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8605779764327106761}
+  m_GameObject: {fileID: 8740656880677488545}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5884425502295651116}
+  m_Father: {fileID: 6884174070770416708}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!96 &3035257280664095557
+--- !u!96 &2612004687402730541
 TrailRenderer:
   serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8605779764327106761}
+  m_GameObject: {fileID: 8740656880677488545}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
