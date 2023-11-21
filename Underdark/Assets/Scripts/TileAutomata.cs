@@ -12,8 +12,8 @@ public class TileAutomata : MonoBehaviour
     [SerializeField] private Vector3Int tmpSize;
     [SerializeField] private Tilemap topMap;
     [SerializeField] private Tilemap botMap;
-    [SerializeField] private TerrainTile topTile;
-    [SerializeField] private AnimatedTile botTile;
+    [SerializeField] private RuleTile topTile;
+    [SerializeField] private Tile botTile;
     [SerializeField] private TextAsset mapData;
 
     int width;
@@ -42,7 +42,10 @@ public class TileAutomata : MonoBehaviour
                 if (terrainMap[x, y] == 0)
                 {
                     topMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), topTile);
-                    //botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);
+                }
+                else if (terrainMap[x, y] == 1)
+                {
+                    botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);
                 }
             }
         }
