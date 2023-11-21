@@ -8,7 +8,7 @@ public abstract class ActiveAbility : MonoBehaviour
     public float CastTime;
     public float cooldown;
     public int ManaCost;
-    [SerializeField] protected LayerMask attackMask;
+    //[SerializeField] protected LayerMask attackMask;
     [field:SerializeField] public bool NeedOverrideWithWeaponStats { get; private set; }
     [field:SerializeField] public float AttackDistance { get; protected set; }
     [field:SerializeField] public float AttackAngle { get; protected set; }
@@ -44,7 +44,7 @@ public abstract class ActiveAbility : MonoBehaviour
     protected Collider2D FindClosestTarget(Unit caster)
     {
         var contactFilter = new ContactFilter2D();
-        contactFilter.SetLayerMask(attackMask);
+        contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
         Physics2D.OverlapCircle(caster.transform.position, AttackDistance + 0.5f, contactFilter, hitColliders);
 
@@ -69,7 +69,7 @@ public abstract class ActiveAbility : MonoBehaviour
     protected List<Collider2D> FindAllTargets(Unit caster)
     {
         var contactFilter = new ContactFilter2D();
-        contactFilter.SetLayerMask(attackMask);
+        contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
         Physics2D.OverlapCircle(caster.transform.position, AttackDistance + 0.5f, contactFilter, hitColliders);
 
@@ -106,7 +106,7 @@ public abstract class ActiveAbility : MonoBehaviour
         return true;
     }
 
-    protected void OverrideWeaponStats(MeleeWeapon weapon)
+    private void OverrideWeaponStats(MeleeWeapon weapon)
     {
         if (weapon.ID == "empty") return;
         AttackDistance = weapon.AttackDistance;

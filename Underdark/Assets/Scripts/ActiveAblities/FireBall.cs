@@ -45,7 +45,7 @@ public class FireBall : ActiveAbility, IAttacker
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(attackMask == (attackMask | (1 << other.gameObject.layer)))
+        if(caster.AttackMask == (caster.AttackMask | (1 << other.gameObject.layer)))
         {
             if (other.TryGetComponent(out IDamageable damageable))
             {

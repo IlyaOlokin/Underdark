@@ -178,7 +178,6 @@ public class Enemy : Unit
         var dirToPlayer = moveTarget.transform.position - transform.position;
         attackDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
         if (dirToPlayer.y < 0) attackDirAngle *= -1;
-        baseAttackCollider.transform.eulerAngles = new Vector3(0, 0, attackDirAngle - 90);
     }
     
     private void FollowPlayerSensor_OnPlayerEnter(Transform player)
@@ -206,7 +205,7 @@ public class Enemy : Unit
             .Raycast(transform.position,
                 this.player.transform.position - transform.position, 
                 Mathf.Infinity,
-                attackMask)
+                AttackMask)
             .collider.TryGetComponent(out Player player);
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 

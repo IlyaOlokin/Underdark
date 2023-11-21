@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -63,6 +64,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     [field: Header("Attack Setup")] [SerializeField]
     private MeleeWeapon defaultWeapon;
+    [SerializeField] private ActiveAbility baseAttackAbility;
 
     [SerializeField] private float attackSpeed;
     public event Action<float, float, float> OnBaseAttack;
@@ -72,8 +74,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     public event Action<IStatusEffect> OnStatusEffectReceive;
     public event Action<IStatusEffect> OnStatusEffectLoose;
 
-    [SerializeField] protected LayerMask attackMask;
-    [SerializeField] protected PolygonCollider2D baseAttackCollider;
+    [field:SerializeField] public LayerMask AttackMask { get; protected set; }
     public Transform Transform => transform;
 
     [field: Header("Abilities Setup")]
@@ -122,7 +123,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         SetHP(true);
         SetMana(true);
-        SetAttackCollider();
         SetActiveAbilitiesCDs();
         GetUnStunned();
         EndPush();
@@ -486,58 +486,21 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     public void GetMoved(Vector2 addVector)
     {
         rb.MovePosition(rb.position + addVector);
-        //transform.position += (Vector3)addVector;
     }
     
     public virtual void Attack()
     {
         if (attackCDTimer > 0 || actionCDTimer > 0 || IsStunned) return;
         
-        var contactFilter = new ContactFilter2D();
-        contactFilter.SetLayerMask(attackMask);
-        List<Collider2D> hitUnits = new List<Collider2D>();
-        baseAttackCollider.OverlapCollider(contactFilter, hitUnits);
-
-        foreach (var collider in hitUnits)
-        {
-            if (!HitCheck(collider.transform, contactFilter)) continue;
-            
-            if (collider.TryGetComponent(out IDamageable unit))
-            {
-                if (unit.TakeDamage(this, this, GetTotalDamage().GetValue(),
-                        armorPierce: GetWeapon().ArmorPierce))
-                {
-                    foreach (var debuffInfo in GetWeapon().DebuffInfos)
-                    {
-                        debuffInfo.Execute(this, collider.GetComponent<Unit>(), this);
-                    }
-                }
-            }
-        }
+        var newBaseAttack = Instantiate(baseAttackAbility, transform.position, Quaternion.identity);
+        newBaseAttack.Execute(this);
 
         attackCDTimer = 1 / attackSpeed;
-        SetActionCD(1 / (attackSpeed * 2));
+        SetActionCD(newBaseAttack.CastTime);
 
         OnBaseAttack?.Invoke(attackDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
     }
     
-    private bool HitCheck(Transform target, ContactFilter2D contactFilter)
-    {
-        List<RaycastHit2D> hits = new List<RaycastHit2D>();
-
-        Physics2D.Raycast(transform.position,
-            target.position - transform.position,
-            contactFilter,
-            hits);
-        foreach (var hit in hits)
-        {
-            if (hit.transform.CompareTag("Wall")) return false;
-            if (hit.transform == target) return true;
-        }
-        
-        return true;
-    }
-
     public Damage GetTotalDamage()
     {
         return new Damage(GetWeapon().Damage, Stats.GetTotalStatValue(BaseStat.Strength));
@@ -552,24 +515,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         var chance = attacker.Stats.Dexterity / (float)(attacker.Stats.Dexterity + receiver.Stats.Dexterity);
         return Random.Range(0f, 1f) > chance;
-    }
-
-    protected void SetAttackCollider()
-    {
-        int pointStep = 10;
-        int pointsCount = GetWeapon().AttackRadius / pointStep + 1;
-        List<Vector2> path = new List<Vector2>();
-        float currentPointAngle = -GetWeapon().AttackRadius / 2f;
-        for (int i = 0; i < pointsCount; i++)
-        {
-            var sin = Mathf.Sin(Mathf.Deg2Rad * currentPointAngle) * (GetWeapon().AttackDistance + 1);
-            var cos = Mathf.Cos(Mathf.Deg2Rad * currentPointAngle) * (GetWeapon().AttackDistance + 1);
-            path.Add(new Vector2(sin, cos));
-            currentPointAngle += pointStep;
-        }
-
-        path.Add(baseAttackCollider.transform.localPosition);
-        baseAttackCollider.SetPath(0, path);
     }
 
     public void ExecuteActiveAbility(int index)
@@ -644,4 +589,5 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     }
 
     public Vector2 GetAttackDirection() => lastMoveDir.normalized;
+    public float GetAttackDirAngle() => attackDirAngle;
 }

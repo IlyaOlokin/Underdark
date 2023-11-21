@@ -27,7 +27,6 @@ public class Player : Unit, IPickUper
     
     private void OnEnable()
     {
-        Inventory.OnEquipmentChanged += SetAttackCollider;
         Inventory.OnActiveAbilitiesChanged += SetActiveAbilitiesCDs;
         Stats.OnStatsChanged += SetHP;
         Stats.OnStatsChanged += SetMana;
@@ -79,7 +78,6 @@ public class Player : Unit, IPickUper
     {
         attackDirAngle = Vector3.Angle(Vector3.right, lastMoveDir);
         if (lastMoveDir.y < 0) attackDirAngle *= -1;
-        baseAttackCollider.transform.eulerAngles = new Vector3(0, 0, attackDirAngle - 90);
         unitVisualRotatable.transform.eulerAngles = new Vector3(0, 0, attackDirAngle - 90);
     }
 
@@ -97,7 +95,6 @@ public class Player : Unit, IPickUper
         
         input.ExecutableItemInput -= ExecuteExecutableItem;
         
-        Inventory.OnEquipmentChanged -= SetAttackCollider;
         Inventory.OnActiveAbilitiesChanged -= SetActiveAbilitiesCDs;
         Stats.OnStatsChanged -= SetHP;
         Stats.OnStatsChanged -= SetMana;

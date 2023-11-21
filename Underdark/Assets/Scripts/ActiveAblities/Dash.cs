@@ -18,9 +18,8 @@ public class Dash : ActiveAbility
         base.Execute(caster);
         
         transform.SetParent(caster.transform);
-        var angle = Vector2.Angle(Vector2.right, caster.GetAttackDirection());
-        if (caster.GetAttackDirection().y < 0) angle *= -1;
-        transform.eulerAngles = new Vector3(0, 0, angle);
+        
+        transform.eulerAngles = new Vector3(0, 0, caster.GetAttackDirAngle());
         
         var destinationPoint = FindDestinationPoint(caster);
         
@@ -32,7 +31,7 @@ public class Dash : ActiveAbility
         caster.StartPush(true);
 
         var contactFilter = new ContactFilter2D();
-        contactFilter.SetLayerMask(attackMask);
+        contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hits= new List<Collider2D>();
         
         yield return null;
