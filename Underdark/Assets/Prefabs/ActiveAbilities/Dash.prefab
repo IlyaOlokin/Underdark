@@ -9962,9 +9962,6 @@ MonoBehaviour:
   CastTime: 0.1
   cooldown: 1
   ManaCost: 0
-  attackMask:
-    serializedVersion: 2
-    m_Bits: 8
   <NeedOverrideWithWeaponStats>k__BackingField: 0
   <AttackDistance>k__BackingField: 5
   <AttackAngle>k__BackingField: 0
@@ -9978,6 +9975,9 @@ MonoBehaviour:
   description: You dash forward 10 cells or until the first obstacle you encounter.
   dashSpeed: 40
   stopCollider: {fileID: 3233481864659073473}
+  pushColliders:
+  - {fileID: 2942405689371281515}
+  - {fileID: 8738387141755095959}
   stopMask:
     serializedVersion: 2
     m_Bits: 8

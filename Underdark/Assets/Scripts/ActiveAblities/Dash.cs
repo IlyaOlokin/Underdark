@@ -7,6 +7,7 @@ public class Dash : ActiveAbility
 {
     [SerializeField] private float dashSpeed;
     [SerializeField] private Collider2D stopCollider;
+    [SerializeField] private List<Collider2D> pushColliders;
     [SerializeField] private LayerMask stopMask;
     private float resetTimer = 1f;
 
@@ -31,7 +32,7 @@ public class Dash : ActiveAbility
         caster.StartPush(true);
 
         var contactFilter = new ContactFilter2D();
-        contactFilter.SetLayerMask(caster.AttackMask);
+        contactFilter.SetLayerMask(stopMask);
         List<Collider2D> hits= new List<Collider2D>();
         
         yield return null;
@@ -41,19 +42,28 @@ public class Dash : ActiveAbility
             var hitCount = Physics2D.OverlapCollider(stopCollider, contactFilter, hits); 
             if (hitCount != 0) break;
 
-            var a = Vector3.MoveTowards(caster.transform.position, destinationPoint, dashSpeed * Time.fixedDeltaTime);
+            var newPos = Vector3.MoveTowards(caster.transform.position, destinationPoint, dashSpeed * Time.fixedDeltaTime);
             
-            caster.GetMoved(a - caster.transform.position);
+            caster.GetMoved(newPos - caster.transform.position);
             resetTimer -= Time.fixedDeltaTime;
             if (resetTimer <= 0)
                 break;
             yield return null;
         }
 
+        DisableColliders();
+
         caster.EndPush();
         transform.SetParent(null);
         foreach (var particleSystem in particleSystems)
             particleSystem.Stop();
+    }
+
+    private void DisableColliders()
+    {
+        foreach (var pushCollider in pushColliders)
+            pushCollider.enabled = false;
+        stopCollider.enabled = false;
     }
 
     private Vector2 FindDestinationPoint(Unit caster)
