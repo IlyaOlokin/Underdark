@@ -12,6 +12,12 @@ public class MainMenu : MonoBehaviour
         StaticSceneLoader.LoadScene(sceneName);
     }
 
+    public void ClearSaves()
+    {
+        DataLoader.NewGame();
+    }
+    
+
     public void Quit()
     {
         Application.Quit();

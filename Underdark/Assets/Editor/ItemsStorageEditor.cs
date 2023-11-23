@@ -10,12 +10,11 @@ public class ItemsStorageEditor : Editor
     {
         DrawDefaultInspector();
         ItemsStorageSO itemsStorage = (ItemsStorageSO)target;
-        
-        if(GUILayout.Button("Load Items"))
+
+        if (GUILayout.Button("Load Items"))
             itemsStorage.LoadItems();
         
         if(GUILayout.Button("Clear"))
             itemsStorage.Clear();
-        
     }
 }

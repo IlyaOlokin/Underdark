@@ -83,12 +83,10 @@ public class DataLoader : MonoBehaviour
             gameData.EquipedActiveAbilities.Add(t.ItemID);
         }
         
-        
-
         dataHandler.Save(gameData);
     }
     
-    private static void NewGame()
+    public static void NewGame()
     {
         gameData = new GameData();
     }
