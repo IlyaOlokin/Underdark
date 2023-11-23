@@ -46,7 +46,7 @@ public class Player : Unit, IPickUper
 
         if (Input.GetKeyDown(KeyCode.R)) // debug
         {
-            GetEnergyShield(9, 180);
+            DataLoader.SaveGame(this);
         }
     }
 
