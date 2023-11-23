@@ -88,6 +88,13 @@ public class UnitStats
         return expNeeded[Level - 1];
     }
 
+    public void SetLevel(int level, int exp, int freePoints)
+    {
+        Level = level;
+        GetExp(exp);
+        FreePoints = freePoints;
+    }
+
     public int GetTotalStatValue(BaseStat baseStat)
     {
         return baseStat switch
