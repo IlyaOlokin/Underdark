@@ -25,6 +25,8 @@ public class ItemsStorageSO : ScriptableObject
 
     public Item GetItemById(string id)
     {
+        if (id == "") return null;
+        
         foreach (var item in Items)
         {
             if (item.ID == id)

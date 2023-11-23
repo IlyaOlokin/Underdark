@@ -91,7 +91,7 @@ public class UnitStats
     public void SetLevel(int level, int exp, int freePoints)
     {
         Level = level;
-        CurrentExp = exp;
+        GetExp(exp);
         FreePoints = freePoints;
     }
 
