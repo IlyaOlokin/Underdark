@@ -10,6 +10,9 @@ public class ExecutableItemSO : Item
 
     public bool Execute(Unit caster)
     {
+        if (executableItem is Elixir)
+            LevelTransition.elixirID = ID;
+        
         return executableItem.Execute(caster);
     }
 

@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
 {
     public void LoadScene(string sceneName)
     {
-        StaticSceneLoader.LoadScene(sceneName);
+        StaticSceneLoader.LoadScene(sceneName, true);
     }
 
     public void ClearSaves()

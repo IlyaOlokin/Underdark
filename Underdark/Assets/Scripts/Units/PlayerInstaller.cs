@@ -7,7 +7,6 @@ using Zenject;
 public class PlayerInstaller : MonoBehaviour
 {
     [SerializeField] private ItemsStorageSO itemsStorageSo;
-    [SerializeField] private bool resetPlayer;
 
     private Player player;
     
@@ -63,7 +62,16 @@ public class PlayerInstaller : MonoBehaviour
 
     private void Start()
     {
-        //if (resetPlayer)
-            
+        if (StaticSceneLoader.ResetPlayer)
+        {
+            LevelTransition.elixirID = null;
+            LevelTransition.elixirCD = -1f;
+            return;
+        }
+
+        var elixir = (ExecutableItemSO) itemsStorageSo.GetItemById(LevelTransition.elixirID);
+        if (elixir is null) return;
+        
+        elixir.Execute(player);
     }
 }

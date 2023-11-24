@@ -23,11 +23,20 @@ public class BonusStatElixir : Elixir
         this.bonusStat = bonusStat;
         this.bonusValue = bonusValue;
         Duration = duration;
-        Timer = duration;
+        HandleCD(duration);
         Icon = icon;
         this.caster = caster;
         caster.Stats.ApplyBonusStat(bonusStat, bonusValue);
         caster.ReceiveStatusEffect(this);
+    }
+
+    private void HandleCD(float duration)
+    {
+        if (LevelTransition.elixirCD > 0)
+            Timer = LevelTransition.elixirCD;
+        else
+            Timer = duration;
+        LevelTransition.elixirCD = -1f;
     }
 
     private void Update()

@@ -4,17 +4,20 @@ using UnityEngine.SceneManagement;
 
 public static class StaticSceneLoader
 {
-    public static string sceneToLoadName;
+    public static string SceneToLoadName;
+    public static bool ResetPlayer;
     
-    public static void LoadScene(int sceneID)
+    public static void LoadScene(int sceneID, bool resetPlayer = false)
     {
-        sceneToLoadName = SceneNameFromIndex(sceneID);
+        SceneToLoadName = SceneNameFromIndex(sceneID);
+        ResetPlayer = resetPlayer;
         SceneManager.LoadScene("LoadScene");
     }
     
-    public static void LoadScene(string sceneName)
+    public static void LoadScene(string sceneName, bool resetPlayer = false)
     {
-        sceneToLoadName = sceneName;
+        SceneToLoadName = sceneName;
+        ResetPlayer = resetPlayer;
         SceneManager.LoadScene("LoadScene");
     }
     
