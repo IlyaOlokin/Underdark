@@ -25,13 +25,14 @@ public class BaseAttack : ActiveAbility, IAttacker
     public void Attack()
     {
         var hitUnits = FindAllTargets(caster);
+        var addDamage = caster.Stats.GetTotalStatValue(baseStat) * statMultiplier;
 
         foreach (var collider in hitUnits)
         {
             if (collider.TryGetComponent(out IDamageable unit))
             {
-                if (unit.TakeDamage(caster, this, caster.GetTotalDamage().GetValue(),
-                        armorPierce: caster.GetWeapon().ArmorPierce))
+                if (unit.TakeDamage(caster, this, caster.GetTotalDamage().GetValue() + addDamage,
+                        armorPierce: caster.GetWeapon().ArmorPierce)) 
                 {
                     foreach (var debuffInfo in caster.GetWeapon().DebuffInfos)
                     {

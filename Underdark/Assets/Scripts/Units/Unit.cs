@@ -498,7 +498,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     
     public Damage GetTotalDamage()
     {
-        return new Damage(GetWeapon().Damage, Stats.GetTotalStatValue(BaseStat.Strength));
+        return GetWeapon().Damage;
     }
 
     public void Attack(IDamageable damageable)

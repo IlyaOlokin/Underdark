@@ -94,7 +94,7 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         UpdateSelectedSlot();
 
         armorText.text = player.GetTotalArmor().ToString();
-        attackText.text = player.GetTotalDamage().ToString();
+        attackText.text = player.GetTotalDamage().ToString(player.Stats.GetTotalStatValue(BaseStat.Strength));
     }
 
     private void OnDisable()
