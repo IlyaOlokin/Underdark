@@ -227,7 +227,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         visualsFlipable.transform.Rotate(0, 180, 0);
     }
 
-    public virtual bool TakeDamage(Unit sender, IAttacker attacker, float damage, bool evadable = true, float armorPierce = 0f)
+    public virtual bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
     {
         var newEffect = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
 
@@ -237,7 +237,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
             return false;
         }
 
-        var newDamage = CalculateTakenDamage(damage, armorPierce);
+        var newDamage = CalculateTakenDamage(damageInfo, armorPierce);
 
         if (EnergyShield != null)
         {
@@ -447,9 +447,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         OnStatusEffectLoose?.Invoke(statusEffect);
     }
     
-    private int CalculateTakenDamage(float damage, float armorPierce)
+    private int CalculateTakenDamage(DamageInfo damageInfo, float armorPierce)
     {
-        return (int)Mathf.Floor(damage * (damage / (damage + GetTotalArmor() * (1 - armorPierce))));
+        int totalDamage = 0;
+        
+        for (int i = 0; i < damageInfo.GetDamages().Count; i++)
+        {
+            totalDamage += damageInfo.GetDamages()[i].GetValue();
+        }
+        
+        return (int)Mathf.Floor(totalDamage * (totalDamage / (totalDamage + GetTotalArmor() * (1 - armorPierce))));
     }
 
     public int GetTotalArmor()
@@ -494,11 +501,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         SetActionCD(newBaseAttack.CastTime);
 
         OnBaseAttack?.Invoke(attackDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
-    }
-    
-    public Damage GetTotalDamage()
-    {
-        return GetWeapon().Damage;
     }
 
     public void Attack(IDamageable damageable)

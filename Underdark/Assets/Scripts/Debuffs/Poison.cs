@@ -7,6 +7,8 @@ public class Poison : Debuff
 {
     private GameObject currentVisualPrefab;
     private PoisonInfo poisonInfo;
+    private DamageInfo damageInfo = new();
+
     
     private float dmgTimer;
     
@@ -19,6 +21,8 @@ public class Poison : Debuff
         dmgTimer = poisonInfo.DmgDelay;
         Duration = poisonInfo.Duration;
         Timer = Duration;
+        
+        damageInfo.AddDamage(this.poisonInfo.Damage);
 
         currentVisualPrefab = Instantiate(visual, transform.position, Quaternion.identity, transform);
     }
@@ -28,7 +32,7 @@ public class Poison : Debuff
         Timer -= Time.deltaTime;
         if (dmgTimer <= 0)
         {
-            receiver.TakeDamage(caster, caster, poisonInfo.Damage, false);
+            receiver.TakeDamage(caster, caster, damageInfo, false);
             receiver.SpendMana(poisonInfo.Damage);
             dmgTimer = poisonInfo.DmgDelay;
         }

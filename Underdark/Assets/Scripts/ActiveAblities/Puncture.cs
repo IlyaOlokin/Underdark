@@ -15,13 +15,14 @@ public class Puncture : ActiveAbility, IAttacker
     {
         base.Execute(caster);
         
+        int damage = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
+        damageInfo.AddDamage(damage);
+        
         StartCoroutine(PerformAttack());
     }
 
     IEnumerator PerformAttack()
     {
-        damage = Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
-
         for (int i = 0; i < targetsCount; i++)
         {
             var target = FindClosestTarget(caster);
@@ -43,7 +44,7 @@ public class Puncture : ActiveAbility, IAttacker
 
     public void Attack(IDamageable damageable)
     {
-        if (damageable.TakeDamage(caster, this, damage))
+        if (damageable.TakeDamage(caster, this, damageInfo))
         {
             foreach (var debuffInfo in debuffInfos)
             {

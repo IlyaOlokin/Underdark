@@ -11,6 +11,9 @@ public class BaseAttack : ActiveAbility, IAttacker
     public override void Execute(Unit caster)
     {
         base.Execute(caster);
+
+        int damage = caster.GetWeapon().Damage.GetValue() + caster.Stats.GetTotalStatValue(baseStat) * statMultiplier;
+        damageInfo.AddDamage(damage, caster.GetWeapon().Damage.DamageType);
         
         Attack();
         
@@ -25,14 +28,12 @@ public class BaseAttack : ActiveAbility, IAttacker
     public void Attack()
     {
         var hitUnits = FindAllTargets(caster);
-        var addDamage = caster.Stats.GetTotalStatValue(baseStat) * statMultiplier;
 
         foreach (var collider in hitUnits)
         {
             if (collider.TryGetComponent(out IDamageable unit))
             {
-                if (unit.TakeDamage(caster, this, caster.GetTotalDamage().GetValue() + addDamage,
-                        armorPierce: caster.GetWeapon().ArmorPierce)) 
+                if (unit.TakeDamage(caster, this, damageInfo, armorPierce: caster.GetWeapon().ArmorPierce)) 
                 {
                     foreach (var debuffInfo in caster.GetWeapon().DebuffInfos)
                     {

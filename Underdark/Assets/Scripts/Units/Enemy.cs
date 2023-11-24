@@ -69,10 +69,10 @@ public class Enemy : Unit
         }
     }
 
-    public override bool TakeDamage(Unit sender, IAttacker attacker, float damage, bool evadable = true, float armorPierce = 0f)
+    public override bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
     {
         Agr(sender.transform.position);
-        var res = base.TakeDamage(sender, attacker, damage, evadable);
+        var res = base.TakeDamage(sender, attacker, damageInfo, evadable);
         AgrNearbyAllies();
 
         return res;
