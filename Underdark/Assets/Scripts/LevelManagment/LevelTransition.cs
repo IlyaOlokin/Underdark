@@ -5,8 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LevelTransition : MonoBehaviour
 {
-    public static string elixirID;
-    public static float elixirCD;
+    
     
     [SerializeField] private bool loadNextScene;
     [SerializeField] private string sceneName;
@@ -30,7 +29,7 @@ public class LevelTransition : MonoBehaviour
     {
         if (player.TryGetComponent(out Elixir elixir))
         {
-            elixirCD = elixir.Timer;
+            ElixirStaticData.ElixirCD = elixir.Timer;
         }
     }
 }

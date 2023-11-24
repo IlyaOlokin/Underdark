@@ -32,11 +32,11 @@ public class BonusStatElixir : Elixir
 
     private void HandleCD(float duration)
     {
-        if (LevelTransition.elixirCD > 0)
-            Timer = LevelTransition.elixirCD;
+        if (ElixirStaticData.ElixirCD > 0)
+            Timer = ElixirStaticData.ElixirCD;
         else
             Timer = duration;
-        LevelTransition.elixirCD = -1f;
+        ElixirStaticData.ElixirCD = -1f;
     }
 
     private void Update()

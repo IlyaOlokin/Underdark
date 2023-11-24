@@ -64,12 +64,12 @@ public class PlayerInstaller : MonoBehaviour
     {
         if (StaticSceneLoader.ResetPlayer)
         {
-            LevelTransition.elixirID = null;
-            LevelTransition.elixirCD = -1f;
+            ElixirStaticData.ElixirID = null;
+            ElixirStaticData.ElixirCD = -1f;
             return;
         }
 
-        var elixir = (ExecutableItemSO) itemsStorageSo.GetItemById(LevelTransition.elixirID);
+        var elixir = (ExecutableItemSO) itemsStorageSo.GetItemById(ElixirStaticData.ElixirID);
         if (elixir is null) return;
         
         elixir.Execute(player);
