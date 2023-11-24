@@ -1,8 +1,15 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelTransition : MonoBehaviour
 {
+    public static int playerHP;
+    public static int playerMP;
+    
+    public static List<float> cds = new();
+    
     [SerializeField] private bool loadNextScene;
     [SerializeField] private string sceneName;
     
@@ -11,6 +18,11 @@ public class LevelTransition : MonoBehaviour
         if (other.TryGetComponent(out Player player))
         {
             DataLoader.SaveGame(player);
+
+            playerHP = player.CurrentHP;
+            playerMP = player.CurrentMana;
+            cds = player.ActiveAbilitiesCD;
+            
             if (loadNextScene)
                 StaticSceneLoader.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             else

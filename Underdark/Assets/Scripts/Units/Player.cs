@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -47,6 +48,21 @@ public class Player : Unit, IPickUper
         if (Input.GetKeyDown(KeyCode.R)) // debug
         {
             DataLoader.SaveGame(this);
+        }
+    }
+
+    public void SetPlayer(bool reset = false, int hp = 0, int mp = 0, List<float> activeAbilitiesCD = null)
+    {
+        SetUnit();
+        if (reset)
+        {
+            return;
+        }
+        CurrentHP = hp;
+        CurrentMana = mp;
+        for (var i = 0; i < activeAbilitiesCD.Count; i++)
+        {
+            ActiveAbilitiesCD[i] = activeAbilitiesCD[i];
         }
     }
 

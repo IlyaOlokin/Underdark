@@ -41,6 +41,11 @@ public class Enemy : Unit
         
         EnemyFSM = new();
     }
+    
+    private void Start()
+    {
+        SetUnit();
+    }
 
     private void OnEnable()
     {

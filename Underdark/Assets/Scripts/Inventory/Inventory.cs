@@ -107,6 +107,7 @@ public class Inventory : IInventory
         if (amountLeft <= 0) return amountLeft;
 
         itemAmount = amountLeft;
+        if (item.ItemType == ItemType.ActiveAbility) return amountLeft;
         return TryAddItem(item, itemAmount);
     }
 

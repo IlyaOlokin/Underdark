@@ -28,10 +28,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     public int CurrentHP
     {
         get => _currentHP;
-        private set
+        protected set
         {
             if (value > MaxHP) value = MaxHP;
             _currentHP = value;
+            OnHealthChanged?.Invoke(_currentHP);
         }
     }
 
@@ -47,11 +48,12 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     public int CurrentMana
     {
         get => _currentMana;
-        private set
+        protected set
         {
             if (value > MaxMana) value = MaxMana;
             if (value < 0) value = 0;
             _currentMana = value;
+            OnManaChanged?.Invoke(_currentMana);
         }
     }
 
@@ -113,11 +115,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         ActiveAbilitiesCD = new List<float>(new float[Inventory.EquippedActiveAbilitySlots.Count]);
         lastActiveAbilitiesIDs = new string[Inventory.EquippedActiveAbilitySlots.Count];
     }
-    
-    private void Start()
-    {
-        SetUnit();
-    }
 
     protected void SetUnit()
     {
@@ -143,28 +140,24 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         float currentPart = CurrentMana / (float) MaxMana;
         MaxMana = baseMaxMana + Stats.Intelligence * 10;
+        OnMaxManaChanged?.Invoke(MaxMana); 
 
         if (toFull)
             CurrentMana = MaxMana;
         else
             CurrentMana = (int)Mathf.Floor(MaxMana * currentPart);
-        
-        OnMaxManaChanged?.Invoke(MaxMana);
-        OnManaChanged?.Invoke(CurrentMana);
     }
 
     protected void SetHP(bool toFull = false)
     {
         float currentPart = CurrentHP / (float) MaxHP;
         MaxHP = baseMaxHP + Stats.Strength * 10;
+        OnMaxHealthChanged?.Invoke(MaxHP);
         
         if (toFull)
             CurrentHP = MaxHP;
         else
             CurrentHP = (int)Mathf.Floor(MaxHP * currentPart);
-
-        OnMaxHealthChanged?.Invoke(MaxHP);
-        OnHealthChanged?.Invoke(CurrentHP);
     }
 
     private void UpdateCoolDowns()
@@ -268,7 +261,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         unitVisual.StartWhiteOut();
         if (CurrentHP <= 0) Death(sender);
         newEffect.WriteDamage(newDamage);
-        OnHealthChanged?.Invoke(CurrentHP);
         return true;
     }
 
@@ -280,13 +272,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
             var newEffect = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
             newEffect.WriteHeal(hp);
         }
-        OnHealthChanged?.Invoke(CurrentHP);
     }
     
     public void RestoreMP(int mp)
     {
         CurrentMana += mp;
-        OnManaChanged?.Invoke(CurrentMana);
     }
 
     public void GetEnergyShield(int maxHP, float radius)
@@ -564,7 +554,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     public void SpendMana(int manaCost)
     {
         CurrentMana -= manaCost;
-        OnManaChanged?.Invoke(CurrentMana);
     }
 
     private void SetActionCD(float cd)

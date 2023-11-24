@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,15 @@ using Zenject;
 public class PlayerInstaller : MonoBehaviour
 {
     [SerializeField] private ItemsStorageSO itemsStorageSo;
+    [SerializeField] private bool resetPlayer;
+
+    private Player player;
     
     [Inject]
     private void Construct(Player player)
     {
+        this.player = player;
+        
         var data = DataLoader.gameData;
         if (data.CurrenLevel == 0) return;
         
@@ -47,5 +53,13 @@ public class PlayerInstaller : MonoBehaviour
         {
             equippedActiveAbilities[i].SetItem(itemsStorageSo.GetItemById(data.EquipedActiveAbilities[i]));
         }
+    }
+
+    private void Start()
+    {
+        if (resetPlayer)
+            player.SetPlayer(true);
+        else
+            player.SetPlayer(false, LevelTransition.playerHP, LevelTransition.playerMP, LevelTransition.cds);
     }
 }
