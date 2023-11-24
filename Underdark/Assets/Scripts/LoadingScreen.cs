@@ -10,7 +10,7 @@ public class LoadingScreen : MonoBehaviour
     [SerializeField] private Slider slider;
     void Start()
     {
-        StartCoroutine(AsyncLoadScene(StaticSceneLoader.sceneToLoadName));
+        StartCoroutine(AsyncLoadScene(StaticSceneLoader.SceneToLoadName));
     }
 
     

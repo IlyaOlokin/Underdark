@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,14 @@ using Zenject;
 public class PlayerInstaller : MonoBehaviour
 {
     [SerializeField] private ItemsStorageSO itemsStorageSo;
+
+    private Player player;
     
     [Inject]
     private void Construct(Player player)
     {
+        this.player = player;
+        
         var data = DataLoader.gameData;
         if (data.CurrenLevel == 0) return;
         
@@ -39,13 +44,34 @@ public class PlayerInstaller : MonoBehaviour
         var activeAbilities = player.Inventory.GetAllActiveAbilitySlots();
         for (int i = 0; i < activeAbilities.Length; i++)
         {
-            activeAbilities[i].SetItem(itemsStorageSo.GetItemById(data.ActiveAbilities[i]));
+            var item = itemsStorageSo.GetItemById(data.ActiveAbilities[i]);
+            
+            if (item != null)
+                activeAbilities[i].SetItem(item);
         }
         
         var equippedActiveAbilities = player.Inventory.EquippedActiveAbilitySlots;
         for (int i = 0; i < equippedActiveAbilities.Count; i++)
         {
-            equippedActiveAbilities[i].SetItem(itemsStorageSo.GetItemById(data.EquipedActiveAbilities[i]));
+            var item = itemsStorageSo.GetItemById(data.EquipedActiveAbilities[i]);
+            
+            if (item != null)
+                equippedActiveAbilities[i].SetItem(item);
         }
+    }
+
+    private void Start()
+    {
+        if (StaticSceneLoader.ResetPlayer)
+        {
+            ElixirStaticData.ElixirID = null;
+            ElixirStaticData.ElixirCD = -1f;
+            return;
+        }
+
+        var elixir = (ExecutableItemSO) itemsStorageSo.GetItemById(ElixirStaticData.ElixirID);
+        if (elixir is null) return;
+        
+        elixir.Execute(player);
     }
 }
