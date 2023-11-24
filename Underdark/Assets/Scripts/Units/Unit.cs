@@ -115,12 +115,17 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         ActiveAbilitiesCD = new List<float>(new float[Inventory.EquippedActiveAbilitySlots.Count]);
         lastActiveAbilitiesIDs = new string[Inventory.EquippedActiveAbilitySlots.Count];
     }
+    
+    private void Start()
+    {
+        SetUnit();
+    }
 
     protected void SetUnit()
     {
         SetHP(true);
         SetMana(true);
-        SetActiveAbilitiesCDs();
+        SetActiveAbilitiesCDs(true);
         GetUnStunned();
         EndPush();
         LooseEnergyShield();
@@ -520,10 +525,15 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         ActiveAbilitiesCD[index] = newAbility.cooldown;
     }
 
-    protected void SetActiveAbilitiesCDs()
+    protected void SetActiveAbilitiesCDs(bool reset = false)
     {
         for (int i = 0; i < Inventory.EquippedActiveAbilitySlots.Count; i++)
         {
+            if (reset)
+            {
+                ActiveAbilitiesCD[i] = 0;
+                continue;
+            }
             string newID = Inventory.EquippedActiveAbilitySlots[i].IsEmpty ? "" : Inventory.EquippedActiveAbilitySlots[i].ItemID;
             
             if (newID == "" && lastActiveAbilitiesIDs[i] != "")

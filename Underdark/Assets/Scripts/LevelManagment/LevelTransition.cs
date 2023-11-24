@@ -18,10 +18,6 @@ public class LevelTransition : MonoBehaviour
         if (other.TryGetComponent(out Player player))
         {
             DataLoader.SaveGame(player);
-
-            playerHP = player.CurrentHP;
-            playerMP = player.CurrentMana;
-            cds = player.ActiveAbilitiesCD;
             
             if (loadNextScene)
                 StaticSceneLoader.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

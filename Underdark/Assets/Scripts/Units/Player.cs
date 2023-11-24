@@ -51,21 +51,6 @@ public class Player : Unit, IPickUper
         }
     }
 
-    public void SetPlayer(bool reset = false, int hp = 0, int mp = 0, List<float> activeAbilitiesCD = null)
-    {
-        SetUnit();
-        if (reset)
-        {
-            return;
-        }
-        CurrentHP = hp;
-        CurrentMana = mp;
-        for (var i = 0; i < activeAbilitiesCD.Count; i++)
-        {
-            ActiveAbilitiesCD[i] = activeAbilitiesCD[i];
-        }
-    }
-
     private void OnDrawGizmos()
     {
         //Gizmos.DrawWireSphere(transform.position, GetWeapon().AttackDistance + 0.5f);

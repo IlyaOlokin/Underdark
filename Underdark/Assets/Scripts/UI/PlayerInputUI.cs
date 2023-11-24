@@ -81,7 +81,7 @@ public class PlayerInputUI : MonoBehaviour
         executableSlotsHandler.RefreshAllSlots();
     }
 
-    private void UpdateEquippedAbilities()
+    private void UpdateEquippedAbilities(bool reset = false)
     {
         abilitiesCDMax = new List<float>();
         for (int i = 0; i < player.Inventory.EquippedActiveAbilitySlots.Count; i++)

@@ -45,21 +45,25 @@ public class PlayerInstaller : MonoBehaviour
         var activeAbilities = player.Inventory.GetAllActiveAbilitySlots();
         for (int i = 0; i < activeAbilities.Length; i++)
         {
-            activeAbilities[i].SetItem(itemsStorageSo.GetItemById(data.ActiveAbilities[i]));
+            var item = itemsStorageSo.GetItemById(data.ActiveAbilities[i]);
+            
+            if (item != null)
+                activeAbilities[i].SetItem(item);
         }
         
         var equippedActiveAbilities = player.Inventory.EquippedActiveAbilitySlots;
         for (int i = 0; i < equippedActiveAbilities.Count; i++)
         {
-            equippedActiveAbilities[i].SetItem(itemsStorageSo.GetItemById(data.EquipedActiveAbilities[i]));
+            var item = itemsStorageSo.GetItemById(data.EquipedActiveAbilities[i]);
+            
+            if (item != null)
+                equippedActiveAbilities[i].SetItem(item);
         }
     }
 
     private void Start()
     {
-        if (resetPlayer)
-            player.SetPlayer(true);
-        else
-            player.SetPlayer(false, LevelTransition.playerHP, LevelTransition.playerMP, LevelTransition.cds);
+        //if (resetPlayer)
+            
     }
 }

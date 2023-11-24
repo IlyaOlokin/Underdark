@@ -16,7 +16,7 @@ public class Inventory : IInventory
     public List<IInventorySlot> EquippedActiveAbilitySlots { get; private set; }
     public event Action OnInventoryChanged;
     public event Action OnEquipmentChanged;
-    public event Action OnActiveAbilitiesChanged;
+    public event Action<bool> OnActiveAbilitiesChanged;
     public event Action OnExecutableItemChanged;
     private Unit unit;
     
@@ -173,7 +173,7 @@ public class Inventory : IInventory
             
             OnInventoryChanged?.Invoke();
             if (fromSlotItemType != ItemType.Any || toSlotItemType != ItemType.Any) OnEquipmentChanged?.Invoke();
-            if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke();
+            if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
             if (fromSlotItemType == ItemType.Executable || toSlotItemType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
 
             return;
@@ -201,7 +201,7 @@ public class Inventory : IInventory
         
         OnInventoryChanged?.Invoke();
         if (fromSlotItemType != ItemType.Any || toSlotItemType != ItemType.Any) OnEquipmentChanged?.Invoke();
-        if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke();
+        if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
         if (fromSlotItemType == ItemType.Executable || toSlotItemType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
 
     }
