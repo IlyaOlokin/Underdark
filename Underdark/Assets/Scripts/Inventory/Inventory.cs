@@ -107,7 +107,6 @@ public class Inventory : IInventory
         if (amountLeft <= 0) return amountLeft;
 
         itemAmount = amountLeft;
-        if (item.ItemType == ItemType.ActiveAbility) return amountLeft;
         return TryAddItem(item, itemAmount);
     }
 
@@ -210,10 +209,13 @@ public class Inventory : IInventory
     {
         return slots.Find(slot => slot.ItemID == itemID).Item;
     }
-    
-    public Item GetActiveAbility(string itemID)
+
+    private Item GetActiveAbility(string itemID)
     {
-        return activeAbilitySlots.Find(slot => slot.ItemID == itemID)?.Item;
+        var itemInSlots = activeAbilitySlots.Find(slot => slot.ItemID == itemID)?.Item;
+        if (itemInSlots == null)
+            itemInSlots = EquippedActiveAbilitySlots.Find(slot => slot.ItemID == itemID)?.Item;
+        return itemInSlots;
     }
 
     public Item[] GetAllItems()
