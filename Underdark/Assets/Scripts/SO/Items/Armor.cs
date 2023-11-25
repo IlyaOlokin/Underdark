@@ -4,10 +4,12 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Item/Armor", fileName = "New Armor")]
 
-public class Armor : Item
+public class Armor : Item, IPassiveHolder
 {
      public int ArmorAmount;
-
+     
+     [field:SerializeField] public List<PassiveSO> Passives { get; private set; }
+     
      public override string[] ToString()
      {
           List<string> res = new List<string>();
@@ -16,4 +18,15 @@ public class Armor : Item
           
           return res.ToArray();
      }
+     
+     public override string[] ToStringAdditional()
+     {
+          List<string> res = new List<string>();
+          
+          foreach (var passive in Passives)
+               res.Add(passive.ToString());
+          
+          return res.ToArray();
+     }
+
 }

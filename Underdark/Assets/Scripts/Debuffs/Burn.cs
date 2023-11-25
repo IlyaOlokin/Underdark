@@ -6,6 +6,7 @@ public class Burn : Debuff
 {
     private GameObject currentVisualPrefab;
     private BurnInfo burnInfo;
+    private DamageInfo damageInfo = new();
     
     private float dmgTimer;
     
@@ -18,6 +19,8 @@ public class Burn : Debuff
         dmgTimer = burnInfo.DmgDelay;
         Duration = burnInfo.Duration;
         Timer = Duration;
+        
+        damageInfo.AddDamage(this.burnInfo.Damage, DamageType.Fire, caster.Params.GetDamageAmplification(DamageType.Fire));
 
         currentVisualPrefab = Instantiate(visual, transform.position, Quaternion.identity, transform);
     }
@@ -42,7 +45,7 @@ public class Burn : Debuff
                 }
             }
                     
-            receiver.TakeDamage(caster, caster, burnInfo.Damage, false);
+            receiver.TakeDamage(caster, caster, damageInfo, false);
             dmgTimer = burnInfo.DmgDelay;
         }
 

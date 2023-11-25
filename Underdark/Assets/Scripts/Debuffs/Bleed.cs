@@ -7,6 +7,7 @@ public class Bleed : Debuff
 {
     private GameObject currentVisualPrefab;
     private BleedInfo bleedInfo;
+    private DamageInfo damageInfo = new();
     
     private float dmgTimer;
     
@@ -19,6 +20,8 @@ public class Bleed : Debuff
         dmgTimer = bleedInfo.DmgDelay;
         Duration = bleedInfo.Duration;
         Timer = Duration;
+        
+        damageInfo.AddDamage(this.bleedInfo.Damage, multiplier: caster.Params.GetDamageAmplification(DamageType.Physic));
 
         currentVisualPrefab = Instantiate(visual, transform.position, Quaternion.identity, transform);
     }
@@ -28,7 +31,7 @@ public class Bleed : Debuff
         Timer -= Time.deltaTime;
         if (dmgTimer <= 0)
         {
-            receiver.TakeDamage(caster, caster, bleedInfo.Damage, false);
+            receiver.TakeDamage(caster, caster, damageInfo, false);
             dmgTimer = bleedInfo.DmgDelay;
         }
 

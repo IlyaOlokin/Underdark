@@ -13,7 +13,8 @@ public class CircularSwing : ActiveAbility, IAttacker
     {
         base.Execute(caster);
         
-        damage = Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
+        int damage = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
+        damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
         
         Attack();
         
@@ -27,7 +28,7 @@ public class CircularSwing : ActiveAbility, IAttacker
 
         foreach (var target in targets)
         {
-            if (target.GetComponent<IDamageable>().TakeDamage(caster, this, damage))
+            if (target.GetComponent<IDamageable>().TakeDamage(caster, this, damageInfo))
             {
                 foreach (var debuffInfo in debuffInfos)
                 {

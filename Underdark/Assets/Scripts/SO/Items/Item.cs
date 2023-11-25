@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class Item : ScriptableObject
+public abstract class Item : ScriptableObject
 {
     public string ID;
     public string Name;

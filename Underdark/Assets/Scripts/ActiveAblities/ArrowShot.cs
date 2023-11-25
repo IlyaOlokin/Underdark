@@ -19,7 +19,8 @@ public class ArrowShot : ActiveAbility, IAttacker
     {
         base.Execute(caster);
         
-        damage = Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
+        int damage = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
+        damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
         
         var target = FindClosestTarget(caster);
 
@@ -52,7 +53,7 @@ public class ArrowShot : ActiveAbility, IAttacker
 
     public void Attack(IDamageable damageable)
     {
-        if (damageable.TakeDamage(caster, this, damage))
+        if (damageable.TakeDamage(caster, this, damageInfo))
         {
             foreach (var debuffInfo in debuffInfos)
             {

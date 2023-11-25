@@ -15,9 +15,10 @@ public abstract class ActiveAbility : MonoBehaviour
     [SerializeField] protected float maxValue;
     [SerializeField] protected int statMultiplier;
     [SerializeField] protected BaseStat baseStat;
+    [SerializeField] protected DamageType damageType;
     [SerializeField] protected List<WeaponType> validWeaponTypes;
     
-    protected float damage;
+    protected DamageInfo damageInfo = new();
     
     [SerializeField] protected List<DebuffInfo> debuffInfos;
     

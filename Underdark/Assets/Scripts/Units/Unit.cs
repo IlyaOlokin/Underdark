@@ -12,6 +12,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     private Rigidbody2D rb;
     private Collider2D coll;
     public UnitStats Stats;
+    public UnitParams Params;
     public Inventory Inventory;
     public EnergyShield EnergyShield;
 
@@ -109,6 +110,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
+        Params.SetUnit(this);
         
         Inventory = new Inventory(inventoryCapacity, activeAbilityInventoryCapacity, this);
         
@@ -227,7 +229,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         visualsFlipable.transform.Rotate(0, 180, 0);
     }
 
-    public virtual bool TakeDamage(Unit sender, IAttacker attacker, float damage, bool evadable = true, float armorPierce = 0f)
+    public virtual bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
     {
         var newEffect = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
 
@@ -237,7 +239,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
             return false;
         }
 
-        var newDamage = CalculateTakenDamage(damage, armorPierce);
+        var newDamage = CalculateTakenDamage(damageInfo, armorPierce);
 
         if (EnergyShield != null)
         {
@@ -447,9 +449,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         OnStatusEffectLoose?.Invoke(statusEffect);
     }
     
-    private int CalculateTakenDamage(float damage, float armorPierce)
+    private int CalculateTakenDamage(DamageInfo damageInfo, float armorPierce)
     {
-        return (int)Mathf.Floor(damage * (damage / (damage + GetTotalArmor() * (1 - armorPierce))));
+        int totalDamage = 0;
+        
+        for (int i = 0; i < damageInfo.GetDamages().Count; i++)
+        {
+            totalDamage += (int) Mathf.Floor(damageInfo.GetDamages()[i].GetValue() * Params.GetDamageResistance(damageInfo.GetDamages()[i].DamageType));
+        }
+        
+        return (int)Mathf.Floor(totalDamage * (totalDamage / (totalDamage + GetTotalArmor() * (1 - armorPierce))));
     }
 
     public int GetTotalArmor()
@@ -494,11 +503,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         SetActionCD(newBaseAttack.CastTime);
 
         OnBaseAttack?.Invoke(attackDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
-    }
-    
-    public Damage GetTotalDamage()
-    {
-        return new Damage(GetWeapon().Damage, Stats.GetTotalStatValue(BaseStat.Strength));
     }
 
     public void Attack(IDamageable damageable)
@@ -569,6 +573,43 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     private void SetActionCD(float cd)
     {
         actionCDTimer = cd;
+    }
+
+    public List<T> GetAllGearPassives<T>()
+    {
+        var res = new List<T>();
+
+        GetAllItemPassives(ItemType.Head, res);
+        GetAllItemPassives(ItemType.Body, res);
+        GetAllItemPassives(ItemType.Legs, res);
+        GetAllItemPassives(ItemType.Shield, res);
+        
+        var passives = ((IPassiveHolder)GetWeapon()).Passives;
+        if (passives == null) return res;
+        
+        foreach (var passive in passives)
+        {
+            if (passive is T passive1)
+            {
+                res.Add(passive1);
+            }
+        }
+
+        return res;
+    }
+
+    private void GetAllItemPassives<T>(ItemType itemType, List<T> res)
+    {
+        var passives = ((IPassiveHolder)Inventory.Equipment.GetArmor(itemType))?.Passives;
+        if (passives == null) return;
+        
+        foreach (var passive in passives)
+        {
+            if (passive is T passive1)
+            {
+                res.Add(passive1);
+            }
+        }
     }
 
     public MeleeWeapon GetWeapon()
