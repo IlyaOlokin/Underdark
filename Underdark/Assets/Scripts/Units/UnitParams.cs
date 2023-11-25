@@ -4,6 +4,8 @@ using UnityEngine;
 [Serializable]
 public class UnitParams
 {
+    private Unit unit;
+    
     [Header("Base Damage Amplification")]
     [SerializeField] public float basePhysicDmgAmplification = 1;
     [SerializeField] public float baseChaosDmgAmplification = 1;
@@ -22,32 +24,57 @@ public class UnitParams
     [SerializeField] public float baseColdResistance = 1;
     [SerializeField] public float baseElectricResistance = 1;
 
+    public void SetUnit(Unit unit)
+    {
+        this.unit = unit;
+    }
+
     public float GetDamageAmplification(DamageType damageType)
     {
+        float dmgAmpl = 0;
+        
+        foreach (var passive in unit.GetAllPassives<DamageAmplificationSO>())
+        {
+            if (passive.DamageType == damageType)
+            {
+                dmgAmpl += passive.Value;
+            }
+        }
+        
         return damageType switch
         {
-            DamageType.Physic => basePhysicDmgAmplification,
-            DamageType.Chaos => baseChaosDmgAmplification,
-            DamageType.Fire => baseFireDmgAmplification,
-            DamageType.Air => baseAirDmgAmplification,
-            DamageType.Water => baseWaterDmgAmplification,
-            DamageType.Cold => baseColdDmgAmplification,
-            DamageType.Electric => baseElectricDmgAmplification,
+            DamageType.Physic => basePhysicDmgAmplification * (1 + dmgAmpl),
+            DamageType.Chaos => baseChaosDmgAmplification * (1 + dmgAmpl),
+            DamageType.Fire => baseFireDmgAmplification * (1 + dmgAmpl),
+            DamageType.Air => baseAirDmgAmplification * (1 + dmgAmpl),
+            DamageType.Water => baseWaterDmgAmplification * (1 + dmgAmpl),
+            DamageType.Cold => baseColdDmgAmplification * (1 + dmgAmpl),
+            DamageType.Electric => baseElectricDmgAmplification * (1 + dmgAmpl),
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
         };
     }
     
     public float GetDamageResistance(DamageType damageType)
     {
+        float dmgRes = 0;
+        
+        foreach (var passive in unit.GetAllPassives<DamageResistSO>())
+        {
+            if (passive.DamageType == damageType)
+            {
+                dmgRes += passive.Value;
+            }
+        }
+        
         return damageType switch
         {
-            DamageType.Physic => basePhysicResistance,
-            DamageType.Chaos => baseChaosResistance,
-            DamageType.Fire => baseFireResistance,
-            DamageType.Air => baseAirResistance,
-            DamageType.Water => baseWaterResistance,
-            DamageType.Cold => baseColdResistance,
-            DamageType.Electric => baseElectricResistance,
+            DamageType.Physic => basePhysicResistance * (1 + dmgRes),
+            DamageType.Chaos => baseChaosResistance * (1 + dmgRes),
+            DamageType.Fire => baseFireResistance * (1 + dmgRes),
+            DamageType.Air => baseAirResistance * (1 + dmgRes),
+            DamageType.Water => baseWaterResistance * (1 + dmgRes),
+            DamageType.Cold => baseColdResistance * (1 + dmgRes),
+            DamageType.Electric => baseElectricResistance * (1 + dmgRes),
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
         };
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Item/MeleeWeapon", fileName = "New Melee Weapon")]
-public class MeleeWeapon : Item
+public class MeleeWeapon : Item, IPassiveHolder
 {
     public Damage Damage;
     public WeaponType WeaponType;
@@ -11,6 +11,8 @@ public class MeleeWeapon : Item
     public int AttackDistance;
     [Range(0f, 1f)] public float ArmorPierce;
     public List<DebuffInfo> DebuffInfos;
+    
+    [field:SerializeField] public List<PassiveSO> Passives { get; private set; }
     
     public override string[] ToString()
     {

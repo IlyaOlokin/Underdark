@@ -110,6 +110,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
+        Params.SetUnit(this);
         
         Inventory = new Inventory(inventoryCapacity, activeAbilityInventoryCapacity, this);
         
@@ -572,6 +573,23 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     private void SetActionCD(float cd)
     {
         actionCDTimer = cd;
+    }
+
+    public List<T> GetAllPassives<T>()
+    {
+        var res = new List<T>();
+
+        var passiveSos = ((IPassiveHolder)Inventory.Equipment.GetArmor(ItemType.Head))?.Passives;
+        if (passiveSos != null)
+            foreach (var passive in passiveSos)
+            {
+                if (passive is T passive1)
+                {
+                    res.Add(passive1);
+                }
+            }
+
+        return res;
     }
 
     public MeleeWeapon GetWeapon()
