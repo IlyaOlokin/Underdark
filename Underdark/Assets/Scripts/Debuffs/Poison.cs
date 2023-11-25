@@ -22,7 +22,7 @@ public class Poison : Debuff
         Duration = poisonInfo.Duration;
         Timer = Duration;
         
-        damageInfo.AddDamage(this.poisonInfo.Damage);
+        damageInfo.AddDamage(this.poisonInfo.Damage, multiplier: caster.Params.GetDamageAmplification(DamageType.Physic));
 
         currentVisualPrefab = Instantiate(visual, transform.position, Quaternion.identity, transform);
     }

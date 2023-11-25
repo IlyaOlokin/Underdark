@@ -1083,6 +1083,21 @@ MonoBehaviour:
     <Intelligence>k__BackingField: 1
     pointsPerLevel: 5
     expNeeded: 
+  Params:
+    basePhysicDmgAmplification: 1
+    baseChaosDmgAmplification: 1
+    baseFireDmgAmplification: 1
+    baseAirDmgAmplification: 1
+    baseWaterDmgAmplification: 1
+    baseColdDmgAmplification: 1
+    baseElectricDmgAmplification: 1
+    basePhysicResistance: 1.2
+    baseChaosResistance: 1
+    baseFireResistance: 1
+    baseAirResistance: 1
+    baseWaterResistance: 1
+    baseColdResistance: 1
+    baseElectricResistance: 1
   baseMaxHP: 30
   baseMaxMana: 0
   regenPercent: 0.01

@@ -20,7 +20,7 @@ public class ArrowShot : ActiveAbility, IAttacker
         base.Execute(caster);
         
         int damage = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
-        damageInfo.AddDamage(damage);
+        damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
         
         var target = FindClosestTarget(caster);
 

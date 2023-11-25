@@ -12,6 +12,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     private Rigidbody2D rb;
     private Collider2D coll;
     public UnitStats Stats;
+    public UnitParams Params;
     public Inventory Inventory;
     public EnergyShield EnergyShield;
 
@@ -453,7 +454,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         
         for (int i = 0; i < damageInfo.GetDamages().Count; i++)
         {
-            totalDamage += damageInfo.GetDamages()[i].GetValue();
+            totalDamage += (int) Mathf.Floor(damageInfo.GetDamages()[i].GetValue() * Params.GetDamageResistance(damageInfo.GetDamages()[i].DamageType));
         }
         
         return (int)Mathf.Floor(totalDamage * (totalDamage / (totalDamage + GetTotalArmor() * (1 - armorPierce))));

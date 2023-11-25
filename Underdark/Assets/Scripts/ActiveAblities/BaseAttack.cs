@@ -13,7 +13,7 @@ public class BaseAttack : ActiveAbility, IAttacker
         base.Execute(caster);
 
         int damage = caster.GetWeapon().Damage.GetValue() + caster.Stats.GetTotalStatValue(baseStat) * statMultiplier;
-        damageInfo.AddDamage(damage, caster.GetWeapon().Damage.DamageType);
+        damageInfo.AddDamage(damage, caster.GetWeapon().Damage.DamageType, caster.Params.GetDamageAmplification(caster.GetWeapon().Damage.DamageType));
         
         Attack();
         

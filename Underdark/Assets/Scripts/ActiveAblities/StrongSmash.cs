@@ -14,7 +14,7 @@ public class StrongSmash : ActiveAbility, IAttacker
     {
         base.Execute(caster);
         int damage = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
-        damageInfo.AddDamage(damage);
+        damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
         Attack();
         
         StartCoroutine(StartVisual());

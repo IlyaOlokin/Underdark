@@ -29,7 +29,7 @@ public class FireBall : ActiveAbility, IAttacker
     {
         base.Execute(caster);
         
-        damageInfo.AddDamage((int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue), damageType);
+        damageInfo.AddDamage((int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue), damageType, caster.Params.GetDamageAmplification(damageType));
         
         var target = FindClosestTarget(caster);
 

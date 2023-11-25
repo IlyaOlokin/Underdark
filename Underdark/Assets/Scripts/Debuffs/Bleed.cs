@@ -21,7 +21,7 @@ public class Bleed : Debuff
         Duration = bleedInfo.Duration;
         Timer = Duration;
         
-        damageInfo.AddDamage(this.bleedInfo.Damage);
+        damageInfo.AddDamage(this.bleedInfo.Damage, multiplier: caster.Params.GetDamageAmplification(DamageType.Physic));
 
         currentVisualPrefab = Instantiate(visual, transform.position, Quaternion.identity, transform);
     }

@@ -20,7 +20,7 @@ public class Burn : Debuff
         Duration = burnInfo.Duration;
         Timer = Duration;
         
-        damageInfo.AddDamage(this.burnInfo.Damage, DamageType.Fire);
+        damageInfo.AddDamage(this.burnInfo.Damage, DamageType.Fire, caster.Params.GetDamageAmplification(DamageType.Fire));
 
         currentVisualPrefab = Instantiate(visual, transform.position, Quaternion.identity, transform);
     }
