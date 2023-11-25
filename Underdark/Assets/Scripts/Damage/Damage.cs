@@ -22,9 +22,9 @@ public class Damage
         return Random.Range( minDamage, maxDamage + 1);
     }
 
-    public string ToString(int addDamage = 0)
+    public string ToString(int addDamage = 0, float multiplier = 1)
     {
-        if (minDamage == maxDamage) return (minDamage + addDamage).ToString();
-        return $"{minDamage + addDamage}-{maxDamage + addDamage}";
+        if (minDamage == maxDamage) return Mathf.Floor((minDamage + addDamage) * multiplier).ToString();
+        return $"{Mathf.Floor((minDamage + addDamage) * multiplier)}-{Mathf.Floor((maxDamage + addDamage) * multiplier)}";
     }
 }

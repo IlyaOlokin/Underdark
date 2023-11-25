@@ -33,7 +33,7 @@ public class UnitParams
     {
         float dmgAmpl = 0;
         
-        foreach (var passive in unit.GetAllPassives<DamageAmplificationSO>())
+        foreach (var passive in unit.GetAllGearPassives<DamageAmplificationSO>())
         {
             if (passive.DamageType == damageType)
             {
@@ -58,7 +58,7 @@ public class UnitParams
     {
         float dmgRes = 0;
         
-        foreach (var passive in unit.GetAllPassives<DamageResistSO>())
+        foreach (var passive in unit.GetAllGearPassives<DamageResistSO>())
         {
             if (passive.DamageType == damageType)
             {

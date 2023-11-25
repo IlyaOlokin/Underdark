@@ -1,8 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public abstract class PassiveSO : ScriptableObject
 {
-    
+    public override string ToString()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -8,4 +8,9 @@ public class DamageResistSO : PassiveSO
 {
     public DamageType DamageType;
     public float Value;
+    
+    public override string ToString()
+    {
+        return $"Reduces incoming {DamageType} damage by {Value * 100}%.";
+    }
 }

@@ -9,13 +9,22 @@ public class Armor : Item, IPassiveHolder
      public int ArmorAmount;
      
      [field:SerializeField] public List<PassiveSO> Passives { get; private set; }
-
-
+     
      public override string[] ToString()
      {
           List<string> res = new List<string>();
           res.Add(Requirements.ToString());
           res.Add($"Armor: {ArmorAmount}");
+          
+          return res.ToArray();
+     }
+     
+     public override string[] ToStringAdditional()
+     {
+          List<string> res = new List<string>();
+          
+          foreach (var passive in Passives)
+               res.Add(passive.ToString());
           
           return res.ToArray();
      }

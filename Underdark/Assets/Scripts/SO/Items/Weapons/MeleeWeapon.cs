@@ -35,6 +35,11 @@ public class MeleeWeapon : Item, IPassiveHolder
         }
         
         if (ArmorPierce != 0) res.Add($"Attacks ignore {ArmorPierce * 100}% of target's armor");
+        
+        foreach (var passive in Passives)
+        {
+            res.Add(passive.ToString());
+        }
 
         return res.ToArray();
     }
