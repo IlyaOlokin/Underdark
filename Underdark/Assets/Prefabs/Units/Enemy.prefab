@@ -952,6 +952,7 @@ GameObject:
   - component: {fileID: 2281835335463959061}
   - component: {fileID: 2989269700952815197}
   - component: {fileID: 5577980821815337067}
+  - component: {fileID: 5290106731956819956}
   m_Layer: 6
   m_Name: EnemyUnit
   m_TagString: Enemy
@@ -1144,6 +1145,26 @@ MonoBehaviour:
     ItemAmount: 1
     ChanceToDropLeft: 0
     ChanceToDropRight: 0.5
+--- !u!114 &5290106731956819956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7684371324137006495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9718255b8834b0c4c8e3f4ae80d9fc07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 0}
+  body: {fileID: 0}
+  legs: {fileID: 0}
+  shield: {fileID: 0}
+  weapon: {fileID: 0}
+  executableItems: []
+  activeAbilities:
+  - {fileID: 0}
 --- !u!1 &7916519281579307983
 GameObject:
   m_ObjectHideFlags: 0
