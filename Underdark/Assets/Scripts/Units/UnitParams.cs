@@ -24,6 +24,9 @@ public class UnitParams
     [SerializeField] public float baseColdResistance = 1;
     [SerializeField] public float baseElectricResistance = 1;
 
+    [Header("Evasion")] 
+    [SerializeField] private float baseEvasionChance;
+
     public void SetUnit(Unit unit)
     {
         this.unit = unit;
@@ -77,5 +80,16 @@ public class UnitParams
             DamageType.Electric => baseElectricResistance * (1 + dmgRes),
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
         };
+    }
+
+    public float GetEvasionChance()
+    {
+        var hitChance = 1 - baseEvasionChance;
+        foreach (var evasionAmplification in unit.GetAllGearPassives<EvasionAmplificationSO>())
+            hitChance *= 1 - evasionAmplification.EvasionChance;
+        
+        hitChance = Mathf.Clamp(hitChance, 0.05f, 1f);
+        
+        return 1 - hitChance;
     }
 }

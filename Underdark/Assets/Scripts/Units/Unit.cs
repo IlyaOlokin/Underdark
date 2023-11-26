@@ -233,7 +233,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         var newEffect = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
 
-        if (evadable && TryToEvade(sender, this))
+        if (evadable && TryToEvade())
         {
             newEffect.WriteMessage("Evaded!");
             return false;
@@ -468,6 +468,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
                     GetArmorAmount(ItemType.Legs) + 
                     GetArmorAmount(ItemType.Shield);
 
+        armor += Stats.Dexterity / 2;
         return armor;
     }
 
@@ -510,10 +511,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         throw new NotImplementedException();
     }
 
-    private bool TryToEvade(Unit attacker, Unit receiver)
+    private bool TryToEvade()
     {
-        var chance = attacker.Stats.Dexterity / (float)(attacker.Stats.Dexterity + receiver.Stats.Dexterity);
-        return Random.Range(0f, 1f) > chance;
+        return Random.Range(0f, 1f) < Params.GetEvasionChance();
     }
 
     public void ExecuteActiveAbility(int index)
