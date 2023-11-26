@@ -1085,20 +1085,21 @@ MonoBehaviour:
     pointsPerLevel: 5
     expNeeded: 
   Params:
-    basePhysicDmgAmplification: 1
-    baseChaosDmgAmplification: 1
-    baseFireDmgAmplification: 1
-    baseAirDmgAmplification: 1
-    baseWaterDmgAmplification: 1
-    baseColdDmgAmplification: 1
-    baseElectricDmgAmplification: 1
-    basePhysicResistance: 1
-    baseChaosResistance: 1
-    baseFireResistance: 1
-    baseAirResistance: 1
-    baseWaterResistance: 1
-    baseColdResistance: 1
-    baseElectricResistance: 1
+    basePhysicDmgAmplification: 0
+    baseChaosDmgAmplification: 0
+    baseFireDmgAmplification: 0
+    baseAirDmgAmplification: 0
+    baseWaterDmgAmplification: 0
+    baseColdDmgAmplification: 0
+    baseElectricDmgAmplification: 0
+    basePhysicResistance: 0
+    baseChaosResistance: 0
+    baseFireResistance: 0
+    baseAirResistance: 0
+    baseWaterResistance: 0
+    baseColdResistance: 0
+    baseElectricResistance: 0
+    baseEvasionChance: 0
   baseMaxHP: 30
   baseMaxMana: 0
   regenPercent: 0.01
