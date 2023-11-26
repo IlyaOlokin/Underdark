@@ -579,37 +579,19 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         var res = new List<T>();
 
-        GetAllItemPassives(ItemType.Head, res);
-        GetAllItemPassives(ItemType.Body, res);
-        GetAllItemPassives(ItemType.Legs, res);
-        GetAllItemPassives(ItemType.Shield, res);
-        
-        var passives = ((IPassiveHolder)GetWeapon()).Passives;
-        if (passives == null) return res;
-        
-        foreach (var passive in passives)
+        foreach (var passiveHolder in Inventory.GetAllPassiveHolders())
         {
-            if (passive is T passive1)
+            if (passiveHolder == null) continue;
+            foreach (var passive in passiveHolder.Passives)
             {
-                res.Add(passive1);
+                if (passive is T passive1)
+                {
+                    res.Add(passive1);
+                }
             }
         }
 
         return res;
-    }
-
-    private void GetAllItemPassives<T>(ItemType itemType, List<T> res)
-    {
-        var passives = ((IPassiveHolder)Inventory.Equipment.GetArmor(itemType))?.Passives;
-        if (passives == null) return;
-        
-        foreach (var passive in passives)
-        {
-            if (passive is T passive1)
-            {
-                res.Add(passive1);
-            }
-        }
     }
 
     public MeleeWeapon GetWeapon()

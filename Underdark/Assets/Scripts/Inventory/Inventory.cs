@@ -242,6 +242,18 @@ public class Inventory : IInventory
         return allItems.ToArray();
     }
 
+    public List<IPassiveHolder> GetAllPassiveHolders()
+    {
+        return new List<IPassiveHolder>()
+        {
+            Equipment.GetArmor(ItemType.Head),
+            Equipment.GetArmor(ItemType.Body),
+            Equipment.GetArmor(ItemType.Legs),
+            Equipment.GetArmor(ItemType.Shield),
+            Equipment.GetWeapon(),
+        };
+    }
+
     public Item[] GetEquippedItems()
     {
         throw new NotImplementedException();

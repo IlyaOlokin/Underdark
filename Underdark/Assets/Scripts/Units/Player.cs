@@ -102,5 +102,3 @@ public class Player : Unit, IPickUper
         Stats.OnLevelUp -= OnLevelUp;
     }
 }
-
-
