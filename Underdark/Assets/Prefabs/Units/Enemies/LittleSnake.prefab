@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 3887350311143016167}
   - component: {fileID: 3657550447364729542}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: LittleSnake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -609,7 +609,7 @@ SpriteRenderer:
   m_SortingLayerID: 1661064027
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: cbb9b7de2c3d64d47b7744a5cffe9b6c, type: 3}
+  m_Sprite: {fileID: 134959179, guid: 323cb8011dd183545abc38210f8ba682, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1077,10 +1077,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stats:
-    <Level>k__BackingField: 1
+    <Level>k__BackingField: 2
     FreePoints: 0
-    <Strength>k__BackingField: 10
-    <Dexterity>k__BackingField: 2
+    <Strength>k__BackingField: 1
+    <Dexterity>k__BackingField: 4
     <Intelligence>k__BackingField: 1
     pointsPerLevel: 5
     expNeeded: 
@@ -1099,7 +1099,7 @@ MonoBehaviour:
     baseWaterResistance: 0
     baseColdResistance: 0
     baseElectricResistance: 0
-    baseEvasionChance: 0
+    baseEvasionChance: 15
   baseMaxHP: 30
   baseMaxMana: 0
   regenPercent: 0.01
@@ -1162,10 +1162,9 @@ MonoBehaviour:
   body: {fileID: 0}
   legs: {fileID: 0}
   shield: {fileID: 0}
-  weapon: {fileID: 0}
+  weapon: {fileID: 11400000, guid: a62fe2a9aaaf69d4bad2c7cf14cbeb91, type: 2}
   executableItems: []
-  activeAbilities:
-  - {fileID: 0}
+  activeAbilities: []
 --- !u!1 &7916519281579307983
 GameObject:
   m_ObjectHideFlags: 0
