@@ -132,6 +132,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerSensor: {fileID: 3181267855325014547}
   drop: {fileID: 8475330006046347535}
+  openedSprite: {fileID: 21300000, guid: 3f65e12d69b9e2f46b59e2654aec1b43, type: 3}
+  sr: {fileID: 7099737348677891542}
 --- !u!114 &8475330006046347535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,7 +221,7 @@ SpriteRenderer:
   m_SortingLayerID: 1661064027
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b91604b41cc7bb74db18d32655bf9212, type: 3}
+  m_Sprite: {fileID: 164214154, guid: 5f658d6670170ec4daee3790b2c68c2c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

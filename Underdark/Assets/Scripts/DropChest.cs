@@ -8,12 +8,17 @@ public class DropChest : MonoBehaviour
     [SerializeField] protected Drop drop;
     private bool opened;
 
+    [Header("Visual")]
+    [SerializeField] protected Sprite openedSprite;
+    [SerializeField] protected SpriteRenderer sr;
+
     void Start()
     {
         playerSensor.OnPlayerEnter += (transform) =>
         {
             if (!opened) drop.DropItems();
             opened = true;
+            sr.sprite = openedSprite;
         };
     }
 }
