@@ -475,6 +475,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3887350311143016167, guid: fd0175574af916c48a88107f7394ce4b, type: 3}
   m_PrefabInstance: {fileID: 657852531}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &228526032 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3887350311143016167, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+  m_PrefabInstance: {fileID: 2021085025}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &243906452
 GameObject:
   m_ObjectHideFlags: 0
@@ -3904,7 +3909,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemsStorageSo: {fileID: 11400000, guid: de798b175215f784cb30c8bd04dbc617, type: 2}
-  resetPlayer: 1
 --- !u!4 &1907090268
 Transform:
   m_ObjectHideFlags: 0
@@ -4146,6 +4150,71 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3887350311143016167, guid: fd0175574af916c48a88107f7394ce4b, type: 3}
   m_PrefabInstance: {fileID: 35631715}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2021085025
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2113588149}
+    m_Modifications:
+    - target: {fileID: 1949931608932922040, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+      propertyPath: m_Name
+      value: LittleSnake
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 3.1021943
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12.016275
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -6.087941
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309775707832256866, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309775707832256866, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 5355c21d1f2d7ed4cb034898d7187304, type: 3}
 --- !u!1 &2021855325
 GameObject:
   m_ObjectHideFlags: 0
@@ -4670,6 +4739,7 @@ Transform:
   - {fileID: 1301517847}
   - {fileID: 218773834}
   - {fileID: 1799222413}
+  - {fileID: 228526032}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2891513227388268324

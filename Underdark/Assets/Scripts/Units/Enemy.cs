@@ -179,6 +179,11 @@ public class Enemy : Unit
         attackDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
         if (dirToPlayer.y < 0) attackDirAngle *= -1;
     }
+
+    protected void ExecuteActiveAbility()
+    {
+        ExecuteActiveAbility(0);
+    }
     
     private void FollowPlayerSensor_OnPlayerEnter(Transform player)
     {
@@ -207,6 +212,22 @@ public class Enemy : Unit
                 Mathf.Infinity,
                 AttackMask)
             .collider.TryGetComponent(out Player player);
+    
+    protected bool ShouldUseActiveAbility(Transition<EnemyState> transition) =>
+        ActiveAbilitiesCD[0] < 0
+        && isPlayerInChasingRange
+        && CurrentMana >= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.ManaCost
+        && DistToMovePos() <= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.AttackDistance + 1
+        && !IsStunned
+        && Physics2D
+            .Raycast(transform.position,
+                this.player.transform.position - transform.position,
+                Mathf.Infinity,
+                AttackMask)
+            .collider.TryGetComponent(out Player player);
+
+    protected bool ShouldAttack(Transition<EnemyState> transition) =>
+        ShouldMelee(transition) || ShouldUseActiveAbility(transition);
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 
         CanMove

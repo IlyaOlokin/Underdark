@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3dcb7bf8d4b144ead12f9a0a8c2893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 2989269700952815197}
+  enemy: {fileID: 1232031067331528528}
   respawnDelay: 2
 --- !u!1 &3743688560195123424
 GameObject:
@@ -937,7 +937,7 @@ MonoBehaviour:
   currentValueText: {fileID: 0}
   maxValueText: {fileID: 0}
   slider: {fileID: 775653150985436888}
-  damageable: {fileID: 2989269700952815197}
+  damageable: {fileID: 1232031067331528528}
 --- !u!1 &7684371324137006495
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,7 +950,7 @@ GameObject:
   - component: {fileID: 7236479408872746017}
   - component: {fileID: 8583875203054404754}
   - component: {fileID: 2281835335463959061}
-  - component: {fileID: 2989269700952815197}
+  - component: {fileID: 1232031067331528528}
   - component: {fileID: 5577980821815337067}
   - component: {fileID: 5290106731956819956}
   m_Layer: 6
@@ -1064,7 +1064,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &2989269700952815197
+--- !u!114 &1232031067331528528
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1073,16 +1073,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7684371324137006495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b98a7b020ca8264d88d56b71a3c4b0c, type: 3}
+  m_Script: {fileID: 11500000, guid: e1ca018905a30a249a87d3a462e854af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Stats:
-    <Level>k__BackingField: 2
+    <Level>k__BackingField: 1
     FreePoints: 0
     <Strength>k__BackingField: 1
     <Dexterity>k__BackingField: 4
     <Intelligence>k__BackingField: 1
-    pointsPerLevel: 5
+    pointsPerLevel: 0
     expNeeded: 
   Params:
     basePhysicDmgAmplification: 0
@@ -1164,7 +1164,8 @@ MonoBehaviour:
   shield: {fileID: 0}
   weapon: {fileID: 11400000, guid: a62fe2a9aaaf69d4bad2c7cf14cbeb91, type: 2}
   executableItems: []
-  activeAbilities: []
+  activeAbilities:
+  - {fileID: 11400000, guid: 09be2477809388e4bbb494b12c224c37, type: 2}
 --- !u!1 &7916519281579307983
 GameObject:
   m_ObjectHideFlags: 0
