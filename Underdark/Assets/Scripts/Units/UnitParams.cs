@@ -7,22 +7,25 @@ public class UnitParams
     private Unit unit;
     
     [Header("Base Damage Amplification")]
-    [SerializeField] public float basePhysicDmgAmplification = 1;
-    [SerializeField] public float baseChaosDmgAmplification = 1;
-    [SerializeField] public float baseFireDmgAmplification = 1;
-    [SerializeField] public float baseAirDmgAmplification = 1;
-    [SerializeField] public float baseWaterDmgAmplification = 1;
-    [SerializeField] public float baseColdDmgAmplification = 1;
-    [SerializeField] public float baseElectricDmgAmplification = 1;
+    [SerializeField] public float basePhysicDmgAmplification;
+    [SerializeField] public float baseChaosDmgAmplification;
+    [SerializeField] public float baseFireDmgAmplification;
+    [SerializeField] public float baseAirDmgAmplification;
+    [SerializeField] public float baseWaterDmgAmplification;
+    [SerializeField] public float baseColdDmgAmplification;
+    [SerializeField] public float baseElectricDmgAmplification;
     
     [Header("Base Damage Resistance")]
-    [SerializeField] public float basePhysicResistance = 1;
-    [SerializeField] public float baseChaosResistance = 1;
-    [SerializeField] public float baseFireResistance = 1;
-    [SerializeField] public float baseAirResistance = 1;
-    [SerializeField] public float baseWaterResistance = 1;
-    [SerializeField] public float baseColdResistance = 1;
-    [SerializeField] public float baseElectricResistance = 1;
+    [SerializeField] public float basePhysicResistance;
+    [SerializeField] public float baseChaosResistance;
+    [SerializeField] public float baseFireResistance;
+    [SerializeField] public float baseAirResistance;
+    [SerializeField] public float baseWaterResistance;
+    [SerializeField] public float baseColdResistance;
+    [SerializeField] public float baseElectricResistance;
+
+    [Header("Evasion")] 
+    [SerializeField] private float baseEvasionChance;
 
     public void SetUnit(Unit unit)
     {
@@ -43,13 +46,13 @@ public class UnitParams
         
         return damageType switch
         {
-            DamageType.Physic => basePhysicDmgAmplification * (1 + dmgAmpl),
-            DamageType.Chaos => baseChaosDmgAmplification * (1 + dmgAmpl),
-            DamageType.Fire => baseFireDmgAmplification * (1 + dmgAmpl),
-            DamageType.Air => baseAirDmgAmplification * (1 + dmgAmpl),
-            DamageType.Water => baseWaterDmgAmplification * (1 + dmgAmpl),
-            DamageType.Cold => baseColdDmgAmplification * (1 + dmgAmpl),
-            DamageType.Electric => baseElectricDmgAmplification * (1 + dmgAmpl),
+            DamageType.Physic => basePhysicDmgAmplification + dmgAmpl + 1,
+            DamageType.Chaos => baseChaosDmgAmplification + dmgAmpl + 1,
+            DamageType.Fire => baseFireDmgAmplification + dmgAmpl + 1,
+            DamageType.Air => baseAirDmgAmplification + dmgAmpl + 1,
+            DamageType.Water => baseWaterDmgAmplification + dmgAmpl + 1,
+            DamageType.Cold => baseColdDmgAmplification + dmgAmpl + 1,
+            DamageType.Electric => baseElectricDmgAmplification + dmgAmpl + 1,
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
         };
     }
@@ -68,14 +71,30 @@ public class UnitParams
         
         return damageType switch
         {
-            DamageType.Physic => basePhysicResistance * (1 + dmgRes),
-            DamageType.Chaos => baseChaosResistance * (1 + dmgRes),
-            DamageType.Fire => baseFireResistance * (1 + dmgRes),
-            DamageType.Air => baseAirResistance * (1 + dmgRes),
-            DamageType.Water => baseWaterResistance * (1 + dmgRes),
-            DamageType.Cold => baseColdResistance * (1 + dmgRes),
-            DamageType.Electric => baseElectricResistance * (1 + dmgRes),
+            DamageType.Physic => CalculateResist(basePhysicDmgAmplification, dmgRes),
+            DamageType.Chaos => CalculateResist(baseChaosDmgAmplification, dmgRes),
+            DamageType.Fire => CalculateResist(baseFireDmgAmplification, dmgRes),
+            DamageType.Air => CalculateResist(baseAirDmgAmplification, dmgRes),
+            DamageType.Water => CalculateResist(baseWaterDmgAmplification, dmgRes),
+            DamageType.Cold => CalculateResist(baseColdDmgAmplification, dmgRes),
+            DamageType.Electric => CalculateResist(baseElectricDmgAmplification, dmgRes),
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
         };
+    }
+
+    private float CalculateResist(float baseRes, float bonusRes)
+    {
+        return Mathf.Clamp(1 - (baseRes + bonusRes), 0, 2);
+    }
+
+    public float GetEvasionChance()
+    {
+        var hitChance = 1 - baseEvasionChance;
+        foreach (var evasionAmplification in unit.GetAllGearPassives<EvasionAmplificationSO>())
+            hitChance *= 1 - evasionAmplification.EvasionChance;
+        
+        hitChance = Mathf.Clamp(hitChance, 0.05f, 1f);
+        
+        return 1 - hitChance;
     }
 }

@@ -11,6 +11,6 @@ public class DamageResistSO : PassiveSO
     
     public override string ToString()
     {
-        return $"Reduces incoming {DamageType} damage by {Value * 100}%.";
+        return $"Increases {DamageType} damage resist by {Value * 100}%.";
     }
 }
