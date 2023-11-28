@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 public class Enemy : Unit
 {
-    private Transform player;
+    protected Transform player;
 
     [Header("Enemy Setup")] 
     [SerializeField] private Transform spawnPont;
@@ -23,6 +23,9 @@ public class Enemy : Unit
     [SerializeField] protected LayerMask alliesLayer;
     [SerializeField] private float lostPlayerDelay;
     private float lostPlayerTimer;
+    
+    [SerializeField] protected float meleeAttackDuration;
+    [SerializeField] protected float meleeAttackPreparation;
 
     public bool CanMove => !IsStunned && !IsPushing;
     
@@ -57,8 +60,12 @@ public class Enemy : Unit
         RotateAttackDir();
         TryFlipVisual(agent.velocity.x);
         if (isPlayerInChasingRange)
-            moveTarget.position = player.transform.position;
-        else if (DistToMovePos() < agent.stoppingDistance)
+            lastMoveDir = player.position - transform.position;
+    }
+
+    protected void TryToReturnToSpawnPoint()
+    {
+        if (DistToTargetPos() < agent.stoppingDistance)
         {
             lostPlayerTimer -= Time.deltaTime;
             if (lostPlayerTimer <= 0)
@@ -67,6 +74,12 @@ public class Enemy : Unit
                 EnemyFSM.Trigger(StateEvent.StartChase);
             }
         }
+    }
+
+    protected void ChaseTarget()
+    {
+        if (isPlayerInChasingRange)
+            moveTarget.position = player.transform.position;
     }
 
     public override bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
@@ -179,6 +192,11 @@ public class Enemy : Unit
         attackDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
         if (dirToPlayer.y < 0) attackDirAngle *= -1;
     }
+
+    protected void ExecuteActiveAbility()
+    {
+        ExecuteActiveAbility(0);
+    }
     
     private void FollowPlayerSensor_OnPlayerEnter(Transform player)
     {
@@ -194,12 +212,13 @@ public class Enemy : Unit
     {
         moveTarget.position = lastKnownPosition;
         isPlayerInChasingRange = false;
+        player = null;
     }
 
     protected bool ShouldMelee(Transition<EnemyState> transition) =>
         attackCDTimer < 0
         && isPlayerInChasingRange
-        && DistToMovePos() <= GetWeapon().AttackDistance + 1
+        && DistToTargetPos() <= GetWeapon().AttackDistance + 1
         && !IsStunned
         && Physics2D
             .Raycast(transform.position,
@@ -207,6 +226,27 @@ public class Enemy : Unit
                 Mathf.Infinity,
                 AttackMask)
             .collider.TryGetComponent(out Player player);
+    
+    protected bool ShouldUseActiveAbility(Transition<EnemyState> transition) =>
+        ActiveAbilitiesCD[0] < 0
+        && CanUseActiveAbility(transition);
+    
+    protected bool CanUseActiveAbility(Transition<EnemyState> transition) =>
+        isPlayerInChasingRange
+        && CurrentMana >= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.ManaCost
+        && DistToTargetPos() <= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.AttackDistance + 1
+        && !IsStunned
+        && Physics2D
+            .Raycast(transform.position,
+                this.player.transform.position - transform.position,
+                Mathf.Infinity,
+                AttackMask)
+            .collider.TryGetComponent(out Player player);
+
+    protected bool CanNotUseActiveAbility(Transition<EnemyState> transition) => isPlayerInChasingRange && !CanUseActiveAbility(transition);
+
+    protected bool ShouldAttack(Transition<EnemyState> transition) =>
+        ShouldMelee(transition) || ShouldUseActiveAbility(transition);
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 
         CanMove
@@ -226,5 +266,11 @@ public class Enemy : Unit
     protected float DistToMovePos()
     {
         return Vector2.Distance(moveTarget.transform.position, transform.position);
+    }
+    
+    protected float DistToTargetPos()
+    {
+        if (!isPlayerInChasingRange) return DistToMovePos();
+        return Vector2.Distance(player.transform.position, transform.position);
     }
 }

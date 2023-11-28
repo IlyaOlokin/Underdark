@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityHFSM;
 
-public class MeleeEnemy : Enemy
+public class MeleeAbilityEnemy : Enemy
 {
     protected override void Awake()
     {
@@ -20,6 +20,7 @@ public class MeleeEnemy : Enemy
         EnemyFSM.AddState(EnemyState.Chase, new ChaseState(true, this, moveTarget, ChaseTarget));
         // base attack
         EnemyFSM.AddState(EnemyState.AttackPrep, new BaseAttackPrepState(true, this, unitVisual.StartAlert, meleeAttackPreparation));
+        EnemyFSM.AddState(EnemyState.ActiveAbilityExecute, new ActiveAbilityExecuteState(true, this, ExecuteActiveAbility, meleeAttackDuration));
         EnemyFSM.AddState(EnemyState.BaseAttack, new BaseAttackState(true, this, Attack, meleeAttackDuration));
     }
     
@@ -36,17 +37,24 @@ public class MeleeEnemy : Enemy
             (transition) => !isPlayerInChasingRange
                             && Vector3.Distance(moveTarget.transform.position, transform.position) <= agent.stoppingDistance)
         );
+        
 
-        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase, EnemyState.AttackPrep, ShouldMelee,
+        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase, EnemyState.AttackPrep, ShouldAttack,
             forceInstantly: true));
-        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle, EnemyState.AttackPrep, ShouldMelee,
+        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle, EnemyState.AttackPrep, ShouldAttack,
             forceInstantly: true));
+        
+        
+        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.ActiveAbilityExecute, EnemyState.Chase, IsNotWithinIdleRange));
+        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.ActiveAbilityExecute, EnemyState.Idle, IsWithinIdleRange));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.BaseAttack, EnemyState.Chase, IsNotWithinIdleRange));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.BaseAttack, EnemyState.Idle, IsWithinIdleRange));
-        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.AttackPrep, EnemyState.BaseAttack));
-
+        
         
         // stun
+        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.AttackPrep, EnemyState.ActiveAbilityExecute, ShouldUseActiveAbility));
+        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.AttackPrep, EnemyState.BaseAttack, ShouldMelee));
+
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.AttackPrep, EnemyState.Idle, IsUnitStunned,
             forceInstantly: true));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.BaseAttack, EnemyState.Idle, IsUnitStunned,
