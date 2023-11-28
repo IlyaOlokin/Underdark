@@ -1099,7 +1099,7 @@ MonoBehaviour:
     baseWaterResistance: 0
     baseColdResistance: 0
     baseElectricResistance: 0
-    baseEvasionChance: 15
+    baseEvasionChance: 0.15
   baseMaxHP: 30
   baseMaxMana: 0
   regenPercent: 0.01
@@ -1125,9 +1125,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   lostPlayerDelay: 5
-  expPerLevel: 5
   meleeAttackDuration: 0.4
   meleeAttackPreparation: 0.5
+  expPerLevel: 5
 --- !u!114 &5577980821815337067
 MonoBehaviour:
   m_ObjectHideFlags: 0

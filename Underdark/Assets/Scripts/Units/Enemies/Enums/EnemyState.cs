@@ -7,6 +7,6 @@ public enum EnemyState
     Idle,
     Chase,
     BaseAttack,
-    BaseAttackPrep,
+    AttackPrep,
     ActiveAbilityExecute
 }
