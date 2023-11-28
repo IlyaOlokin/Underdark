@@ -51,6 +51,7 @@ namespace LlamAcademy.FSM
             {
                 fsm.StateCanExit();
             }
+            onLogic?.Invoke();
         }
 
         public override void OnExitRequest()

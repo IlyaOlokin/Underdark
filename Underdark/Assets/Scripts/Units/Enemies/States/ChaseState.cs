@@ -8,7 +8,7 @@ public class ChaseState : EnemyStateBase
     private Transform target;
     private Enemy enemy;
 
-    public ChaseState(bool needsExitTime, Enemy Enemy, Transform Target) : base(needsExitTime, Enemy) 
+    public ChaseState(bool needsExitTime, Enemy Enemy, Transform Target, Action onLogic) : base(needsExitTime, Enemy, onLogic: onLogic) 
     {
         target = Target;
         enemy = Enemy;
