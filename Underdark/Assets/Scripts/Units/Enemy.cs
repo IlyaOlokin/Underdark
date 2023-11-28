@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 public class Enemy : Unit
 {
-    private Transform player;
+    protected Transform player;
 
     [Header("Enemy Setup")] 
     [SerializeField] private Transform spawnPont;
@@ -23,6 +23,9 @@ public class Enemy : Unit
     [SerializeField] protected LayerMask alliesLayer;
     [SerializeField] private float lostPlayerDelay;
     private float lostPlayerTimer;
+    
+    [SerializeField] protected float meleeAttackDuration;
+    [SerializeField] protected float meleeAttackPreparation;
 
     public bool CanMove => !IsStunned && !IsPushing;
     
@@ -56,9 +59,12 @@ public class Enemy : Unit
         EnemyFSM.OnLogic();
         RotateAttackDir();
         TryFlipVisual(agent.velocity.x);
-        if (isPlayerInChasingRange)
-            moveTarget.position = player.transform.position;
-        else if (DistToMovePos() < agent.stoppingDistance)
+        Debug.Log(EnemyFSM.ActiveStateName);
+    }
+
+    protected void TryToReturnToSpawnPoint()
+    {
+        if (DistToTargetPos() < agent.stoppingDistance)
         {
             lostPlayerTimer -= Time.deltaTime;
             if (lostPlayerTimer <= 0)
@@ -67,6 +73,12 @@ public class Enemy : Unit
                 EnemyFSM.Trigger(StateEvent.StartChase);
             }
         }
+    }
+
+    protected void ChaseTarget()
+    {
+        if (isPlayerInChasingRange)
+            moveTarget.position = player.transform.position;
     }
 
     public override bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
@@ -204,7 +216,7 @@ public class Enemy : Unit
     protected bool ShouldMelee(Transition<EnemyState> transition) =>
         attackCDTimer < 0
         && isPlayerInChasingRange
-        && DistToMovePos() <= GetWeapon().AttackDistance + 1
+        && DistToTargetPos() <= GetWeapon().AttackDistance + 1
         && !IsStunned
         && Physics2D
             .Raycast(transform.position,
@@ -215,9 +227,12 @@ public class Enemy : Unit
     
     protected bool ShouldUseActiveAbility(Transition<EnemyState> transition) =>
         ActiveAbilitiesCD[0] < 0
-        && isPlayerInChasingRange
+        && CanUseActiveAbility(transition);
+    
+    protected bool CanUseActiveAbility(Transition<EnemyState> transition) =>
+        isPlayerInChasingRange
         && CurrentMana >= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.ManaCost
-        && DistToMovePos() <= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.AttackDistance + 1
+        && DistToTargetPos() <= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.AttackDistance + 1
         && !IsStunned
         && Physics2D
             .Raycast(transform.position,
@@ -225,6 +240,8 @@ public class Enemy : Unit
                 Mathf.Infinity,
                 AttackMask)
             .collider.TryGetComponent(out Player player);
+
+    protected bool CanNotUseActiveAbility(Transition<EnemyState> transition) => !CanUseActiveAbility(transition);
 
     protected bool ShouldAttack(Transition<EnemyState> transition) =>
         ShouldMelee(transition) || ShouldUseActiveAbility(transition);
@@ -247,5 +264,11 @@ public class Enemy : Unit
     protected float DistToMovePos()
     {
         return Vector2.Distance(moveTarget.transform.position, transform.position);
+    }
+    
+    protected float DistToTargetPos()
+    {
+        if (!isPlayerInChasingRange) return DistToMovePos();
+        return Vector2.Distance(player.transform.position, transform.position);
     }
 }

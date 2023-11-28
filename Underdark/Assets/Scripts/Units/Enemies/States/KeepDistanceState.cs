@@ -1,19 +1,20 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using LlamAcademy.FSM;
 using UnityEngine;
 using UnityHFSM;
 
-public class ChaseState : EnemyStateBase
+public class KeepDistanceState : EnemyStateBase
 {
     private Transform target;
     private Enemy enemy;
-
-    public ChaseState(bool needsExitTime, Enemy Enemy, Transform Target, Action onLogic) : base(needsExitTime, Enemy, onLogic: onLogic) 
+    
+    public KeepDistanceState(bool needsExitTime, Enemy Enemy, Transform Target, Action onLogic) : base(needsExitTime, Enemy, onLogic: onLogic)
     {
         target = Target;
-        enemy = Enemy;
     }
-
+    
     public override void OnEnter()
     {
         base.OnEnter();

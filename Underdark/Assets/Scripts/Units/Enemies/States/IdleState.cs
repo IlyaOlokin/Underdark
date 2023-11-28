@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class IdleState : EnemyStateBase
 {
-    public IdleState(bool needsExitTime, Enemy Enemy) : base(needsExitTime, Enemy) { }
+    public IdleState(bool needsExitTime, Enemy Enemy, Action onLogic) : base(needsExitTime, Enemy, onLogic: onLogic) { }
     
     public override void OnEnter()
     {

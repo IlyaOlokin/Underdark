@@ -3,9 +3,6 @@ using UnityHFSM;
 
 public class MeleeEnemy : Enemy
 {
-    [SerializeField] private float meleeAttackDuration;
-    [SerializeField] private float meleeAttackPreparation;
-    
     protected override void Awake()
     {
         base.Awake();
@@ -19,8 +16,8 @@ public class MeleeEnemy : Enemy
     private void AddStates()
     {
         // idle chase
-        EnemyFSM.AddState(EnemyState.Idle, new IdleState(false, this));
-        EnemyFSM.AddState(EnemyState.Chase, new ChaseState(true, this, moveTarget));
+        EnemyFSM.AddState(EnemyState.Idle, new IdleState(false, this, TryToReturnToSpawnPoint));
+        EnemyFSM.AddState(EnemyState.Chase, new ChaseState(true, this, moveTarget, ChaseTarget));
         // base attack
         EnemyFSM.AddState(EnemyState.AttackPrep, new BaseAttackPrepState(true, this, unitVisual.StartAlert, meleeAttackPreparation));
         EnemyFSM.AddState(EnemyState.BaseAttack, new BaseAttackState(true, this, Attack, meleeAttackDuration));
@@ -40,7 +37,7 @@ public class MeleeEnemy : Enemy
                             && Vector3.Distance(moveTarget.transform.position, transform.position) <= agent.stoppingDistance)
         );
 
-        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase, EnemyState.AttackPrep, ShouldMelee ,
+        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase, EnemyState.AttackPrep, ShouldMelee,
             forceInstantly: true));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle, EnemyState.AttackPrep, ShouldMelee,
             forceInstantly: true));
@@ -48,6 +45,8 @@ public class MeleeEnemy : Enemy
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.BaseAttack, EnemyState.Idle, IsWithinIdleRange));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.AttackPrep, EnemyState.BaseAttack));
 
+        
+        // stun
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.AttackPrep, EnemyState.Idle, IsUnitStunned,
             forceInstantly: true));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.BaseAttack, EnemyState.Idle, IsUnitStunned,

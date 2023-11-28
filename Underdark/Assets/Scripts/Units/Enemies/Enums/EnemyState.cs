@@ -8,5 +8,6 @@ public enum EnemyState
     Chase,
     BaseAttack,
     AttackPrep,
-    ActiveAbilityExecute
+    ActiveAbilityExecute,
+    KeepDistance
 }
