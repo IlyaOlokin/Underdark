@@ -56,8 +56,9 @@ public class RangeEnemy : Enemy
 
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase, EnemyState.AttackPrep, ShouldMelee,
             forceInstantly: true));
-        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle, EnemyState.AttackPrep, ShouldUseActiveAbility,
+        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle, EnemyState.Chase, IsCloseEnoughToForceMelee,
             forceInstantly: true));
+        
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.KeepDistance, EnemyState.AttackPrep, ShouldUseActiveAbility,
             forceInstantly: true));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.KeepDistance, EnemyState.Chase, IsCloseEnoughToForceMelee,
@@ -75,9 +76,8 @@ public class RangeEnemy : Enemy
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.BaseAttack, EnemyState.Chase, IsNotWithinIdleRange));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.BaseAttack, EnemyState.Idle, IsWithinIdleRange));
         
-        
-        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.AttackPrep, EnemyState.ActiveAbilityExecute, ShouldUseActiveAbility));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.AttackPrep, EnemyState.BaseAttack, ShouldMelee));
+        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.AttackPrep, EnemyState.ActiveAbilityExecute, ShouldUseActiveAbility));
 
         
         // stun

@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7c00ea4006710ea4994e82ed1d0387ac, type: 3}
-  m_Color: {r: 0.5283019, g: 0.33841226, b: 0.21181916, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -196,15 +196,13 @@ MonoBehaviour:
   CastTime: 0.1
   cooldown: 1
   ManaCost: 5
-  attackMask:
-    serializedVersion: 2
-    m_Bits: 72
   <NeedOverrideWithWeaponStats>k__BackingField: 0
   <AttackDistance>k__BackingField: 10
   <AttackAngle>k__BackingField: 60
   maxValue: 50
   statMultiplier: 3
   baseStat: 1
+  damageType: 0
   validWeaponTypes: 05000000
   debuffInfos:
   - {fileID: 11400000, guid: 79781878cac3dc04aa80e53098438616, type: 2}

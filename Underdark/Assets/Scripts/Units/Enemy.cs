@@ -59,7 +59,8 @@ public class Enemy : Unit
         EnemyFSM.OnLogic();
         RotateAttackDir();
         TryFlipVisual(agent.velocity.x);
-        Debug.Log(EnemyFSM.ActiveStateName);
+        if (isPlayerInChasingRange)
+            lastMoveDir = player.position - transform.position;
     }
 
     protected void TryToReturnToSpawnPoint()
@@ -211,6 +212,7 @@ public class Enemy : Unit
     {
         moveTarget.position = lastKnownPosition;
         isPlayerInChasingRange = false;
+        player = null;
     }
 
     protected bool ShouldMelee(Transition<EnemyState> transition) =>
@@ -241,7 +243,7 @@ public class Enemy : Unit
                 AttackMask)
             .collider.TryGetComponent(out Player player);
 
-    protected bool CanNotUseActiveAbility(Transition<EnemyState> transition) => !CanUseActiveAbility(transition);
+    protected bool CanNotUseActiveAbility(Transition<EnemyState> transition) => isPlayerInChasingRange && !CanUseActiveAbility(transition);
 
     protected bool ShouldAttack(Transition<EnemyState> transition) =>
         ShouldMelee(transition) || ShouldUseActiveAbility(transition);
