@@ -1144,10 +1144,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   droppedItemPref: {fileID: 7200458106229667149, guid: d11e455e2eba1fc4eb9546ce5859c796, type: 3}
   drop:
-  - Item: {fileID: 11400000, guid: af8443f1122a1fe46a59550235772cb5, type: 2}
+  - Item: {fileID: 11400000, guid: 55886dc31b3a814438e4faeb0b9a00e7, type: 2}
     ItemAmount: 1
     ChanceToDropLeft: 0
-    ChanceToDropRight: 0.5
+    ChanceToDropRight: 0.4
+  - Item: {fileID: 11400000, guid: ec10e58ca5581f14e9ee73b0bd1c1eb3, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0
+    ChanceToDropRight: 0.2
 --- !u!114 &5290106731956819956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1164,7 +1168,7 @@ MonoBehaviour:
   body: {fileID: 11400000, guid: ec10e58ca5581f14e9ee73b0bd1c1eb3, type: 2}
   legs: {fileID: 0}
   shield: {fileID: 0}
-  weapon: {fileID: 11400000, guid: af8443f1122a1fe46a59550235772cb5, type: 2}
+  weapon: {fileID: 11400000, guid: 55886dc31b3a814438e4faeb0b9a00e7, type: 2}
   executableItems: []
   activeAbilities:
   - {fileID: 11400000, guid: 3040a874303b68b4f8923bc4ac75cb92, type: 2}
