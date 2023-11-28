@@ -11,10 +11,10 @@ using Random = UnityEngine.Random;
 
 public class Enemy : Unit
 {
-    protected Transform player;
+    private Transform player;
 
     [Header("Enemy Setup")] 
-    [SerializeField] protected Transform spawnPont;
+    [SerializeField] private Transform spawnPont;
     [SerializeField] protected Transform moveTarget;
     [SerializeField] protected NavMeshAgent agent;
     protected StateMachine<EnemyState, StateEvent> EnemyFSM;
@@ -22,10 +22,7 @@ public class Enemy : Unit
     [SerializeField] protected Collider2D allySensor;
     [SerializeField] protected LayerMask alliesLayer;
     [SerializeField] private float lostPlayerDelay;
-    protected float lostPlayerTimer;
-    
-    [SerializeField] protected float meleeAttackDuration;
-    [SerializeField] protected float meleeAttackPreparation;
+    private float lostPlayerTimer;
 
     public bool CanMove => !IsStunned && !IsPushing;
     
@@ -59,8 +56,9 @@ public class Enemy : Unit
         EnemyFSM.OnLogic();
         RotateAttackDir();
         TryFlipVisual(agent.velocity.x);
-
-        if (!isPlayerInChasingRange && DistToTargetPos() < agent.stoppingDistance)
+        if (isPlayerInChasingRange)
+            moveTarget.position = player.transform.position;
+        else if (DistToMovePos() < agent.stoppingDistance)
         {
             lostPlayerTimer -= Time.deltaTime;
             if (lostPlayerTimer <= 0)
@@ -69,13 +67,6 @@ public class Enemy : Unit
                 EnemyFSM.Trigger(StateEvent.StartChase);
             }
         }
-        Debug.Log(EnemyFSM.ActiveState.name);
-    }
-
-    protected virtual void ChooseMoveTargetPos()
-    {
-        if (isPlayerInChasingRange)
-            moveTarget.position = player.transform.position;
     }
 
     public override bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
@@ -184,10 +175,7 @@ public class Enemy : Unit
     }
     private void RotateAttackDir()
     {
-        Vector3 dirToPlayer;
-        if (isPlayerInChasingRange) dirToPlayer = player.transform.position - transform.position;
-        else dirToPlayer = moveTarget.transform.position - transform.position;
-        
+        var dirToPlayer = moveTarget.transform.position - transform.position;
         attackDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
         if (dirToPlayer.y < 0) attackDirAngle *= -1;
     }
@@ -199,7 +187,7 @@ public class Enemy : Unit
     
     private void FollowPlayerSensor_OnPlayerEnter(Transform player)
     {
-        //moveTarget.position = player.position;
+        moveTarget.position = player.position;
         EnemyFSM.Trigger(StateEvent.StartChase);
         isPlayerInChasingRange = true;
         this.player = player;
@@ -211,13 +199,12 @@ public class Enemy : Unit
     {
         moveTarget.position = lastKnownPosition;
         isPlayerInChasingRange = false;
-        player = null;
     }
 
-    protected virtual bool ShouldMelee(Transition<EnemyState> transition) =>
+    protected bool ShouldMelee(Transition<EnemyState> transition) =>
         attackCDTimer < 0
         && isPlayerInChasingRange
-        && DistToTargetPos() <= GetWeapon().AttackDistance + 1
+        && DistToMovePos() <= GetWeapon().AttackDistance + 1
         && !IsStunned
         && Physics2D
             .Raycast(transform.position,
@@ -225,15 +212,12 @@ public class Enemy : Unit
                 Mathf.Infinity,
                 AttackMask)
             .collider.TryGetComponent(out Player player);
-
+    
     protected bool ShouldUseActiveAbility(Transition<EnemyState> transition) =>
         ActiveAbilitiesCD[0] < 0
-        && CanUseActiveAbility(transition);
-    
-    protected virtual bool CanUseActiveAbility(Transition<EnemyState> transition) =>
-        isPlayerInChasingRange
+        && isPlayerInChasingRange
         && CurrentMana >= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.ManaCost
-        && DistToTargetPos() <= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.AttackDistance + 1
+        && DistToMovePos() <= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.AttackDistance + 1
         && !IsStunned
         && Physics2D
             .Raycast(transform.position,
@@ -262,13 +246,6 @@ public class Enemy : Unit
 
     protected float DistToMovePos()
     {
-        var a = Vector2.Distance(moveTarget.transform.position, transform.position);
         return Vector2.Distance(moveTarget.transform.position, transform.position);
-    }
-    
-    protected float DistToTargetPos()
-    {
-        if (!isPlayerInChasingRange) return DistToMovePos();
-        return Vector2.Distance(player.transform.position, transform.position);
     }
 }

@@ -3,6 +3,9 @@ using UnityHFSM;
 
 public class MeleeAbilityEnemy : Enemy
 {
+    [SerializeField] private float meleeAttackDuration;
+    [SerializeField] private float meleeAttackPreparation;
+    
     protected override void Awake()
     {
         base.Awake();
@@ -17,7 +20,7 @@ public class MeleeAbilityEnemy : Enemy
     {
         // idle chase
         EnemyFSM.AddState(EnemyState.Idle, new IdleState(false, this));
-        EnemyFSM.AddState(EnemyState.Chase, new ChaseState(true, this, moveTarget, ChooseMoveTargetPos));
+        EnemyFSM.AddState(EnemyState.Chase, new ChaseState(true, this, moveTarget));
         // base attack
         EnemyFSM.AddState(EnemyState.AttackPrep, new BaseAttackPrepState(true, this, unitVisual.StartAlert, meleeAttackPreparation));
         EnemyFSM.AddState(EnemyState.ActiveAbilityExecute, new ActiveAbilityExecuteState(true, this, ExecuteActiveAbility, meleeAttackDuration));
