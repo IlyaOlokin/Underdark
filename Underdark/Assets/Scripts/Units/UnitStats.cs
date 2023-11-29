@@ -18,10 +18,10 @@ public class UnitStats
     public int BonusDexterity { get; set; }
     public int BonusIntelligence { get; set; }
 
-    public int StrDex => Strength + Dexterity;
-    public int DexInt => Dexterity + Intelligence;
-    public int IntStr => Intelligence + Strength;
-    public int AllStats => Strength + Dexterity + Intelligence;
+    public int StrDex => GetTotalStatValue(BaseStat.Strength) + GetTotalStatValue(BaseStat.Dexterity);
+    public int DexInt => GetTotalStatValue(BaseStat.Dexterity) + GetTotalStatValue(BaseStat.Intelligence);
+    public int IntStr => GetTotalStatValue(BaseStat.Intelligence) + GetTotalStatValue(BaseStat.Strength);
+    public int AllStats => GetTotalStatValue(BaseStat.Strength) + GetTotalStatValue(BaseStat.Dexterity) + GetTotalStatValue(BaseStat.Intelligence);
 
     public event Action<bool> OnStatsChanged;
     public event Action OnLevelUp;

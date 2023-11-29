@@ -141,6 +141,7 @@ public class Enemy : Unit
     }
     public override void ApplySlow(float slow)
     {
+        base.ApplySlow(slow);
         agent.speed = MoveSpeed / slow;
     }
     

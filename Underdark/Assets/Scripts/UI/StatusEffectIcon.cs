@@ -27,6 +27,7 @@ public class StatusEffectIcon : MonoBehaviour
         durationIndicator.color = statusEffect switch
         {
             Debuff debuff => debuffColor,
+            Buff buff => buffColor,
             _ => buffColor
         };
     }
