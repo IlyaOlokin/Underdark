@@ -139,6 +139,7 @@ public class UnitStats
             default:
                 throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null);
         }
+        OnStatsChanged?.Invoke(false);
     }
     
     public static string GetStatString(BaseStat baseStat)

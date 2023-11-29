@@ -146,7 +146,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     protected void SetMana(bool toFull = false)
     {
         float currentPart = CurrentMana / (float) MaxMana;
-        MaxMana = baseMaxMana + Stats.Intelligence * 10;
+        MaxMana = baseMaxMana + Stats.GetTotalStatValue(BaseStat.Intelligence) * 10;
         OnMaxManaChanged?.Invoke(MaxMana); 
 
         if (toFull)
@@ -158,7 +158,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     protected void SetHP(bool toFull = false)
     {
         float currentPart = CurrentHP / (float) MaxHP;
-        MaxHP = baseMaxHP + Stats.Strength * 10;
+        MaxHP = baseMaxHP + Stats.GetTotalStatValue(BaseStat.Strength) * 10;
         OnMaxHealthChanged?.Invoke(MaxHP);
         
         if (toFull)
@@ -468,7 +468,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
                     GetArmorAmount(ItemType.Legs) + 
                     GetArmorAmount(ItemType.Shield);
 
-        armor += Stats.Dexterity / 2;
+        armor += Stats.GetTotalStatValue(BaseStat.Dexterity) / 2;
         return armor;
     }
 
