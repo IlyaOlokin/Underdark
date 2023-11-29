@@ -25,11 +25,15 @@ public class UnitParams
     [SerializeField] public float baseElectricResistance;
 
     [Header("Evasion")] 
-    [SerializeField] private float baseEvasionChance;
+    private float baseEvasionChance;
+
+    public float SlowAmount { get; private set; }
+    public float AllDmgAmplification { get; private set; }
 
     public void SetUnit(Unit unit)
     {
         this.unit = unit;
+        ApplySlow(1f);
     }
 
     public float GetDamageAmplification(DamageType damageType)
@@ -46,13 +50,13 @@ public class UnitParams
         
         return damageType switch
         {
-            DamageType.Physic => basePhysicDmgAmplification + dmgAmpl + 1,
-            DamageType.Chaos => baseChaosDmgAmplification + dmgAmpl + 1,
-            DamageType.Fire => baseFireDmgAmplification + dmgAmpl + 1,
-            DamageType.Air => baseAirDmgAmplification + dmgAmpl + 1,
-            DamageType.Water => baseWaterDmgAmplification + dmgAmpl + 1,
-            DamageType.Cold => baseColdDmgAmplification + dmgAmpl + 1,
-            DamageType.Electric => baseElectricDmgAmplification + dmgAmpl + 1,
+            DamageType.Physic => (basePhysicDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Chaos => (baseChaosDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Fire => (baseFireDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Air => (baseAirDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Water => (baseWaterDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Cold => (baseColdDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Electric => (baseElectricDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
         };
     }
@@ -96,5 +100,15 @@ public class UnitParams
         hitChance = Mathf.Clamp(hitChance, 0.05f, 1f);
         
         return 1 - hitChance;
+    }
+
+    public void ApplySlow(float slow)
+    {
+        SlowAmount = slow;
+    }
+
+    public void AddAllDamageAmplification(float dmgAmplofocation)
+    {
+        AllDmgAmplification += dmgAmplofocation;
     }
 }

@@ -104,7 +104,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     private float manaRegenBuffer;
     
     // Unit Multipliers
-    protected float slowAmount = 1;
 
     protected virtual void Awake()
     {
@@ -131,9 +130,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         GetUnStunned();
         EndPush();
         LooseEnergyShield();
-        foreach (var debuff in GetComponents<IStatusEffect>())
+        foreach (var buffs in GetComponents<IStatusEffect>())
         {
-            Destroy((Object)debuff);
+            Destroy((Object)buffs);
         }
     }
 
@@ -174,7 +173,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         for (var index = 0; index < ActiveAbilitiesCD.Count; index++)
         {
-            ActiveAbilitiesCD[index] -= Time.deltaTime / slowAmount;
+            ActiveAbilitiesCD[index] -= Time.deltaTime / Params.SlowAmount;
         }
     }
 
@@ -339,8 +338,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     
     public virtual void ApplySlow(float slow)
     {
-        slowAmount = slow;
+        Params.ApplySlow(slow);
     }
+    
     public void GetBashed(BashInfo bashInfo)
     {
         if (Random.Range(0f, 1f) > bashInfo.chance) return;
@@ -482,7 +482,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         if (IsStunned || IsPushing) return;
         
-        rb.MovePosition(rb.position + (Vector2)dir * (MoveSpeed / slowAmount) * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + (Vector2)dir * (MoveSpeed / Params.SlowAmount) * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
             lastMoveDir = dir;
         TryFlipVisual(dir.x);
