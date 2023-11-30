@@ -27,6 +27,7 @@ MonoBehaviour:
     <IntStr>k__BackingField: 0
     <AllStats>k__BackingField: 0
   Damage:
+    <DamageType>k__BackingField: 0
     minDamage: 1
     maxDamage: 1
   WeaponType: 0
@@ -34,4 +35,5 @@ MonoBehaviour:
   AttackDistance: 2
   ArmorPierce: 0
   DebuffInfos:
-  - {fileID: 11400000, guid: cde44a917081450458e975a2fc221eeb, type: 2}
+  - {fileID: 11400000, guid: eca38c131d7163d4a803dfd2874f9768, type: 2}
+  <Passives>k__BackingField: []

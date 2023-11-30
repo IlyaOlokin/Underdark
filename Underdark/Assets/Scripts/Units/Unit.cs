@@ -297,30 +297,13 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         unitVisual.DeactivateEnergyShieldVisual();
     }
 
-    public void GetPoisoned(PoisonInfo poisonInfo, Unit caster, GameObject visual, Sprite effectIcon)
+    public void GetHarmOverTime(HarmInfo harmInfo, Unit caster, GameObject visual, Sprite effectIcon)
     {
-        if (Random.Range(0f, 1f) > poisonInfo.chance) return;
+        if (Random.Range(0f, 1f) > harmInfo.chance) return;
         
-        var newPoison = gameObject.AddComponent<Poison>();
-        newPoison.Init(poisonInfo, this, caster, visual, effectIcon);
+        var newPoison = gameObject.AddComponent<HarmOverTime>();
+        newPoison.Init(harmInfo, this, caster, visual, effectIcon);
         ReceiveStatusEffect(newPoison);
-    }
-    public void GetBleed(BleedInfo bleedInfo, Unit caster, GameObject visual, Sprite effectIcon)
-    {
-        if (Random.Range(0f, 1f) > bleedInfo.chance) return;
-        
-        var newBleed = gameObject.AddComponent<Bleed>();
-        newBleed.Init(bleedInfo, this, caster, visual, effectIcon);
-        ReceiveStatusEffect(newBleed);
-    }
-    
-    public void GetManaDrain(ManaDrainInfo manaDrainInfo, Unit caster, GameObject visual, Sprite effectIcon)
-    {
-        if (Random.Range(0f, 1f) > manaDrainInfo.chance) return;
-        
-        var newBleed = gameObject.AddComponent<ManaDrain>();
-        newBleed.Init(manaDrainInfo, this, caster, visual, effectIcon);
-        ReceiveStatusEffect(newBleed);
     }
     
     public void GetSlowed(SlowInfo slowInfo, Sprite effectIcon)

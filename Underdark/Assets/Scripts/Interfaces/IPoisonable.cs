@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IPoisonable
 {
-    void GetPoisoned(PoisonInfo poisonInfo, Unit caster, GameObject visual);
+    void GetPoisoned(HarmInfo harmInfo, Unit caster, GameObject visual);
 }
