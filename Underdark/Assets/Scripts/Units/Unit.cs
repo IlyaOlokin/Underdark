@@ -314,6 +314,15 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         ReceiveStatusEffect(newBleed);
     }
     
+    public void GetManaDrain(ManaDrainInfo manaDrainInfo, Unit caster, GameObject visual, Sprite effectIcon)
+    {
+        if (Random.Range(0f, 1f) > manaDrainInfo.chance) return;
+        
+        var newBleed = gameObject.AddComponent<ManaDrain>();
+        newBleed.Init(manaDrainInfo, this, caster, visual, effectIcon);
+        ReceiveStatusEffect(newBleed);
+    }
+    
     public void GetSlowed(SlowInfo slowInfo, Sprite effectIcon)
     {
         if (Random.Range(0f, 1f) > slowInfo.chance) return;
