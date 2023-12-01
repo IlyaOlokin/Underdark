@@ -26,6 +26,7 @@ public class FastTravelUI : MonoBehaviour
             var levelTransition = buttons[i].GetComponent<LevelTransition>();
             levelTransition.SetScene(player, $"{sceneName}{i + 1}");
             buttons[i].onClick.AddListener(levelTransition.LoadLevel);
+            buttons[i].interactable = i < LevelTransition.MaxReachedLevel;
         }
         
         closeButton.onClick.AddListener(CloseWindow);

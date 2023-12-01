@@ -8,6 +8,8 @@ using UnityEngine.Serialization;
 
 public class LevelTransition : MonoBehaviour
 {
+    public static int MaxReachedLevel;
+    
     [SerializeField] private LoadMode loadSceneMode;
     [SerializeField] private string sceneName;
     private Player player;
@@ -29,6 +31,9 @@ public class LevelTransition : MonoBehaviour
 
     public void LoadLevel()
     {
+        if (loadSceneMode == LoadMode.Next && SceneManager.GetActiveScene().buildIndex + 1 > MaxReachedLevel)
+            MaxReachedLevel = SceneManager.GetActiveScene().buildIndex + 1;
+        
         DataLoader.SaveGame(player);
 
         SaveElixirCd(player);
