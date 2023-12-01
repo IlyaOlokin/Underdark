@@ -180,6 +180,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f88ccf534f365b444b2934823a4889f0, type: 3}
+--- !u!20 &128471841 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 5969097947368573849, guid: f88ccf534f365b444b2934823a4889f0, type: 3}
+  m_PrefabInstance: {fileID: 128471840}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &243906452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1327,6 +1332,7 @@ MonoBehaviour:
   playerUI: {fileID: 2095168996}
   playerInventoryUI: {fileID: 993232497}
   characterWindowUI: {fileID: 1133258638}
+  fastTravelUI: {fileID: 0}
 --- !u!114 &1979889099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1845,7 +1851,7 @@ PrefabInstance:
     - target: {fileID: 7485598055552460933, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
       propertyPath: m_Camera
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 128471841}
     - target: {fileID: 7680718151727031784, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: -317.41528

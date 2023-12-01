@@ -19,6 +19,7 @@ public class GameSceneInstaller : MonoInstaller
     
     [SerializeField] private InventoryUI playerInventoryUI;
     [SerializeField] private CharacterWindowUI characterWindowUI;
+    [SerializeField] private FastTravelUI fastTravelUI;
     
     public override void InstallBindings()
     {
@@ -29,6 +30,8 @@ public class GameSceneInstaller : MonoInstaller
         BindPlayerInputUI();
         BindInput();
         BindPlayer();
+
+        BindFastTravelUI();
     }
     
     private void BindPlayerInventoryUI()
@@ -39,6 +42,11 @@ public class GameSceneInstaller : MonoInstaller
     private void BindCharacterWindowUI()
     {
         Container.Bind<CharacterWindowUI>().FromInstance(characterWindowUI).AsSingle();
+    }
+    
+    private void BindFastTravelUI()
+    {
+        Container.Bind<FastTravelUI>().FromInstance(fastTravelUI).AsSingle();
     }
     
     private void BindPlayerUI()
