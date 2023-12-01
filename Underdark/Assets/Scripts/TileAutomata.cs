@@ -1,8 +1,5 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
-//using UnityEditor;
-using UnityEngine.Serialization;
 
 public class TileAutomata : MonoBehaviour
 {
@@ -53,7 +50,7 @@ public class TileAutomata : MonoBehaviour
     
     public void SaveAssetMap()
     {
-        string saveName = "tmapXY_" + mapSaveIndex;
+        string saveName = "Level" + mapSaveIndex;
         var mf = GameObject.Find("Grid");
         
         
@@ -76,7 +73,7 @@ public class TileAutomata : MonoBehaviour
     public void ClearMap(bool complete)
     {
         topMap.ClearAllTiles();
-        //botMap.ClearAllTiles();
+        botMap.ClearAllTiles();
         if (complete)
         {
             terrainMap = null;
