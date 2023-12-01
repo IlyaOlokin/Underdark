@@ -1,13 +1,13 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class LevelTransition : MonoBehaviour
 {
-    
-    
-    [SerializeField] private bool loadNextScene;
+    [SerializeField] private LoadMode loadSceneMode;
     [SerializeField] private string sceneName;
     
     private void OnTriggerEnter2D(Collider2D other)
@@ -18,10 +18,20 @@ public class LevelTransition : MonoBehaviour
 
             SaveElixirCd(player);
             
-            if (loadNextScene)
-                StaticSceneLoader.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            else
-                StaticSceneLoader.LoadScene(sceneName);
+            switch (loadSceneMode)
+            {
+                case LoadMode.Next:
+                    StaticSceneLoader.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+                    break;
+                case LoadMode.Previous:
+                    StaticSceneLoader.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+                    break;
+                case LoadMode.Custom:
+                    StaticSceneLoader.LoadScene(sceneName);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 
@@ -32,4 +42,11 @@ public class LevelTransition : MonoBehaviour
             ElixirStaticData.ElixirCD = elixir.Timer;
         }
     }
+}
+
+internal enum LoadMode
+{
+    Next,
+    Previous,
+    Custom
 }
