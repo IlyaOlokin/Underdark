@@ -75,18 +75,16 @@ MonoBehaviour:
   CastTime: 0.1
   cooldown: 10
   ManaCost: 0
-  attackMask:
-    serializedVersion: 2
-    m_Bits: 72
   <NeedOverrideWithWeaponStats>k__BackingField: 0
   <AttackDistance>k__BackingField: 2
   <AttackAngle>k__BackingField: 120
   maxValue: 100
   statMultiplier: 2
   baseStat: 3
+  damageType: 0
   validWeaponTypes: 0000000001000000
   debuffInfos:
-  - {fileID: 11400000, guid: fc228352a68d73e4496afa55dcf997d7, type: 2}
+  - {fileID: 11400000, guid: 5043a551c1dc0c84b9f7ee47e4367fc3, type: 2}
   needAutoDestroy: 1
   autoDestroyDelay: 0.5
   description: You make three quick attacks.

@@ -2,27 +2,28 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class Poison : Debuff
+public class HarmOverTime : Debuff
 {
-    private GameObject currentVisualPrefab;
-    private PoisonInfo poisonInfo;
-    private DamageInfo damageInfo = new();
+    public HarmInfo HarmInfo { get; private set; }
 
+    private GameObject currentVisualPrefab;
+    private DamageInfo damageInfo = new();
     
     private float dmgTimer;
     
-    public void Init(PoisonInfo poisonInfo, Unit receiver, Unit caster, GameObject visual, Sprite effectIcon)
+    public void Init(HarmInfo harmInfo, Unit receiver, Unit caster, GameObject visual, Sprite effectIcon)
     {
-        this.poisonInfo = poisonInfo;
+        this.HarmInfo = harmInfo;
         this.receiver = receiver;
         base.caster = caster;
         Icon = effectIcon;
-        dmgTimer = poisonInfo.DmgDelay;
-        Duration = poisonInfo.Duration;
+        dmgTimer = harmInfo.DmgDelay;
+        Duration = harmInfo.Duration;
         Timer = Duration;
         
-        damageInfo.AddDamage(this.poisonInfo.Damage, multiplier: caster.Params.GetDamageAmplification(DamageType.Physic));
+        damageInfo.AddDamage(this.HarmInfo.Damage, multiplier: caster.Params.GetDamageAmplification(DamageType.Physic));
 
         currentVisualPrefab = Instantiate(visual, transform.position, Quaternion.identity, transform);
     }
@@ -32,9 +33,9 @@ public class Poison : Debuff
         Timer -= Time.deltaTime;
         if (dmgTimer <= 0)
         {
-            receiver.TakeDamage(caster, caster, damageInfo, false, 1f);
-            receiver.SpendMana(poisonInfo.Damage);
-            dmgTimer = poisonInfo.DmgDelay;
+            if (HarmInfo.Damage != 0) receiver.TakeDamage(caster, caster, damageInfo, false, 1f);
+            if (HarmInfo.ManaDrainAmount != 0) receiver.SpendMana(HarmInfo.ManaDrainAmount);
+            dmgTimer = HarmInfo.DmgDelay;
         }
 
         if (Timer <= 0)

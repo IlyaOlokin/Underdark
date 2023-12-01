@@ -237,6 +237,7 @@ public class Enemy : Unit
         && CurrentMana >= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.ManaCost
         && DistToTargetPos() <= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.AttackDistance + 1
         && !IsStunned
+        && !IsSilenced
         && Physics2D
             .Raycast(transform.position,
                 this.player.transform.position - transform.position,

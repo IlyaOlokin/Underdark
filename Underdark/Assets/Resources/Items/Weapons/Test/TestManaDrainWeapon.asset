@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce3d00c96bc6aa44e881e146998641af, type: 3}
-  m_Name: TestBleedWeapon
+  m_Name: TestManaDrainWeapon
   m_EditorClassIdentifier: 
-  ID: empty2
+  ID: empty8
   Name: 
   ItemType: 4
   Sprite: {fileID: 0}
@@ -35,5 +35,5 @@ MonoBehaviour:
   AttackDistance: 2
   ArmorPierce: 0
   DebuffInfos:
-  - {fileID: 11400000, guid: eca38c131d7163d4a803dfd2874f9768, type: 2}
+  - {fileID: 11400000, guid: c1139b93bc2a29f4899fd76c841c3cfe, type: 2}
   <Passives>k__BackingField: []

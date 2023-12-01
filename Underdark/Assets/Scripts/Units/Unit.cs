@@ -20,6 +20,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     private bool isFrozen;
     protected bool IsStunned => isStunned || isFrozen;
     protected bool IsPushing { get; private set; }
+    public bool IsSilenced { get; private set; }
+    public event Action OnIsSilenceChanged;
 
     [SerializeField] private int baseMaxHP;
     public int MaxHP { get; private set; }
@@ -102,8 +104,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     private float actionCDTimer;
     private float hpRegenBuffer;
     private float manaRegenBuffer;
-    
-    // Unit Multipliers
 
     protected virtual void Awake()
     {
@@ -297,21 +297,13 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         unitVisual.DeactivateEnergyShieldVisual();
     }
 
-    public void GetPoisoned(PoisonInfo poisonInfo, Unit caster, GameObject visual, Sprite effectIcon)
+    public void GetHarmOverTime(HarmInfo harmInfo, Unit caster, GameObject visual, Sprite effectIcon)
     {
-        if (Random.Range(0f, 1f) > poisonInfo.chance) return;
+        if (Random.Range(0f, 1f) > harmInfo.chance) return;
         
-        var newPoison = gameObject.AddComponent<Poison>();
-        newPoison.Init(poisonInfo, this, caster, visual, effectIcon);
+        var newPoison = gameObject.AddComponent<HarmOverTime>();
+        newPoison.Init(harmInfo, this, caster, visual, effectIcon);
         ReceiveStatusEffect(newPoison);
-    }
-    public void GetBleed(BleedInfo bleedInfo, Unit caster, GameObject visual, Sprite effectIcon)
-    {
-        if (Random.Range(0f, 1f) > bleedInfo.chance) return;
-        
-        var newBleed = gameObject.AddComponent<Bleed>();
-        newBleed.Init(bleedInfo, this, caster, visual, effectIcon);
-        ReceiveStatusEffect(newBleed);
     }
     
     public void GetSlowed(SlowInfo slowInfo, Sprite effectIcon)
@@ -405,13 +397,46 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         isFrozen = false;
     }
     
+    public void GetSilence(SilenceInfo silenceInfo, Sprite effectIcon)
+    {
+        if (Random.Range(0f, 1f) > silenceInfo.chance) return;
+
+        if (transform.TryGetComponent(out Silence silenceComponent))
+        {
+            if (silenceComponent.Timer > silenceInfo.Duration) return;
+            
+            EndSilence();
+            Destroy(silenceComponent);
+        }
+        
+        StartSilence();
+        var newSilence = gameObject.AddComponent<Silence>();
+        newSilence.Init(silenceInfo.Duration, this, effectIcon);
+        ReceiveStatusEffect(newSilence);
+    }
+    
+    private void StartSilence()
+    {
+        IsSilenced = true;
+        OnIsSilenceChanged?.Invoke();
+    }
+    
+    public void EndSilence()
+    {
+        IsSilenced = false;
+        OnIsSilenceChanged?.Invoke();
+    }
+    
     public virtual bool GetPushed(PushInfo pushInfo, Vector2 pushDir, Sprite effectIcon)
     {
         if (Random.Range(0f, 1f) > pushInfo.chance) return false;
 
         StartPush();
         if (transform.TryGetComponent(out Push pushComponent))
+        {
+            EndPush();
             Destroy(pushComponent);
+        }
         
         var newPush = gameObject.AddComponent<Push>();
         newPush.Init(pushInfo.PushDuration, this, effectIcon);
@@ -518,7 +543,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public void ExecuteActiveAbility(int index)
     {
-        if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsStunned || Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
+        if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsStunned || IsSilenced || Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
         ActiveAbility activeAbility = Inventory.GetEquippedActiveAbility(index);
         if (activeAbility.ManaCost > CurrentMana) return;
 

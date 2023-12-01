@@ -61,6 +61,7 @@ public class PlayerInputUI : MonoBehaviour
         
         player.Inventory.OnEquipmentChanged += CheckActiveAbilitiesRequirements;
         player.OnManaChanged += CheckActiveAbilitiesManaCost;
+        player.OnIsSilenceChanged += UpdateEquippedAbilities;
        
         UpdateEquippedAbilities();
     }
@@ -86,7 +87,7 @@ public class PlayerInputUI : MonoBehaviour
         abilitiesCDMax = new List<float>();
         for (int i = 0; i < player.Inventory.EquippedActiveAbilitySlots.Count; i++)
         {
-            activeAbilityButtons[i].Button.interactable = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
+            activeAbilityButtons[i].Button.interactable = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty && !player.IsSilenced;
             buttonsIcons[i].enabled = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
             manaCost[i].gameObject.SetActive(!(player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty || player.Inventory.GetEquippedActiveAbility(i).ManaCost == 0));
             
@@ -106,6 +107,11 @@ public class PlayerInputUI : MonoBehaviour
         CheckActiveAbilitiesRequirements();
         CheckActiveAbilitiesManaCost(player.CurrentMana);
     }
+    
+    private void UpdateEquippedAbilities()
+    {
+        UpdateEquippedAbilities(false);
+    }
 
     private void CheckActiveAbilitiesRequirements()
     {
@@ -114,7 +120,8 @@ public class PlayerInputUI : MonoBehaviour
             if (player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty) continue;
             
             ActiveAbility activeAbility = player.Inventory.GetEquippedActiveAbility(i);
-            activeAbilityButtons[i].Button.interactable = activeAbility.RequirementsMet(player.GetWeapon());
+            if (!activeAbility.RequirementsMet(player.GetWeapon()))
+                activeAbilityButtons[i].Button.interactable = false;
         }
     }
 
@@ -148,7 +155,7 @@ public class PlayerInputUI : MonoBehaviour
 
     private void OnDisable()
     {
-        player.Inventory.OnActiveAbilitiesChanged -= UpdateEquippedAbilities;
+        player.Inventory.OnActiveAbilitiesChanged -= reset => UpdateEquippedAbilities(reset);
         player.Inventory.OnExecutableItemChanged -= UpdateExecutableSlots;
         
         player.Inventory.OnEquipmentChanged -= CheckActiveAbilitiesRequirements;

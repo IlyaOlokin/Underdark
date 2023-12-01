@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[CreateAssetMenu(menuName = "DebuffInfos/Poison", fileName = "New PoisonInfo")]
-public class PoisonInfo : DebuffInfo
+[CreateAssetMenu(menuName = "DebuffInfos/Harm", fileName = "New HarmInfo")]
+public class HarmInfo : DebuffInfo
 {
+    public HarmType HarmType;
     public int Damage;
+    public int ManaDrainAmount;
     public float DmgDelay;
     public float Duration;
     [SerializeField] private GameObject visualPrefab;
-
     
     public override void Execute(IAttacker attacker, Unit receiver, Unit unitCaster)
     {
-        receiver.GetPoisoned(this, unitCaster, visualPrefab, effectIcon);
+        receiver.GetHarmOverTime(this, unitCaster, visualPrefab, effectIcon);
     }
     
     public override string ToString()

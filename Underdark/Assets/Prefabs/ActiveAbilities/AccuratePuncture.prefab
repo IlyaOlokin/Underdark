@@ -75,18 +75,16 @@ MonoBehaviour:
   CastTime: 0.1
   cooldown: 2
   ManaCost: 0
-  attackMask:
-    serializedVersion: 2
-    m_Bits: 72
   <NeedOverrideWithWeaponStats>k__BackingField: 0
   <AttackDistance>k__BackingField: 1
   <AttackAngle>k__BackingField: 120
   maxValue: 80
   statMultiplier: 3
   baseStat: 1
+  damageType: 0
   validWeaponTypes: 0000000001000000
   debuffInfos:
-  - {fileID: 11400000, guid: e78f4ea9f16a27d4d9cff98fad21f54e, type: 2}
+  - {fileID: 11400000, guid: a70ffa3326a7a1a4aa92b94e022f3ca5, type: 2}
   needAutoDestroy: 1
   autoDestroyDelay: 0.2
   description: You deliver one precise thrust to the enemy's most vulnerable spot.

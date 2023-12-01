@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3232013923072872784}
-  - component: {fileID: 1027832047357731058}
+  - component: {fileID: 1343943589323709886}
   m_Layer: 0
   m_Name: BleedScroll
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1027832047357731058
+--- !u!114 &1343943589323709886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,7 +41,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9028506546870708674}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 628d8e5c340e166449dfbbddb72d3477, type: 3}
+  m_Script: {fileID: 11500000, guid: 0d43452fc8e93834fb8b4514db719a28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   description: Removes one random bleed effect.
+  <Icon>k__BackingField: {fileID: 0}
+  <Duration>k__BackingField: 0
+  harmType: 1

@@ -2,13 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PoisonScroll : Scroll
+public class HarmScroll : Scroll
 {
+    [SerializeField] private HarmType harmType;
+    
     public override bool Execute(Unit caster)
     {
         base.Execute(caster);
-        if (caster.transform.TryGetComponent(out Poison poison))
-            Destroy(poison);
+
+        var harms = caster.transform.GetComponents<HarmOverTime>();
+        foreach (var harm in harms)
+        {
+            if (harm.HarmInfo.HarmType != harmType) continue;
+            Destroy(harm);
+            break;
+        }
         
         return true;
     }
