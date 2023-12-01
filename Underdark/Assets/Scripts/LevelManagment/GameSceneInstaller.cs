@@ -6,7 +6,8 @@ using Zenject;
 public class GameSceneInstaller : MonoInstaller
 {
     [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private Transform playerStartPos;
+    [SerializeField] private Transform playerEntryFromUpStartPos;
+    [SerializeField] private Transform playerEntryFromDownStartPos;
     
     [Header("Inputs")]
     [SerializeField] private MobileInput mobileInputPrefab;
@@ -114,8 +115,12 @@ public class GameSceneInstaller : MonoInstaller
     
     private void BindPlayer()
     {
+        var startPos = LevelTransition.StartFromUp
+            ? playerEntryFromUpStartPos.position
+            : playerEntryFromDownStartPos.position;
+        
         Player player = Container
-            .InstantiatePrefabForComponent<Player>(playerPrefab, playerStartPos.position, Quaternion.identity, null);
+            .InstantiatePrefabForComponent<Player>(playerPrefab, startPos, Quaternion.identity, null);
         player.gameObject.SetActive(true);
 
         Container.Bind<Player>().FromInstance(player).AsSingle();

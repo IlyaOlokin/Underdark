@@ -9,6 +9,7 @@ using UnityEngine.Serialization;
 public class LevelTransition : MonoBehaviour
 {
     public static int MaxReachedLevel;
+    public static bool StartFromUp = true;
     
     [SerializeField] private LoadMode loadSceneMode;
     [SerializeField] private string sceneName;
@@ -41,12 +42,15 @@ public class LevelTransition : MonoBehaviour
         switch (loadSceneMode)
         {
             case LoadMode.Next:
+                StartFromUp = true;
                 StaticSceneLoader.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
                 break;
             case LoadMode.Previous:
+                StartFromUp = false;
                 StaticSceneLoader.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
                 break;
             case LoadMode.Custom:
+                StartFromUp = true;
                 StaticSceneLoader.LoadScene(sceneName);
                 break;
             default:
