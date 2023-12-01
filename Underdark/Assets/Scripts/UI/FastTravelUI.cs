@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
@@ -9,6 +10,7 @@ public class FastTravelUI : MonoBehaviour
 {
     [SerializeField] private string sceneName;
     [SerializeField] private List<Button> buttons;
+    [SerializeField] private Button closeButton;
     private Player player;
 
     [Inject]
@@ -25,5 +27,12 @@ public class FastTravelUI : MonoBehaviour
             levelTransition.SetScene(player, $"{sceneName}{i + 1}");
             buttons[i].onClick.AddListener(levelTransition.LoadLevel);
         }
+        
+        closeButton.onClick.AddListener(CloseWindow);
+    }
+
+    private void CloseWindow()
+    {
+        gameObject.SetActive(false);
     }
 }
