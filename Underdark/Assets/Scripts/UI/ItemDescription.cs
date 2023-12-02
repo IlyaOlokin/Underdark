@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -12,23 +13,32 @@ public class ItemDescription : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemName;
 
     [SerializeField] private Button useItemButton;
+    [SerializeField] private Button deleteItemButton;
 
-    private ExecutableItemSO currItem;
+    private ExecutableItemSO currExecutableItem;
     private Unit currOwner;
     private IInventorySlot currInventorySlot;
-    
+
+    private void Awake()
+    {
+        useItemButton.onClick.AddListener(UseItem);
+        deleteItemButton.onClick.AddListener(DeleteItem);
+
+    }
+
     public void ShowItemDescription(Item item, Unit owner, IInventorySlot slot)
     {
         ResetDescriptionActive(true);
         
         if (item.GetType() == typeof(ExecutableItemSO))
         {
-            currItem = (ExecutableItemSO) item;
-            currOwner = owner;
-            currInventorySlot = slot;
-            useItemButton.onClick.AddListener(UseItem);
+            currExecutableItem = (ExecutableItemSO) item;
             useItemButton.interactable = true;
         }
+        
+        currOwner = owner;
+        currInventorySlot = slot;
+        deleteItemButton.interactable = true;
         
         icon.sprite = item.Sprite;
         itemName.text = item.Name;
@@ -52,8 +62,8 @@ public class ItemDescription : MonoBehaviour
 
     public void ResetDescriptionActive(bool enabled)
     {
-        useItemButton.onClick.RemoveAllListeners();
         useItemButton.interactable = false;
+        deleteItemButton.interactable = false;
         
         foreach (var propertyField in propertyFields)
         {
@@ -71,8 +81,13 @@ public class ItemDescription : MonoBehaviour
 
     private void UseItem()
     {
-        if (!currItem.Execute(currOwner)) return;
+        if (!currExecutableItem.Execute(currOwner)) return;
 
         currOwner.Inventory.Remove(currInventorySlot);
+    }
+
+    private void DeleteItem()
+    {
+        currOwner.Inventory.ClearSlot(currInventorySlot);
     }
 }

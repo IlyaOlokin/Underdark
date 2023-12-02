@@ -5092,10 +5092,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UICanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 1704888411333039084, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0.038360596
-      objectReference: {fileID: 0}
     - target: {fileID: 4354043072160219195, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -5196,17 +5192,17 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 1018260676}
-    - target: {fileID: 8391662326275913644, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
+    - target: {fileID: 8574761698283947853, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
+      propertyPath: m_text
+      value: X
       objectReference: {fileID: 0}
-    - target: {fileID: 8391662326275913644, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
+    - target: {fileID: 8574761698283947853, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
+      propertyPath: m_fontSize
+      value: 60
       objectReference: {fileID: 0}
-    - target: {fileID: 8391662326275913644, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
+    - target: {fileID: 8574761698283947853, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
