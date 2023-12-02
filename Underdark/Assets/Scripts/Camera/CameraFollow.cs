@@ -16,9 +16,4 @@ public class CameraFollow : MonoBehaviour
     {
         virtCamera.Follow = player.transform;
     }
-
-    private void Start()
-    {
-        //camera.Follow = player;
-    }
 }

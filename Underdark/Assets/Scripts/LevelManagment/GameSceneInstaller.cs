@@ -6,7 +6,8 @@ using Zenject;
 public class GameSceneInstaller : MonoInstaller
 {
     [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private Transform playerStartPos;
+    [SerializeField] private Transform playerEntryFromUpStartPos;
+    [SerializeField] private Transform playerEntryFromDownStartPos;
     
     [Header("Inputs")]
     [SerializeField] private MobileInput mobileInputPrefab;
@@ -19,6 +20,7 @@ public class GameSceneInstaller : MonoInstaller
     
     [SerializeField] private InventoryUI playerInventoryUI;
     [SerializeField] private CharacterWindowUI characterWindowUI;
+    [SerializeField] private FastTravelUI fastTravelUI;
     
     public override void InstallBindings()
     {
@@ -29,6 +31,8 @@ public class GameSceneInstaller : MonoInstaller
         BindPlayerInputUI();
         BindInput();
         BindPlayer();
+
+        BindFastTravelUI();
     }
     
     private void BindPlayerInventoryUI()
@@ -39,6 +43,11 @@ public class GameSceneInstaller : MonoInstaller
     private void BindCharacterWindowUI()
     {
         Container.Bind<CharacterWindowUI>().FromInstance(characterWindowUI).AsSingle();
+    }
+    
+    private void BindFastTravelUI()
+    {
+        Container.Bind<FastTravelUI>().FromInstance(fastTravelUI).AsSingle();
     }
     
     private void BindPlayerUI()
@@ -106,8 +115,12 @@ public class GameSceneInstaller : MonoInstaller
     
     private void BindPlayer()
     {
+        var startPos = LevelTransition.StartFromUp
+            ? playerEntryFromUpStartPos.position
+            : playerEntryFromDownStartPos.position;
+        
         Player player = Container
-            .InstantiatePrefabForComponent<Player>(playerPrefab, playerStartPos.position, Quaternion.identity, null);
+            .InstantiatePrefabForComponent<Player>(playerPrefab, startPos, Quaternion.identity, null);
         player.gameObject.SetActive(true);
 
         Container.Bind<Player>().FromInstance(player).AsSingle();

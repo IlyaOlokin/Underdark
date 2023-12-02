@@ -1,27 +1,60 @@
+using System;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class LevelTransition : MonoBehaviour
 {
+    public static int MaxReachedLevel;
+    public static bool StartFromUp = true;
     
-    
-    [SerializeField] private bool loadNextScene;
+    [SerializeField] private LoadMode loadSceneMode;
     [SerializeField] private string sceneName;
+    private Player player;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent(out Player player))
         {
-            DataLoader.SaveGame(player);
+            this.player = player;
+            LoadLevel();
+        }
+    }
 
-            SaveElixirCd(player);
-            
-            if (loadNextScene)
+    public void SetScene(Player player, string name)
+    {
+        this.player = player;
+        sceneName = name;
+    }
+
+    public void LoadLevel()
+    {
+        if (loadSceneMode == LoadMode.Next && SceneManager.GetActiveScene().buildIndex + 1 > MaxReachedLevel)
+            MaxReachedLevel = SceneManager.GetActiveScene().buildIndex + 1;
+        
+        DataLoader.SaveGame(player);
+
+        SaveElixirCd(player);
+        
+        switch (loadSceneMode)
+        {
+            case LoadMode.Next:
+                StartFromUp = true;
                 StaticSceneLoader.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-            else
+                break;
+            case LoadMode.Previous:
+                StartFromUp = false;
+                StaticSceneLoader.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
+                break;
+            case LoadMode.Custom:
+                StartFromUp = true;
                 StaticSceneLoader.LoadScene(sceneName);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
@@ -32,4 +65,11 @@ public class LevelTransition : MonoBehaviour
             ElixirStaticData.ElixirCD = elixir.Timer;
         }
     }
+}
+
+public enum LoadMode
+{
+    Next,
+    Previous,
+    Custom
 }

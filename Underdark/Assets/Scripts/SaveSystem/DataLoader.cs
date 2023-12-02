@@ -22,10 +22,7 @@ public class DataLoader : MonoBehaviour
     {
         LoadGame();
 
-        /*for (var i = 0; i < gameData.ItemTypes.Count; i++)
-        {
-            //inventory.TryPutItemIn(gameData.ItemTypes[i], gameData.ItemCounts[i], false);
-        }*/
+        LevelTransition.MaxReachedLevel = gameData.MaxReachedLevel;
     }
     
     private static void LoadGame()
@@ -82,6 +79,8 @@ public class DataLoader : MonoBehaviour
         {
             gameData.EquipedActiveAbilities.Add(t.ItemID);
         }
+
+        gameData.MaxReachedLevel = LevelTransition.MaxReachedLevel;
         
         dataHandler.Save(gameData);
     }

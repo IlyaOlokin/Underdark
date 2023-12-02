@@ -9,7 +9,7 @@ public class PlayerUI : MonoBehaviour
 
     public InventoryUI inventoryUI;
     public CharacterWindowUI characterWindowUI;
-    [FormerlySerializedAs("buffsUI")] [SerializeField] private StatusEffectUI statusEffectUI;
+    [SerializeField] private StatusEffectUI statusEffectUI;
     
     public void Init(Player player)
     {

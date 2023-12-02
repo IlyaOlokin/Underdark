@@ -51,6 +51,12 @@ public class Inventory : IInventory
             EquippedActiveAbilitySlots.Add(new InventorySlot());
         }
     }
+
+    public void UpdateInventory()
+    {
+        OnActiveAbilitiesChanged?.Invoke(true);
+        OnExecutableItemChanged?.Invoke();
+    }
     
     public int GetItemAmount(string itemID)
     {
@@ -119,6 +125,16 @@ public class Inventory : IInventory
         
         OnInventoryChanged?.Invoke();
         return true;
+    }
+    
+    public void ClearSlot(IInventorySlot inventorySlot)
+    {
+        var itemItemType = inventorySlot.Item.ItemType;
+        
+        inventorySlot.Clear();
+        OnInventoryChanged?.Invoke();
+        
+        if (itemItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
     }
 
     public IInventorySlot[] GetAllSlots(string itemID)

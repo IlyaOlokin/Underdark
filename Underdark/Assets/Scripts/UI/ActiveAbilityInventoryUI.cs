@@ -76,14 +76,4 @@ public class ActiveAbilityInventoryUI : MonoBehaviour, IInventoryUI
         else
             itemDescription.ShowItemDescription(selectedSlot.slot.Item, player, selectedSlot.slot);
     }
-
-    private void DeselectSlot()
-    {
-        if (selectedSlot == null)
-        {
-            return;
-        }
-        selectedSlot.OnDeselect();
-        selectedSlot = null;
-    }
 }

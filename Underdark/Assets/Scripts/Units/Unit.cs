@@ -558,12 +558,14 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         for (int i = 0; i < Inventory.EquippedActiveAbilitySlots.Count; i++)
         {
+            string newID = Inventory.EquippedActiveAbilitySlots[i].IsEmpty ? "" : Inventory.EquippedActiveAbilitySlots[i].ItemID;
+            
             if (reset)
             {
                 ActiveAbilitiesCD[i] = 0;
+                lastActiveAbilitiesIDs[i] = newID;
                 continue;
             }
-            string newID = Inventory.EquippedActiveAbilitySlots[i].IsEmpty ? "" : Inventory.EquippedActiveAbilitySlots[i].ItemID;
             
             if (newID == "" && lastActiveAbilitiesIDs[i] != "")
             {
