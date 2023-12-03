@@ -59,7 +59,7 @@ public class PlayerInputUI : MonoBehaviour
         player.Inventory.OnActiveAbilitiesChanged += UpdateEquippedAbilities;
         player.Inventory.OnExecutableItemChanged += UpdateExecutableSlots;
         
-        player.Inventory.OnEquipmentChanged += CheckActiveAbilitiesRequirements;
+        player.Inventory.OnEquipmentChanged += UpdateEquippedAbilities;
         player.OnManaChanged += CheckActiveAbilitiesManaCost;
         player.OnIsSilenceChanged += UpdateEquippedAbilities;
        
@@ -87,7 +87,7 @@ public class PlayerInputUI : MonoBehaviour
         abilitiesCDMax = new List<float>();
         for (int i = 0; i < player.Inventory.EquippedActiveAbilitySlots.Count; i++)
         {
-            activeAbilityButtons[i].Button.interactable = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty && !player.IsSilenced;
+            activeAbilityButtons[i].Button.interactable = ShouldAbilityButtonBeInteractable(i);
             buttonsIcons[i].enabled = !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty;
             manaCost[i].gameObject.SetActive(!(player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty || player.Inventory.GetEquippedActiveAbility(i).ManaCost == 0));
             
@@ -103,26 +103,19 @@ public class PlayerInputUI : MonoBehaviour
             abilitiesCDMax.Add(activeAbility.cooldown);
             buttonsIcons[i].sprite = player.Inventory.EquippedActiveAbilitySlots[i].Item.Sprite;
         }
-
-        CheckActiveAbilitiesRequirements();
+        
         CheckActiveAbilitiesManaCost(player.CurrentMana);
     }
-    
+
     private void UpdateEquippedAbilities()
     {
         UpdateEquippedAbilities(false);
     }
 
-    private void CheckActiveAbilitiesRequirements()
+    private bool ShouldAbilityButtonBeInteractable(int i)
     {
-        for (int i = 0; i < player.Inventory.EquippedActiveAbilitySlots.Count; i++)
-        {
-            if (player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty) continue;
-            
-            ActiveAbility activeAbility = player.Inventory.GetEquippedActiveAbility(i);
-            if (!activeAbility.RequirementsMet(player.GetWeapon()))
-                activeAbilityButtons[i].Button.interactable = false;
-        }
+        return !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty && !player.IsSilenced &&
+            player.Inventory.GetEquippedActiveAbility(i).RequirementsMet(player.GetWeapon());
     }
 
     private void CheckActiveAbilitiesManaCost(int mana)
@@ -155,10 +148,11 @@ public class PlayerInputUI : MonoBehaviour
 
     private void OnDisable()
     {
-        player.Inventory.OnActiveAbilitiesChanged -= reset => UpdateEquippedAbilities(reset);
+        player.Inventory.OnActiveAbilitiesChanged -= UpdateEquippedAbilities;
         player.Inventory.OnExecutableItemChanged -= UpdateExecutableSlots;
         
-        player.Inventory.OnEquipmentChanged -= CheckActiveAbilitiesRequirements;
+        player.Inventory.OnEquipmentChanged -= UpdateEquippedAbilities;
         player.OnManaChanged -= CheckActiveAbilitiesManaCost;
+        player.OnIsSilenceChanged -= UpdateEquippedAbilities;
     }
 }
