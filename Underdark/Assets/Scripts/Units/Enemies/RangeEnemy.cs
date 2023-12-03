@@ -22,7 +22,7 @@ public class RangeEnemy : Enemy
     private void AddStates()
     {
         // idle chase
-        EnemyFSM.AddState(EnemyState.Idle, new IdleState(false, this, TryToReturnToSpawnPoint));
+        EnemyFSM.AddState(EnemyState.Idle, new IdleState(false, this));
         EnemyFSM.AddState(EnemyState.Chase, new ChaseState(true, this, moveTarget, ChaseTarget));
         EnemyFSM.AddState(EnemyState.KeepDistance, new KeepDistanceState(true, this, moveTarget, KeepDistanceToTarget));
         // base attack

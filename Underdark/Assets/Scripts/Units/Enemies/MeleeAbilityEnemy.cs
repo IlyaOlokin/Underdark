@@ -16,7 +16,7 @@ public class MeleeAbilityEnemy : Enemy
     private void AddStates()
     {
         // idle chase
-        EnemyFSM.AddState(EnemyState.Idle, new IdleState(false, this, TryToReturnToSpawnPoint));
+        EnemyFSM.AddState(EnemyState.Idle, new IdleState(false, this));
         EnemyFSM.AddState(EnemyState.Chase, new ChaseState(true, this, moveTarget, ChaseTarget));
         // base attack
         EnemyFSM.AddState(EnemyState.AttackPrep, new BaseAttackPrepState(true, this, unitVisual.StartAlert, meleeAttackPreparation));

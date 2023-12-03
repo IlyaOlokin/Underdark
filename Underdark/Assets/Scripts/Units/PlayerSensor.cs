@@ -19,7 +19,7 @@ public class PlayerSensor : MonoBehaviour
             RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position, Mathf.Infinity, layerMask);
             if (hit.collider == null) return;
             
-            if (hit.transform.CompareTag("Player"))
+            if (!foundPlayer && hit.transform.CompareTag("Player"))
             {
                 OnPlayerEnter?.Invoke(player.transform);
                 foundPlayer = true;
@@ -38,7 +38,10 @@ public class PlayerSensor : MonoBehaviour
         {
             RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position, Mathf.Infinity, layerMask);
             if (hit.collider != null && hit.transform.CompareTag("Player"))
+            {
                 OnPlayerExit?.Invoke(other.transform.position);
+                foundPlayer = false;
+            }
         }
     }
 }
