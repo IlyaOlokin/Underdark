@@ -61,6 +61,8 @@ public class Enemy : Unit
         TryFlipVisual(agent.velocity.x);
         if (isPlayerInChasingRange)
             lastMoveDir = player.position - transform.position;
+        else 
+            TryToReturnToSpawnPoint();
     }
 
     protected void TryToReturnToSpawnPoint()
@@ -252,6 +254,7 @@ public class Enemy : Unit
     
     protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 
         CanMove
+        && !isPlayerInChasingRange
         && agent.remainingDistance <= agent.stoppingDistance;
 
     protected bool IsNotWithinIdleRange(Transition<EnemyState> transition) => 

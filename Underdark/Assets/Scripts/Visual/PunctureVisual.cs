@@ -8,16 +8,16 @@ public class PunctureVisual : MonoBehaviour
     [SerializeField] private float endXScale;
     [SerializeField] private float startYScale;
 
-    public void StartVisualEffect(Transform target)
+    public void StartVisualEffect(Vector3 pos)
     {
         Destroy(gameObject, visualDuration);
-        StartCoroutine(StartVisual(target.transform));
+        StartCoroutine(StartVisual(pos));
     }
     
-    IEnumerator StartVisual(Transform target)
+    IEnumerator StartVisual(Vector3 pos)
     {
         transform.gameObject.SetActive(true);
-        transform.position = target.position;
+        transform.position = pos;
         transform.localScale = new Vector3(0, startYScale);
         float scaleXSpeed =  endXScale / visualDuration;
         float scaleYSpeed = -transform.localScale.y / visualDuration;

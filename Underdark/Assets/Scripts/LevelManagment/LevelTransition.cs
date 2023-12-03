@@ -24,10 +24,10 @@ public class LevelTransition : MonoBehaviour
         }
     }
 
-    public void SetScene(Player player, string name)
+    public void SetTransitionData(Player player, string name = "")
     {
         this.player = player;
-        sceneName = name;
+        if (!name.Equals("")) sceneName = name;
     }
 
     public void LoadLevel()
