@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -12,6 +13,10 @@ public class ExpBar : MonoBehaviour
     {
         this.player = player;
         this.player.OnExpGained += UpdateBar;
+    }
+
+    private void Awake()
+    {
         UpdateBar();
     }
 
