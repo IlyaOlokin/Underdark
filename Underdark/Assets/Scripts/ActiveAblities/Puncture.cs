@@ -26,12 +26,15 @@ public class Puncture : ActiveAbility, IAttacker
         for (int i = 0; i < targetsCount; i++)
         {
             var target = FindClosestTarget(caster);
+
+            var visualPos = target == null
+                ? (Vector3)caster.GetAttackDirection() + transform.position
+                : target.transform.position;
+            var newVisual = Instantiate(visualPrefab, visualPos, Quaternion.identity, transform);
+            newVisual.StartVisualEffect(visualPos);
         
-            if (target == null) continue;
-            Attack(target.GetComponent<IDamageable>());
-            
-            var newVisual = Instantiate(visualPrefab, target.transform.position, Quaternion.identity, transform);
-            newVisual.StartVisualEffect(target.transform);
+            if (target != null) 
+                Attack(target.GetComponent<IDamageable>());
             
             yield return new WaitForSeconds(attackDelay);
         }
