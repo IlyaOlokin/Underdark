@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8886e2241f3c0b4bbdc9e769b1a9c82, type: 3}
-  m_Name: ScrollAccuratePuncture
+  m_Script: {fileID: 11500000, guid: b72fc30bdcdcdfd4f95dcaccd6f25fcc, type: 3}
+  m_Name: TestRing
   m_EditorClassIdentifier: 
-  ID: scroll_accurate_puncture
-  Name: Scroll accurate puncture
-  ItemType: 7
-  Sprite: {fileID: 21300000, guid: 54f8589e2ef2f7a4e875a51ae49b1e7b, type: 3}
-  StackCapacity: 99
+  ID: test_amulet
+  Name: Test Amulet
+  ItemType: 6
+  Sprite: {fileID: 21300000, guid: f66c057114b8725409847a8a8e83a75b, type: 3}
+  StackCapacity: 1
   Requirements:
     <Level>k__BackingField: 0
     <Strength>k__BackingField: 0
@@ -26,4 +26,5 @@ MonoBehaviour:
     <DexInt>k__BackingField: 0
     <IntStr>k__BackingField: 0
     <AllStats>k__BackingField: 0
-  executableItem: {fileID: -2832681209090287796, guid: 9b74cf9d8eade5a4e9978ef913055705, type: 3}
+  <Passives>k__BackingField:
+  - {fileID: 11400000, guid: 96b48ddbf3405b44287971b682ecd44f, type: 2}

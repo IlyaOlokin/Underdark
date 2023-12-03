@@ -16,6 +16,7 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     [SerializeField] private UIInventorySlot legs;
     [SerializeField] private UIInventorySlot weapon;
     [SerializeField] private UIInventorySlot shield;
+    [SerializeField] private UIInventorySlot[] accessories;
     
     [SerializeField] private UIInventorySlot[] executableSlots;
 
@@ -64,6 +65,9 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         legs.SetSlot(equipmentSlots.Legs);
         weapon.SetSlot(equipmentSlots.Weapon);
         shield.SetSlot(equipmentSlots.Shield);
+        
+        for (var i = 0; i < equipmentSlots.Accessories.Count; i++)
+            accessories[i].SetSlot(equipmentSlots.Accessories[i]);
     }
 
     private void OnEnable()
@@ -85,6 +89,11 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         legs.Refresh();
         weapon.Refresh();
         shield.Refresh();
+
+        foreach (var accessory in accessories)
+        {
+            accessory.Refresh();
+        }
 
         foreach (var executableSlot in executableSlots)
         {

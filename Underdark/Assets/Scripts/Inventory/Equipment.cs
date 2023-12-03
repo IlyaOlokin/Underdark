@@ -1,7 +1,5 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 [Serializable]
 public class Equipment
@@ -12,6 +10,18 @@ public class Equipment
     public IInventorySlot Weapon = new InventorySlot();
     public IInventorySlot Shield = new InventorySlot();
 
+    public List<IInventorySlot> Accessories = new();
+
+    private const int AccessoriesCount = 2;
+
+    public Equipment()
+    {
+        for (int j = 0; j < AccessoriesCount; j++)
+        {
+            Accessories.Add(new InventorySlot());
+        }
+    }
+
     public MeleeWeapon GetWeapon()
     {
         return (MeleeWeapon) Weapon.Item;
@@ -21,22 +31,29 @@ public class Equipment
     {
         switch (itemType)
         {
-            case ItemType.Any:
-                break;
             case ItemType.Head:
                 return (Armor) Head.Item;
             case ItemType.Body:
                 return (Armor) Body.Item;
             case ItemType.Legs:
                 return (Armor) Legs.Item;
-            case ItemType.Weapon:
-                break;
             case ItemType.Shield:
                 return (Armor)Shield.Item;
             default:
                 throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null);
         }
+    }
 
-        return null;
+    public List<Accessory> GetAllAccessories()
+    {
+        List<Accessory> res = new List<Accessory>();
+
+        foreach (var accessorySlot in Accessories)
+        {
+            if (accessorySlot.IsEmpty) continue;
+            res.Add((Accessory)accessorySlot.Item);
+        }
+
+        return res;
     }
 }
