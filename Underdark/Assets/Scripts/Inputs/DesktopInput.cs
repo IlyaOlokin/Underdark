@@ -7,6 +7,7 @@ using Zenject;
 
 public class DesktopInput : MonoBehaviour, IInput
 {
+    public bool IsEnabled { get; set; } = true;
     public event Action<Vector3> MoveInput;
     public event Action ShootInput;
     public event Action<int> ActiveAbilityInput;
@@ -29,6 +30,8 @@ public class DesktopInput : MonoBehaviour, IInput
     
     void Update()
     {
+        if (!IsEnabled) return;
+        
         dir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized;
         
         if (Input.GetMouseButton(0))
@@ -57,6 +60,7 @@ public class DesktopInput : MonoBehaviour, IInput
 
     private void FixedUpdate()
     {
+        if (!IsEnabled) return;
         PlayerMoveInput();
     }
 

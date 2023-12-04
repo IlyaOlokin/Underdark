@@ -31,10 +31,12 @@ public class PlayerInputUI : MonoBehaviour
     [SerializeField] private GameObject blackOut;
     
     private Player player;
+    private IInput input;
     
-    public void Init(Player player, GameObject inventoryUI, GameObject characterWindowUI)
+    public void Init(Player player, IInput input, GameObject inventoryUI, GameObject characterWindowUI)
     {
         this.player = player;
+        this.input = input;
         inventory = inventoryUI;
         characterWindow = characterWindowUI;
 
@@ -136,6 +138,8 @@ public class PlayerInputUI : MonoBehaviour
     private void ToggleInventory()
     {
         characterWindow.SetActive(false);
+        
+        input.IsEnabled = inventory.activeSelf;
         inventory.SetActive(!inventory.activeSelf);
         executableSlotsHandler.RefreshAllSlots();
     }
@@ -143,6 +147,8 @@ public class PlayerInputUI : MonoBehaviour
     private void ToggleCharacterWindow()
     {
         inventory.SetActive(false);
+        
+        input.IsEnabled = characterWindow.activeSelf;
         characterWindow.SetActive(!characterWindow.activeSelf);
     }
 

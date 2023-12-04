@@ -8,6 +8,7 @@ using Zenject;
 
 public class MobileInput : MonoBehaviour, IInput
 {
+    public bool IsEnabled { get; set; } = true;
     public event Action<Vector3> MoveInput;
     public event Action ShootInput;
     public event Action<int> ActiveAbilityInput;
@@ -51,6 +52,7 @@ public class MobileInput : MonoBehaviour, IInput
 
     void FixedUpdate()
     {
+        if (!IsEnabled) return;
         PlayerMoveInput();
     }
 
