@@ -163,20 +163,39 @@ public class Inventory : IInventory
         return item != null;
     }
 
-    public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot, ItemType fromSlotItemType = ItemType.Any, ItemType toSlotItemType = ItemType.Any)
+    public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot, ItemType fromSlotType = ItemType.Any, ItemType toSlotType = ItemType.Any)
     {
         if (fromSlot.IsEmpty) return;
         if (fromSlot == toSlot) return;
         
         // check requirements
-        if (fromSlot.Item.ItemType != ItemType.Any && toSlotItemType != ItemType.Any) {
+        if (fromSlot.Item.ItemType != ItemType.Any && toSlotType != ItemType.Any) 
+        {
             if (!unit.Stats.RequirementsMet(fromSlot.Item.Requirements)) return;
         } 
         // check requirements for swap case
-        if (!toSlot.IsEmpty && toSlot.Item.ItemType != ItemType.Any && fromSlotItemType != ItemType.Any) {
+        if (!toSlot.IsEmpty && toSlot.Item.ItemType != ItemType.Any && fromSlotType != ItemType.Any) 
+        {
             if (!unit.Stats.RequirementsMet(toSlot.Item.Requirements)) return;
+        }
+        
+        // check two-handed weapon
+        if (fromSlot.Item.ItemType == ItemType.Weapon && toSlotType == ItemType.Weapon) 
+        {
+            if (!Equipment.Shield.IsEmpty && ((MeleeWeapon) fromSlot.Item).WeaponHandedType == WeaponHandedType.TwoHanded) return;
         } 
+        // check two-handed weapon for swap case
+        if (!toSlot.IsEmpty && toSlot.Item.ItemType == ItemType.Weapon && fromSlotType == ItemType.Weapon) 
+        {
+            if (!Equipment.Shield.IsEmpty && ((MeleeWeapon) toSlot.Item).WeaponHandedType == WeaponHandedType.TwoHanded) return;
+        }
 
+        // check shield with two-handed weapon
+        if (fromSlot.Item.ItemType == ItemType.Shield && !Equipment.Weapon.IsEmpty)
+        {
+            if (Equipment.GetWeapon().WeaponHandedType == WeaponHandedType.TwoHanded) return;
+        }
+        
         if (!toSlot.IsEmpty && fromSlot.ItemID != toSlot.ItemID)
         {
             var tempItem = fromSlot.Item;
@@ -187,9 +206,9 @@ public class Inventory : IInventory
             toSlot.SetItem(tempItem,tempAmount);
             
             OnInventoryChanged?.Invoke();
-            if (fromSlotItemType != ItemType.Any || toSlotItemType != ItemType.Any) OnEquipmentChanged?.Invoke();
-            if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
-            if (fromSlotItemType == ItemType.Executable || toSlotItemType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
+            if (fromSlotType != ItemType.Any || toSlotType != ItemType.Any) OnEquipmentChanged?.Invoke();
+            if (fromSlotType == ItemType.ActiveAbility || toSlotType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
+            if (fromSlotType == ItemType.Executable || toSlotType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
 
             return;
         }
@@ -215,9 +234,9 @@ public class Inventory : IInventory
         }
         
         OnInventoryChanged?.Invoke();
-        if (fromSlotItemType != ItemType.Any || toSlotItemType != ItemType.Any) OnEquipmentChanged?.Invoke();
-        if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
-        if (fromSlotItemType == ItemType.Executable || toSlotItemType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
+        if (fromSlotType != ItemType.Any || toSlotType != ItemType.Any) OnEquipmentChanged?.Invoke();
+        if (fromSlotType == ItemType.ActiveAbility || toSlotType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
+        if (fromSlotType == ItemType.Executable || toSlotType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
     }
     
     public Item GetItem(string itemID)
