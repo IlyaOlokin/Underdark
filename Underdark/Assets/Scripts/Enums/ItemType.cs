@@ -10,6 +10,7 @@ public enum ItemType
     Legs,
     Weapon,
     Shield,
+    Accessory,
     Executable,
     ActiveAbility
 }

@@ -12,7 +12,7 @@ public abstract class Item : ScriptableObject
     public Sprite Sprite;
     public int StackCapacity;
     public Requirements Requirements;
-
+    
     public new virtual string[] ToString()
     {
         throw new NotImplementedException();
@@ -27,5 +27,5 @@ public abstract class Item : ScriptableObject
     {
         return new string[]{};
     }
-    
+
 }

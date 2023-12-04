@@ -218,7 +218,6 @@ public class Inventory : IInventory
         if (fromSlotItemType != ItemType.Any || toSlotItemType != ItemType.Any) OnEquipmentChanged?.Invoke();
         if (fromSlotItemType == ItemType.ActiveAbility || toSlotItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
         if (fromSlotItemType == ItemType.Executable || toSlotItemType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
-
     }
     
     public Item GetItem(string itemID)
@@ -260,7 +259,7 @@ public class Inventory : IInventory
 
     public List<IPassiveHolder> GetAllPassiveHolders()
     {
-        return new List<IPassiveHolder>()
+        var res = new List<IPassiveHolder>()
         {
             Equipment.GetArmor(ItemType.Head),
             Equipment.GetArmor(ItemType.Body),
@@ -268,6 +267,9 @@ public class Inventory : IInventory
             Equipment.GetArmor(ItemType.Shield),
             Equipment.GetWeapon(),
         };
+        res.AddRange(Equipment.GetAllAccessories().Cast<IPassiveHolder>());
+
+        return res;
     }
 
     public Item[] GetEquippedItems()
