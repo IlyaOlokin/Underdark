@@ -17,8 +17,7 @@ public class Portal : MonoBehaviour
     {
         if (other.TryGetComponent(out Player player))
         {
-            fastTravelUI.transform.SetAsLastSibling();
-            fastTravelUI.gameObject.SetActive(true);
+            fastTravelUI.OpenWindow();
         }
     }
 }

@@ -13,11 +13,13 @@ public class FastTravelUI : MonoBehaviour
     [SerializeField] private Button hubButton;
     [SerializeField] private Button closeButton;
     private Player player;
+    private IInput input;
 
     [Inject]
-    private void Construct(Player player)
+    private void Construct(Player player, IInput input)
     {
         this.player = player;
+        this.input = input;
     }
     
     private void Awake()
@@ -39,6 +41,14 @@ public class FastTravelUI : MonoBehaviour
 
     private void CloseWindow()
     {
+        input.IsEnabled = true;
         gameObject.SetActive(false);
+    }
+    
+    public void OpenWindow()
+    {
+        input.IsEnabled = false;
+        transform.SetAsLastSibling();
+        gameObject.SetActive(true);
     }
 }
