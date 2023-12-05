@@ -93,7 +93,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8170032374961837674}
-  - component: {fileID: 3995346816480911205}
   - component: {fileID: 4622702471863553492}
   m_Layer: 0
   m_Name: StrongSmash
@@ -118,33 +117,6 @@ Transform:
   - {fileID: 6667289441013143073}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &3995346816480911205
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7555566392093547892}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &4622702471863553492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,15 +132,13 @@ MonoBehaviour:
   CastTime: 0.1
   cooldown: 2
   ManaCost: 0
-  attackMask:
-    serializedVersion: 2
-    m_Bits: 72
   <NeedOverrideWithWeaponStats>k__BackingField: 1
   <AttackDistance>k__BackingField: 1
   <AttackAngle>k__BackingField: 120
   maxValue: 80
   statMultiplier: 3
   baseStat: 0
+  damageType: 0
   validWeaponTypes: 05000000
   debuffInfos:
   - {fileID: 11400000, guid: 3189324a1652f15439fe077e31727e8c, type: 2}
