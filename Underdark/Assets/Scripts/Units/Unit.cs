@@ -153,6 +153,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         else
             CurrentMana = (int)Mathf.Floor(MaxMana * currentPart);
     }
+    
+    protected void UpdateMP()
+    {
+        SetMana(false);
+    }
 
     protected void SetHP(bool toFull = false)
     {
@@ -164,6 +169,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
             CurrentHP = MaxHP;
         else
             CurrentHP = (int)Mathf.Floor(MaxHP * currentPart);
+    }
+
+    protected void UpdateHP()
+    {
+        SetHP(false);
     }
 
     private void UpdateCoolDowns()

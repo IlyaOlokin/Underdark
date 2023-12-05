@@ -29,8 +29,8 @@ public class Player : Unit, IPickUper
     private void OnEnable()
     {
         Inventory.OnActiveAbilitiesChanged += SetActiveAbilitiesCDs;
-        Stats.OnStatsChanged += SetHP;
-        Stats.OnStatsChanged += SetMana;
+        Stats.OnStatsChanged += UpdateHP;
+        Stats.OnStatsChanged += UpdateMP;
         Stats.OnLevelUp += OnLevelUp;
     }
 
@@ -97,8 +97,8 @@ public class Player : Unit, IPickUper
         input.ExecutableItemInput -= ExecuteExecutableItem;
         
         Inventory.OnActiveAbilitiesChanged -= SetActiveAbilitiesCDs;
-        Stats.OnStatsChanged -= SetHP;
-        Stats.OnStatsChanged -= SetMana;
+        Stats.OnStatsChanged -= UpdateHP;
+        Stats.OnStatsChanged -= UpdateMP;
         Stats.OnLevelUp -= OnLevelUp;
     }
 }

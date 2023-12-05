@@ -28,6 +28,8 @@ public class PlayerInputUI : MonoBehaviour
     [Header("Executable Items")] 
     [SerializeField] public ExecutableSlotsHandler executableSlotsHandler;
 
+    [Header("Visual")] 
+    [SerializeField] private FreePointsIndicator freePointsIndicator;
     [SerializeField] private GameObject blackOut;
     
     private Player player;
@@ -42,6 +44,8 @@ public class PlayerInputUI : MonoBehaviour
 
         inventory.GetComponent<InventoryUI>().blackOut = blackOut;
         characterWindow.GetComponent<CharacterWindowUI>().blackOut = blackOut;
+        
+        freePointsIndicator.Init(player.Stats);
     }
     
     private void Awake()
