@@ -7,6 +7,7 @@ public class MeleeWeapon : Item, IPassiveHolder
 {
     public Damage Damage;
     public WeaponType WeaponType;
+    public WeaponHandedType WeaponHandedType;
     public int AttackRadius;
     public int AttackDistance;
     [Range(0f, 1f)] public float ArmorPierce;
