@@ -23,7 +23,7 @@ public class UnitStats
     public int IntStr => GetTotalStatValue(BaseStat.Intelligence) + GetTotalStatValue(BaseStat.Strength);
     public int AllStats => GetTotalStatValue(BaseStat.Strength) + GetTotalStatValue(BaseStat.Dexterity) + GetTotalStatValue(BaseStat.Intelligence);
 
-    public event Action<bool> OnStatsChanged;
+    public event Action OnStatsChanged;
     public event Action OnLevelUp;
 
     [Header("Exp")] 
@@ -39,7 +39,7 @@ public class UnitStats
         Dexterity = 1;
         Intelligence = 1;
         CurrentExp = 0;
-        OnStatsChanged?.Invoke(false);
+        OnStatsChanged?.Invoke();
     }
 
     public bool RequirementsMet(Requirements requirements)
@@ -60,7 +60,7 @@ public class UnitStats
         Strength = unitStats.Strength;
         Dexterity = unitStats.Dexterity;
         Intelligence = unitStats.Intelligence;
-        OnStatsChanged?.Invoke(false);
+        OnStatsChanged?.Invoke();
     }
 
     public void GetExp(int exp)
@@ -139,7 +139,7 @@ public class UnitStats
             default:
                 throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null);
         }
-        OnStatsChanged?.Invoke(false);
+        OnStatsChanged?.Invoke();
     }
     
     public static string GetStatString(BaseStat baseStat)
