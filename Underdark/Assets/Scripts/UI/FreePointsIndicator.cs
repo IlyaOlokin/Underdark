@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,9 +13,12 @@ public class FreePointsIndicator : MonoBehaviour
         this.stats = stats;
         stats.OnLevelUp += UpdateVisual;
         stats.OnStatsChanged += UpdateVisual;
-        UpdateVisual();
     }
 
+    private void Start()
+    {
+        UpdateVisual();
+    }
     
     void UpdateVisual()
     {
