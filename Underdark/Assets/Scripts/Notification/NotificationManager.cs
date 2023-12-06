@@ -41,11 +41,11 @@ public class NotificationManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            GetNotification(new Notification(test, "подсказка работает? " + notificationQueue.Count));
+            SendNotification(new Notification(test, "подсказка работает? " + notificationQueue.Count));
         }
     }
 
-    public void GetNotification(Notification notification)
+    public void SendNotification(Notification notification)
     {
         notificationQueue.Enqueue(notification);
         OnNotificationQueueChanged?.Invoke();

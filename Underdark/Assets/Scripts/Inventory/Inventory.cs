@@ -182,18 +182,33 @@ public class Inventory : IInventory
         // check two-handed weapon
         if (fromSlot.Item.ItemType == ItemType.Weapon && toSlotType == ItemType.Weapon) 
         {
-            if (!Equipment.Shield.IsEmpty && ((MeleeWeapon) fromSlot.Item).WeaponHandedType == WeaponHandedType.TwoHanded) return;
+            if (!Equipment.Shield.IsEmpty && ((MeleeWeapon)fromSlot.Item).WeaponHandedType == WeaponHandedType.TwoHanded)
+            {
+                NotificationManager.Instance.SendNotification(new Notification(null,
+                    "You can't equip a two-handed weapon while wielding a shield."));
+                return;
+            }
         } 
         // check two-handed weapon for swap case
         if (!toSlot.IsEmpty && toSlot.Item.ItemType == ItemType.Weapon && fromSlotType == ItemType.Weapon) 
         {
-            if (!Equipment.Shield.IsEmpty && ((MeleeWeapon) toSlot.Item).WeaponHandedType == WeaponHandedType.TwoHanded) return;
+            if (!Equipment.Shield.IsEmpty && ((MeleeWeapon)toSlot.Item).WeaponHandedType == WeaponHandedType.TwoHanded)
+            {
+                NotificationManager.Instance.SendNotification(new Notification(null,
+                    "You can't equip a two-handed weapon while wielding a shield."));
+                return;
+            }
         }
 
         // check shield with two-handed weapon
         if (fromSlot.Item.ItemType == ItemType.Shield && !Equipment.Weapon.IsEmpty)
         {
-            if (Equipment.GetWeapon().WeaponHandedType == WeaponHandedType.TwoHanded) return;
+            if (Equipment.GetWeapon().WeaponHandedType == WeaponHandedType.TwoHanded)
+            {
+                NotificationManager.Instance.SendNotification(new Notification(null,
+                    "You can't equip a shield while wielding a two-handed weapon."));
+                return;
+            }
         }
         
         if (!toSlot.IsEmpty && fromSlot.ItemID != toSlot.ItemID)

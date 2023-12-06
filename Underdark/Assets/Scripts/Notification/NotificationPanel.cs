@@ -37,8 +37,12 @@ public class NotificationPanel : MonoBehaviour, IPointerDownHandler
 
     public void ShowNotification(Notification notification)
     {
-        Rect spriteRect = notification.sprite.rect;
-        float aspectRatio = spriteRect.width / spriteRect.height;
+        float aspectRatio = 0;
+        if (notification.sprite != null)
+        {
+            Rect spriteRect = notification.sprite.rect;
+            aspectRatio = spriteRect.width / spriteRect.height;
+        }
 
         Vector2 newSizeDelta;
         if (aspectRatio > 1)
