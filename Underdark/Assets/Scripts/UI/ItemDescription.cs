@@ -14,6 +14,10 @@ public class ItemDescription : MonoBehaviour
 
     [SerializeField] private Button useItemButton;
     [SerializeField] private Button deleteItemButton;
+    [SerializeField] private Button confirmDeleteItemButton;
+    [SerializeField] private Button canselDeleteItemButton;
+    
+    [SerializeField] private GameObject confirmPanel;
 
     private ExecutableItemSO currExecutableItem;
     private Unit currOwner;
@@ -22,8 +26,11 @@ public class ItemDescription : MonoBehaviour
     private void Awake()
     {
         useItemButton.onClick.AddListener(UseItem);
-        deleteItemButton.onClick.AddListener(DeleteItem);
-
+        
+        deleteItemButton.onClick.AddListener(OpenConfirmPanel);
+        confirmDeleteItemButton.onClick.AddListener(DeleteItem);
+        confirmDeleteItemButton.onClick.AddListener(CloseConfirmPanel);
+        canselDeleteItemButton.onClick.AddListener(CloseConfirmPanel);
     }
 
     public void ShowItemDescription(Item item, Unit owner, IInventorySlot slot)
@@ -77,6 +84,8 @@ public class ItemDescription : MonoBehaviour
 
         icon.gameObject.SetActive(enabled);
         itemName.gameObject.SetActive(enabled);
+
+        CloseConfirmPanel();
     }
 
     private void UseItem()
@@ -89,5 +98,15 @@ public class ItemDescription : MonoBehaviour
     private void DeleteItem()
     {
         currOwner.Inventory.ClearSlot(currInventorySlot);
+    }
+
+    private void OpenConfirmPanel()
+    {
+        confirmPanel.SetActive(true);
+    }
+    
+    private void CloseConfirmPanel()
+    {
+        confirmPanel.SetActive(false);
     }
 }
