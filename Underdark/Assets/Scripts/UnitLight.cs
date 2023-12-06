@@ -17,9 +17,14 @@ public class UnitLight : MonoBehaviour
     private void OnEnable()
     {
         unit.Inventory.OnEquipmentChanged += UpdateLight;
+        
+    }
+
+    private void Start()
+    {
         UpdateLight();
     }
-    
+
     private void UpdateLight()
     {
         var nightVisions = unit.GetAllGearPassives<NightVisionSO>();

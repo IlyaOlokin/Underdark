@@ -77,18 +77,23 @@ public class Inventory : IInventory
         return amount;
     }
     
-    public int TryAddActiveAbilityItem(Item item)
+    public bool TryAddActiveAbilityItem(Item item)
     {
         var sameItemSlot = activeAbilitySlots.Find(slot => !slot.IsEmpty && slot.Item.ID == item.ID && !slot.IsFull);
-
         if (sameItemSlot != null)
-            return TryAddToSlot(sameItemSlot, item, 1);
+        {
+            TryAddToSlot(sameItemSlot, item, 1);
+            return true;
+        }
 
         var emptySlot = activeAbilitySlots.Find(slot => slot.IsEmpty);
         if (emptySlot != null)
-            return TryAddToSlot(emptySlot, item, 1);
+        {
+            TryAddToSlot(emptySlot, item, 1);
+            return true;
+        }
 
-        return 1;
+        return false;
     }
 
     private int TryAddToSlot(IInventorySlot slot, Item item, int itemAmount)

@@ -18,7 +18,11 @@ public class ScrollActiveAbility : ExecutableItem
         
         if (Random.Range(0f, 1f) <= CalculateChance(caster))
         {
-            caster.Inventory.TryAddActiveAbilityItem(item);
+            if (!caster.Inventory.TryAddActiveAbilityItem(item))
+            {
+                NotificationManager.Instance.SendNotification(new Notification(item.Sprite, "You've run out of space."));
+                return false;
+            }
         }
         
         return true;
