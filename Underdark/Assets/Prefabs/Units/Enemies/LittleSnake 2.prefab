@@ -245,7 +245,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 8.8
+  m_Radius: 6.6
 --- !u!114 &6012931007409671687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 3887350311143016167}
   - component: {fileID: 3657550447364729542}
   m_Layer: 0
-  m_Name: Bandit
+  m_Name: LittleSnake 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -338,8 +338,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3dcb7bf8d4b144ead12f9a0a8c2893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 4765959571082104443}
-  respawnDelay: 2
+  enemy: {fileID: 1232031067331528528}
+  respawnDelay: 60
 --- !u!1 &3743688560195123424
 GameObject:
   m_ObjectHideFlags: 0
@@ -609,7 +609,7 @@ SpriteRenderer:
   m_SortingLayerID: 1661064027
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b82f548b20fdbbb479d377cb774880dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 15d6bb13f115477418a11782cbba89b4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -937,7 +937,7 @@ MonoBehaviour:
   currentValueText: {fileID: 0}
   maxValueText: {fileID: 0}
   slider: {fileID: 775653150985436888}
-  damageable: {fileID: 4765959571082104443}
+  damageable: {fileID: 1232031067331528528}
 --- !u!1 &7684371324137006495
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,7 +950,7 @@ GameObject:
   - component: {fileID: 7236479408872746017}
   - component: {fileID: 8583875203054404754}
   - component: {fileID: 2281835335463959061}
-  - component: {fileID: 4765959571082104443}
+  - component: {fileID: 1232031067331528528}
   - component: {fileID: 5577980821815337067}
   - component: {fileID: 5290106731956819956}
   m_Layer: 6
@@ -1064,7 +1064,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &4765959571082104443
+--- !u!114 &1232031067331528528
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1073,15 +1073,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7684371324137006495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ed55afce2e64ab41b8eec4331228169, type: 3}
+  m_Script: {fileID: 11500000, guid: e1ca018905a30a249a87d3a462e854af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Stats:
     <Level>k__BackingField: 3
     FreePoints: 0
-    <Strength>k__BackingField: 2
+    <Strength>k__BackingField: 3
     <Dexterity>k__BackingField: 5
-    <Intelligence>k__BackingField: 5
+    <Intelligence>k__BackingField: 2
     pointsPerLevel: 0
     expNeeded: 
   Params:
@@ -1126,9 +1126,7 @@ MonoBehaviour:
   lostPlayerDelay: 5
   meleeAttackDuration: 0.4
   meleeAttackPreparation: 0.5
-  expPerLevel: 10
-  distToForceMelee: 2
-  distToKeep: 5
+  expPerLevel: 5
 --- !u!114 &5577980821815337067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1143,18 +1141,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   droppedItemPref: {fileID: 7200458106229667149, guid: d11e455e2eba1fc4eb9546ce5859c796, type: 3}
   drop:
-  - Item: {fileID: 11400000, guid: 55886dc31b3a814438e4faeb0b9a00e7, type: 2}
+  - Item: {fileID: 11400000, guid: a62fe2a9aaaf69d4bad2c7cf14cbeb91, type: 2}
     ItemAmount: 1
-    ChanceToDropLeft: 0
+    ChanceToDropLeft: 0.2
     ChanceToDropRight: 0.4
-  - Item: {fileID: 11400000, guid: ec10e58ca5581f14e9ee73b0bd1c1eb3, type: 2}
+  - Item: {fileID: 11400000, guid: 1e13f365929c13c45981174534716fbd, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0.2
+    ChanceToDropRight: 0.23
+  - Item: {fileID: 11400000, guid: a5d28b94f9480584698e9e7097ca5bec, type: 2}
     ItemAmount: 1
     ChanceToDropLeft: 0.3
-    ChanceToDropRight: 0.5
-  - Item: {fileID: 11400000, guid: 641c337dabf19de4da7e799c39621dc1, type: 2}
-    ItemAmount: 1
-    ChanceToDropLeft: 0.38
-    ChanceToDropRight: 0.41
+    ChanceToDropRight: 0.305
 --- !u!114 &5290106731956819956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1168,13 +1166,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   head: {fileID: 0}
-  body: {fileID: 11400000, guid: ec10e58ca5581f14e9ee73b0bd1c1eb3, type: 2}
+  body: {fileID: 0}
   legs: {fileID: 0}
   shield: {fileID: 0}
-  weapon: {fileID: 11400000, guid: 55886dc31b3a814438e4faeb0b9a00e7, type: 2}
+  weapon: {fileID: 11400000, guid: a62fe2a9aaaf69d4bad2c7cf14cbeb91, type: 2}
   executableItems: []
   activeAbilities:
-  - {fileID: 11400000, guid: 3040a874303b68b4f8923bc4ac75cb92, type: 2}
+  - {fileID: 11400000, guid: 09be2477809388e4bbb494b12c224c37, type: 2}
 --- !u!1 &7916519281579307983
 GameObject:
   m_ObjectHideFlags: 0

@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2989269700952815197}
-  respawnDelay: 2
+  respawnDelay: 60
 --- !u!1 &3743688560195123424
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,7 +1099,6 @@ MonoBehaviour:
     baseWaterResistance: 0
     baseColdResistance: 0
     baseElectricResistance: 0
-    baseEvasionChance: 0.05
   baseMaxHP: 30
   baseMaxMana: 0
   regenPercent: 0.01
@@ -1145,7 +1144,11 @@ MonoBehaviour:
   - Item: {fileID: 11400000, guid: af8443f1122a1fe46a59550235772cb5, type: 2}
     ItemAmount: 1
     ChanceToDropLeft: 0
-    ChanceToDropRight: 0.5
+    ChanceToDropRight: 0.25
+  - Item: {fileID: 11400000, guid: f122d0ad9c36a8d4ab772065ba8e6725, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0.9
+    ChanceToDropRight: 0.91
 --- !u!114 &5290106731956819956
 MonoBehaviour:
   m_ObjectHideFlags: 0

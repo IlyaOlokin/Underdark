@@ -1141,10 +1141,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   droppedItemPref: {fileID: 7200458106229667149, guid: d11e455e2eba1fc4eb9546ce5859c796, type: 3}
   drop:
-  - Item: {fileID: 11400000, guid: af8443f1122a1fe46a59550235772cb5, type: 2}
+  - Item: {fileID: 11400000, guid: a62fe2a9aaaf69d4bad2c7cf14cbeb91, type: 2}
     ItemAmount: 1
-    ChanceToDropLeft: 0
-    ChanceToDropRight: 0.5
+    ChanceToDropLeft: 0.2
+    ChanceToDropRight: 0.3
+  - Item: {fileID: 11400000, guid: 1e13f365929c13c45981174534716fbd, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0.2
+    ChanceToDropRight: 0.21
 --- !u!114 &5290106731956819956
 MonoBehaviour:
   m_ObjectHideFlags: 0
