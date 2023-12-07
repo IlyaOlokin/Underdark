@@ -8,6 +8,7 @@ public class ScrollActiveAbility : ExecutableItem
     [SerializeField] private ActiveAbilitySO item;
     [SerializeField] private BaseStat baseStat;
     [SerializeField] private int param;
+    
     public override bool Execute(Unit caster)
     {
         if (caster.Inventory.HasActiveAbility(item.ID, out Item itemInInventory))
