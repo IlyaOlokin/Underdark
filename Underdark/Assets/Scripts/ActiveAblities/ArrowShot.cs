@@ -36,7 +36,7 @@ public class ArrowShot : ActiveAbility, IAttacker
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(caster.AttackMask == (caster.AttackMask | (1 << other.gameObject.layer)))
+        if (caster.AttackMask == (caster.AttackMask | (1 << other.gameObject.layer)))
         {
             if (other.TryGetComponent(out Unit damageable))
             {
