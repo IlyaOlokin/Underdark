@@ -57,7 +57,7 @@ public class ItemDescription : MonoBehaviour
         icon.sprite = item.Sprite;
         itemName.text = item.Name;
 
-        var properties = item.ItemType == ItemType.Executable ? item.ToString(owner) : item.ToString();
+        var properties = item.ToString(owner);
 
         for (int i = 0; i < properties.Length; i++)
         {
