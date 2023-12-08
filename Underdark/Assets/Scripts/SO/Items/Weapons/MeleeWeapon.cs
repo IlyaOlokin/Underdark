@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,7 @@ public class MeleeWeapon : Item, IPassiveHolder
         res.Add($"Damage: {Damage.ToString()}");
         res.Add($"Radius: {AttackRadius.ToString()}");
         res.Add($"Distance: {AttackDistance.ToString()}");
+        res.Add($"{WeaponHandedTypeToString()}");
           
         return res.ToArray();
     }
@@ -43,5 +45,15 @@ public class MeleeWeapon : Item, IPassiveHolder
         }
 
         return res.ToArray();
+    }
+
+    private string WeaponHandedTypeToString()
+    {
+        return WeaponHandedType switch
+        {
+            WeaponHandedType.OneHanded => "One-Handed",
+            WeaponHandedType.TwoHanded => "Two-Handed",
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }
