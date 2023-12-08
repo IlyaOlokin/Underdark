@@ -25,7 +25,7 @@ public class UnitParams
     [SerializeField] public float baseElectricResistance;
 
     [Header("Evasion")] 
-    private float baseEvasionChance;
+    [SerializeField] private float baseEvasionChance;
 
     public float SlowAmount { get; private set; }
     public float AllDmgAmplification { get; private set; }
@@ -50,13 +50,13 @@ public class UnitParams
         
         return damageType switch
         {
-            DamageType.Physic => (basePhysicDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Chaos => (baseChaosDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Fire => (baseFireDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Air => (baseAirDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Water => (baseWaterDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Cold => (baseColdDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Electric => (baseElectricDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Physic => (basePhysicResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Chaos => (baseChaosResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Fire => (baseFireResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Air => (baseAirResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Water => (baseWaterResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Cold => (baseColdResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Electric => (baseElectricResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
         };
     }
