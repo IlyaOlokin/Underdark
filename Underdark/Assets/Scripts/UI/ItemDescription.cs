@@ -7,11 +7,18 @@ using UnityEngine.UI;
 
 public class ItemDescription : MonoBehaviour
 {
-    [SerializeField] private List<TextMeshProUGUI> propertyFields;
-    [SerializeField] private List<TextMeshProUGUI> additionalPropertyFields;
+    [Header("General")]
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI itemName;
+    [SerializeField] private List<TextMeshProUGUI> propertyFields;
 
+    [Header("Additional Properties")]
+    [SerializeField] private TextMeshProUGUI additionalPropertyFieldPref;
+    [SerializeField] private Transform additionalPropertyFieldInitialPos;
+    [SerializeField] private Transform additionalPropertyFieldParents;
+    private List<TextMeshProUGUI> additionalPropertyFields = new List<TextMeshProUGUI>();
+
+    [Header("Buttons")]
     [SerializeField] private Button useItemButton;
     [SerializeField] private Button deleteItemButton;
     [SerializeField] private Button confirmDeleteItemButton;
@@ -62,8 +69,18 @@ public class ItemDescription : MonoBehaviour
         
         for (int i = 0; i < additionalProperties.Length; i++)
         {
-            additionalPropertyFields[i].gameObject.SetActive(true);
-            additionalPropertyFields[i].text = additionalProperties[i];
+            var newText = Instantiate(additionalPropertyFieldPref, additionalPropertyFieldInitialPos.position, Quaternion.identity, additionalPropertyFieldParents);
+            
+            additionalPropertyFields.Add(newText);
+            newText.text = additionalProperties[i];
+            newText.ForceMeshUpdate();
+            if (i == 0) continue;
+            
+            var renderedValues = additionalPropertyFields[i - 1].GetRenderedValues(true);
+            var yOffset = (renderedValues.y + 10) / 6f;
+            var lastPropertyPos = additionalPropertyFields[i - 1].rectTransform.anchoredPosition;
+            
+            newText.rectTransform.anchoredPosition = new Vector3(lastPropertyPos.x, lastPropertyPos.y - yOffset, 0);
         }
     }
 
@@ -79,8 +96,10 @@ public class ItemDescription : MonoBehaviour
 
         foreach (var additionalProperty in additionalPropertyFields)
         {
-            additionalProperty.gameObject.SetActive(false);
+            //additionalProperty.gameObject.SetActive(false);
+            Destroy(additionalProperty.gameObject);
         }
+        additionalPropertyFields.Clear();
 
         icon.gameObject.SetActive(enabled);
         itemName.gameObject.SetActive(enabled);
