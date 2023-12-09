@@ -88,6 +88,7 @@ public class UnitParams
 
     private float CalculateResist(float baseRes, float bonusRes)
     {
+        var a = Mathf.Clamp(1 - (baseRes + bonusRes), 0, 2);
         return Mathf.Clamp(1 - (baseRes + bonusRes), 0, 2);
     }
 
