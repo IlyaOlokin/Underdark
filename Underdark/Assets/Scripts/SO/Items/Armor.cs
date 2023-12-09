@@ -10,10 +10,10 @@ public class Armor : Item, IPassiveHolder
      
      [field:SerializeField] public List<PassiveSO> Passives { get; private set; }
      
-     public override string[] ToString()
+     public override string[] ToString(Unit owner)
      {
           List<string> res = new List<string>();
-          res.Add(Requirements.ToString());
+          res.Add(Requirements.ToString(owner));
           res.Add($"Armor: {ArmorAmount}");
           
           return res.ToArray();

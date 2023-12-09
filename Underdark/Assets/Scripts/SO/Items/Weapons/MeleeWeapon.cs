@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,13 +16,14 @@ public class MeleeWeapon : Item, IPassiveHolder
     
     [field:SerializeField] public List<PassiveSO> Passives { get; private set; }
     
-    public override string[] ToString()
+    public override string[] ToString(Unit owner)
     {
         List<string> res = new List<string>();
-        res.Add(Requirements.ToString());
+        res.Add(Requirements.ToString(owner));
         res.Add($"Damage: {Damage.ToString()}");
         res.Add($"Radius: {AttackRadius.ToString()}");
         res.Add($"Distance: {AttackDistance.ToString()}");
+        res.Add($"{WeaponHandedTypeToString()}");
           
         return res.ToArray();
     }
@@ -43,5 +45,15 @@ public class MeleeWeapon : Item, IPassiveHolder
         }
 
         return res.ToArray();
+    }
+
+    private string WeaponHandedTypeToString()
+    {
+        return WeaponHandedType switch
+        {
+            WeaponHandedType.OneHanded => "One-Handed",
+            WeaponHandedType.TwoHanded => "Two-Handed",
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }

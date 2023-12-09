@@ -25,7 +25,7 @@ public class UnitParams
     [SerializeField] public float baseElectricResistance;
 
     [Header("Evasion")] 
-    private float baseEvasionChance;
+    [SerializeField] private float baseEvasionChance;
 
     public float SlowAmount { get; private set; }
     public float AllDmgAmplification { get; private set; }
@@ -75,19 +75,20 @@ public class UnitParams
         
         return damageType switch
         {
-            DamageType.Physic => CalculateResist(basePhysicDmgAmplification, dmgRes),
-            DamageType.Chaos => CalculateResist(baseChaosDmgAmplification, dmgRes),
-            DamageType.Fire => CalculateResist(baseFireDmgAmplification, dmgRes),
-            DamageType.Air => CalculateResist(baseAirDmgAmplification, dmgRes),
-            DamageType.Water => CalculateResist(baseWaterDmgAmplification, dmgRes),
-            DamageType.Cold => CalculateResist(baseColdDmgAmplification, dmgRes),
-            DamageType.Electric => CalculateResist(baseElectricDmgAmplification, dmgRes),
+            DamageType.Physic => CalculateResist(basePhysicResistance, dmgRes),
+            DamageType.Chaos => CalculateResist(baseChaosResistance, dmgRes),
+            DamageType.Fire => CalculateResist(baseFireResistance, dmgRes),
+            DamageType.Air => CalculateResist(baseAirResistance, dmgRes),
+            DamageType.Water => CalculateResist(baseWaterResistance, dmgRes),
+            DamageType.Cold => CalculateResist(baseColdResistance, dmgRes),
+            DamageType.Electric => CalculateResist(baseElectricResistance, dmgRes),
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
         };
     }
 
     private float CalculateResist(float baseRes, float bonusRes)
     {
+        var a = Mathf.Clamp(1 - (baseRes + bonusRes), 0, 2);
         return Mathf.Clamp(1 - (baseRes + bonusRes), 0, 2);
     }
 

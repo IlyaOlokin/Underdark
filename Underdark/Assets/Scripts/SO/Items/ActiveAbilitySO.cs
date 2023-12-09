@@ -5,7 +5,7 @@ public class ActiveAbilitySO : Item
 {
     public ActiveAbility ActiveAbility;
     
-    public override string[] ToString()
+    public override string[] ToString(Unit owner)
     {
         return ActiveAbility.ToString();
     }
