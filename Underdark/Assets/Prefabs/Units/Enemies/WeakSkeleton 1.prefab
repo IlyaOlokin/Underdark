@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 3887350311143016167}
   - component: {fileID: 3657550447364729542}
   m_Layer: 0
-  m_Name: LittleSnake
+  m_Name: WeakSkeleton 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3dcb7bf8d4b144ead12f9a0a8c2893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 1232031067331528528}
+  enemy: {fileID: 2989269700952815197}
   respawnDelay: 60
 --- !u!1 &3743688560195123424
 GameObject:
@@ -609,7 +609,7 @@ SpriteRenderer:
   m_SortingLayerID: 1661064027
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 15d6bb13f115477418a11782cbba89b4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d51dbb8a4fea1274f95fa2d297922d5c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -937,7 +937,7 @@ MonoBehaviour:
   currentValueText: {fileID: 0}
   maxValueText: {fileID: 0}
   slider: {fileID: 775653150985436888}
-  damageable: {fileID: 1232031067331528528}
+  damageable: {fileID: 2989269700952815197}
 --- !u!1 &7684371324137006495
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,7 +950,7 @@ GameObject:
   - component: {fileID: 7236479408872746017}
   - component: {fileID: 8583875203054404754}
   - component: {fileID: 2281835335463959061}
-  - component: {fileID: 1232031067331528528}
+  - component: {fileID: 2989269700952815197}
   - component: {fileID: 5577980821815337067}
   - component: {fileID: 5290106731956819956}
   m_Layer: 6
@@ -1064,7 +1064,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &1232031067331528528
+--- !u!114 &2989269700952815197
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1073,16 +1073,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7684371324137006495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e1ca018905a30a249a87d3a462e854af, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b98a7b020ca8264d88d56b71a3c4b0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Stats:
-    <Level>k__BackingField: 1
+    <Level>k__BackingField: 2
     FreePoints: 0
-    <Strength>k__BackingField: 1
-    <Dexterity>k__BackingField: 4
+    <Strength>k__BackingField: 4
+    <Dexterity>k__BackingField: 3
     <Intelligence>k__BackingField: 1
-    pointsPerLevel: 0
+    pointsPerLevel: 7
     expNeeded: 
   Params:
     basePhysicDmgAmplification: 0
@@ -1092,9 +1092,9 @@ MonoBehaviour:
     baseWaterDmgAmplification: 0
     baseColdDmgAmplification: 0
     baseElectricDmgAmplification: 0
-    basePhysicResistance: 0
+    basePhysicResistance: 0.2
     baseChaosResistance: 0
-    baseFireResistance: 0
+    baseFireResistance: -0.2
     baseAirResistance: 0
     baseWaterResistance: 0
     baseColdResistance: 0
@@ -1126,7 +1126,7 @@ MonoBehaviour:
   lostPlayerDelay: 5
   meleeAttackDuration: 0.4
   meleeAttackPreparation: 0.5
-  expPerLevel: 5
+  expPerLevel: 7
 --- !u!114 &5577980821815337067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1141,14 +1141,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   droppedItemPref: {fileID: 7200458106229667149, guid: d11e455e2eba1fc4eb9546ce5859c796, type: 3}
   drop:
-  - Item: {fileID: 11400000, guid: a62fe2a9aaaf69d4bad2c7cf14cbeb91, type: 2}
+  - Item: {fileID: 11400000, guid: af8443f1122a1fe46a59550235772cb5, type: 2}
     ItemAmount: 1
-    ChanceToDropLeft: 0.2
+    ChanceToDropLeft: 0
     ChanceToDropRight: 0.3
-  - Item: {fileID: 11400000, guid: 1e13f365929c13c45981174534716fbd, type: 2}
+  - Item: {fileID: 11400000, guid: f122d0ad9c36a8d4ab772065ba8e6725, type: 2}
     ItemAmount: 1
-    ChanceToDropLeft: 0.2
-    ChanceToDropRight: 0.21
+    ChanceToDropLeft: 0.9
+    ChanceToDropRight: 0.91
 --- !u!114 &5290106731956819956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1165,10 +1165,9 @@ MonoBehaviour:
   body: {fileID: 0}
   legs: {fileID: 0}
   shield: {fileID: 0}
-  weapon: {fileID: 11400000, guid: a62fe2a9aaaf69d4bad2c7cf14cbeb91, type: 2}
+  weapon: {fileID: 11400000, guid: af8443f1122a1fe46a59550235772cb5, type: 2}
   executableItems: []
-  activeAbilities:
-  - {fileID: 11400000, guid: 09be2477809388e4bbb494b12c224c37, type: 2}
+  activeAbilities: []
 --- !u!1 &7916519281579307983
 GameObject:
   m_ObjectHideFlags: 0
