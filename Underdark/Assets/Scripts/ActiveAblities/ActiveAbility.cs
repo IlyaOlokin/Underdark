@@ -121,12 +121,13 @@ public abstract class ActiveAbility : MonoBehaviour
 
     public new virtual string[] ToString()
     {
-        var res = new string[5];
+        var res = new string[6];
         res[0] = description;
         if (statMultiplier != 0) res[1] = $"Damage: {statMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {maxValue})";
         if (ManaCost != 0)       res[2] = $"Mana: {ManaCost}";
         if (AttackDistance != 0) res[3] = $"Distance: {AttackDistance}";
         if (AttackAngle != 0)    res[4] = $"Radius: {AttackAngle}";
+        if (cooldown != 0)    res[5] = $"Cooldown: {cooldown}";
         return res;
     }
     

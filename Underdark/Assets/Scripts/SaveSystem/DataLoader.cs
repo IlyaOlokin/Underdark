@@ -88,5 +88,6 @@ public class DataLoader : MonoBehaviour
     public static void NewGame()
     {
         gameData = new GameData();
+        LevelTransition.MaxReachedLevel = 1;
     }
 }

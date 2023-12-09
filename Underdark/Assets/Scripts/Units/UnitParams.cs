@@ -50,13 +50,13 @@ public class UnitParams
         
         return damageType switch
         {
-            DamageType.Physic => (basePhysicResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Chaos => (baseChaosResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Fire => (baseFireResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Air => (baseAirResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Water => (baseWaterResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Cold => (baseColdResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Electric => (baseElectricResistance + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Physic => (basePhysicDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Chaos => (baseChaosDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Fire => (baseFireDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Air => (baseAirDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Water => (baseWaterDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Cold => (baseColdDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Electric => (baseElectricDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
         };
     }
@@ -75,19 +75,20 @@ public class UnitParams
         
         return damageType switch
         {
-            DamageType.Physic => CalculateResist(basePhysicDmgAmplification, dmgRes),
-            DamageType.Chaos => CalculateResist(baseChaosDmgAmplification, dmgRes),
-            DamageType.Fire => CalculateResist(baseFireDmgAmplification, dmgRes),
-            DamageType.Air => CalculateResist(baseAirDmgAmplification, dmgRes),
-            DamageType.Water => CalculateResist(baseWaterDmgAmplification, dmgRes),
-            DamageType.Cold => CalculateResist(baseColdDmgAmplification, dmgRes),
-            DamageType.Electric => CalculateResist(baseElectricDmgAmplification, dmgRes),
+            DamageType.Physic => CalculateResist(basePhysicResistance, dmgRes),
+            DamageType.Chaos => CalculateResist(baseChaosResistance, dmgRes),
+            DamageType.Fire => CalculateResist(baseFireResistance, dmgRes),
+            DamageType.Air => CalculateResist(baseAirResistance, dmgRes),
+            DamageType.Water => CalculateResist(baseWaterResistance, dmgRes),
+            DamageType.Cold => CalculateResist(baseColdResistance, dmgRes),
+            DamageType.Electric => CalculateResist(baseElectricResistance, dmgRes),
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
         };
     }
 
     private float CalculateResist(float baseRes, float bonusRes)
     {
+        var a = Mathf.Clamp(1 - (baseRes + bonusRes), 0, 2);
         return Mathf.Clamp(1 - (baseRes + bonusRes), 0, 2);
     }
 

@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 3887350311143016167}
   - component: {fileID: 3657550447364729542}
   m_Layer: 0
-  m_Name: LittleSnake
+  m_Name: LittleSnake 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1077,11 +1077,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stats:
-    <Level>k__BackingField: 1
+    <Level>k__BackingField: 3
     FreePoints: 0
-    <Strength>k__BackingField: 1
-    <Dexterity>k__BackingField: 4
-    <Intelligence>k__BackingField: 1
+    <Strength>k__BackingField: 3
+    <Dexterity>k__BackingField: 5
+    <Intelligence>k__BackingField: 2
     pointsPerLevel: 0
     expNeeded: 
   Params:
@@ -1144,11 +1144,15 @@ MonoBehaviour:
   - Item: {fileID: 11400000, guid: a62fe2a9aaaf69d4bad2c7cf14cbeb91, type: 2}
     ItemAmount: 1
     ChanceToDropLeft: 0.2
-    ChanceToDropRight: 0.3
+    ChanceToDropRight: 0.4
   - Item: {fileID: 11400000, guid: 1e13f365929c13c45981174534716fbd, type: 2}
     ItemAmount: 1
     ChanceToDropLeft: 0.2
-    ChanceToDropRight: 0.21
+    ChanceToDropRight: 0.23
+  - Item: {fileID: 11400000, guid: a5d28b94f9480584698e9e7097ca5bec, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0.3
+    ChanceToDropRight: 0.305
 --- !u!114 &5290106731956819956
 MonoBehaviour:
   m_ObjectHideFlags: 0
