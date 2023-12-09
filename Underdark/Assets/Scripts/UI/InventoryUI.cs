@@ -36,7 +36,6 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     private void Awake()
     {
         Inventory = player.Inventory;
-        Inventory.OnInventoryChanged += UpdateUI;
         
         var inventorySlots = Inventory.GetAllSlots();
         for (int i = 0; i < inventorySlots.Length; i++)
@@ -71,6 +70,7 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
 
     private void OnEnable()
     {
+        Inventory.OnInventoryChanged += UpdateUI;
         UpdateUI();
     }
 
@@ -106,6 +106,7 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
 
     private void OnDisable()
     {
+        Inventory.OnInventoryChanged -= UpdateUI;
         DeselectSlot();
     }
     

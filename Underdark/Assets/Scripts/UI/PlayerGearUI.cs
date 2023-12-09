@@ -12,7 +12,7 @@ public class PlayerGearUI : MonoBehaviour
     
     [Header("Tab")] 
     [SerializeField] private InventoryUI inventoryTab;
-    [SerializeField] private GameObject paramsTab;
+    [SerializeField] private ParamsUI paramsTab;
     
     [NonSerialized] public GameObject blackOut;
 
