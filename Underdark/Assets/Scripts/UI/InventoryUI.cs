@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour, IInventoryUI
 {
@@ -26,8 +27,6 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
 
     [Header("Item Description")] 
     [SerializeField] private ItemDescription itemDescription;
-    
-    [NonSerialized] public GameObject blackOut;
     
     public void Init(Player player)
     {
@@ -73,8 +72,6 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     private void OnEnable()
     {
         UpdateUI();
-        transform.SetAsLastSibling();
-        blackOut.SetActive(true);
     }
 
     private void UpdateUI()
@@ -109,7 +106,6 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
 
     private void OnDisable()
     {
-        blackOut.SetActive(false);
         DeselectSlot();
     }
     

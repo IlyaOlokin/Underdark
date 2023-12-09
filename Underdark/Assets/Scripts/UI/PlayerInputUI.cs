@@ -20,7 +20,7 @@ public class PlayerInputUI : MonoBehaviour
     private List<float> abilitiesCDMax;
     [Header("Inventory")]
     public Button inventoryButton;
-    private GameObject inventory;
+    private GameObject gearWindow;
     [Header("Character")]
     public Button characterButton;
     private GameObject characterWindow;
@@ -35,14 +35,14 @@ public class PlayerInputUI : MonoBehaviour
     private Player player;
     private IInput input;
     
-    public void Init(Player player, IInput input, GameObject inventoryUI, GameObject characterWindowUI)
+    public void Init(Player player, IInput input, GameObject gearUI, GameObject characterWindowUI)
     {
         this.player = player;
         this.input = input;
-        inventory = inventoryUI;
+        gearWindow = gearUI;
         characterWindow = characterWindowUI;
 
-        inventory.GetComponent<InventoryUI>().blackOut = blackOut;
+        gearWindow.GetComponent<PlayerGearUI>().blackOut = blackOut;
         characterWindow.GetComponent<CharacterWindowUI>().blackOut = blackOut;
         
         freePointsIndicator.Init(player.Stats);
@@ -60,7 +60,7 @@ public class PlayerInputUI : MonoBehaviour
     private void Start()
     {
         executableSlotsHandler.Init(player);
-        inventory.SetActive(false);
+        gearWindow.SetActive(false);
         characterWindow.SetActive(false);
         player.Inventory.OnActiveAbilitiesChanged += UpdateEquippedAbilities;
         player.Inventory.OnExecutableItemChanged += UpdateExecutableSlots;
@@ -143,14 +143,14 @@ public class PlayerInputUI : MonoBehaviour
     {
         characterWindow.SetActive(false);
         
-        input.IsEnabled = inventory.activeSelf;
-        inventory.SetActive(!inventory.activeSelf);
+        input.IsEnabled = gearWindow.activeSelf;
+        gearWindow.SetActive(!gearWindow.activeSelf);
         executableSlotsHandler.RefreshAllSlots();
     }
     
     private void ToggleCharacterWindow()
     {
-        inventory.SetActive(false);
+        gearWindow.SetActive(false);
         
         input.IsEnabled = characterWindow.activeSelf;
         characterWindow.SetActive(!characterWindow.activeSelf);
