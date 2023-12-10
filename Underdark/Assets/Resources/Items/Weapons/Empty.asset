@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: empty
   Name: 
   ItemType: 4
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: 3bbde063c847a4143ac92f2ab35f356b, type: 3}
   StackCapacity: 1
   Requirements:
     <Level>k__BackingField: 0
@@ -27,10 +27,13 @@ MonoBehaviour:
     <IntStr>k__BackingField: 0
     <AllStats>k__BackingField: 0
   Damage:
+    <DamageType>k__BackingField: 0
     minDamage: 0
     maxDamage: 0
   WeaponType: 2
+  WeaponHandedType: 0
   AttackRadius: 90
   AttackDistance: 1
   ArmorPierce: 0
   DebuffInfos: []
+  <Passives>k__BackingField: []
