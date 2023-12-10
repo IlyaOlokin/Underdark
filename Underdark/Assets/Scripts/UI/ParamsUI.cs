@@ -60,23 +60,34 @@ public class ParamsUI : MonoBehaviour
 
     private void UpdateAmplifications()
     {
-        physDmgAmplText.text = $"{(player.Params.GetDamageAmplification(DamageType.Physic) - 1) * 100}%";
-        chaosDmgAmplText.text = $"{(player.Params.GetDamageAmplification(DamageType.Chaos) - 1) * 100}%";
-        fireDmgAmplText.text = $"{(player.Params.GetDamageAmplification(DamageType.Fire) - 1) * 100}%";
-        airDmgAmplText.text = $"{(player.Params.GetDamageAmplification(DamageType.Air) - 1) * 100}%";
-        waterDmgAmplText.text = $"{(player.Params.GetDamageAmplification(DamageType.Water) - 1) * 100}%";
-        coldDmgAmplText.text = $"{(player.Params.GetDamageAmplification(DamageType.Cold) - 1) * 100}%";
-        electricDmgAmplText.text = $"{(player.Params.GetDamageAmplification(DamageType.Electric) - 1) * 100}%";
+        HandleAmplificationText(physDmgAmplText, DamageType.Physic);
+        HandleAmplificationText(chaosDmgAmplText, DamageType.Chaos);
+        HandleAmplificationText(fireDmgAmplText, DamageType.Fire);
+        HandleAmplificationText(airDmgAmplText, DamageType.Air);
+        HandleAmplificationText(waterDmgAmplText, DamageType.Water);
+        HandleAmplificationText(coldDmgAmplText, DamageType.Cold);
+        HandleAmplificationText(electricDmgAmplText, DamageType.Electric);
+    }
+
+    private void HandleAmplificationText(TextMeshProUGUI text, DamageType damageType)
+    {
+        text.text = $"{Mathf.Round((player.Params.GetDamageAmplification(damageType) - 1) * 100)}%";
     }
     
     private void UpdateResistances()
     {
-        physDmgResText.text = $"{(1 - player.Params.GetDamageResistance(DamageType.Physic)) * 100}%";
-        chaosDmgResText.text = $"{(1 - player.Params.GetDamageResistance(DamageType.Chaos)) * 100}%";
-        fireDmgResText.text = $"{(1 - player.Params.GetDamageResistance(DamageType.Fire)) * 100}%";
-        airDmgResText.text = $"{(1 - player.Params.GetDamageResistance(DamageType.Air)) * 100}%";
-        waterDmgResText.text = $"{(1 - player.Params.GetDamageResistance(DamageType.Water)) * 100}%";
-        coldDmgResText.text = $"{(1 - player.Params.GetDamageResistance(DamageType.Cold)) * 100}%";
-        electricDmgResText.text = $"{(1 - player.Params.GetDamageResistance(DamageType.Electric)) * 100}%";
+        HandleResistanceText(physDmgResText, DamageType.Physic);
+        HandleResistanceText(chaosDmgResText, DamageType.Chaos);
+        HandleResistanceText(fireDmgResText, DamageType.Fire);
+        HandleResistanceText(airDmgResText, DamageType.Air);
+        HandleResistanceText(waterDmgResText, DamageType.Water);
+        HandleResistanceText(coldDmgResText, DamageType.Cold);
+        HandleResistanceText(electricDmgResText, DamageType.Electric);
+    }
+
+    private void HandleResistanceText(TextMeshProUGUI text, DamageType damageType)
+    {
+        text.text = $"{Mathf.Round((1 - player.Params.GetDamageResistance(damageType)) * 100)}%";
+
     }
 }
