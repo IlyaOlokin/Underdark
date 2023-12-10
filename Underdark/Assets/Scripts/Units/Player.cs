@@ -33,12 +33,6 @@ public class Player : Unit, IPickUper
         Stats.OnStatsChanged += UpdateMP;
         Stats.OnLevelUp += OnLevelUp;
     }
-
-    protected override void Death(Unit killer)
-    {
-        base.Death(killer);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
     
     protected override void Update()
     {
