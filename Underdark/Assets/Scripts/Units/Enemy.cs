@@ -135,7 +135,7 @@ public class Enemy : Unit
     {
         if (TryGetComponent(out Drop drop))
         {
-            if (TryGetComponent(out IMoneyHolder moneyHolder)) drop.DropItems(moneyHolder);
+            if (killer.TryGetComponent(out IMoneyHolder moneyHolder)) drop.DropItems(moneyHolder);
             else drop.DropItems();
         }
         
