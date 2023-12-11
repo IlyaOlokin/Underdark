@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1615620556159779335}
   - component: {fileID: 9209489120575824937}
   m_Layer: 5
-  m_Name: UnitNotification
+  m_Name: MoneyDropNotification
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,16 +120,16 @@ MonoBehaviour:
   criticalEffect: {fileID: 4235308194766578348}
   objectToMove: {fileID: 4007302569651770349}
   text: {fileID: 5732494522874007170}
-  lifeTime: 0.6
-  effectDuration: 0.4
+  lifeTime: 1.5
+  effectDuration: 1
   scaleMultiplier: 1.5
-  moveDistance: 1
+  moveDistance: 1.3
   lerpSpeed: 0.04
   posSpreading: 0.2
   dmgColor: {r: 1, g: 1, b: 1, a: 1}
   dmgEnergyShieldColor: {r: 0, g: 0, b: 1, a: 1}
   healColor: {r: 0.40569654, g: 0.8962264, b: 0.2494215, a: 1}
-  messageColor: {r: 1, g: 1, b: 1, a: 1}
+  messageColor: {r: 1, g: 0.83097726, b: 0.27843142, a: 1}
 --- !u!1 &2193666205227252161
 GameObject:
   m_ObjectHideFlags: 0

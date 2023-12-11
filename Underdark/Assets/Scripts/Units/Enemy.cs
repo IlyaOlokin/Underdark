@@ -134,7 +134,10 @@ public class Enemy : Unit
     protected override void Death(Unit killer)
     {
         if (TryGetComponent(out Drop drop))
-            drop.DropItems();
+        {
+            if (TryGetComponent(out IMoneyHolder moneyHolder)) drop.DropItems(moneyHolder);
+            else drop.DropItems();
+        }
         
         if (killer.TryGetComponent(out Player player))
             player.GetExp(Stats.Level * expPerLevel);

@@ -4,9 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-public class Player : Unit, IPickUper
+public class Player : Unit, IPickUper, IMoneyHolder
 {
     private IInput input;
+    public Money Money { get; private set; }
+
     public event Action OnExpGained;
     
     [Inject]
@@ -24,6 +26,8 @@ public class Player : Unit, IPickUper
         input.ActiveAbilityHoldEnd += EndHighLightActiveAbility;
 
         input.ExecutableItemInput += ExecuteExecutableItem;
+
+        Money = new Money();
     }
     
     private void OnEnable()

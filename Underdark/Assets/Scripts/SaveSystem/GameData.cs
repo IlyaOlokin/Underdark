@@ -27,6 +27,9 @@ public class GameData
     public List<string> ActiveAbilities = new ();
     public List<string> EquipedActiveAbilities = new ();
     
-    //Environment
+    // Environment
     public int MaxReachedLevel = 1;
+    
+    // Money
+    public int MoneyCount;
 }

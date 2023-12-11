@@ -14,9 +14,9 @@ public class DropChest : MonoBehaviour
 
     void Start()
     {
-        playerSensor.OnPlayerEnter += (transform) =>
+        playerSensor.OnPlayerEnter += (player) =>
         {
-            if (!opened) drop.DropItems();
+            if (!opened) drop.DropItems(player.GetComponent<IMoneyHolder>());
             opened = true;
             sr.sprite = openedSprite;
         };
