@@ -11,6 +11,7 @@ public class PlayerInputUI : MonoBehaviour
 {
     public FloatingJoystick joystick;
     public Button shootButton;
+    public Image shootButtonIcon;
     [Header("Ability Buttons")]
     public List<HoldButton> activeAbilityButtons;
     public List<Image> buttonsIcons;
@@ -66,10 +67,12 @@ public class PlayerInputUI : MonoBehaviour
         player.Inventory.OnExecutableItemChanged += UpdateExecutableSlots;
         
         player.Inventory.OnEquipmentChanged += UpdateEquippedAbilities;
+        player.Inventory.OnEquipmentChanged += UpdateShootButtonIcon;
         player.OnManaChanged += CheckActiveAbilitiesManaCost;
         player.OnIsSilenceChanged += UpdateEquippedAbilities;
        
         UpdateEquippedAbilities();
+        UpdateShootButtonIcon();
     }
 
     private void Update()
@@ -156,12 +159,18 @@ public class PlayerInputUI : MonoBehaviour
         characterWindow.SetActive(!characterWindow.activeSelf);
     }
 
+    private void UpdateShootButtonIcon()
+    {
+        shootButtonIcon.sprite = player.GetWeapon().Sprite;
+    }
+
     private void OnDisable()
     {
         player.Inventory.OnActiveAbilitiesChanged -= UpdateEquippedAbilities;
         player.Inventory.OnExecutableItemChanged -= UpdateExecutableSlots;
         
         player.Inventory.OnEquipmentChanged -= UpdateEquippedAbilities;
+        player.Inventory.OnEquipmentChanged -= UpdateShootButtonIcon;
         player.OnManaChanged -= CheckActiveAbilitiesManaCost;
         player.OnIsSilenceChanged -= UpdateEquippedAbilities;
     }
