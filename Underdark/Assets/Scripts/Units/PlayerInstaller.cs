@@ -58,6 +58,8 @@ public class PlayerInstaller : MonoBehaviour
             if (item != null)
                 equippedActiveAbilities[i].SetItem(item);
         }
+        
+        player.Money.SetMoney(data.MoneyCount);
 
         player.Inventory.UpdateInventory();
     }

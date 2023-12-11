@@ -80,6 +80,7 @@ public class DataLoader : MonoBehaviour
             gameData.EquipedActiveAbilities.Add(t.ItemID);
         }
 
+        gameData.MoneyCount = player.Money.GetMoney();
         gameData.MaxReachedLevel = LevelTransition.MaxReachedLevel;
         
         dataHandler.Save(gameData);

@@ -12,10 +12,8 @@ public class Money
         Debug.Log(count);
     }
 
-    public void SetMoney(int amount)
-    {
-        count = amount;
-    }
+    public void SetMoney(int amount) => count = amount;
+    public int GetMoney() => count;
     
     public bool TrySpendMoney(int amount)
     {
