@@ -21,6 +21,9 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     
     [SerializeField] private UIInventorySlot[] executableSlots;
 
+    [Header("Money Display")] 
+    [SerializeField] private TextMeshProUGUI moneyText;
+
     [Header("Stats Text")] 
     [SerializeField] private TextMeshProUGUI attackText; 
     [SerializeField] private TextMeshProUGUI armorText;
@@ -71,7 +74,9 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     private void OnEnable()
     {
         Inventory.OnInventoryChanged += UpdateUI;
+        player.Money.OnMoneyChanged += UpdateMoneyDisplay;
         UpdateUI();
+        UpdateMoneyDisplay(player.Money.GetMoney());
     }
 
     private void UpdateUI()
@@ -102,6 +107,11 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         armorText.text = player.GetTotalArmor().ToString();
         attackText.text = player.GetWeapon().Damage.ToString(player.Stats.GetTotalStatValue(BaseStat.Strength),
             player.Params.GetDamageAmplification(player.GetWeapon().Damage.DamageType));
+    }
+
+    private void UpdateMoneyDisplay(int moneyCount)
+    {
+        moneyText.text = moneyCount.ToString();
     }
 
     private void OnDisable()
