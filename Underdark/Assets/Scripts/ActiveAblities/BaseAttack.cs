@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseAttack : ActiveAbility, IAttacker
 {
-    public Transform Transform { get; }
+    public Transform Transform => transform;
 
     [Header("Visual")] 
     [SerializeField] private BaseAttackVisual baseAttackVisual;

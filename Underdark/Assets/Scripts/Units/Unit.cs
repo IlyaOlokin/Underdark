@@ -275,7 +275,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         
         CurrentHP -= newDamage;
         unitVisual.StartWhiteOut();
-        if (CurrentHP <= 0) Death(sender);
+        if (CurrentHP <= 0) Death(sender, attacker, damageInfo.GetDamages()[0].DamageType);
         newEffect.WriteDamage(newDamage);
         return true;
     }
@@ -507,7 +507,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         return armor;
     }
 
-    protected virtual void Death(Unit killer)
+    protected virtual void Death(Unit killer, IAttacker attacker, DamageType damageType)
     {
         OnUnitDeath?.Invoke();
         gameObject.SetActive(false);

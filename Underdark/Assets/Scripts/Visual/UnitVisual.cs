@@ -7,6 +7,8 @@ using UnityEngine.Serialization;
 public class UnitVisual : MonoBehaviour
 {
     [SerializeField] private Material mat;
+    private SpriteRenderer sr;
+    
     [Header("Alert")]
     [SerializeField] private float maxThickness;
     [SerializeField] private float alertDuration;
@@ -23,6 +25,9 @@ public class UnitVisual : MonoBehaviour
     [Header("Energy Shield")] 
     [SerializeField] private GameObject EnergyShield;
     private SpriteRenderer energyShieldSpriteRenderer;
+    
+    [Header("Death Imposter")]
+    [SerializeField] private DeathImposter deathImposter;
 
     [Header("AbilityHighLight")] 
     [SerializeField] private GameObject highLightZone;
@@ -31,8 +36,9 @@ public class UnitVisual : MonoBehaviour
 
     private void Awake()
     {
-        GetComponent<SpriteRenderer>().material = new Material(mat);
-        mat = GetComponent<SpriteRenderer>().material;
+        sr = GetComponent<SpriteRenderer>();
+        sr.material = new Material(mat);
+        mat = sr.material;
         energyShieldSpriteRenderer = EnergyShield.GetComponent<SpriteRenderer>();
         if (highLightZone != null) highLightZone.GetComponent<SpriteRenderer>().material = highLightZoneMat;
     }
@@ -128,5 +134,11 @@ public class UnitVisual : MonoBehaviour
     public void EndHighLightActiveAbility()
     {
         highLightZone.SetActive(false);
+    }
+
+    public void StartDeathEffect(IAttacker attacker, DamageType damageType)
+    {
+        var newImposter = Instantiate(deathImposter, transform.position, Quaternion.identity);
+        newImposter.StartDeath(attacker, damageType, sr.sprite);
     }
 }

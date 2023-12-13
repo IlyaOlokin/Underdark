@@ -32,7 +32,7 @@ public class EnemySpawnPoint : MonoBehaviour
         {
             enemy.gameObject.SetActive(false);
         }
-        else if (!enemy.gameObject.activeSelf && Vector2.Distance(enemy.transform.position, player.transform.position) < deactivateRange)
+        else if (!enemy.gameObject.activeSelf && !isEnemyDead && Vector2.Distance(enemy.transform.position, player.transform.position) < deactivateRange)
         {
             enemy.gameObject.SetActive(true);
         }

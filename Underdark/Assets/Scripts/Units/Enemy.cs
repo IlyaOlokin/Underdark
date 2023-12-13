@@ -131,7 +131,7 @@ public class Enemy : Unit
             agent.enabled = false;
     }
 
-    protected override void Death(Unit killer)
+    protected override void Death(Unit killer, IAttacker attacker, DamageType damageType)
     {
         if (TryGetComponent(out Drop drop))
         {
@@ -142,7 +142,9 @@ public class Enemy : Unit
         if (killer.TryGetComponent(out Player player))
             player.GetExp(Stats.Level * expPerLevel);
         
-        base.Death(killer);
+        unitVisual.StartDeathEffect(attacker, damageType);
+        
+        base.Death(killer, attacker, damageType);
     }
     public override void ApplySlow(float slow)
     {
