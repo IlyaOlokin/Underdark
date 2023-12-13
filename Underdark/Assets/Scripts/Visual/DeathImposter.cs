@@ -13,6 +13,8 @@ public class DeathImposter : MonoBehaviour
 
     private Rigidbody2D rb;
     private SpriteRenderer sr;
+    
+    private static readonly int Fade = Shader.PropertyToID("_Fade");
 
     private void Awake()
     {
@@ -30,7 +32,11 @@ public class DeathImposter : MonoBehaviour
 
     IEnumerator StartDissolve()
     {
-        yield return new WaitForSeconds(dissolveDuration);
+        for (var alpha = dissolveDuration; alpha >= 0; alpha -= Time.deltaTime)
+        {
+            sr.material.SetFloat(Fade, alpha / dissolveDuration);
+            yield return null;
+        }
         Destroy(gameObject);
     }
 }
