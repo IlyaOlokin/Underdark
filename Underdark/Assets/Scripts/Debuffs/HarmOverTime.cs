@@ -33,7 +33,7 @@ public class HarmOverTime : Debuff
         Timer -= Time.deltaTime;
         if (dmgTimer <= 0)
         {
-            if (HarmInfo.Damage != 0) receiver.TakeDamage(caster, caster, damageInfo, false, 1f);
+            if (HarmInfo.Damage != 0) receiver.TakeDamage(caster, null, damageInfo, false, 1f);
             if (HarmInfo.ManaDrainAmount != 0) receiver.SpendMana(HarmInfo.ManaDrainAmount);
             dmgTimer = HarmInfo.DmgDelay;
         }
