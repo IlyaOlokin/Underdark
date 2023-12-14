@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +28,8 @@ public class HarmInfo : DebuffInfo
             HarmType.Bleed =>
                 $"With a {chance * 100}% chance inflicts bleed on the target, taking away {Damage} HP per second for {Duration} seconds.",
             HarmType.ManaDrain =>
-                $"With a {chance * 100}% chance inflicts mana drain on the target, taking away {Damage} MP per second for {Duration} seconds."
+                $"With a {chance * 100}% chance inflicts mana drain on the target, taking away {Damage} MP per second for {Duration} seconds.",
+            _ => throw new ArgumentOutOfRangeException()
         };
     }
 }
