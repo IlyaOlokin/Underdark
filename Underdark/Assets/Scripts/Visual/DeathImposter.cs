@@ -26,8 +26,11 @@ public class DeathImposter : MonoBehaviour
     public void StartDeath(IAttacker attacker, DamageType damageType, Sprite sprite)
     {
         StartCoroutine(StartDissolve());
-        rb.velocity = (transform.position - attacker.Transform.position).normalized * pushForce;
         sr.sprite = sprite;
+
+        if (attacker == null) return;
+        
+        rb.velocity = (transform.position - attacker.Transform.position).normalized * pushForce; 
     }
 
     IEnumerator StartDissolve()
