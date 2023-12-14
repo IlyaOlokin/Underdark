@@ -117,6 +117,8 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     private void OnDisable()
     {
         Inventory.OnInventoryChanged -= UpdateUI;
+        player.Money.OnMoneyChanged -= UpdateMoneyDisplay;
+
         DeselectSlot();
     }
     
