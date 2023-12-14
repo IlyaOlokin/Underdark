@@ -6,6 +6,8 @@ using Zenject;
 
 public class VendorUI : InGameUiWindow, IInventoryUI
 {
+    private UIInventorySlot selectedSlot;
+    
     public Inventory Inventory { get; private set; }
     [Header("Player Window")]
     [SerializeField] private UIVendorSlot[] slotsPlayer;
@@ -13,7 +15,6 @@ public class VendorUI : InGameUiWindow, IInventoryUI
     [Header("Vendor Window")]
     private Vendor vendor;
     [SerializeField] private UIVendorSlot[] slotsVendor;
-
     
     [Header("Item Description")] 
     [SerializeField] private ItemDescription itemDescription;
@@ -40,6 +41,7 @@ public class VendorUI : InGameUiWindow, IInventoryUI
     private void OnDisable()
     {
         Inventory.OnInventoryChanged -= UpdateUI;
+        DeselectSlot();
     }
 
     private void UpdateUI()
@@ -49,6 +51,8 @@ public class VendorUI : InGameUiWindow, IInventoryUI
         {
             slot.InventorySlot.Refresh();
         }
+        
+        UpdateSelectedSlot();
     }
     
     private void SetVendorSlots()
@@ -87,16 +91,30 @@ public class VendorUI : InGameUiWindow, IInventoryUI
 
     public void SelectSlot(UIInventorySlot selectedSlot)
     {
-        throw new System.NotImplementedException();
+        if (this.selectedSlot != null)
+            this.selectedSlot.OnDeselect();
+        
+        this.selectedSlot = selectedSlot;
+        this.selectedSlot.OnSelect();
+
+        UpdateSelectedSlot();
     }
 
     public void UpdateSelectedSlot()
     {
-        throw new System.NotImplementedException();
+        if (selectedSlot == null || selectedSlot.Slot == null || selectedSlot.Slot.IsEmpty)
+            itemDescription.ResetDescriptionActive(false);
+        else
+            itemDescription.ShowItemDescription(selectedSlot.Slot.Item, player, selectedSlot.Slot);
     }
 
     public void DeselectSlot()
     {
-        throw new NotImplementedException();
+        if (selectedSlot == null)
+        {
+            return;
+        }
+        selectedSlot.OnDeselect();
+        selectedSlot = null;
     }
 }
