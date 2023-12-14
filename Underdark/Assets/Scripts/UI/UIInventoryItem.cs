@@ -14,7 +14,7 @@ public class UIInventoryItem : UIItem
 
     public void Refresh(IInventorySlot slot)
     {
-        if (slot.IsEmpty)
+        if (slot == null || slot.IsEmpty)
         {
             Hide();
             return;

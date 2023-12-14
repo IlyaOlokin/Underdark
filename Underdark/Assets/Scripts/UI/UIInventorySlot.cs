@@ -63,10 +63,7 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void Refresh()
     {
-        if (slot != null)
-        {
-            uiInventoryItem.Refresh(slot);
-        }
+        uiInventoryItem.Refresh(slot);
     }
 
     public void OnSelect()
