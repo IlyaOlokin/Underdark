@@ -14,7 +14,7 @@ public class DropZone : MonoBehaviour, IDropHandler
         UIInventoryItem otherItemUI = eventData.pointerDrag.GetComponent<UIInventoryItem>();
         UIInventorySlot otherSlotUI = otherItemUI.GetComponentInParent<UIInventorySlot>();
         
-        var otherSlot = otherSlotUI.slot;
+        var otherSlot = otherSlotUI.Slot;
         drop.DropItem(otherSlot.Item, otherSlot.Amount, Camera.main.transform.position, dropForce, true);
         
         otherSlot.Clear();

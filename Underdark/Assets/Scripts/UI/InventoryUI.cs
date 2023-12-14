@@ -133,10 +133,10 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
 
     public void UpdateSelectedSlot()
     {
-        if (selectedSlot == null || selectedSlot.slot.IsEmpty)
+        if (selectedSlot == null || selectedSlot.Slot.IsEmpty)
             itemDescription.ResetDescriptionActive(false);
         else
-            itemDescription.ShowItemDescription(selectedSlot.slot.Item, player, selectedSlot.slot);
+            itemDescription.ShowItemDescription(selectedSlot.Slot.Item, player, selectedSlot.Slot);
     }
 
     private void DeselectSlot()

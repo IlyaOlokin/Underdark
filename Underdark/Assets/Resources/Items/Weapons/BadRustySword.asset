@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: bad_rusty_sword
   Name: Bad rusty sword
+  Cost: 25
   ItemType: 4
   Sprite: {fileID: 21300000, guid: 789e518168d493d4396ec984b1b5bcb3, type: 3}
   StackCapacity: 1
@@ -31,7 +32,9 @@ MonoBehaviour:
     minDamage: 3
     maxDamage: 5
   WeaponType: 0
+  WeaponHandedType: 0
   AttackRadius: 120
   AttackDistance: 2
   ArmorPierce: 0
   DebuffInfos: []
+  <Passives>k__BackingField: []

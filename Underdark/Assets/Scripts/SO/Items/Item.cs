@@ -8,6 +8,7 @@ public abstract class Item : ScriptableObject
 {
     public string ID;
     public string Name;
+    public int Cost;
     public ItemType ItemType;
     public Sprite Sprite;
     public int StackCapacity;

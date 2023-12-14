@@ -8,11 +8,11 @@ public class VendorUI : InGameUiWindow, IInventoryUI
 {
     public Inventory Inventory { get; private set; }
     [Header("Player Window")]
-    [SerializeField] private UIInventorySlot[] slotsPlayer;
+    [SerializeField] private UIVendorSlot[] slotsPlayer;
     
     [Header("Vendor Window")]
     private Vendor vendor;
-    [SerializeField] private UIInventorySlot[] slotsVendor;
+    [SerializeField] private UIVendorSlot[] slotsVendor;
 
     
     [Header("Item Description")] 
@@ -23,61 +23,68 @@ public class VendorUI : InGameUiWindow, IInventoryUI
         this.vendor = vendor;
     }
     
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
         Inventory = player.Inventory;
-        
     }
 
     private void OnEnable()
     {
-        SetSlots();
-
+        SetVendorSlots();
+        UpdateUI();
         
         Inventory.OnInventoryChanged += UpdateUI;
-
-        UpdateUI();
     }
 
     private void OnDisable()
     {
         Inventory.OnInventoryChanged -= UpdateUI;
     }
+
+    private void UpdateUI()
+    {
+        SetPlayerSlots();
+        foreach (var slot in slotsPlayer)
+        {
+            slot.InventorySlot.Refresh();
+        }
+    }
     
-    private void SetSlots()
+    private void SetVendorSlots()
+    {
+        var vendorInventorySlots = vendor.Slots;
+        for (int i = 0; i < slotsVendor.Length; i++)
+        {
+            slotsVendor[i].CostText.gameObject.SetActive(false);
+
+            if (i >= vendorInventorySlots.Count) continue;
+
+            slotsVendor[i].CostText.gameObject.SetActive(true);
+            slotsVendor[i].CostText.text = vendorInventorySlots[i].Item.Cost.ToString();
+            slotsVendor[i].InventorySlot.SetSlot(vendorInventorySlots[i]);
+        }
+    }
+
+    private void SetPlayerSlots()
     {
         var playerInventorySlots = Inventory.GetAllSlots();
         var filledSlotIndex = 0;
         for (int i = 0; i < playerInventorySlots.Length; i++)
         {
-            if (playerInventorySlots[i].IsEmpty)
-            {
-                slotsPlayer[filledSlotIndex].SetSlot(null);
-            }
-            else
-            {
-                slotsPlayer[filledSlotIndex].SetSlot(playerInventorySlots[i]);
-                filledSlotIndex++;
-            }
-            
-        }
+            slotsPlayer[i].CostText.gameObject.SetActive(false);
 
-        var vendorInventorySlots = vendor.Slots;
-        for (int i = 0; i < vendorInventorySlots.Count; i++)
-        {
-            slotsVendor[i].SetSlot(vendorInventorySlots[i]);
+            if (playerInventorySlots[i].IsEmpty) continue;
+
+            slotsPlayer[filledSlotIndex].InventorySlot.SetSlot(playerInventorySlots[i]);
+            slotsPlayer[filledSlotIndex].CostText.gameObject.SetActive(true);
+            slotsPlayer[filledSlotIndex].CostText.text =
+                slotsPlayer[filledSlotIndex].InventorySlot.Slot.Item.Cost.ToString();
+            filledSlotIndex++;
         }
     }
 
-    private void UpdateUI()
-    {
-        foreach (var slot in slotsPlayer)
-        {
-            slot.Refresh();
-        }
-    }
-    
+
     public void SelectSlot(UIInventorySlot selectedSlot)
     {
         throw new System.NotImplementedException();
@@ -86,5 +93,10 @@ public class VendorUI : InGameUiWindow, IInventoryUI
     public void UpdateSelectedSlot()
     {
         throw new System.NotImplementedException();
+    }
+
+    public void DeselectSlot()
+    {
+        throw new NotImplementedException();
     }
 }

@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aca967a8c12a2254eb55b915a1933e96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Draggable>k__BackingField: 1
   icon: {fileID: 290559592638318401}
   text: {fileID: 4275543817466692608}
 --- !u!1 &6682111289395653335
@@ -174,7 +175,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 32.4, y: -32.4}
+  m_AnchoredPosition: {x: 6.3, y: -32.4}
   m_SizeDelta: {x: 67.025, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1447607653068257210
@@ -239,7 +240,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 4
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
