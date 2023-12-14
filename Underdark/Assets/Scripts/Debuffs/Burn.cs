@@ -45,7 +45,7 @@ public class Burn : Debuff
                 }
             }
                     
-            receiver.TakeDamage(caster, caster, damageInfo, false, 1f);
+            receiver.TakeDamage(caster, null, damageInfo, false, 1f);
             dmgTimer = burnInfo.DmgDelay;
         }
 
