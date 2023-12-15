@@ -12,7 +12,7 @@ public class ExpBar : MonoBehaviour
     private void Construct(Player player)
     {
         this.player = player;
-        this.player.OnExpGained += UpdateBar;
+        this.player.Stats.OnExpChanged += UpdateBar;
     }
 
     private void Awake()
@@ -22,11 +22,11 @@ public class ExpBar : MonoBehaviour
 
     private void UpdateBar()
     {
-        if (player.Stats.ExpToLevelUp() == -1)
+        if (player.Stats.ExpToNextLevel() == -1)
         {
             bar.value = 1;
             return;
         }
-        bar.value = player.Stats.CurrentExp / (float) player.Stats.ExpToLevelUp();
+        bar.value = player.Stats.CurrentExp / (float) player.Stats.ExpToNextLevel();
     }
 }
