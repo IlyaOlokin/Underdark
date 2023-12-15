@@ -58,6 +58,7 @@ public class VendorUI : InGameUiWindow, IInventoryUI
 
     private void UpdateUI()
     {
+        SetVendorSlots();
         SetPlayerSlots();
         foreach (var slot in slotsPlayer)
         {
@@ -77,8 +78,12 @@ public class VendorUI : InGameUiWindow, IInventoryUI
             if (i >= vendorInventorySlots.Count) continue;
 
             slotsVendor[i].CostText.gameObject.SetActive(true);
-            slotsVendor[i].CostText.text = vendorInventorySlots[i].Item.Cost.ToString();
             slotsVendor[i].InventorySlot.SetSlot(vendorInventorySlots[i]);
+
+            var color = vendorInventorySlots[i].Item.Cost < player.Money.GetMoney()
+                ? "<color=#FFFFFF>"
+                : "<color=#FF4E4E>";
+            slotsVendor[i].CostText.text = $"{color}{vendorInventorySlots[i].Item.Cost}";
         }
     }
 
