@@ -39,7 +39,6 @@ public class UnitStats
         get => currentExp;
         private set
         {
-            Debug.Log(value);
             currentExp = value < 0 ? 0 : value;
             OnExpChanged?.Invoke();
         }

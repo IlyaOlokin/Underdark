@@ -7,7 +7,8 @@ using Random = UnityEngine.Random;
 
 public class Drop : MonoBehaviour
 {
-    [SerializeField] private int moneyAmount;
+    [SerializeField] private int moneyAmountMin;
+    [SerializeField] private int moneyAmountMax;
     [SerializeField] protected UnitNotificationEffect moneyDropEffect;
 
     [SerializeField] private DroppedItem droppedItemPref;
@@ -15,7 +16,7 @@ public class Drop : MonoBehaviour
     
     public void DropItems(IMoneyHolder moneyHolder = null)
     {
-        if (moneyAmount != 0 && moneyHolder != null)
+        if (moneyAmountMax != 0 && moneyHolder != null)
         {
             DropMoney(moneyHolder);
         }
@@ -39,8 +40,9 @@ public class Drop : MonoBehaviour
 
     private void DropMoney(IMoneyHolder moneyHolder)
     {
-        moneyHolder.Money.AddMoney(moneyAmount);
+        var money = Random.Range(moneyAmountMin, moneyAmountMax + 1);
+        moneyHolder.Money.AddMoney(money);
         var newEffect = Instantiate(moneyDropEffect, transform.position, Quaternion.identity);
-        newEffect.WriteMessage($"+{moneyAmount}");
+        newEffect.WriteMessage($"+{money}");
     }
 }
