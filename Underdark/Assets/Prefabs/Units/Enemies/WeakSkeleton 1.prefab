@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2989269700952815197}
-  respawnDelay: 60
+  respawnDelay: 180
 --- !u!1 &3743688560195123424
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,6 +1099,7 @@ MonoBehaviour:
     baseWaterResistance: 0
     baseColdResistance: 0
     baseElectricResistance: 0
+    baseEvasionChance: 0
   baseMaxHP: 30
   baseMaxMana: 0
   regenPercent: 0.01
