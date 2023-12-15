@@ -8,6 +8,8 @@ public class UIItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private RectTransform rectTransform;
     private Canvas canvas;
     private CanvasGroup canvasGroup;
+    
+    [field:SerializeField] public bool Draggable { get; private set; }
 
     private void Awake()
     {
@@ -18,17 +20,23 @@ public class UIItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
 
     public void OnBeginDrag(PointerEventData eventData)
     {
+        if (!Draggable) return;
+        
         transform.parent.SetAsLastSibling();
         canvasGroup.blocksRaycasts = false;
     }
     
     public void OnDrag(PointerEventData eventData)
     {
+        if (!Draggable) return;
+        
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (!Draggable) return;
+
         transform.localPosition = Vector3.zero;
         canvasGroup.blocksRaycasts = true;
     }

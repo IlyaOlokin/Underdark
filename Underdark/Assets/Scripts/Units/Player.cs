@@ -8,8 +8,6 @@ public class Player : Unit, IPickUper, IMoneyHolder
 {
     private IInput input;
     public Money Money { get; private set; }
-
-    public event Action OnExpGained;
     
     [Inject]
     private void Construct(IInput userInput, PlayerInputUI inputUI, PlayerUI playerUI)
@@ -67,12 +65,13 @@ public class Player : Unit, IPickUper, IMoneyHolder
         unitVisual.EndHighLightActiveAbility();
     }
 
-    public void GetExp(int exp)
+    protected override void Death(Unit killer, IAttacker attacker, DamageType damageType)
     {
-        Stats.GetExp(exp);
-        OnExpGained?.Invoke();
+        base.Death(killer, attacker, damageType);
+        Stats.LooseXP();
+        DataLoader.SaveGame(this);
     }
-
+    
     private void RotateAttackDir()
     {
         attackDirAngle = Vector3.Angle(Vector3.right, lastMoveDir);

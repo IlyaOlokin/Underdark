@@ -140,7 +140,7 @@ public class Enemy : Unit
         }
         
         if (killer.TryGetComponent(out Player player))
-            player.GetExp(Stats.Level * expPerLevel);
+            player.Stats.GetExp(Stats.Level * expPerLevel);
         
         unitVisual.StartDeathEffect(attacker, damageType);
         

@@ -20,6 +20,7 @@ public class GameSceneInstaller : MonoInstaller
     [SerializeField] private PlayerUI playerUI;
     
     [SerializeField] private FastTravelUI fastTravelUI;
+    [SerializeField] private VendorUI vendorUI;
     
     public override void InstallBindings()
     {
@@ -30,8 +31,15 @@ public class GameSceneInstaller : MonoInstaller
         BindPlayer();
 
         BindFastTravelUI();
+        BindVendorUI();
     }
-    
+
+    private void BindVendorUI()
+    {
+        Container.Bind<VendorUI>().FromInstance(vendorUI).AsSingle();
+
+    }
+
     private void BindFastTravelUI()
     {
         Container.Bind<FastTravelUI>().FromInstance(fastTravelUI).AsSingle();

@@ -63,7 +63,7 @@ public class CharacterWindowUI : MonoBehaviour
         // debug
         LevelUpButton.onClick.AddListener(() =>
         {
-            player.GetExp(100);
+            player.Stats.GetExp(100);
             ResetStatsUI();
         });
         ResetButton.onClick.AddListener(() =>

@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
     [SerializeField] private UIInventoryItem uiInventoryItem;
-    public IInventorySlot slot { get; private set; }
+    public IInventorySlot Slot { get; private set; }
     [field: SerializeField] public ItemType SlotType { get; private set; }
     [SerializeField] private GameObject selectIndicator;
     public IInventoryUI InventoryUI { get; private set; }
@@ -22,15 +22,16 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void SetSlot(IInventorySlot newSlot)
     {
-        slot = newSlot;
+        Slot = newSlot;
     }
 
     public void OnDrop(PointerEventData eventData)
     {
         UIInventoryItem otherItemUI = eventData.pointerDrag.GetComponent<UIInventoryItem>();
+        if (!otherItemUI.Draggable) return;
         UIInventorySlot otherSlotUI = otherItemUI.GetComponentInParent<UIInventorySlot>();
 
-        var otherSlot = otherSlotUI.slot;
+        var otherSlot = otherSlotUI.Slot;
         var inventory = InventoryUI.Inventory;
 
 
@@ -41,7 +42,7 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
         }
         else if (SlotType == ItemType.Any && otherSlotUI.SlotType != ItemType.Any)
         {
-            if (slot.IsEmpty || slot.Item.ItemType == otherSlotUI.SlotType)
+            if (Slot.IsEmpty || Slot.Item.ItemType == otherSlotUI.SlotType)
                 canMoveItem = true;
         }
         else if (otherSlotUI.SlotType == ItemType.Any && SlotType != ItemType.Any)
@@ -51,11 +52,11 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
         }
         else if (SlotType != ItemType.Any && otherSlotUI.SlotType != ItemType.Any)
         {
-            if (SlotType == otherItemUI.Item.ItemType && (slot.IsEmpty || slot.Item.ItemType == otherSlotUI.SlotType))
+            if (SlotType == otherItemUI.Item.ItemType && (Slot.IsEmpty || Slot.Item.ItemType == otherSlotUI.SlotType))
                 canMoveItem = true;
         }
 
-        if (canMoveItem) inventory.MoveItem(otherSlot, slot, otherSlotUI.SlotType, SlotType);
+        if (canMoveItem) inventory.MoveItem(otherSlot, Slot, otherSlotUI.SlotType, SlotType);
 
         //Refresh();
         //otherSlotUI.Refresh();
@@ -63,10 +64,7 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void Refresh()
     {
-        if (slot != null)
-        {
-            uiInventoryItem.Refresh(slot);
-        }
+        uiInventoryItem.Refresh(Slot);
     }
 
     public void OnSelect()
