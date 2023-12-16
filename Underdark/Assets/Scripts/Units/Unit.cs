@@ -491,8 +491,10 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         {
             totalDamage += (int) Mathf.Floor(damageInfo.GetDamages()[i].GetValue() * Params.GetDamageResistance(damageInfo.GetDamages()[i].DamageType));
         }
+
+        if (totalDamage == 0) return totalDamage;
         
-        return (int)Mathf.Floor(totalDamage * (totalDamage / (totalDamage + GetTotalArmor() * (1 - armorPierce))));
+        return Mathf.FloorToInt(totalDamage * (totalDamage / (totalDamage + GetTotalArmor() * (1 - armorPierce))));
     }
 
     public int GetTotalArmor()
