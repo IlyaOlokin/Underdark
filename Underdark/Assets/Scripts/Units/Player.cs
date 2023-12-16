@@ -12,7 +12,7 @@ public class Player : Unit, IPickUper, IMoneyHolder
     [Inject]
     private void Construct(IInput userInput, PlayerInputUI inputUI, PlayerUI playerUI)
     {
-        inputUI.Init(this, userInput, playerUI.gearUI.gameObject, playerUI.characterWindowUI.gameObject);
+        inputUI.Init(this, userInput, playerUI.gearUI.gameObject, playerUI.characterWindowUI.gameObject, playerUI.menuWindowUI);
         playerUI.Init(this);
 
         input = userInput;

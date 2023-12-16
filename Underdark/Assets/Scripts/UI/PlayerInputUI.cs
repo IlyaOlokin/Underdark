@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 using UnityEngine.UI;
 
@@ -19,12 +20,16 @@ public class PlayerInputUI : MonoBehaviour
     public List<TextMeshProUGUI> manaCost;
     public List<GameObject> notEnoughManaIndicators;
     private List<float> abilitiesCDMax;
+    
     [Header("Inventory")]
     public Button inventoryButton;
     private GameObject gearWindow;
     [Header("Character")]
     public Button characterButton;
     private GameObject characterWindow;
+    [Header("Menu")]
+    public Button pauseButton;
+    private PauseWindow pauseWindow;
 
     [Header("Executable Items")] 
     [SerializeField] public ExecutableSlotsHandler executableSlotsHandler;
@@ -36,12 +41,13 @@ public class PlayerInputUI : MonoBehaviour
     private Player player;
     private IInput input;
     
-    public void Init(Player player, IInput input, GameObject gearUI, GameObject characterWindowUI)
+    public void Init(Player player, IInput input, GameObject gearUI, GameObject characterWindowUI, PauseWindow menuWindowUI)
     {
         this.player = player;
         this.input = input;
         gearWindow = gearUI;
         characterWindow = characterWindowUI;
+        pauseWindow = menuWindowUI;
 
         gearWindow.GetComponent<PlayerGearUI>().blackOut = blackOut;
         characterWindow.GetComponent<CharacterWindowUI>().blackOut = blackOut;
@@ -55,6 +61,7 @@ public class PlayerInputUI : MonoBehaviour
         
         inventoryButton.onClick.AddListener(ToggleInventory);
         characterButton.onClick.AddListener(ToggleCharacterWindow);
+        pauseButton.onClick.AddListener(OpenPauseMenu);
 
     }
 
@@ -157,6 +164,15 @@ public class PlayerInputUI : MonoBehaviour
         
         input.IsEnabled = characterWindow.activeSelf;
         characterWindow.SetActive(!characterWindow.activeSelf);
+    }
+
+    private void OpenPauseMenu()
+    {
+        gearWindow.SetActive(false);
+        characterWindow.SetActive(false);
+        input.IsEnabled = gearWindow.activeSelf;
+        
+        pauseWindow.GetComponent<PauseWindow>().OpenWindow();
     }
 
     private void UpdateShootButtonIcon()

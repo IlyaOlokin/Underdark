@@ -9,6 +9,7 @@ public class PlayerUI : MonoBehaviour
     public InventoryUI inventoryUI;
     public ParamsUI paramsUI;
     public CharacterWindowUI characterWindowUI;
+    public PauseWindow menuWindowUI;
     [SerializeField] private StatusEffectUI statusEffectUI;
     
     public void Init(Player player)
