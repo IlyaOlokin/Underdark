@@ -24,13 +24,13 @@ public class InGameUiWindow : MonoBehaviour
         closeButton.onClick.AddListener(CloseWindow);
     }
 
-    private void CloseWindow()
+    protected virtual void CloseWindow()
     {
         input.IsEnabled = true;
         gameObject.SetActive(false);
     }
     
-    public void OpenWindow()
+    public virtual void OpenWindow()
     {
         input.IsEnabled = false;
         transform.SetAsLastSibling();
