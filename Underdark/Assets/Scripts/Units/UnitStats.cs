@@ -5,6 +5,8 @@ using UnityEngine;
 [Serializable]
 public class UnitStats
 {
+    public static readonly float XpLost = 0.1f;
+    
     [field: Header("Stats")]
     [field: SerializeField] public int Level { get; private set; }
 
@@ -25,11 +27,22 @@ public class UnitStats
 
     public event Action OnStatsChanged;
     public event Action OnLevelUp;
-
+    public event Action OnExpChanged;
+    
     [Header("Exp")] 
     [SerializeField] private int pointsPerLevel;
     [SerializeField] private List<int> expNeeded;
-    public int CurrentExp { get; private set; }
+    private int currentExp;
+
+    public int CurrentExp
+    {
+        get => currentExp;
+        private set
+        {
+            currentExp = value < 0 ? 0 : value;
+            OnExpChanged?.Invoke();
+        }
+    }
 
     public void Reset()
     {
@@ -69,12 +82,17 @@ public class UnitStats
         TryLevelUp();
     }
 
+    public void LooseXP()
+    {
+        CurrentExp -= Mathf.RoundToInt(ExpToNextLevel() * XpLost);
+    }
+
     private void TryLevelUp()
     {
         if (Level - 1 == expNeeded.Count) return;
-        if (ExpToLevelUp() <= CurrentExp)
+        if (ExpToNextLevel() <= CurrentExp)
         {
-            CurrentExp -= ExpToLevelUp();
+            CurrentExp -= ExpToNextLevel();
             Level += 1;
             FreePoints += pointsPerLevel;
             OnLevelUp?.Invoke();
@@ -82,7 +100,7 @@ public class UnitStats
         }
     }
 
-    public int ExpToLevelUp()
+    public int ExpToNextLevel()
     {
         if (Level - 1 == expNeeded.Count) return -1;
         return expNeeded[Level - 1];

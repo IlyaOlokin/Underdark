@@ -108,8 +108,8 @@ public class UnitParams
         SlowAmount = slow;
     }
 
-    public void AddAllDamageAmplification(float dmgAmplofocation)
+    public void AddAllDamageAmplification(float dmgAmplification)
     {
-        AllDmgAmplification += dmgAmplofocation;
+        AllDmgAmplification += dmgAmplification;
     }
 }

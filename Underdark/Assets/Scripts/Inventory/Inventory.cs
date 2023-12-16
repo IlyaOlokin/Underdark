@@ -63,7 +63,7 @@ public class Inventory : IInventory
         throw new NotImplementedException();
     }
 
-    public int TryAddItem(Item item, int amount)
+    public int TryAddItem(Item item, int amount = 1)
     {
         var sameItemSlot = slots.Find(slot => !slot.IsEmpty && slot.Item.ID == item.ID && !slot.IsFull);
 

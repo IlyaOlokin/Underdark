@@ -63,7 +63,7 @@ public class CharacterWindowUI : MonoBehaviour
         // debug
         LevelUpButton.onClick.AddListener(() =>
         {
-            player.GetExp(100);
+            player.Stats.GetExp(100);
             ResetStatsUI();
         });
         ResetButton.onClick.AddListener(() =>
@@ -120,7 +120,7 @@ public class CharacterWindowUI : MonoBehaviour
             ? stats.Intelligence.ToString()
             : $"{stats.Intelligence} (+{player.Stats.BonusIntelligence})";
         
-        FreePointsText.text = stats.FreePoints.ToString();
+        FreePointsText.text = $"{(stats.FreePoints > 0 ? "<color=#FFD21A>": "")}{stats.FreePoints}";
         LevelText.text = player.Stats.Level.ToString();
     }
 

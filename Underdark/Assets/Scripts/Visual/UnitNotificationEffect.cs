@@ -35,7 +35,7 @@ public class UnitNotificationEffect : MonoBehaviour
         startScale = objectToMove.localScale;
         targetScale = startScale * scaleMultiplier;
         startPos = objectToMove.position;
-        targetPos = objectToMove.position + Vector3.up;
+        targetPos = objectToMove.position + Vector3.up * moveDistance;
     }
 
     private void Update()

@@ -21,6 +21,9 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     
     [SerializeField] private UIInventorySlot[] executableSlots;
 
+    [Header("Money Display")] 
+    [SerializeField] private TextMeshProUGUI moneyText;
+
     [Header("Stats Text")] 
     [SerializeField] private TextMeshProUGUI attackText; 
     [SerializeField] private TextMeshProUGUI armorText;
@@ -71,7 +74,9 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     private void OnEnable()
     {
         Inventory.OnInventoryChanged += UpdateUI;
+        player.Money.OnMoneyChanged += UpdateMoneyDisplay;
         UpdateUI();
+        UpdateMoneyDisplay(player.Money.GetMoney());
     }
 
     private void UpdateUI()
@@ -104,9 +109,16 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
             player.Params.GetDamageAmplification(player.GetWeapon().Damage.DamageType));
     }
 
+    private void UpdateMoneyDisplay(int moneyCount)
+    {
+        moneyText.text = moneyCount.ToString();
+    }
+
     private void OnDisable()
     {
         Inventory.OnInventoryChanged -= UpdateUI;
+        player.Money.OnMoneyChanged -= UpdateMoneyDisplay;
+
         DeselectSlot();
     }
     
@@ -123,10 +135,10 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
 
     public void UpdateSelectedSlot()
     {
-        if (selectedSlot == null || selectedSlot.slot.IsEmpty)
+        if (selectedSlot == null || selectedSlot.Slot.IsEmpty)
             itemDescription.ResetDescriptionActive(false);
         else
-            itemDescription.ShowItemDescription(selectedSlot.slot.Item, player, selectedSlot.slot);
+            itemDescription.ShowItemDescription(selectedSlot.Slot.Item, player, selectedSlot.Slot);
     }
 
     private void DeselectSlot()

@@ -13,38 +13,33 @@ public class GameSceneInstaller : MonoInstaller
     [SerializeField] private MobileInput mobileInputPrefab;
     [SerializeField] private DesktopInput desktopInputPrefab;
 
-    [Header("UI")] [SerializeField] private Canvas canvas;
+    [Header("UI")] 
+    [SerializeField] private Canvas canvas;
     [SerializeField] private PlayerInputUI playerInputUIMobile;
     [SerializeField] private PlayerInputUI playerInputUIDesktop;
     [SerializeField] private PlayerUI playerUI;
     
-    [SerializeField] private InventoryUI playerInventoryUI;
-    [SerializeField] private CharacterWindowUI characterWindowUI;
     [SerializeField] private FastTravelUI fastTravelUI;
+    [SerializeField] private VendorUI vendorUI;
     
     public override void InstallBindings()
     {
-        BindPlayerInventoryUI();
-        BindCharacterWindowUI();
-        
         BindPlayerUI();
+        
         BindPlayerInputUI();
         BindInput();
         BindPlayer();
 
         BindFastTravelUI();
+        BindVendorUI();
     }
-    
-    private void BindPlayerInventoryUI()
+
+    private void BindVendorUI()
     {
-        Container.Bind<InventoryUI>().FromInstance(playerInventoryUI).AsSingle();
+        Container.Bind<VendorUI>().FromInstance(vendorUI).AsSingle();
+
     }
-    
-    private void BindCharacterWindowUI()
-    {
-        Container.Bind<CharacterWindowUI>().FromInstance(characterWindowUI).AsSingle();
-    }
-    
+
     private void BindFastTravelUI()
     {
         Container.Bind<FastTravelUI>().FromInstance(fastTravelUI).AsSingle();

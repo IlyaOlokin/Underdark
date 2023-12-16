@@ -14,7 +14,7 @@ public class Bootstrap : MonoBehaviour
         Application.targetFrameRate = 60;
 #endif
         
-#if UNITY_EDITOR || UNITY_STANDALONE
+#if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
         InputType = InputType.Desktop;
         Application.targetFrameRate = -1;
 #endif

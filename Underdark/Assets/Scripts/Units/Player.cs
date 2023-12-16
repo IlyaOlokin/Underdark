@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-public class Player : Unit, IPickUper
+public class Player : Unit, IPickUper, IMoneyHolder
 {
     private IInput input;
-    public event Action OnExpGained;
+    public Money Money { get; private set; }
     
     [Inject]
     private void Construct(IInput userInput, PlayerInputUI inputUI, PlayerUI playerUI)
@@ -24,6 +24,8 @@ public class Player : Unit, IPickUper
         input.ActiveAbilityHoldEnd += EndHighLightActiveAbility;
 
         input.ExecutableItemInput += ExecuteExecutableItem;
+
+        Money = new Money();
     }
     
     private void OnEnable()
@@ -32,12 +34,6 @@ public class Player : Unit, IPickUper
         Stats.OnStatsChanged += UpdateHP;
         Stats.OnStatsChanged += UpdateMP;
         Stats.OnLevelUp += OnLevelUp;
-    }
-
-    protected override void Death(Unit killer)
-    {
-        base.Death(killer);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
     protected override void Update()
@@ -69,12 +65,13 @@ public class Player : Unit, IPickUper
         unitVisual.EndHighLightActiveAbility();
     }
 
-    public void GetExp(int exp)
+    protected override void Death(Unit killer, IAttacker attacker, DamageType damageType)
     {
-        Stats.GetExp(exp);
-        OnExpGained?.Invoke();
+        base.Death(killer, attacker, damageType);
+        Stats.LooseXP();
+        DataLoader.SaveGame(this);
     }
-
+    
     private void RotateAttackDir()
     {
         attackDirAngle = Vector3.Angle(Vector3.right, lastMoveDir);
