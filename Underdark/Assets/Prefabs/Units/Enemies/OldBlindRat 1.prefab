@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemy: {fileID: 2989269700952815197}
-  respawnDelay: 60
+  respawnDelay: 180
   deactivateRange: 25
 --- !u!1 &3743688560195123424
 GameObject:
@@ -1039,7 +1039,15 @@ MonoBehaviour:
   moneyAmountMax: 2
   moneyDropEffect: {fileID: 9209489120575824937, guid: 13c46b6c267a7d842b20423e04afe9de, type: 3}
   droppedItemPref: {fileID: 7200458106229667149, guid: d11e455e2eba1fc4eb9546ce5859c796, type: 3}
-  drop: []
+  drop:
+  - Item: {fileID: 11400000, guid: cfff7a563d6e39f40bfe7215fcecc0ea, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0
+    ChanceToDropRight: 0.1
+  - Item: {fileID: 11400000, guid: ff7b9e5c7198e824ea21829a8456addc, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0.05
+    ChanceToDropRight: 0.15
 --- !u!114 &5290106731956819956
 MonoBehaviour:
   m_ObjectHideFlags: 0
