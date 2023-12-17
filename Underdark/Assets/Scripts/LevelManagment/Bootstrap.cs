@@ -15,7 +15,7 @@ public class Bootstrap : MonoBehaviour
 #endif
         
 #if UNITY_EDITOR || UNITY_STANDALONE || UNITY_WEBGL
-        InputType = InputType.Mobile;
+        InputType = InputType.Desktop;
         Application.targetFrameRate = -1;
 #endif
     }

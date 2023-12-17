@@ -74,7 +74,7 @@ public class Dash : ActiveAbility
         contactFilter.SetLayerMask(stopMask);
         var hits = new List<RaycastHit2D>();
 
-       Physics2D.Raycast(transform.position, caster.GetAttackDirection(), contactFilter, hits,
+       Physics2D.Raycast(transform.position, attackDir, contactFilter, hits,
             AttackDistance);
 
         bool wallHit = false;
@@ -85,7 +85,7 @@ public class Dash : ActiveAbility
             break;
         }
 
-        if (!wallHit) destinationPoint += caster.GetAttackDirection() * AttackDistance;
+        if (!wallHit) destinationPoint += attackDir * AttackDistance;
         return destinationPoint;
     }
 }

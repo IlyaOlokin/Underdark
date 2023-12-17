@@ -21,7 +21,7 @@ public class LightSource : ActiveAbility
     {
         base.Execute(caster);
 
-        rb.velocity = caster.GetAttackDirection() * projSpeed;
+        rb.velocity = attackDir * projSpeed;
     }
 
     private void Update()

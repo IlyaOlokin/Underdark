@@ -28,7 +28,7 @@ public class Puncture : ActiveAbility, IAttacker
             var target = FindClosestTarget(caster);
 
             var visualPos = target == null
-                ? (Vector3)caster.GetAttackDirection() + transform.position
+                ? (Vector3)attackDir + transform.position
                 : target.transform.position;
             var newVisual = Instantiate(visualPrefab, visualPos, Quaternion.identity, transform);
             newVisual.StartVisualEffect(visualPos);

@@ -29,6 +29,7 @@ public abstract class ActiveAbility : MonoBehaviour
     [Multiline] [SerializeField] protected string description;
     
     protected Unit caster;
+    protected Vector2 attackDir;
 
     private void Awake()
     {
@@ -40,6 +41,7 @@ public abstract class ActiveAbility : MonoBehaviour
         if (NeedOverrideWithWeaponStats) 
             OverrideWeaponStats(caster.GetWeapon());
         this.caster = caster;
+        attackDir = caster.GetAttackDirection(AttackDistance);
     }
     
     protected Collider2D FindClosestTarget(Unit caster)
@@ -56,7 +58,7 @@ public abstract class ActiveAbility : MonoBehaviour
             if (!HitCheck(caster.transform,collider.transform, contactFilter)) continue;
 
             Vector3 dir = collider.transform.position - caster.transform.position;
-            var angle = Vector2.Angle(dir, caster.GetAttackDirection());
+            var angle = Vector2.Angle(dir, attackDir);
             if (angle < AttackAngle / 2f && dir.magnitude < minDist)
             {
                 minDist = dir.magnitude;
@@ -80,7 +82,7 @@ public abstract class ActiveAbility : MonoBehaviour
             if (!HitCheck(caster.transform,collider.transform, contactFilter)) continue;
             
             Vector3 dir = collider.transform.position - caster.transform.position;
-            var angle = Vector2.Angle(dir, caster.GetAttackDirection());
+            var angle = Vector2.Angle(dir, attackDir);
             if (angle < AttackAngle / 2f)
             {
                 targets.Add(collider);

@@ -28,7 +28,7 @@ public class ArrowShot : ActiveAbility, IAttacker
             rb.velocity = (target.transform.position - transform.position).normalized * projSpeed;
         else
             rb.velocity = caster.GetAttackDirection() * projSpeed;*/
-        rb.velocity = caster.GetAttackDirection() * projSpeed;
+        rb.velocity = attackDir * projSpeed;
         
         var rotAngle = Vector2.Angle(Vector3.up, rb.velocity);
         if (rb.velocity.x > 0) rotAngle *= -1;

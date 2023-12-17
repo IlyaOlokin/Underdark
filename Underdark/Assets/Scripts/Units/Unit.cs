@@ -98,7 +98,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     [SerializeField] protected UnitVisual unitVisual;
 
     protected Vector3 lastMoveDir;
-    protected float attackDirAngle;
+    protected float lastMoveDirAngle;
     protected float attackCDTimer;
     private float actionCDTimer;
     private float hpRegenBuffer;
@@ -109,6 +109,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
         Params.SetUnit(this);
+        
+        lastMoveDir = Vector3.right;
         
         Inventory = new Inventory(inventoryCapacity, activeAbilityInventoryCapacity, this);
         
@@ -252,7 +254,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         if (EnergyShield != null)
         {
             Vector3 dir = attacker.Transform.position - transform.position;
-            var angle = Vector2.Angle(dir, GetAttackDirection());
+            var angle = Vector2.Angle(dir, lastMoveDir);
             
             var savedDamage = newDamage;
 
@@ -539,7 +541,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         attackCDTimer = 1 / attackSpeed;
         SetActionCD(newBaseAttack.CastTime);
 
-        OnBaseAttack?.Invoke(attackDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
+        OnBaseAttack?.Invoke(lastMoveDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
     }
 
     public void Attack(IDamageable damageable)
@@ -648,7 +650,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         return armor.ArmorAmount;
     }
 
-    public virtual Vector2 GetAttackDirection() => lastMoveDir.normalized;
+    public virtual Vector2 GetAttackDirection(float distance = 0) => lastMoveDir.normalized;
 
     protected float MaxActiveAbilityDistance()
     {
@@ -664,5 +666,5 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         return maxDist;
     }
 
-    public float GetAttackDirAngle() => attackDirAngle;
+    public virtual float GetAttackDirAngle(Vector2 attackDir = new Vector2()) => lastMoveDirAngle;
 }
