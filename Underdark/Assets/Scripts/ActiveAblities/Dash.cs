@@ -20,7 +20,7 @@ public class Dash : ActiveAbility
         
         transform.SetParent(caster.transform);
         
-        transform.eulerAngles = new Vector3(0, 0, caster.GetAttackDirAngle());
+        transform.eulerAngles = new Vector3(0, 0, caster.GetAttackDirAngle(caster.GetLastMoveDir()));
         
         var destinationPoint = FindDestinationPoint(caster);
         
@@ -74,7 +74,7 @@ public class Dash : ActiveAbility
         contactFilter.SetLayerMask(stopMask);
         var hits = new List<RaycastHit2D>();
 
-       Physics2D.Raycast(transform.position, attackDir, contactFilter, hits,
+       Physics2D.Raycast(transform.position, caster.GetLastMoveDir(), contactFilter, hits,
             AttackDistance);
 
         bool wallHit = false;
@@ -85,7 +85,7 @@ public class Dash : ActiveAbility
             break;
         }
 
-        if (!wallHit) destinationPoint += attackDir * AttackDistance;
+        if (!wallHit) destinationPoint += caster.GetLastMoveDir() * AttackDistance;
         return destinationPoint;
     }
 }
