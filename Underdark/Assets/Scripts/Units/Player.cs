@@ -84,6 +84,32 @@ public class Player : Unit, IPickUper, IMoneyHolder
         return Inventory.TryAddItem(item, amount);
     }
     
+    public override Vector2 GetAttackDirection()
+    {
+        var distance = MaxActiveAbilityDistance();
+        
+        var contactFilter = new ContactFilter2D();
+        contactFilter.SetLayerMask(AttackMask);
+        List<Collider2D> hitColliders = new List<Collider2D>();
+        Physics2D.OverlapCircle(transform.position, distance + 0.5f, contactFilter, hitColliders);
+
+        Collider2D target = null;
+        float minDist = float.MaxValue;
+        foreach (var collider in hitColliders)
+        {
+            if (!ActiveAbility.HitCheck(transform, collider.transform, contactFilter)) continue;
+
+            var distToTarget = Vector3.Distance(transform.position, collider.transform.position);
+            if (distToTarget < minDist)
+            {
+                minDist = distToTarget;
+                target = collider;
+            }
+        }
+
+        return target == null ? lastMoveDir.normalized : (target.transform.position - transform.position).normalized;
+    }
+    
     private void OnDisable()
     {
         input.MoveInput -= Move;

@@ -648,6 +648,21 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         return armor.ArmorAmount;
     }
 
-    public Vector2 GetAttackDirection() => lastMoveDir.normalized;
+    public virtual Vector2 GetAttackDirection() => lastMoveDir.normalized;
+
+    protected float MaxActiveAbilityDistance()
+    {
+        float maxDist = GetWeapon().AttackDistance + 1;
+        foreach (var slot in Inventory.GetAllActiveAbilitySlots())
+        {
+            if (slot.IsEmpty) continue;
+
+            var activeAbilityAttackDistance = ((ActiveAbilitySO)slot.Item).ActiveAbility.AttackDistance;
+            if (maxDist < activeAbilityAttackDistance)
+                maxDist = activeAbilityAttackDistance;
+        }
+        return maxDist;
+    }
+
     public float GetAttackDirAngle() => attackDirAngle;
 }

@@ -31,12 +31,13 @@ public class FireBall : ActiveAbility, IAttacker
         
         damageInfo.AddDamage((int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue), damageType, caster.Params.GetDamageAmplification(damageType));
         
-        var target = FindClosestTarget(caster);
+        /*var target = FindClosestTarget(caster);
 
         if (target != null)
             rb.velocity = (target.transform.position - transform.position).normalized * projSpeed;
         else
-            rb.velocity = caster.GetAttackDirection() * projSpeed;
+            rb.velocity = caster.GetAttackDirection() * projSpeed;*/
+        rb.velocity = caster.GetAttackDirection() * projSpeed;
         
         var rotAngle = Vector2.Angle(Vector3.up, rb.velocity);
         if (rb.velocity.x > 0) rotAngle *= -1;
