@@ -196,7 +196,10 @@ public class Enemy : Unit
     }
     private void RotateAttackDir()
     {
-        var dirToPlayer = moveTarget.transform.position - transform.position;
+        var dirToPlayer = isPlayerInChasingRange
+            ? player.transform.position - transform.position
+            : moveTarget.transform.position - transform.position;
+
         attackDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
         if (dirToPlayer.y < 0) attackDirAngle *= -1;
     }
@@ -226,7 +229,7 @@ public class Enemy : Unit
     protected bool ShouldMelee(Transition<EnemyState> transition) =>
         attackCDTimer < 0
         && isPlayerInChasingRange
-        && DistToTargetPos() <= GetWeapon().AttackDistance + 1
+        && DistToTargetPos() <= GetWeapon().AttackDistance + 0.7f
         && !IsStunned
         && Physics2D
             .Raycast(transform.position,

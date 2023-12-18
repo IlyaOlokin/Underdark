@@ -94,6 +94,7 @@ public class VendorUI : InGameUiWindow, IInventoryUI
         for (int i = 0; i < playerInventorySlots.Length; i++)
         {
             slotsPlayer[i].CostText.gameObject.SetActive(false);
+            slotsPlayer[filledSlotIndex].InventorySlot.SetSlot(null);
 
             if (playerInventorySlots[i].IsEmpty) continue;
 
