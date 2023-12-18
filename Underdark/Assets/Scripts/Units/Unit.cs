@@ -253,7 +253,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         if (EnergyShield != null)
         {
-            Vector3 dir = attacker.Transform.position - transform.position;
+            Vector3 dir = attacker == null ? 
+                sender.transform.position : 
+                attacker.Transform.position - transform.position;
             var angle = Vector2.Angle(dir, lastMoveDir);
             
             var savedDamage = newDamage;
