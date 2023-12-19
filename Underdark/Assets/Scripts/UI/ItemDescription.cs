@@ -96,7 +96,6 @@ public class ItemDescription : MonoBehaviour
 
         foreach (var additionalProperty in additionalPropertyFields)
         {
-            //additionalProperty.gameObject.SetActive(false);
             Destroy(additionalProperty.gameObject);
         }
         additionalPropertyFields.Clear();

@@ -24,6 +24,7 @@ public class MeleeWeapon : Item, IPassiveHolder
         res.Add($"Radius: {AttackRadius.ToString()}");
         res.Add($"Distance: {AttackDistance.ToString()}");
         res.Add($"{WeaponHandedTypeToString()}");
+        res.Add($"{WeaponType}");
           
         return res.ToArray();
     }

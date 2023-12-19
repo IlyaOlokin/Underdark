@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,7 +9,7 @@ public abstract class ActiveAbility : MonoBehaviour
     public float CastTime;
     public float cooldown;
     public int ManaCost;
-    //[SerializeField] protected LayerMask attackMask;
+    
     [field:SerializeField] public bool NeedOverrideWithWeaponStats { get; private set; }
     [field:SerializeField] public float AttackDistance { get; protected set; }
     [field:SerializeField] public float AttackAngle { get; protected set; }
@@ -106,13 +107,14 @@ public abstract class ActiveAbility : MonoBehaviour
 
     public new virtual string[] ToString()
     {
-        var res = new string[6];
+        var res = new string[7];
         res[0] = description;
         if (statMultiplier != 0) res[1] = $"Damage: {statMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {maxValue})";
         if (ManaCost != 0)       res[2] = $"Mana: {ManaCost}";
         if (AttackDistance != 0) res[3] = $"Distance: {AttackDistance}";
         if (AttackAngle != 0)    res[4] = $"Radius: {AttackAngle}";
         if (cooldown != 0)    res[5] = $"Cooldown: {cooldown}";
+        if (validWeaponTypes.Count != 0 && !validWeaponTypes.Contains(WeaponType.Any)) res[6] = $"Weapon: {GetValidWeaponTypesString()}";
         return res;
     }
     
@@ -126,6 +128,19 @@ public abstract class ActiveAbility : MonoBehaviour
         }
 
         return res.ToArray();
+    }
+
+    private string GetValidWeaponTypesString()
+    {
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < validWeaponTypes.Count; i++)
+        {
+            str.Append(validWeaponTypes[i]);
+            if (i + 1 != validWeaponTypes.Count)
+                str.Append(", ");
+        }
+
+        return str.ToString();
     }
     
     public static bool HitCheck(Transform caster, Transform target, ContactFilter2D contactFilter)
