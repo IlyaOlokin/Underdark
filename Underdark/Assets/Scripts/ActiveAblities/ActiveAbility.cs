@@ -8,7 +8,7 @@ public abstract class ActiveAbility : MonoBehaviour
     public float CastTime;
     public float cooldown;
     public int ManaCost;
-    //[SerializeField] protected LayerMask attackMask;
+    
     [field:SerializeField] public bool NeedOverrideWithWeaponStats { get; private set; }
     [field:SerializeField] public float AttackDistance { get; protected set; }
     [field:SerializeField] public float AttackAngle { get; protected set; }
