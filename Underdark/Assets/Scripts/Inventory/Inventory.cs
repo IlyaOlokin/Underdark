@@ -65,6 +65,9 @@ public class Inventory : IInventory
 
     public int TryAddItem(Item item, int amount = 1)
     {
+        if (TryAddToExecutableSlot(item, out IInventorySlot slot))
+            return TryAddToSlot(slot, item, amount);
+            
         var sameItemSlot = slots.Find(slot => !slot.IsEmpty && slot.Item.ID == item.ID && !slot.IsFull);
 
         if (sameItemSlot != null)
@@ -75,6 +78,24 @@ public class Inventory : IInventory
             return TryAddToSlot(emptySlot, item, amount);
 
         return amount;
+    }
+
+    private bool TryAddToExecutableSlot(Item item, out IInventorySlot slot)
+    {
+        if (item is ExecutableItemSO)
+        {
+            foreach (var executableSlot in ExecutableSlots)
+            {
+                if (!executableSlot.IsEmpty && !executableSlot.IsFull && executableSlot.ItemID == item.ID)
+                {
+                    slot = executableSlot;
+                    return true;
+                }
+            }
+        }
+
+        slot = null;
+        return false;
     }
     
     public bool TryAddActiveAbilityItem(Item item)
