@@ -316,7 +316,24 @@ public class Inventory : IInventory
 
         return allItems.ToArray();
     }
+    
+    public void Format()
+    {
+        int filledSlotCount = 0;
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (slots[i].IsEmpty) continue;
 
+            if (filledSlotCount < i)
+            {
+                slots[filledSlotCount].SetItem(slots[i].Item, slots[i].Amount);
+                slots[i].Clear();
+            }
+            
+            filledSlotCount++;
+        }
+    }
+    
     public List<IPassiveHolder> GetAllPassiveHolders()
     {
         var res = new List<IPassiveHolder>()
