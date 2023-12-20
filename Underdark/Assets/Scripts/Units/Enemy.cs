@@ -200,8 +200,8 @@ public class Enemy : Unit
             ? player.transform.position - transform.position
             : moveTarget.transform.position - transform.position;
 
-        attackDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
-        if (dirToPlayer.y < 0) attackDirAngle *= -1;
+        lastMoveDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
+        if (dirToPlayer.y < 0) lastMoveDirAngle *= -1;
     }
 
     protected void ExecuteActiveAbility()

@@ -22,12 +22,13 @@ public class ArrowShot : ActiveAbility, IAttacker
         int damage = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
         damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
         
-        var target = FindClosestTarget(caster);
+        /*var target = FindClosestTarget(caster);
 
         if (target != null)
             rb.velocity = (target.transform.position - transform.position).normalized * projSpeed;
         else
-            rb.velocity = caster.GetAttackDirection() * projSpeed;
+            rb.velocity = caster.GetAttackDirection() * projSpeed;*/
+        rb.velocity = attackDir * projSpeed;
         
         var rotAngle = Vector2.Angle(Vector3.up, rb.velocity);
         if (rb.velocity.x > 0) rotAngle *= -1;

@@ -74,14 +74,45 @@ public class Player : Unit, IPickUper, IMoneyHolder
     
     private void RotateAttackDir()
     {
-        attackDirAngle = Vector3.Angle(Vector3.right, lastMoveDir);
-        if (lastMoveDir.y < 0) attackDirAngle *= -1;
-        unitVisualRotatable.transform.eulerAngles = new Vector3(0, 0, attackDirAngle - 90);
+        lastMoveDirAngle = Vector3.Angle(Vector3.right, lastMoveDir);
+        if (lastMoveDir.y < 0) lastMoveDirAngle *= -1;
+        unitVisualRotatable.transform.eulerAngles = new Vector3(0, 0, lastMoveDirAngle - 90);
     }
 
     public int TryPickUpItem(Item item, int amount)
     {
         return Inventory.TryAddItem(item, amount);
+    }
+    
+    public override Vector2 GetAttackDirection(float distance = 0)
+    {
+        var contactFilter = new ContactFilter2D();
+        contactFilter.SetLayerMask(AttackMask);
+        List<Collider2D> hitColliders = new List<Collider2D>();
+        Physics2D.OverlapCircle(transform.position, distance + 0.5f, contactFilter, hitColliders);
+
+        Collider2D target = null;
+        float minDist = float.MaxValue;
+        foreach (var collider in hitColliders)
+        {
+            if (!ActiveAbility.HitCheck(transform, collider.transform, contactFilter)) continue;
+
+            var distToTarget = Vector3.Distance(transform.position, collider.transform.position);
+            if (distToTarget < minDist)
+            {
+                minDist = distToTarget;
+                target = collider;
+            }
+        }
+
+        return target == null ? lastMoveDir.normalized : (target.transform.position - transform.position).normalized;
+    }
+    
+    public override float GetAttackDirAngle(Vector2 attackDir = new Vector2())
+    { 
+        var angle = Vector3.Angle(Vector3.right, attackDir);
+        if (attackDir.y < 0) angle *= -1;
+        return angle;
     }
     
     private void OnDisable()

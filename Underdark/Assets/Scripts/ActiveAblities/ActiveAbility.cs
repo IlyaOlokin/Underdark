@@ -30,6 +30,7 @@ public abstract class ActiveAbility : MonoBehaviour
     [Multiline] [SerializeField] protected string description;
     
     protected Unit caster;
+    protected Vector2 attackDir;
 
     private void Awake()
     {
@@ -41,6 +42,7 @@ public abstract class ActiveAbility : MonoBehaviour
         if (NeedOverrideWithWeaponStats) 
             OverrideWeaponStats(caster.GetWeapon());
         this.caster = caster;
+        attackDir = caster.GetAttackDirection(AttackDistance);
     }
     
     protected Collider2D FindClosestTarget(Unit caster)
@@ -54,10 +56,10 @@ public abstract class ActiveAbility : MonoBehaviour
         float minDist = float.MaxValue;
         foreach (var collider in hitColliders)
         {
-            if (!HitCheck(collider.transform, contactFilter)) continue;
+            if (!HitCheck(caster.transform,collider.transform, contactFilter)) continue;
 
             Vector3 dir = collider.transform.position - caster.transform.position;
-            var angle = Vector2.Angle(dir, caster.GetAttackDirection());
+            var angle = Vector2.Angle(dir, attackDir);
             if (angle < AttackAngle / 2f && dir.magnitude < minDist)
             {
                 minDist = dir.magnitude;
@@ -78,10 +80,10 @@ public abstract class ActiveAbility : MonoBehaviour
         List<Collider2D> targets = new List<Collider2D>();
         foreach (var collider in hitColliders)
         {
-            if (!HitCheck(collider.transform, contactFilter)) continue;
+            if (!HitCheck(caster.transform,collider.transform, contactFilter)) continue;
             
             Vector3 dir = collider.transform.position - caster.transform.position;
-            var angle = Vector2.Angle(dir, caster.GetAttackDirection());
+            var angle = Vector2.Angle(dir, attackDir);
             if (angle < AttackAngle / 2f)
             {
                 targets.Add(collider);
@@ -91,23 +93,6 @@ public abstract class ActiveAbility : MonoBehaviour
         return targets;
     }
     
-    private bool HitCheck(Transform target, ContactFilter2D contactFilter)
-    {
-        List<RaycastHit2D> hits = new List<RaycastHit2D>();
-
-        Physics2D.Raycast(transform.position,
-            target.position - transform.position,
-            contactFilter,
-            hits);
-        foreach (var hit in hits)
-        {
-            if (hit.transform.CompareTag("Wall")) return false;
-            if (hit.transform == target) return true;
-        }
-        
-        return true;
-    }
-
     private void OverrideWeaponStats(MeleeWeapon weapon)
     {
         if (weapon.ID == "empty") return;
@@ -156,5 +141,22 @@ public abstract class ActiveAbility : MonoBehaviour
         }
 
         return str.ToString();
+    }
+    
+    public static bool HitCheck(Transform caster, Transform target, ContactFilter2D contactFilter)
+    {
+        List<RaycastHit2D> hits = new List<RaycastHit2D>();
+
+        Physics2D.Raycast(caster.transform.position,
+            target.position - caster.transform.position,
+            contactFilter,
+            hits);
+        foreach (var hit in hits)
+        {
+            if (hit.transform.CompareTag("Wall")) return false;
+            if (hit.transform == target) return true;
+        }
+        
+        return true;
     }
 }

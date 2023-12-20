@@ -98,7 +98,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     [SerializeField] protected UnitVisual unitVisual;
 
     protected Vector3 lastMoveDir;
-    protected float attackDirAngle;
+    protected float lastMoveDirAngle;
     protected float attackCDTimer;
     private float actionCDTimer;
     private float hpRegenBuffer;
@@ -109,6 +109,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
         Params.SetUnit(this);
+        
+        lastMoveDir = Vector3.right;
         
         Inventory = new Inventory(inventoryCapacity, activeAbilityInventoryCapacity, this);
         
@@ -254,7 +256,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
             Vector3 dir = attacker == null ? 
                 sender.transform.position : 
                 attacker.Transform.position - transform.position;
-            var angle = Vector2.Angle(dir, GetAttackDirection());
+            var angle = Vector2.Angle(dir, lastMoveDir);
             
             var savedDamage = newDamage;
 
@@ -541,7 +543,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         attackCDTimer = 1 / attackSpeed;
         SetActionCD(newBaseAttack.CastTime);
 
-        OnBaseAttack?.Invoke(attackDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
+        OnBaseAttack?.Invoke(lastMoveDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
     }
 
     public void Attack(IDamageable damageable)
@@ -650,6 +652,23 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         return armor.ArmorAmount;
     }
 
-    public Vector2 GetAttackDirection() => lastMoveDir.normalized;
-    public float GetAttackDirAngle() => attackDirAngle;
+    public virtual Vector2 GetAttackDirection(float distance = 0) => lastMoveDir.normalized;
+
+    protected float MaxActiveAbilityDistance()
+    {
+        float maxDist = GetWeapon().AttackDistance + 1;
+        foreach (var slot in Inventory.GetAllActiveAbilitySlots())
+        {
+            if (slot.IsEmpty) continue;
+
+            var activeAbilityAttackDistance = ((ActiveAbilitySO)slot.Item).ActiveAbility.AttackDistance;
+            if (maxDist < activeAbilityAttackDistance)
+                maxDist = activeAbilityAttackDistance;
+        }
+        return maxDist;
+    }
+
+    public virtual float GetAttackDirAngle(Vector2 attackDir = new Vector2()) => lastMoveDirAngle;
+
+    public Vector2 GetLastMoveDir() => lastMoveDir;
 }
