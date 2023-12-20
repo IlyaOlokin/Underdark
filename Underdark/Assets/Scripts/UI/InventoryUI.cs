@@ -120,6 +120,12 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         player.Money.OnMoneyChanged -= UpdateMoneyDisplay;
 
         DeselectSlot();
+        FormatInventory();
+    }
+
+    private void FormatInventory()
+    {
+        Inventory.Format();
     }
     
     public void SelectSlot(UIInventorySlot selectedSlot)
