@@ -7,12 +7,13 @@ using UnityEngine.Serialization;
 public abstract class ActiveAbility : MonoBehaviour
 {
     public float CastTime;
-    public float cooldown;
+    public float Cooldown;
     public int ManaCost;
     
     [field:SerializeField] public bool NeedOverrideWithWeaponStats { get; private set; }
+    [field:SerializeField] public bool NeedAttackRadius { get; private set; }
     [field:SerializeField] public float AttackDistance { get; protected set; }
-    [field:SerializeField] public float AttackAngle { get; protected set; }
+    [field:SerializeField] public float AttackRadius { get; protected set; }
     [SerializeField] protected float maxValue;
     [SerializeField] protected int statMultiplier;
     [SerializeField] protected BaseStat baseStat;
@@ -60,7 +61,7 @@ public abstract class ActiveAbility : MonoBehaviour
 
             Vector3 dir = collider.transform.position - caster.transform.position;
             var angle = Vector2.Angle(dir, attackDir);
-            if (angle < AttackAngle / 2f && dir.magnitude < minDist)
+            if (angle < AttackRadius / 2f && dir.magnitude < minDist)
             {
                 minDist = dir.magnitude;
                 target = collider;
@@ -84,7 +85,7 @@ public abstract class ActiveAbility : MonoBehaviour
             
             Vector3 dir = collider.transform.position - caster.transform.position;
             var angle = Vector2.Angle(dir, attackDir);
-            if (angle < AttackAngle / 2f)
+            if (angle < AttackRadius / 2f)
             {
                 targets.Add(collider);
             }
@@ -97,7 +98,7 @@ public abstract class ActiveAbility : MonoBehaviour
     {
         if (weapon.ID == "empty") return;
         AttackDistance = weapon.AttackDistance;
-        AttackAngle = weapon.AttackRadius;
+        AttackRadius = weapon.AttackRadius;
     }
 
     public bool RequirementsMet(MeleeWeapon weapon)
@@ -112,8 +113,8 @@ public abstract class ActiveAbility : MonoBehaviour
         if (statMultiplier != 0) res[1] = $"Damage: {statMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {maxValue})";
         if (ManaCost != 0)       res[2] = $"Mana: {ManaCost}";
         if (AttackDistance != 0) res[3] = $"Distance: {AttackDistance}";
-        if (AttackAngle != 0)    res[4] = $"Radius: {AttackAngle}";
-        if (cooldown != 0)    res[5] = $"Cooldown: {cooldown}";
+        if (AttackRadius != 0)    res[4] = $"Radius: {AttackRadius}";
+        if (Cooldown != 0)    res[5] = $"Cooldown: {Cooldown}";
         if (validWeaponTypes.Count != 0 && !validWeaponTypes.Contains(WeaponType.Any)) res[6] = $"Weapon: {GetValidWeaponTypesString()}";
         return res;
     }

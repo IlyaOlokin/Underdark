@@ -116,7 +116,7 @@ public class PlayerInputUI : MonoBehaviour
             ActiveAbility activeAbility = player.Inventory.GetEquippedActiveAbility(i);
 
             manaCost[i].text = activeAbility.ManaCost.ToString();
-            abilitiesCDMax.Add(activeAbility.cooldown);
+            abilitiesCDMax.Add(activeAbility.Cooldown);
             buttonsIcons[i].sprite = player.Inventory.EquippedActiveAbilitySlots[i].Item.Sprite;
         }
         

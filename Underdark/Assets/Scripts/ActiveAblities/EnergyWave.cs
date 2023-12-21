@@ -34,7 +34,7 @@ public class EnergyWave : ActiveAbility
         transform.localScale = Vector3.zero;
         
         visualSR.material.SetFloat("_Turn", caster.GetAttackDirAngle(attackDir));
-        visualSR.material.SetFloat("_FillAmount", AttackAngle);
+        visualSR.material.SetFloat("_FillAmount", AttackRadius);
         
         while (visualDuration > 0)
         {

@@ -353,7 +353,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         for (int i = 0; i < ActiveAbilitiesCD.Count; i++)
         {
             if (Inventory.EquippedActiveAbilitySlots[i].IsEmpty) continue;
-            ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).cooldown;
+            ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).Cooldown;
         }
     }
     
@@ -566,7 +566,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         var newAbility = Instantiate(activeAbility, transform.position, Quaternion.identity);
         newAbility.Execute(this);
         SetActionCD(newAbility.CastTime);
-        ActiveAbilitiesCD[index] = newAbility.cooldown;
+        ActiveAbilitiesCD[index] = newAbility.Cooldown;
     }
 
     protected void SetActiveAbilitiesCDs(bool reset = false)
@@ -590,7 +590,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
             }
             if (newID != lastActiveAbilitiesIDs[i])
             {
-                ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).cooldown;
+                ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).Cooldown;
             }
 
             lastActiveAbilitiesIDs[i] = newID;

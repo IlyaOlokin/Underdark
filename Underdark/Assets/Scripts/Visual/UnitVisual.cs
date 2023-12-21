@@ -122,7 +122,7 @@ public class UnitVisual : MonoBehaviour
         else
         {
             dist = activeAbility.AttackDistance;
-            angle = activeAbility.AttackAngle;
+            angle = activeAbility.AttackRadius;
         }
         
         highLightZone.SetActive(true);

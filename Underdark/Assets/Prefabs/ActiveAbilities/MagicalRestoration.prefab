@@ -46,16 +46,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CastTime: 0.1
-  cooldown: 15
+  Cooldown: 15
   ManaCost: 10
-  attackMask:
-    serializedVersion: 2
-    m_Bits: 0
-  attackDistance: 0
-  attackAngle: 0
+  <NeedOverrideWithWeaponStats>k__BackingField: 0
+  <NeedAttackRadius>k__BackingField: 0
+  <AttackDistance>k__BackingField: 0
+  <AttackRadius>k__BackingField: 0
   maxValue: 50
   statMultiplier: 2
   baseStat: 2
+  damageType: 0
   validWeaponTypes: 05000000
   debuffInfos: []
   needAutoDestroy: 1
