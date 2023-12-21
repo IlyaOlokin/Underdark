@@ -256,8 +256,7 @@ public class Enemy : Unit
     protected bool CanUseActiveAbility(Transition<EnemyState> transition, int index) =>
         isPlayerInChasingRange
         && !Inventory.EquippedActiveAbilitySlots[index].IsEmpty
-        && CurrentMana >= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility.ManaCost
-        && DistToTargetPos() <= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility.AttackDistance + 1
+        && ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility.CanUseAbility(this, DistToTargetPos())
         && !IsStunned
         && !IsSilenced
         && Physics2D
