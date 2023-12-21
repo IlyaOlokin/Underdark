@@ -7,7 +7,6 @@ using UnityHFSM;
 
 public class ActiveAbilityExecuteState : EnemyStateBase
 {
-
     public ActiveAbilityExecuteState(bool needsExitTime,
         Enemy Enemy,
         Action onEnter,
