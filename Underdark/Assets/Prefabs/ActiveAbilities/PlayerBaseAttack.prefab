@@ -94,11 +94,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CastTime: 0.1
-  cooldown: 0
+  Cooldown: 0.2
   ManaCost: 0
   <NeedOverrideWithWeaponStats>k__BackingField: 1
+  <NeedAttackRadius>k__BackingField: 1
   <AttackDistance>k__BackingField: 1
-  <AttackAngle>k__BackingField: 90
+  <AttackRadius>k__BackingField: 90
   maxValue: 0
   statMultiplier: 1
   baseStat: 0
