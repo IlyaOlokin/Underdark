@@ -113,7 +113,7 @@ public abstract class ActiveAbility : MonoBehaviour
         if (statMultiplier != 0) res[1] = $"Damage: {statMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {maxValue})";
         if (ManaCost != 0)       res[2] = $"Mana: {ManaCost}";
         if (AttackDistance != 0) res[3] = $"Distance: {AttackDistance}";
-        if (AttackRadius != 0)    res[4] = $"Radius: {AttackRadius}";
+        if (AttackRadius != 0 && NeedAttackRadius) res[4] = $"Radius: {AttackRadius}";
         if (Cooldown != 0)    res[5] = $"Cooldown: {Cooldown}";
         if (validWeaponTypes.Count != 0 && !validWeaponTypes.Contains(WeaponType.Any)) res[6] = $"Weapon: {GetValidWeaponTypesString()}";
         return res;
