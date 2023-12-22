@@ -7,25 +7,28 @@ public class UnitParams
     private Unit unit;
     
     [Header("Base Damage Amplification")]
-    [SerializeField] public float basePhysicDmgAmplification;
-    [SerializeField] public float baseChaosDmgAmplification;
-    [SerializeField] public float baseFireDmgAmplification;
-    [SerializeField] public float baseAirDmgAmplification;
-    [SerializeField] public float baseWaterDmgAmplification;
-    [SerializeField] public float baseColdDmgAmplification;
-    [SerializeField] public float baseElectricDmgAmplification;
+    [SerializeField] private float basePhysicDmgAmplification;
+    [SerializeField] private float baseChaosDmgAmplification;
+    [SerializeField] private float baseFireDmgAmplification;
+    [SerializeField] private float baseAirDmgAmplification;
+    [SerializeField] private float baseWaterDmgAmplification;
+    [SerializeField] private float baseColdDmgAmplification;
+    [SerializeField] private float baseElectricDmgAmplification;
     
     [Header("Base Damage Resistance")]
-    [SerializeField] public float basePhysicResistance;
-    [SerializeField] public float baseChaosResistance;
-    [SerializeField] public float baseFireResistance;
-    [SerializeField] public float baseAirResistance;
-    [SerializeField] public float baseWaterResistance;
-    [SerializeField] public float baseColdResistance;
-    [SerializeField] public float baseElectricResistance;
+    [SerializeField] private float basePhysicResistance;
+    [SerializeField] private float baseChaosResistance;
+    [SerializeField] private float baseFireResistance;
+    [SerializeField] private float baseAirResistance;
+    [SerializeField] private float baseWaterResistance;
+    [SerializeField] private float baseColdResistance;
+    [SerializeField] private float baseElectricResistance;
 
     [Header("Evasion")] 
     [SerializeField] private float baseEvasionChance;
+
+    private float HPRegenAmplification;
+    private float MPRegenAmplification;
 
     public float SlowAmount { get; private set; }
     public float AllDmgAmplification { get; private set; }
@@ -34,6 +37,9 @@ public class UnitParams
     {
         this.unit = unit;
         ApplySlow(1f);
+
+        unit.Inventory.OnEquipmentChanged += CashParams;
+        CashParams();
     }
 
     public float GetDamageAmplification(DamageType damageType)
@@ -103,6 +109,16 @@ public class UnitParams
         return 1 - hitChance;
     }
 
+    public float GetRegenAmplification(RegenType regenType)
+    {
+        return regenType switch
+        {
+            RegenType.HP => HPRegenAmplification,
+            RegenType.MP => MPRegenAmplification,
+            _ => throw new ArgumentOutOfRangeException(nameof(regenType), regenType, null)
+        };
+    }
+
     public void ApplySlow(float slow)
     {
         SlowAmount = slow;
@@ -111,5 +127,38 @@ public class UnitParams
     public void AddAllDamageAmplification(float dmgAmplification)
     {
         AllDmgAmplification += dmgAmplification;
+    }
+
+    private void CashParams()
+    {
+        SetRegeneration();
+    }
+
+    private void SetRegeneration()
+    {
+        var hpRegenAmpl = 0f;
+        var mpRegenAmpl = 0f;
+        
+        foreach (var passive in unit.GetAllGearPassives<RegenAmplificationSO>())
+        {
+            switch (passive.RegenType)
+            {
+                case RegenType.HP:
+                    hpRegenAmpl += passive.Value;
+                    break;
+                case RegenType.MP:
+                    mpRegenAmpl += passive.Value;
+                    break;
+                case RegenType.Both:
+                    hpRegenAmpl += passive.Value;
+                    mpRegenAmpl += passive.Value;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        HPRegenAmplification = 1 + hpRegenAmpl;
+        MPRegenAmplification = 1 + mpRegenAmpl;
     }
 }

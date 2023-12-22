@@ -108,7 +108,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
-        Params.SetUnit(this);
         
         lastMoveDir = Vector3.right;
         
@@ -116,6 +115,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         
         ActiveAbilitiesCD = new List<float>(new float[Inventory.EquippedActiveAbilitySlots.Count]);
         lastActiveAbilitiesIDs = new string[Inventory.EquippedActiveAbilitySlots.Count];
+        
+        Params.SetUnit(this);
     }
     
     private void Start()
@@ -192,7 +193,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         if (CurrentHP < MaxHP)
         {
-            hpRegenBuffer += MaxHP * regenPercent * Time.deltaTime;
+            hpRegenBuffer += MaxHP * regenPercent * Params.GetRegenAmplification(RegenType.HP) * Time.deltaTime;
             if (hpRegenBuffer >= 1)
             {
                 RestoreHP((int)Mathf.Floor(hpRegenBuffer));
@@ -206,7 +207,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         if (CurrentMana < MaxMana)
         {
-            manaRegenBuffer += MaxMana * regenPercent * Time.deltaTime;
+            manaRegenBuffer += MaxMana * regenPercent * Params.GetRegenAmplification(RegenType.MP) * Time.deltaTime;
             if (manaRegenBuffer >= 1)
             {
                 RestoreMP((int)Mathf.Floor(manaRegenBuffer));
