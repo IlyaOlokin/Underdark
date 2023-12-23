@@ -61,9 +61,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public event Action<int> OnManaChanged;
     public event Action<int> OnMaxManaChanged;
-
-    [SerializeField] [Range(0f, 1f)] private float regenPercent;
-
+    
     [field: SerializeField] public int MoveSpeed { get; private set; }
 
     [field: Header("Attack Setup")] [SerializeField]
@@ -193,7 +191,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         if (CurrentHP < MaxHP)
         {
-            hpRegenBuffer += MaxHP * regenPercent * Params.GetRegenAmplification(RegenType.HP) * Time.deltaTime;
+            hpRegenBuffer += Params.GetRegenPerSecond(RegenType.HP) * Time.deltaTime;
             if (hpRegenBuffer >= 1)
             {
                 RestoreHP((int)Mathf.Floor(hpRegenBuffer));
@@ -207,7 +205,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         if (CurrentMana < MaxMana)
         {
-            manaRegenBuffer += MaxMana * regenPercent * Params.GetRegenAmplification(RegenType.MP) * Time.deltaTime;
+            manaRegenBuffer += Params.GetRegenPerSecond(RegenType.MP) * Time.deltaTime;
             if (manaRegenBuffer >= 1)
             {
                 RestoreMP((int)Mathf.Floor(manaRegenBuffer));
