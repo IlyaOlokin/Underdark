@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Serializable]
 public class GameData
 {
-    //Player Stats
+    // Player Stats
     public int CurrenLevel;
     public int CurrentExp;
     public int Strenght;
@@ -20,6 +20,7 @@ public class GameData
     public string Legs;
     public string Weapon;
     public string Shield;
+    public List<string> Accessories = new ();
     
     public List<string> ExecutableItems = new ();
     public List<int> ExecutableItemsCounts = new ();

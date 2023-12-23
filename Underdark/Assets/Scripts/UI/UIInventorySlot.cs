@@ -33,33 +33,8 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
         var otherSlot = otherSlotUI.Slot;
         var inventory = InventoryUI.Inventory;
-
-
-        bool canMoveItem = false;
-        if (SlotType == ItemType.Any && otherSlotUI.SlotType == ItemType.Any)
-        {
-            canMoveItem = true;
-        }
-        else if (SlotType == ItemType.Any && otherSlotUI.SlotType != ItemType.Any)
-        {
-            if (Slot.IsEmpty || Slot.Item.ItemType == otherSlotUI.SlotType)
-                canMoveItem = true;
-        }
-        else if (otherSlotUI.SlotType == ItemType.Any && SlotType != ItemType.Any)
-        {
-            if (SlotType == otherItemUI.Item.ItemType)
-                canMoveItem = true;
-        }
-        else if (SlotType != ItemType.Any && otherSlotUI.SlotType != ItemType.Any)
-        {
-            if (SlotType == otherItemUI.Item.ItemType && (Slot.IsEmpty || Slot.Item.ItemType == otherSlotUI.SlotType))
-                canMoveItem = true;
-        }
-
-        if (canMoveItem) inventory.MoveItem(otherSlot, Slot, otherSlotUI.SlotType, SlotType);
-
-        //Refresh();
-        //otherSlotUI.Refresh();
+        
+        inventory.TryMoveItem(otherSlot, Slot, otherSlotUI.SlotType, SlotType);
     }
 
     public void Refresh()

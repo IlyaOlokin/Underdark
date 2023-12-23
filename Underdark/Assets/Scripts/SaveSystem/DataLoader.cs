@@ -67,6 +67,12 @@ public class DataLoader : MonoBehaviour
         gameData.Legs = player.Inventory.Equipment.Legs.ItemID;
         gameData.Weapon = player.Inventory.Equipment.Weapon.ItemID;
         gameData.Shield = player.Inventory.Equipment.Shield.ItemID;
+        
+        var accessories = player.Inventory.Equipment.Accessories;
+        foreach (var t in accessories)
+        {
+            gameData.Accessories.Add(t.ItemID);
+        }
 
         var activeAbilities = player.Inventory.GetAllActiveAbilitySlots();
         foreach (var t in activeAbilities)
