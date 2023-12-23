@@ -13,6 +13,8 @@ public class ParamsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI maxHpText;
     [SerializeField] private TextMeshProUGUI maxMpText;
     [SerializeField] private TextMeshProUGUI evasionText;
+    [SerializeField] private TextMeshProUGUI hpRegenText;
+    [SerializeField] private TextMeshProUGUI mpRegenText;
 
     [Header("Damage Amplifications")] 
     [SerializeField] private TextMeshProUGUI physDmgAmplText;
@@ -55,6 +57,8 @@ public class ParamsUI : MonoBehaviour
         maxHpText.text = $"{player.MaxHP}";
         maxMpText.text = $"{player.MaxMana}";
         evasionText.text = $"{Mathf.Round(player.Params.GetEvasionChance() * 100)}%";
+        hpRegenText.text = $"{player.Params.GetRegenPerSecond(RegenType.HP):F1}/sec";
+        mpRegenText.text = $"{player.Params.GetRegenPerSecond(RegenType.MP):F1}/sec";
         
         UpdateAmplifications();
         UpdateResistances();

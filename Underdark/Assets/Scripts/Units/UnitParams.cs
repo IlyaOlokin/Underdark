@@ -27,6 +27,10 @@ public class UnitParams
     [Header("Evasion")] 
     [SerializeField] private float baseEvasionChance;
 
+    [Header("Regen")]
+    [SerializeField] [Range(0f, 1f)] private float baseHPRegenPercent;
+    [SerializeField] [Range(0f, 1f)] private float baseMPRegenPercent;
+
     private float HPRegenAmplification;
     private float MPRegenAmplification;
 
@@ -109,12 +113,12 @@ public class UnitParams
         return 1 - hitChance;
     }
 
-    public float GetRegenAmplification(RegenType regenType)
+    public float GetRegenPerSecond(RegenType regenType)
     {
         return regenType switch
         {
-            RegenType.HP => HPRegenAmplification,
-            RegenType.MP => MPRegenAmplification,
+            RegenType.HP => unit.MaxHP * baseHPRegenPercent * HPRegenAmplification,
+            RegenType.MP => unit.MaxMana * baseMPRegenPercent * MPRegenAmplification,
             _ => throw new ArgumentOutOfRangeException(nameof(regenType), regenType, null)
         };
     }

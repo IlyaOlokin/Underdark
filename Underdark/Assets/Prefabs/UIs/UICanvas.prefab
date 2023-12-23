@@ -1551,12 +1551,12 @@ GameObject:
   m_Component:
   - component: {fileID: 5231311050910056679}
   m_Layer: 5
-  m_Name: Amplification (4)
+  m_Name: MPRegen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5231311050910056679
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1612,8 +1612,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 26.2918, y: 0}
+  m_SizeDelta: {x: 252.5837, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7777110162145946646
 CanvasRenderer:
@@ -1643,7 +1643,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Air:'
+  m_text: 'Health Regen:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4524,12 +4524,12 @@ GameObject:
   m_Component:
   - component: {fileID: 886620021038590659}
   m_Layer: 5
-  m_Name: Amplification (3)
+  m_Name: HPRegen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &886620021038590659
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13535,8 +13535,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 31.9626, y: 0}
+  m_SizeDelta: {x: 263.9253, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3155201178168276253
 CanvasRenderer:
@@ -13566,7 +13566,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Water:'
+  m_text: 'Mana Regen:'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -13856,6 +13856,8 @@ MonoBehaviour:
   maxHpText: {fileID: 913288059668263730}
   maxMpText: {fileID: 8265519209374446983}
   evasionText: {fileID: 3825123420938495875}
+  hpRegenText: {fileID: 828504760804586280}
+  mpRegenText: {fileID: 6085169413891409398}
   physDmgAmplText: {fileID: 7303939993210117275}
   chaosDmgAmplText: {fileID: 9003941221681216027}
   fireDmgAmplText: {fileID: 3493320355522037585}
@@ -15516,7 +15518,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 20%
+  m_text: 2/sec
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -24000,7 +24002,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 20%
+  m_text: 2/sec
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
