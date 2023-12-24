@@ -119,19 +119,7 @@ public class VendorUI : InGameUiWindow, IInventoryUI
         this.selectedSlot = selectedSlot;
         this.selectedSlot.OnSelect();
 
-        /*isPlayersSlot = false;
-        foreach (var slot in slotsPlayer)
-        {
-            if (slot.InventorySlot == this.selectedSlot)
-            {
-                isPlayersSlot = true;
-                break;
-            }
-        }*/
-
         isPlayersSlot = slotsPlayer.Select(x => x.InventorySlot).Contains(this.selectedSlot);
-
-        //isPlayersSlot = slotsPlayer.Contains<UIInventorySlot>(this.selectedSlot);
         
         UpdateSelectedSlot();
     }
