@@ -32,8 +32,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         get => _currentHP;
         protected set
         {
-            if (value > MaxHP) value = MaxHP;
-            _currentHP = value;
+            if (value > MaxHP) _currentHP = MaxHP;
+            else if (value < 0) _currentHP = 0;
+            else _currentHP = value;
             OnHealthChanged?.Invoke(_currentHP);
         }
     }
