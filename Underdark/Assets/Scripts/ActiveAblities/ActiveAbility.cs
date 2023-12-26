@@ -33,7 +33,7 @@ public abstract class ActiveAbility : MonoBehaviour
     protected Unit caster;
     protected Vector2 attackDir;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         if (needAutoDestroy) Destroy(gameObject, autoDestroyDelay);
     }

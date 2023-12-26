@@ -18,8 +18,9 @@ public class FireBall : ActiveAbility, IAttacker
     [SerializeField] private List<ParticleSystem> deathExplosion;
     [SerializeField] private float destroyDelay = 1.5f;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
         Invoke(nameof(Die),  AttackDistance / projSpeed);
