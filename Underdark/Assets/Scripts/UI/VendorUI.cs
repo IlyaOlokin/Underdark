@@ -42,7 +42,7 @@ public class VendorUI : InGameUiWindow, IInventoryUI
     {
         SetVendorSlots();
         UpdateUI();
-        UpdateMoneyDisplay(player.Money.GetMoney());
+        UpdateMoneyDisplay();
         
         Inventory.OnInventoryChanged += UpdateUI;
         player.Money.OnMoneyChanged += UpdateMoneyDisplay;
@@ -106,9 +106,9 @@ public class VendorUI : InGameUiWindow, IInventoryUI
         }
     }
     
-    private void UpdateMoneyDisplay(int moneyCount)
+    private void UpdateMoneyDisplay()
     {
-        moneyText.text = moneyCount.ToString();
+        moneyText.text = player.Money.GetMoneyString();
     }
 
     public void SelectSlot(UIInventorySlot selectedSlot)

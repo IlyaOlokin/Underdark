@@ -87,21 +87,6 @@ public class UnitNotificationEffect : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * 180 / Mathf.PI;
         criticalEffect.eulerAngles = new Vector3(0, 0, angle - 90);
     }
-
-    /*private void GetInnerColor(float dmg)
-    {
-        for (int i = 0; i < colors.Count; i++)
-        {
-            if (dmg > colors[i].bottomBorder)
-            {
-                text.color = colors[i].color;
-            }
-            else
-            {
-                break;
-            }
-        }
-    }*/
 }
 
 [Serializable]
