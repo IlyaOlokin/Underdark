@@ -33,4 +33,7 @@ public class GameData
     
     // Money
     public int MoneyCount;
+    
+    // Meta
+    public bool TutorialCompleted;
 }

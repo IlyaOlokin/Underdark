@@ -7,6 +7,18 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    public void PlayButton(string sceneName)
+    {
+        if (DataLoader.gameData.TutorialCompleted)
+        {
+            StaticSceneLoader.LoadScene("Hub", true);
+        }
+        else
+        {
+            StaticSceneLoader.LoadScene("Tutorial", true);
+        }
+    }
+    
     public void LoadScene(string sceneName)
     {
         StaticSceneLoader.LoadScene(sceneName, true);
