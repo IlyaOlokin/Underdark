@@ -23,6 +23,7 @@ public class DataLoader : MonoBehaviour
         LoadGame();
 
         LevelTransition.MaxReachedLevel = gameData.MaxReachedLevel;
+        LevelTransition.TutorialCompleted = gameData.TutorialCompleted;
     }
     
     private static void LoadGame()
@@ -88,6 +89,8 @@ public class DataLoader : MonoBehaviour
 
         gameData.MoneyCount = player.Money.GetMoney();
         gameData.MaxReachedLevel = LevelTransition.MaxReachedLevel;
+        
+        gameData.TutorialCompleted = LevelTransition.TutorialCompleted;
         
         dataHandler.Save(gameData);
     }

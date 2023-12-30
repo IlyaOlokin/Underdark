@@ -9,7 +9,10 @@ using UnityEngine.Serialization;
 public class LevelTransition : MonoBehaviour
 {
     public static int MaxReachedLevel;
+    public static bool TutorialCompleted;
     public static bool StartFromUp = true;
+
+    public event Action OnLoad; 
     
     [SerializeField] private LoadMode loadSceneMode;
     [SerializeField] private string sceneName;
@@ -41,6 +44,7 @@ public class LevelTransition : MonoBehaviour
         if (other.TryGetComponent(out Player player))
         {
             this.player = player;
+            OnLoad?.Invoke();
             LoadLevel();
         }
     }
