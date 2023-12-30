@@ -83,7 +83,7 @@ public class VendorUI : InGameUiWindow, IInventoryUI
             var color = vendorInventorySlots[i].Item.Cost < player.Money.GetMoney()
                 ? "<color=#FFFFFF>"
                 : "<color=#FF4E4E>";
-            slotsVendor[i].CostText.text = $"{color}{vendorInventorySlots[i].Item.Cost}";
+            slotsVendor[i].CostText.text = $"{color}• {vendorInventorySlots[i].Item.Cost}";
         }
     }
 
@@ -101,7 +101,7 @@ public class VendorUI : InGameUiWindow, IInventoryUI
             slotsPlayer[filledSlotIndex].InventorySlot.SetSlot(playerInventorySlots[i]);
             slotsPlayer[filledSlotIndex].CostText.gameObject.SetActive(true);
             slotsPlayer[filledSlotIndex].CostText.text =
-                slotsPlayer[filledSlotIndex].InventorySlot.Slot.Item.Cost.ToString();
+                "• " + slotsPlayer[filledSlotIndex].InventorySlot.Slot.Item.Cost;
             filledSlotIndex++;
         }
     }

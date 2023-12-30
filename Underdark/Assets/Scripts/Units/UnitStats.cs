@@ -173,6 +173,20 @@ public class UnitStats
             _ => throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null)
         };
     }
+    
+    public static string GetStatFullString(BaseStat baseStat)
+    {
+        return baseStat switch
+        {
+            BaseStat.Strength => "Strength",
+            BaseStat.Dexterity => "Dexterity",
+            BaseStat.Intelligence => "Intelligence",
+            BaseStat.StrDex => "Strength + Dexterity",
+            BaseStat.DexInt => "Dexterity + Intelligence",
+            BaseStat.IntStr => "Intelligence + Strength",
+            _ => throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null)
+        };
+    }
 
     public static bool operator ==(UnitStats a, UnitStats b)
     {
