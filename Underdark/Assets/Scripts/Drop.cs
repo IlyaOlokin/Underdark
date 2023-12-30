@@ -43,6 +43,6 @@ public class Drop : MonoBehaviour
         var money = Random.Range(moneyAmountMin, moneyAmountMax + 1);
         moneyHolder.Money.AddMoney(money);
         var newEffect = Instantiate(moneyDropEffect, transform.position, Quaternion.identity);
-        newEffect.WriteMessage($"+{money}");
+        newEffect.WriteMessage($"+ • {money}");
     }
 }

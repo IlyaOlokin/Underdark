@@ -41,10 +41,10 @@ public class Player : Unit, IPickUper, IMoneyHolder
         base.Update();
         RotateAttackDir();
 
-        if (Input.GetKeyDown(KeyCode.R)) // debug
+        /*if (Input.GetKeyDown(KeyCode.R)) // debug
         {
             DataLoader.SaveGame(this);
-        }
+        }*/
     }
 
     private void OnDrawGizmos()

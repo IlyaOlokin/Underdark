@@ -14,7 +14,16 @@ public class Firefly : ActiveAbility
     
     [SerializeField] private float changePositionDelay;
     private float changePositionTimer;
+    
+    [Header("Visual")] 
+    [SerializeField] private LightSourceVisual lightSourceVisual;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        lightSourceVisual.LightUp();
+    }
+    
     private void Update()
     {
         changePositionTimer -= Time.deltaTime;
@@ -31,5 +40,10 @@ public class Firefly : ActiveAbility
     private void SetNewTargetPosition()
     {
         currentTargetDir = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+    }
+
+    private void OnDestroy()
+    {
+        lightSourceVisual.LightDown();
     }
 }
