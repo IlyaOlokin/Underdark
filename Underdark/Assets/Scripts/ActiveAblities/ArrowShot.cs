@@ -9,8 +9,9 @@ public class ArrowShot : ActiveAbility, IAttacker
     
     private Rigidbody2D rb;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         rb = GetComponent<Rigidbody2D>();
         Destroy(gameObject, AttackDistance / projSpeed);
     }

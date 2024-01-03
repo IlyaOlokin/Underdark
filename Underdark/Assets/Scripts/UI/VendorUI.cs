@@ -42,7 +42,7 @@ public class VendorUI : InGameUiWindow, IInventoryUI
     {
         SetVendorSlots();
         UpdateUI();
-        UpdateMoneyDisplay(player.Money.GetMoney());
+        UpdateMoneyDisplay();
         
         Inventory.OnInventoryChanged += UpdateUI;
         player.Money.OnMoneyChanged += UpdateMoneyDisplay;
@@ -83,7 +83,7 @@ public class VendorUI : InGameUiWindow, IInventoryUI
             var color = vendorInventorySlots[i].Item.Cost < player.Money.GetMoney()
                 ? "<color=#FFFFFF>"
                 : "<color=#FF4E4E>";
-            slotsVendor[i].CostText.text = $"{color}{vendorInventorySlots[i].Item.Cost}";
+            slotsVendor[i].CostText.text = $"{color}• {vendorInventorySlots[i].Item.Cost}";
         }
     }
 
@@ -101,14 +101,14 @@ public class VendorUI : InGameUiWindow, IInventoryUI
             slotsPlayer[filledSlotIndex].InventorySlot.SetSlot(playerInventorySlots[i]);
             slotsPlayer[filledSlotIndex].CostText.gameObject.SetActive(true);
             slotsPlayer[filledSlotIndex].CostText.text =
-                slotsPlayer[filledSlotIndex].InventorySlot.Slot.Item.Cost.ToString();
+                "• " + slotsPlayer[filledSlotIndex].InventorySlot.Slot.Item.Cost;
             filledSlotIndex++;
         }
     }
     
-    private void UpdateMoneyDisplay(int moneyCount)
+    private void UpdateMoneyDisplay()
     {
-        moneyText.text = moneyCount.ToString();
+        moneyText.text = player.Money.GetMoneyString();
     }
 
     public void SelectSlot(UIInventorySlot selectedSlot)
@@ -119,19 +119,7 @@ public class VendorUI : InGameUiWindow, IInventoryUI
         this.selectedSlot = selectedSlot;
         this.selectedSlot.OnSelect();
 
-        /*isPlayersSlot = false;
-        foreach (var slot in slotsPlayer)
-        {
-            if (slot.InventorySlot == this.selectedSlot)
-            {
-                isPlayersSlot = true;
-                break;
-            }
-        }*/
-
         isPlayersSlot = slotsPlayer.Select(x => x.InventorySlot).Contains(this.selectedSlot);
-
-        //isPlayersSlot = slotsPlayer.Contains<UIInventorySlot>(this.selectedSlot);
         
         UpdateSelectedSlot();
     }

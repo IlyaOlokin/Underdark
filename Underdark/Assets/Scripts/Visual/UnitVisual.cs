@@ -140,5 +140,6 @@ public class UnitVisual : MonoBehaviour
     {
         var newImposter = Instantiate(deathImposter, transform.position, Quaternion.identity);
         newImposter.StartDeath(attacker, damageType, sr.sprite);
+        newImposter.transform.eulerAngles = new Vector3(0, transform.parent.eulerAngles.y, 0);
     }
 }

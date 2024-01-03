@@ -32,8 +32,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         get => _currentHP;
         protected set
         {
-            if (value > MaxHP) value = MaxHP;
-            _currentHP = value;
+            if (value > MaxHP) _currentHP = MaxHP;
+            else if (value < 0) _currentHP = 0;
+            else _currentHP = value;
             OnHealthChanged?.Invoke(_currentHP);
         }
     }
@@ -61,9 +62,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public event Action<int> OnManaChanged;
     public event Action<int> OnMaxManaChanged;
-
-    [SerializeField] [Range(0f, 1f)] private float regenPercent;
-
+    
     [field: SerializeField] public int MoveSpeed { get; private set; }
 
     [field: Header("Attack Setup")] [SerializeField]
@@ -108,7 +107,6 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
-        Params.SetUnit(this);
         
         lastMoveDir = Vector3.right;
         
@@ -116,6 +114,8 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         
         ActiveAbilitiesCD = new List<float>(new float[Inventory.EquippedActiveAbilitySlots.Count]);
         lastActiveAbilitiesIDs = new string[Inventory.EquippedActiveAbilitySlots.Count];
+        
+        Params.SetUnit(this);
     }
     
     private void Start()
@@ -192,7 +192,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         if (CurrentHP < MaxHP)
         {
-            hpRegenBuffer += MaxHP * regenPercent * Time.deltaTime;
+            hpRegenBuffer += Params.GetRegenPerSecond(RegenType.HP) * Time.deltaTime;
             if (hpRegenBuffer >= 1)
             {
                 RestoreHP((int)Mathf.Floor(hpRegenBuffer));
@@ -206,7 +206,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         if (CurrentMana < MaxMana)
         {
-            manaRegenBuffer += MaxMana * regenPercent * Time.deltaTime;
+            manaRegenBuffer += Params.GetRegenPerSecond(RegenType.MP) * Time.deltaTime;
             if (manaRegenBuffer >= 1)
             {
                 RestoreMP((int)Mathf.Floor(manaRegenBuffer));

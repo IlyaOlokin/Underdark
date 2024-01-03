@@ -23,4 +23,13 @@ public class Elixir : ExecutableItem, IStatusEffect
     {
         throw new System.NotImplementedException();
     }
+    
+    public override string[] ToStringAdditional()
+    {
+        List<string> res = new List<string>();
+        
+        res.Add("You can have only one active elixir effect at the time.");
+
+        return res.ToArray();
+    }
 }

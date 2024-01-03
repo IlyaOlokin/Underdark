@@ -6,19 +6,18 @@ using UnityEngine;
 public class Money
 {
     private int count;
-    public event Action<int> OnMoneyChanged; 
+    public event Action OnMoneyChanged; 
 
     public void AddMoney(int amount)
     {
         count += amount;
-        OnMoneyChanged?.Invoke(count);
+        OnMoneyChanged?.Invoke();
     }
 
     public void SetMoney(int amount)
     {
         count = amount;
-        OnMoneyChanged?.Invoke(count);
-
+        OnMoneyChanged?.Invoke();
     }
 
     public int GetMoney() => count;
@@ -28,7 +27,9 @@ public class Money
         if (amount > count) return false;
 
         count -= amount;
-        OnMoneyChanged?.Invoke(count);
+        OnMoneyChanged?.Invoke();
         return true;
     }
+
+    public string GetMoneyString() => $"• {count}";
 }
