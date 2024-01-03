@@ -23,6 +23,7 @@ public class Enemy : Unit
     [SerializeField] protected LayerMask alliesLayer;
     [SerializeField] private float lostPlayerDelay;
     private float lostPlayerTimer;
+    public int PreparedActiveAbilityIndex { get; private set; }
     
     [SerializeField] protected float meleeAttackDuration;
     [SerializeField] protected float meleeAttackPreparation;
@@ -206,7 +207,7 @@ public class Enemy : Unit
 
     protected void ExecuteActiveAbility()
     {
-        ExecuteActiveAbility(0);
+        ExecuteActiveAbility(PreparedActiveAbilityIndex);
     }
     
     private void FollowPlayerSensor_OnPlayerEnter(Transform player)
@@ -238,14 +239,24 @@ public class Enemy : Unit
                 AttackMask)
             .collider.TryGetComponent(out Player player);
     
-    protected bool ShouldUseActiveAbility(Transition<EnemyState> transition) =>
-        ActiveAbilitiesCD[0] < 0
-        && CanUseActiveAbility(transition);
-    
-    protected bool CanUseActiveAbility(Transition<EnemyState> transition) =>
+    protected bool ShouldUseActiveAbility(Transition<EnemyState> transition)
+    {
+        for (int i = 0; i < Inventory.EquippedActiveAbilitySlots.Count; i++)
+        {
+            if (ActiveAbilitiesCD[i] < 0 && CanUseActiveAbility(transition, i))
+            {
+                PreparedActiveAbilityIndex = i;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected bool CanUseActiveAbility(Transition<EnemyState> transition, int index) =>
         isPlayerInChasingRange
-        && CurrentMana >= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.ManaCost
-        && DistToTargetPos() <= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.AttackDistance + 1
+        && !Inventory.EquippedActiveAbilitySlots[index].IsEmpty
+        && ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility.CanUseAbility(this, DistToTargetPos())
         && !IsStunned
         && !IsSilenced
         && Physics2D
@@ -255,7 +266,12 @@ public class Enemy : Unit
                 AttackMask)
             .collider.TryGetComponent(out Player player);
 
-    protected bool CanNotUseActiveAbility(Transition<EnemyState> transition) => isPlayerInChasingRange && !CanUseActiveAbility(transition);
+    protected bool CanNotAnyUseActiveAbility(Transition<EnemyState> transition) => 
+        isPlayerInChasingRange 
+        && !CanUseActiveAbility(transition, 0)
+        && !CanUseActiveAbility(transition, 1)
+        && !CanUseActiveAbility(transition, 2)
+        && !CanUseActiveAbility(transition, 3);
 
     protected bool ShouldAttack(Transition<EnemyState> transition) =>
         ShouldMelee(transition) || ShouldUseActiveAbility(transition);

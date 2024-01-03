@@ -106,6 +106,12 @@ public abstract class ActiveAbility : MonoBehaviour
         return validWeaponTypes.Contains(WeaponType.Any) || validWeaponTypes.Contains(weapon.WeaponType) || validWeaponTypes.Count == 0;
     }
 
+    public virtual bool CanUseAbility(Unit caster, float distToTarget)
+    {
+        var attackDist = NeedOverrideWithWeaponStats ? caster.GetWeapon().AttackDistance : AttackDistance;
+        return caster.CurrentMana >= ManaCost && (distToTarget <= attackDist + 0.7f || attackDist == 0);
+    }
+
     public new virtual string[] ToString()
     {
         var res = new string[7];

@@ -34,7 +34,6 @@ namespace LlamAcademy.FSM
             this.ExitTime = ExitTime;
             this.needsExitTime = needsExitTime;
             Agent = Enemy.GetComponent<NavMeshAgent>();
-            //Animator = Enemy.GetComponent<Animator>();
         }
 
         public override void OnEnter()
