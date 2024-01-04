@@ -242,7 +242,8 @@ public class Inventory : IInventory
     {
         return slotType == ItemType.Any 
                || item == null 
-               || slotType == item.ItemType && unit.Stats.RequirementsMet(item.Requirements);
+               || slotType == item.ItemType && unit.Stats.RequirementsMet(item.Requirements)
+               || slotType == ItemType.Shield && unit.HasPassiveOfType<AmbidexteritySO>() && item.ItemType == ItemType.Weapon;
     }
     
     public Item GetItem(string itemID)
@@ -306,10 +307,10 @@ public class Inventory : IInventory
             Equipment.GetArmor(ItemType.Head),
             Equipment.GetArmor(ItemType.Body),
             Equipment.GetArmor(ItemType.Legs),
-            Equipment.GetArmor(ItemType.Shield),
+            Equipment.GetShieldSlotPassiveHolder(),
             Equipment.GetWeapon(),
         };
-        res.AddRange(Equipment.GetAllAccessories().Cast<IPassiveHolder>());
+        res.AddRange(Equipment.GetAllAccessories());
 
         return res;
     }

@@ -26,6 +26,11 @@ public class Equipment
     {
         return (MeleeWeapon) Weapon.Item;
     }
+    
+    public IPassiveHolder GetShieldSlotPassiveHolder()
+    {
+        return (IPassiveHolder) Shield.Item;
+    }
 
     public Armor GetArmor(ItemType itemType)
     {
@@ -38,7 +43,7 @@ public class Equipment
             case ItemType.Legs:
                 return (Armor) Legs.Item;
             case ItemType.Shield:
-                return (Armor)Shield.Item;
+                return Shield.Item as Armor;
             default:
                 throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null);
         }
