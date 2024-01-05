@@ -644,7 +644,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public MeleeWeapon GetWeapon()
     {
-        if (Inventory.Equipment.Weapon.IsEmpty)
+        if (Inventory.Equipment.Weapon.IsEmpty || !Inventory.Equipment.Weapon.IsValid)
             return defaultWeapon;
         return Inventory.Equipment.GetWeapon();
     }
