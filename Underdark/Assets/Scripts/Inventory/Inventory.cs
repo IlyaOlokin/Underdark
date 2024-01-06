@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -51,7 +50,7 @@ public class Inventory : IInventory
             EquippedActiveAbilitySlots.Add(new InventorySlot());
         }
 
-        OnEquipmentChanged += CheckEquipmentFit;
+        OnInventoryChanged += CheckEquipmentFit;
         unit.Stats.OnStatsChanged += CheckEquipmentFit;
         unit.Stats.OnLevelUp += CheckEquipmentFit;
     }
@@ -262,6 +261,11 @@ public class Inventory : IInventory
         foreach (var accessorySlot in Equipment.Accessories)
         {
             accessorySlot.IsValid = IsFitting(accessorySlot.SlotType, accessorySlot.Item);
+        }
+
+        foreach (var slot in slots.Where(slot => !slot.IsEmpty))
+        {
+            slot.IsValid = unit.Stats.RequirementsMet(slot.Item.Requirements);
         }
     }
     
