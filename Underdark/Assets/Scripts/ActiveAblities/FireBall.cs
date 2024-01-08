@@ -75,4 +75,9 @@ public class FireBall : ActiveAbility, IAttacker
     {
         damageable.TakeDamage(caster, this, damageInfo);
     }
+    
+    public override bool CanUseAbility(Unit caster, float distToTarget)
+    {
+        return base.CanUseAbility(caster, distToTarget) && distToTarget > 2;
+    }
 }

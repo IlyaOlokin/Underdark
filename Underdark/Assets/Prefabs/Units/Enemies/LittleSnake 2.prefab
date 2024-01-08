@@ -994,10 +994,11 @@ MonoBehaviour:
     baseWaterResistance: 0
     baseColdResistance: 0
     baseElectricResistance: 0
-    baseEvasionChance: 0
+    baseEvasionChance: 0.15
+    baseHPRegenPercent: 0
+    baseMPRegenPercent: 0
   baseMaxHP: 30
   baseMaxMana: 0
-  regenPercent: 0.01
   <MoveSpeed>k__BackingField: 3
   defaultWeapon: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}
   baseAttackAbility: {fileID: 4412631732704353108, guid: df5d5603f226c9041a8785d3a431e8d6, type: 3}

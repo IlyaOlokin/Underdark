@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
+public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 {
     private Rigidbody2D rb;
     private Collider2D coll;
@@ -141,8 +141,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         UpdateCoolDowns();
         Regeneration();
+        RotateAttackDir();
     }
     
+    protected abstract void RotateAttackDir();
+
     protected void SetMana(bool toFull = false)
     {
         float currentPart = CurrentMana / (float) MaxMana;

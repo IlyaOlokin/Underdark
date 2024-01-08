@@ -58,7 +58,6 @@ public class Enemy : Unit
     {
         base.Update();
         EnemyFSM.OnLogic();
-        RotateAttackDir();
         TryFlipVisual(agent.velocity.x);
         if (isPlayerInChasingRange)
             lastMoveDir = player.position - transform.position;
@@ -195,7 +194,7 @@ public class Enemy : Unit
         base.EndPush();
         UpdateMovementAbility();
     }
-    private void RotateAttackDir()
+    protected override void RotateAttackDir()
     {
         var dirToPlayer = isPlayerInChasingRange
             ? player.transform.position - transform.position
@@ -203,6 +202,7 @@ public class Enemy : Unit
 
         lastMoveDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
         if (dirToPlayer.y < 0) lastMoveDirAngle *= -1;
+        unitVisualRotatable.transform.eulerAngles = new Vector3(0, 0, lastMoveDirAngle - 90);
     }
 
     protected void ExecuteActiveAbility()
