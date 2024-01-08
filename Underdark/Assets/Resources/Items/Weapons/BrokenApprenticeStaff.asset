@@ -10,27 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce3d00c96bc6aa44e881e146998641af, type: 3}
-  m_Name: Staff
+  m_Name: BrokenApprenticeStaff
   m_EditorClassIdentifier: 
-  ID: staff
-  Name: Staff
-  Cost: 40
+  ID: broken_apprentice_staff
+  Name: Broken Apprentice's Staff
+  Cost: 60
   ItemType: 4
-  Sprite: {fileID: 21300000, guid: 469c2629c08b96944b6e1f3575449d4b, type: 3}
+  Sprite: {fileID: 21300000, guid: a4b5f62f33b3e004e8aace652e009615, type: 3}
   StackCapacity: 1
   Requirements:
-    <Level>k__BackingField: 2
+    <Level>k__BackingField: 5
     <Strength>k__BackingField: 0
     <Dexterity>k__BackingField: 0
-    <Intelligence>k__BackingField: 5
+    <Intelligence>k__BackingField: 9
     <StrDex>k__BackingField: 0
     <DexInt>k__BackingField: 0
     <IntStr>k__BackingField: 0
     <AllStats>k__BackingField: 0
   Damage:
     <DamageType>k__BackingField: 0
-    minDamage: 1
-    maxDamage: 2
+    minDamage: 3
+    maxDamage: 5
   WeaponType: 3
   WeaponHandedType: 1
   AttackRadius: 120
