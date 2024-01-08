@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -50,12 +49,17 @@ public class Inventory : IInventory
         {
             EquippedActiveAbilitySlots.Add(new InventorySlot());
         }
+
+        OnInventoryChanged += CheckEquipmentFit;
+        unit.Stats.OnStatsChanged += CheckEquipmentFit;
+        unit.Stats.OnLevelUp += CheckEquipmentFit;
     }
 
     public void UpdateInventory()
     {
         OnActiveAbilitiesChanged?.Invoke(true);
         OnExecutableItemChanged?.Invoke();
+        CheckEquipmentFit();
     }
     
     public int GetItemAmount(string itemID)
@@ -230,19 +234,40 @@ public class Inventory : IInventory
         if (newSourceAmount > 0) sourceSlot.SetItem(tempItem, newSourceAmount);
         else sourceSlot.Clear();
         
-        OnInventoryChanged?.Invoke();
         if (sourceSlotType != ItemType.Any || targetSlotType != ItemType.Any) OnEquipmentChanged?.Invoke();
         if (sourceSlotType == ItemType.ActiveAbility || targetSlotType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
         if (sourceSlotType == ItemType.Executable || targetSlotType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
+        OnInventoryChanged?.Invoke();
         
         return true;
     }
 
     private bool IsFitting(ItemType slotType, Item item)
     {
-        return slotType == ItemType.Any 
-               || item == null 
-               || slotType == item.ItemType && unit.Stats.RequirementsMet(item.Requirements);
+        return slotType == ItemType.Any
+               || item == null
+               || (slotType == item.ItemType || slotType == ItemType.Shield &&
+                   unit.HasPassiveOfType<AmbidexteritySO>() && item.ItemType == ItemType.Weapon && ((MeleeWeapon) item).WeaponHandedType == WeaponHandedType.OneHanded) &&
+               unit.Stats.RequirementsMet(item.Requirements);
+    }
+
+    private void CheckEquipmentFit()
+    {
+        Equipment.Head.IsValid = IsFitting(Equipment.Head.SlotType, Equipment.Head.Item);
+        Equipment.Body.IsValid = IsFitting(Equipment.Body.SlotType,  Equipment.Body.Item);
+        Equipment.Legs.IsValid = IsFitting(Equipment.Legs.SlotType,  Equipment.Legs.Item);
+        Equipment.Weapon.IsValid = IsFitting(Equipment.Weapon.SlotType, Equipment.Weapon.Item);
+        Equipment.Shield.IsValid = IsFitting(Equipment.Shield.SlotType, Equipment.Shield.Item);
+
+        foreach (var accessorySlot in Equipment.Accessories)
+        {
+            accessorySlot.IsValid = IsFitting(accessorySlot.SlotType, accessorySlot.Item);
+        }
+
+        foreach (var slot in slots.Where(slot => !slot.IsEmpty))
+        {
+            slot.IsValid = unit.Stats.RequirementsMet(slot.Item.Requirements);
+        }
     }
     
     public Item GetItem(string itemID)
@@ -306,10 +331,10 @@ public class Inventory : IInventory
             Equipment.GetArmor(ItemType.Head),
             Equipment.GetArmor(ItemType.Body),
             Equipment.GetArmor(ItemType.Legs),
-            Equipment.GetArmor(ItemType.Shield),
+            Equipment.GetShieldSlotPassiveHolder(),
             Equipment.GetWeapon(),
         };
-        res.AddRange(Equipment.GetAllAccessories().Cast<IPassiveHolder>());
+        res.AddRange(Equipment.GetAllAccessories());
 
         return res;
     }

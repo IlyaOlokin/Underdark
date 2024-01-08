@@ -24,7 +24,12 @@ public class Equipment
 
     public MeleeWeapon GetWeapon()
     {
-        return (MeleeWeapon) Weapon.Item;
+        return Weapon.IsValid ? (MeleeWeapon) Weapon.Item : null;
+    }
+    
+    public IPassiveHolder GetShieldSlotPassiveHolder()
+    {
+        return Shield.IsValid ? (IPassiveHolder) Shield.Item : null;
     }
 
     public Armor GetArmor(ItemType itemType)
@@ -32,13 +37,13 @@ public class Equipment
         switch (itemType)
         {
             case ItemType.Head:
-                return (Armor) Head.Item;
+                return Head.IsValid ? Head.Item as Armor : null;
             case ItemType.Body:
-                return (Armor) Body.Item;
+                return Body.IsValid ? Body.Item as Armor : null;
             case ItemType.Legs:
-                return (Armor) Legs.Item;
+                return Legs.IsValid ? Legs.Item as Armor : null;
             case ItemType.Shield:
-                return (Armor)Shield.Item;
+                return Shield.IsValid ? Shield.Item as Armor : null;
             default:
                 throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null);
         }
@@ -50,7 +55,7 @@ public class Equipment
 
         foreach (var accessorySlot in Accessories)
         {
-            if (accessorySlot.IsEmpty) continue;
+            if (accessorySlot.IsEmpty || !accessorySlot.IsEmpty) continue;
             res.Add((Accessory)accessorySlot.Item);
         }
 

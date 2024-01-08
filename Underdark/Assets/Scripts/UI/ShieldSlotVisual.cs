@@ -27,7 +27,8 @@ public class ShieldSlotVisual : MonoBehaviour
     private void UpdateVisual()
     {
         image.enabled = false;
-        if (inventory.Equipment.Weapon.IsEmpty) return;
+        if (inventory.Equipment.Weapon.IsEmpty || !inventory.Equipment.Weapon.IsValid) 
+            return;
         
         if (inventory.Equipment.GetWeapon().WeaponHandedType == WeaponHandedType.TwoHanded)
         {

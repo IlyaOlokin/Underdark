@@ -635,10 +635,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         return res;
     }
+    
+    public bool HasPassiveOfType<T>()
+    {
+        var passives = GetAllGearPassives<T>();
+        return passives.Count != 0;
+    }
 
     public MeleeWeapon GetWeapon()
     {
-        if (Inventory.Equipment.Weapon.IsEmpty)
+        if (Inventory.Equipment.Weapon.IsEmpty || !Inventory.Equipment.Weapon.IsValid)
             return defaultWeapon;
         return Inventory.Equipment.GetWeapon();
     }
