@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Item/MeleeWeapon", fileName = "New Melee Weapon")]
-public class MeleeWeapon : Item, IPassiveHolder
+public class WeaponSO : Item, IPassiveHolder
 {
     public Damage Damage;
     public WeaponType WeaponType;

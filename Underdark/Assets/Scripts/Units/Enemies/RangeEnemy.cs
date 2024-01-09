@@ -46,7 +46,7 @@ public class RangeEnemy : Enemy
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle, EnemyState.Chase,
             (transition) => isPlayerInChasingRange
                             && Vector3.Distance(moveTarget.transform.position, transform.position) > agent.stoppingDistance
-                            && !IsStunned)
+                            && !IsDisabled)
         );
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase, EnemyState.Idle,
             (transition) => !isPlayerInChasingRange

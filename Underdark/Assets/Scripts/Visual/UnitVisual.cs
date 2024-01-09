@@ -109,7 +109,7 @@ public class UnitVisual : MonoBehaviour
         EnergyShield.SetActive(false);
     }
 
-    public void StartHighLightActiveAbility(ActiveAbility activeAbility, MeleeWeapon weapon)
+    public void StartHighLightActiveAbility(ActiveAbility activeAbility, WeaponSO weapon)
     {
         float dist;
         float angle;

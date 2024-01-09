@@ -245,7 +245,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 6.6
+  m_Radius: 8.8
 --- !u!114 &6012931007409671687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 3887350311143016167}
   - component: {fileID: 3657550447364729542}
   m_Layer: 0
-  m_Name: OldBlindRat 1
+  m_Name: BanditEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3dcb7bf8d4b144ead12f9a0a8c2893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 2989269700952815197}
+  enemy: {fileID: 4765959571082104443}
   respawnDelay: 180
   deactivateRange: 25
 --- !u!1 &3743688560195123424
@@ -724,7 +724,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8205295481589042383}
+  - {fileID: 5582931827308663949}
   m_Father: {fileID: 3436527472618127151}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7612529981021217207
@@ -832,7 +832,7 @@ MonoBehaviour:
   currentValueText: {fileID: 0}
   maxValueText: {fileID: 0}
   slider: {fileID: 775653150985436888}
-  damageable: {fileID: 2989269700952815197}
+  damageable: {fileID: 4765959571082104443}
 --- !u!1 &7684371324137006495
 GameObject:
   m_ObjectHideFlags: 0
@@ -845,7 +845,7 @@ GameObject:
   - component: {fileID: 7236479408872746017}
   - component: {fileID: 8583875203054404754}
   - component: {fileID: 2281835335463959061}
-  - component: {fileID: 2989269700952815197}
+  - component: {fileID: 4765959571082104443}
   - component: {fileID: 5577980821815337067}
   - component: {fileID: 5290106731956819956}
   m_Layer: 6
@@ -959,7 +959,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &2989269700952815197
+--- !u!114 &4765959571082104443
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -968,16 +968,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 7684371324137006495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b98a7b020ca8264d88d56b71a3c4b0c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ed55afce2e64ab41b8eec4331228169, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Stats:
     <Level>k__BackingField: 3
     FreePoints: 0
-    <Strength>k__BackingField: 4
-    <Dexterity>k__BackingField: 4
-    <Intelligence>k__BackingField: 2
-    pointsPerLevel: 5
+    <Strength>k__BackingField: 2
+    <Dexterity>k__BackingField: 5
+    <Intelligence>k__BackingField: 5
+    pointsPerLevel: 0
     expNeeded: 
   Params:
     basePhysicDmgAmplification: 0
@@ -994,7 +994,7 @@ MonoBehaviour:
     baseWaterResistance: 0
     baseColdResistance: 0
     baseElectricResistance: 0
-    baseEvasionChance: 0.05
+    baseEvasionChance: 0.1
     baseHPRegenPercent: 0
     baseMPRegenPercent: 0
   baseMaxHP: 30
@@ -1011,7 +1011,7 @@ MonoBehaviour:
   visualsFlipable: {fileID: 7394194429042638207}
   unitVisualRotatable: {fileID: 1829177666794183583}
   unitNotificationEffect: {fileID: 9209489120575824937, guid: ad3a4e569e661de42aecc35d389ed7de, type: 3}
-  unitVisual: {fileID: 3112893788557541511}
+  unitVisual: {fileID: 1699728732726565061}
   spawnPont: {fileID: 3887350311143016167}
   moveTarget: {fileID: 5120903447323990012}
   agent: {fileID: 8583875203054404754}
@@ -1023,7 +1023,9 @@ MonoBehaviour:
   lostPlayerDelay: 5
   meleeAttackDuration: 0.4
   meleeAttackPreparation: 0.5
-  expPerLevel: 5
+  expPerLevel: 10
+  distToForceMelee: 2
+  distToKeep: 5
 --- !u!114 &5577980821815337067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1036,19 +1038,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd6cb303b44e2cd48b95b375843c4ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moneyAmountMin: 1
-  moneyAmountMax: 2
+  moneyAmountMin: 2
+  moneyAmountMax: 5
   moneyDropEffect: {fileID: 9209489120575824937, guid: 13c46b6c267a7d842b20423e04afe9de, type: 3}
   droppedItemPref: {fileID: 7200458106229667149, guid: d11e455e2eba1fc4eb9546ce5859c796, type: 3}
   drop:
-  - Item: {fileID: 11400000, guid: cfff7a563d6e39f40bfe7215fcecc0ea, type: 2}
+  - Item: {fileID: 11400000, guid: 55886dc31b3a814438e4faeb0b9a00e7, type: 2}
     ItemAmount: 1
     ChanceToDropLeft: 0
-    ChanceToDropRight: 0.1
-  - Item: {fileID: 11400000, guid: ff7b9e5c7198e824ea21829a8456addc, type: 2}
+    ChanceToDropRight: 0.4
+  - Item: {fileID: 11400000, guid: ec10e58ca5581f14e9ee73b0bd1c1eb3, type: 2}
     ItemAmount: 1
-    ChanceToDropLeft: 0.05
-    ChanceToDropRight: 0.15
+    ChanceToDropLeft: 0.3
+    ChanceToDropRight: 0.5
+  - Item: {fileID: 11400000, guid: 641c337dabf19de4da7e799c39621dc1, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0.38
+    ChanceToDropRight: 0.41
 --- !u!114 &5290106731956819956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,12 +1068,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   head: {fileID: 0}
-  body: {fileID: 0}
+  body: {fileID: 11400000, guid: ec10e58ca5581f14e9ee73b0bd1c1eb3, type: 2}
   legs: {fileID: 0}
   shield: {fileID: 0}
-  weapon: {fileID: 0}
+  weapon: {fileID: 11400000, guid: 55886dc31b3a814438e4faeb0b9a00e7, type: 2}
   executableItems: []
-  activeAbilities: []
+  activeAbilities:
+  - {fileID: 11400000, guid: 3040a874303b68b4f8923bc4ac75cb92, type: 2}
 --- !u!1 &7916519281579307983
 GameObject:
   m_ObjectHideFlags: 0
@@ -1315,7 +1322,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.5
---- !u!1001 &6747750837684649123
+--- !u!1001 &6989953361617790177
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1323,10 +1330,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2244675903043554139}
     m_Modifications:
-    - target: {fileID: 703529798311657539, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: c8c2e1e3c756b264497c34953fec13ef, type: 3}
     - target: {fileID: 2341313059646512682, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
       propertyPath: m_Name
       value: UnitVisual
@@ -1384,10 +1387,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
---- !u!114 &3112893788557541511 stripped
+--- !u!114 &1699728732726565061 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8545558073651477540, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
-  m_PrefabInstance: {fileID: 6747750837684649123}
+  m_PrefabInstance: {fileID: 6989953361617790177}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -1395,8 +1398,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd89021c1db5054aa2f8174e2c1f6a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &8205295481589042383 stripped
+--- !u!4 &5582931827308663949 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3205370405211746412, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
-  m_PrefabInstance: {fileID: 6747750837684649123}
+  m_PrefabInstance: {fileID: 6989953361617790177}
   m_PrefabAsset: {fileID: 0}

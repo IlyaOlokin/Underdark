@@ -209,8 +209,8 @@ public class Inventory : IInventory
         }
 
         // two-handed weapon requires no shield equipped
-        if ((targetSlotType == ItemType.Weapon && (sourceSlot.Item as MeleeWeapon)?.WeaponHandedType is WeaponHandedType.TwoHanded
-            || sourceSlotType == ItemType.Weapon && (targetSlot.Item as MeleeWeapon)?.WeaponHandedType is WeaponHandedType.TwoHanded)
+        if ((targetSlotType == ItemType.Weapon && (sourceSlot.Item as WeaponSO)?.WeaponHandedType is WeaponHandedType.TwoHanded
+            || sourceSlotType == ItemType.Weapon && (targetSlot.Item as WeaponSO)?.WeaponHandedType is WeaponHandedType.TwoHanded)
             && !Equipment.Shield.IsEmpty)
         {
             NotificationManager.Instance.SendNotification(new Notification(null,
@@ -247,7 +247,7 @@ public class Inventory : IInventory
         return slotType == ItemType.Any
                || item == null
                || (slotType == item.ItemType || slotType == ItemType.Shield &&
-                   unit.HasPassiveOfType<AmbidexteritySO>() && item.ItemType == ItemType.Weapon && ((MeleeWeapon) item).WeaponHandedType == WeaponHandedType.OneHanded) &&
+                   unit.HasPassiveOfType<AmbidexteritySO>() && item.ItemType == ItemType.Weapon && ((WeaponSO) item).WeaponHandedType == WeaponHandedType.OneHanded) &&
                unit.Stats.RequirementsMet(item.Requirements);
     }
 
