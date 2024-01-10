@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c6278efb0d028349aa3016650d1089e, type: 3}
-  m_Name: TestShield
+  m_Script: {fileID: 11500000, guid: ce3d00c96bc6aa44e881e146998641af, type: 3}
+  m_Name: TestSword
   m_EditorClassIdentifier: 
-  ID: test_shield
-  Name: Test shield
-  Cost: 100
-  ItemType: 5
-  Sprite: {fileID: 21300000, guid: 4097dec1e9a0ede4c85bf4caa28e9bcf, type: 3}
+  ID: test_sword
+  Name: Test Sword
+  Cost: 25
+  ItemType: 4
+  Sprite: {fileID: 21300000, guid: c0ea4b6e528e7fe4aa6cdc94d38691a1, type: 3}
   StackCapacity: 1
   Requirements:
     <Level>k__BackingField: 0
@@ -27,6 +27,15 @@ MonoBehaviour:
     <DexInt>k__BackingField: 0
     <IntStr>k__BackingField: 0
     <AllStats>k__BackingField: 0
-  ArmorAmount: 3
+  Damage:
+    <DamageType>k__BackingField: 0
+    minDamage: 3
+    maxDamage: 5
+  WeaponType: 0
+  WeaponHandedType: 0
+  AttackRadius: 120
+  AttackDistance: 2
+  ArmorPierce: 0
+  DebuffInfos: []
   <Passives>k__BackingField:
-  - {fileID: 11400000, guid: 2bcdf5ac3325e3e4bb5d1216b85600d1, type: 2}
+  - {fileID: 11400000, guid: 3adf4af8c2d59fb4fb2be06ae0e1d16a, type: 2}

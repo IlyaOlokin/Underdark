@@ -19,9 +19,9 @@ MonoBehaviour:
   Sprite: {fileID: 21300000, guid: 789e518168d493d4396ec984b1b5bcb3, type: 3}
   StackCapacity: 1
   Requirements:
-    <Level>k__BackingField: 2
-    <Strength>k__BackingField: 3
-    <Dexterity>k__BackingField: 3
+    <Level>k__BackingField: 0
+    <Strength>k__BackingField: 0
+    <Dexterity>k__BackingField: 0
     <Intelligence>k__BackingField: 0
     <StrDex>k__BackingField: 0
     <DexInt>k__BackingField: 0
@@ -37,5 +37,4 @@ MonoBehaviour:
   AttackDistance: 2
   ArmorPierce: 0
   DebuffInfos: []
-  <Passives>k__BackingField:
-  - {fileID: 11400000, guid: 3adf4af8c2d59fb4fb2be06ae0e1d16a, type: 2}
+  <Passives>k__BackingField: []
