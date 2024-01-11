@@ -94,14 +94,14 @@ public abstract class ActiveAbility : MonoBehaviour
         return targets;
     }
     
-    private void OverrideWeaponStats(MeleeWeapon weapon)
+    private void OverrideWeaponStats(WeaponSO weapon)
     {
         if (weapon.ID == "empty") return;
         AttackDistance = weapon.AttackDistance;
         AttackRadius = weapon.AttackRadius;
     }
 
-    public bool RequirementsMet(MeleeWeapon weapon)
+    public bool RequirementsMet(WeaponSO weapon)
     {
         return validWeaponTypes.Contains(WeaponType.Any) || validWeaponTypes.Contains(weapon.WeaponType) || validWeaponTypes.Count == 0;
     }

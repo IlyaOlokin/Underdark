@@ -3,10 +3,10 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Item/Accessory", fileName = "New Accessory")]
 
-public class Accessory : Item, IPassiveHolder
+public class AccessorySO : Item, IPassiveHolder
 {
     [field:SerializeField] public List<PassiveSO> Passives { get; private set; }
-    
+
     public override string[] ToString(Unit owner)
     {
         List<string> res = new List<string>();
@@ -14,7 +14,7 @@ public class Accessory : Item, IPassiveHolder
           
         return res.ToArray();
     }
-    
+
     public override string[] ToStringAdditional()
     {
         List<string> res = new List<string>();

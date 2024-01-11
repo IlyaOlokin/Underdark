@@ -28,7 +28,7 @@ public class Enemy : Unit
     [SerializeField] protected float meleeAttackDuration;
     [SerializeField] protected float meleeAttackPreparation;
 
-    public bool CanMove => !IsStunned && !IsPushing;
+    public bool CanMove => !IsDisabled && !IsPushing;
     
     [SerializeField] private int expPerLevel;
     
@@ -58,7 +58,6 @@ public class Enemy : Unit
     {
         base.Update();
         EnemyFSM.OnLogic();
-        RotateAttackDir();
         TryFlipVisual(agent.velocity.x);
         if (isPlayerInChasingRange)
             lastMoveDir = player.position - transform.position;
@@ -126,7 +125,7 @@ public class Enemy : Unit
 
     private void UpdateMovementAbility()
     {
-        if (!IsStunned && !IsPushing)
+        if (!IsDisabled && !IsPushing)
             agent.enabled = true;
         else
             agent.enabled = false;
@@ -195,7 +194,7 @@ public class Enemy : Unit
         base.EndPush();
         UpdateMovementAbility();
     }
-    private void RotateAttackDir()
+    protected override void RotateAttackDir()
     {
         var dirToPlayer = isPlayerInChasingRange
             ? player.transform.position - transform.position
@@ -203,6 +202,7 @@ public class Enemy : Unit
 
         lastMoveDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
         if (dirToPlayer.y < 0) lastMoveDirAngle *= -1;
+        unitVisualRotatable.transform.eulerAngles = new Vector3(0, 0, lastMoveDirAngle - 90);
     }
 
     protected void ExecuteActiveAbility()
@@ -231,7 +231,7 @@ public class Enemy : Unit
         attackCDTimer < 0
         && isPlayerInChasingRange
         && DistToTargetPos() <= GetWeapon().AttackDistance + 0.7f
-        && !IsStunned
+        && !IsDisabled
         && Physics2D
             .Raycast(transform.position,
                 this.player.transform.position - transform.position, 
@@ -257,7 +257,7 @@ public class Enemy : Unit
         isPlayerInChasingRange
         && !Inventory.EquippedActiveAbilitySlots[index].IsEmpty
         && ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility.CanUseAbility(this, DistToTargetPos())
-        && !IsStunned
+        && !IsDisabled
         && !IsSilenced
         && Physics2D
             .Raycast(transform.position,
@@ -284,7 +284,7 @@ public class Enemy : Unit
     protected bool IsNotWithinIdleRange(Transition<EnemyState> transition) => 
         !IsWithinIdleRange(transition);
     
-    protected bool IsUnitStunned(Transition<EnemyState> transition) => IsStunned;
+    protected bool IsUnitStunned(Transition<EnemyState> transition) => IsDisabled;
 
     private void OnDisable()
     {

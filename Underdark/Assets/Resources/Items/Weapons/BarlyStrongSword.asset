@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce3d00c96bc6aa44e881e146998641af, type: 3}
-  m_Name: BadRustySword
+  m_Name: BarlyStrongSword
   m_EditorClassIdentifier: 
-  ID: bad_rusty_sword
-  Name: Bad rusty sword
-  Cost: 25
+  ID: barly_strong_sword
+  Name: Barly Strong Sword
+  Cost: 40
   ItemType: 4
-  Sprite: {fileID: 21300000, guid: 789e518168d493d4396ec984b1b5bcb3, type: 3}
+  Sprite: {fileID: 21300000, guid: 158be32ff2ccad14e8831bd617f89478, type: 3}
   StackCapacity: 1
   Requirements:
-    <Level>k__BackingField: 0
-    <Strength>k__BackingField: 0
-    <Dexterity>k__BackingField: 0
+    <Level>k__BackingField: 5
+    <Strength>k__BackingField: 7
+    <Dexterity>k__BackingField: 5
     <Intelligence>k__BackingField: 0
     <StrDex>k__BackingField: 0
     <DexInt>k__BackingField: 0
@@ -29,8 +29,8 @@ MonoBehaviour:
     <AllStats>k__BackingField: 0
   Damage:
     <DamageType>k__BackingField: 0
-    minDamage: 3
-    maxDamage: 5
+    minDamage: 5
+    maxDamage: 9
   WeaponType: 0
   WeaponHandedType: 0
   AttackRadius: 120

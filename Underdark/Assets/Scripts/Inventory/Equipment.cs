@@ -22,9 +22,9 @@ public class Equipment
         }
     }
 
-    public MeleeWeapon GetWeapon()
+    public WeaponSO GetWeapon()
     {
-        return Weapon.IsValid ? (MeleeWeapon) Weapon.Item : null;
+        return Weapon.IsValid ? (WeaponSO) Weapon.Item : null;
     }
     
     public IPassiveHolder GetShieldSlotPassiveHolder()
@@ -32,31 +32,31 @@ public class Equipment
         return Shield.IsValid ? (IPassiveHolder) Shield.Item : null;
     }
 
-    public Armor GetArmor(ItemType itemType)
+    public ArmorSO GetArmor(ItemType itemType)
     {
         switch (itemType)
         {
             case ItemType.Head:
-                return Head.IsValid ? Head.Item as Armor : null;
+                return Head.IsValid ? Head.Item as ArmorSO : null;
             case ItemType.Body:
-                return Body.IsValid ? Body.Item as Armor : null;
+                return Body.IsValid ? Body.Item as ArmorSO : null;
             case ItemType.Legs:
-                return Legs.IsValid ? Legs.Item as Armor : null;
+                return Legs.IsValid ? Legs.Item as ArmorSO : null;
             case ItemType.Shield:
-                return Shield.IsValid ? Shield.Item as Armor : null;
+                return Shield.IsValid ? Shield.Item as ArmorSO : null;
             default:
                 throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null);
         }
     }
 
-    public List<Accessory> GetAllAccessories()
+    public List<AccessorySO> GetAllAccessories()
     {
-        List<Accessory> res = new List<Accessory>();
+        List<AccessorySO> res = new List<AccessorySO>();
 
         foreach (var accessorySlot in Accessories)
         {
             if (accessorySlot.IsEmpty || !accessorySlot.IsEmpty) continue;
-            res.Add((Accessory)accessorySlot.Item);
+            res.Add((AccessorySO)accessorySlot.Item);
         }
 
         return res;

@@ -14,6 +14,11 @@ public class EnergyShieldAbility : ActiveAbility
         caster.GetEnergyShield(shieldHP, shieldRadius);
     }
     
+    public override bool CanUseAbility(Unit caster, float distToTarget)
+    {
+        return base.CanUseAbility(caster, distToTarget) && caster.CurrentHP < caster.MaxHP * 0.5f;
+    }
+    
     public override string[] ToString()
     {
         var res = new string[5];

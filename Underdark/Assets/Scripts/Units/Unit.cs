@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
+public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 {
     private Rigidbody2D rb;
     private Collider2D coll;
@@ -17,7 +17,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     private bool isStunned;
     private bool isFrozen;
-    protected bool IsStunned => isStunned || isFrozen;
+    protected bool IsDisabled => isStunned || isFrozen;
     protected bool IsPushing { get; private set; }
     public bool IsSilenced { get; private set; }
     public event Action OnIsSilenceChanged;
@@ -66,7 +66,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     [field: SerializeField] public int MoveSpeed { get; private set; }
 
     [field: Header("Attack Setup")] [SerializeField]
-    private MeleeWeapon defaultWeapon;
+    private WeaponSO defaultWeapon;
     [SerializeField] private ActiveAbility baseAttackAbility;
 
     [SerializeField] private float attackSpeed;
@@ -141,8 +141,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         UpdateCoolDowns();
         Regeneration();
+        RotateAttackDir();
     }
     
+    protected abstract void RotateAttackDir();
+
     protected void SetMana(bool toFull = false)
     {
         float currentPart = CurrentMana / (float) MaxMana;
@@ -520,7 +523,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public void Move(Vector3 dir)
     {
-        if (IsStunned || IsPushing) return;
+        if (IsDisabled || IsPushing) return;
         
         rb.MovePosition(rb.position + (Vector2)dir * (MoveSpeed / Params.SlowAmount) * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
@@ -535,7 +538,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     
     public virtual void Attack()
     {
-        if (attackCDTimer > 0 || actionCDTimer > 0 || IsStunned) return;
+        if (attackCDTimer > 0 || actionCDTimer > 0 || IsDisabled) return;
         
         var newBaseAttack = Instantiate(baseAttackAbility, transform.position, Quaternion.identity);
         newBaseAttack.Execute(this);
@@ -558,7 +561,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public void ExecuteActiveAbility(int index)
     {
-        if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsStunned || IsSilenced || Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
+        if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsDisabled || IsSilenced || Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
         ActiveAbility activeAbility = Inventory.GetEquippedActiveAbility(index);
         if (activeAbility.ManaCost > CurrentMana) return;
 
@@ -599,7 +602,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public void ExecuteExecutableItem(int index)
     {
-        if (IsStunned || Inventory.ExecutableSlots[index].IsEmpty) return;
+        if (IsDisabled || Inventory.ExecutableSlots[index].IsEmpty) return;
 
         if (!Inventory.GetExecutableItem(index).Execute(this)) return;
         
@@ -642,7 +645,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         return passives.Count != 0;
     }
 
-    public MeleeWeapon GetWeapon()
+    public WeaponSO GetWeapon()
     {
         if (Inventory.Equipment.Weapon.IsEmpty || !Inventory.Equipment.Weapon.IsValid)
             return defaultWeapon;

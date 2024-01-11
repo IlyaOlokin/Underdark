@@ -10,23 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c6278efb0d028349aa3016650d1089e, type: 3}
-  m_Name: TestShield
+  m_Name: OldApprenticeRobe
   m_EditorClassIdentifier: 
-  ID: test_shield
-  Name: Test shield
-  Cost: 100
-  ItemType: 5
-  Sprite: {fileID: 21300000, guid: 4097dec1e9a0ede4c85bf4caa28e9bcf, type: 3}
+  ID: old_apprentice_robe
+  Name: Old Apprentice Robe
+  Cost: 60
+  ItemType: 2
+  Sprite: {fileID: 21300000, guid: e29f293938fc0494d87d11a7532e32ea, type: 3}
   StackCapacity: 1
   Requirements:
-    <Level>k__BackingField: 0
+    <Level>k__BackingField: 3
     <Strength>k__BackingField: 0
     <Dexterity>k__BackingField: 0
-    <Intelligence>k__BackingField: 0
+    <Intelligence>k__BackingField: 5
     <StrDex>k__BackingField: 0
     <DexInt>k__BackingField: 0
     <IntStr>k__BackingField: 0
     <AllStats>k__BackingField: 0
-  ArmorAmount: 3
-  <Passives>k__BackingField:
-  - {fileID: 11400000, guid: 2bcdf5ac3325e3e4bb5d1216b85600d1, type: 2}
+  ArmorAmount: 2
+  <Passives>k__BackingField: []

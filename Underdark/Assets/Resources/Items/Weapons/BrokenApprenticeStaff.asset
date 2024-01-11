@@ -9,23 +9,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c6278efb0d028349aa3016650d1089e, type: 3}
-  m_Name: OldPants
+  m_Script: {fileID: 11500000, guid: ce3d00c96bc6aa44e881e146998641af, type: 3}
+  m_Name: BrokenApprenticeStaff
   m_EditorClassIdentifier: 
-  ID: old_legs
-  Name: Old legs
+  ID: broken_apprentice_staff
+  Name: Broken Apprentice's Staff
   Cost: 60
-  ItemType: 3
-  Sprite: {fileID: 21300000, guid: 6f6648c32a819be4a87ef3bad2807bad, type: 3}
+  ItemType: 4
+  Sprite: {fileID: 21300000, guid: a4b5f62f33b3e004e8aace652e009615, type: 3}
   StackCapacity: 1
   Requirements:
-    <Level>k__BackingField: 0
+    <Level>k__BackingField: 5
     <Strength>k__BackingField: 0
     <Dexterity>k__BackingField: 0
-    <Intelligence>k__BackingField: 0
+    <Intelligence>k__BackingField: 9
     <StrDex>k__BackingField: 0
     <DexInt>k__BackingField: 0
     <IntStr>k__BackingField: 0
     <AllStats>k__BackingField: 0
-  ArmorAmount: 2
+  Damage:
+    <DamageType>k__BackingField: 0
+    minDamage: 3
+    maxDamage: 5
+  WeaponType: 3
+  WeaponHandedType: 1
+  AttackRadius: 120
+  AttackDistance: 2
+  ArmorPierce: 0
+  DebuffInfos: []
   <Passives>k__BackingField: []

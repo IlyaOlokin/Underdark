@@ -57,4 +57,9 @@ public class ArrowShot : ActiveAbility, IAttacker
             }
         }
     }
+    
+    public override bool CanUseAbility(Unit caster, float distToTarget)
+    {
+        return base.CanUseAbility(caster, distToTarget) && distToTarget > 2;
+    }
 }

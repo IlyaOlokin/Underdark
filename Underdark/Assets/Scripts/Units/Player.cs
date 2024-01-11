@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 public class Player : Unit, IPickUper, IMoneyHolder
@@ -39,7 +37,6 @@ public class Player : Unit, IPickUper, IMoneyHolder
     protected override void Update()
     {
         base.Update();
-        RotateAttackDir();
 
         /*if (Input.GetKeyDown(KeyCode.R)) // debug
         {
@@ -72,7 +69,7 @@ public class Player : Unit, IPickUper, IMoneyHolder
         DataLoader.SaveGame(this);
     }
     
-    private void RotateAttackDir()
+    protected override void RotateAttackDir()
     {
         lastMoveDirAngle = Vector3.Angle(Vector3.right, lastMoveDir);
         if (lastMoveDir.y < 0) lastMoveDirAngle *= -1;

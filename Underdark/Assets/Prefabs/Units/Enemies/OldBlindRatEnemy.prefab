@@ -304,7 +304,7 @@ GameObject:
   - component: {fileID: 3887350311143016167}
   - component: {fileID: 3657550447364729542}
   m_Layer: 0
-  m_Name: OldBlindRat 1
+  m_Name: OldBlindRatEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -724,7 +724,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8205295481589042383}
+  - {fileID: 8706315759652906198}
   m_Father: {fileID: 3436527472618127151}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7612529981021217207
@@ -972,11 +972,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Stats:
-    <Level>k__BackingField: 3
+    <Level>k__BackingField: 1
     FreePoints: 0
-    <Strength>k__BackingField: 4
-    <Dexterity>k__BackingField: 4
-    <Intelligence>k__BackingField: 2
+    <Strength>k__BackingField: 2
+    <Dexterity>k__BackingField: 2
+    <Intelligence>k__BackingField: 1
     pointsPerLevel: 5
     expNeeded: 
   Params:
@@ -994,10 +994,11 @@ MonoBehaviour:
     baseWaterResistance: 0
     baseColdResistance: 0
     baseElectricResistance: 0
-    baseEvasionChance: 0
+    baseEvasionChance: 0.05
+    baseHPRegenPercent: 0
+    baseMPRegenPercent: 0
   baseMaxHP: 30
   baseMaxMana: 0
-  regenPercent: 0.01
   <MoveSpeed>k__BackingField: 3
   defaultWeapon: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}
   baseAttackAbility: {fileID: 4412631732704353108, guid: df5d5603f226c9041a8785d3a431e8d6, type: 3}
@@ -1010,7 +1011,7 @@ MonoBehaviour:
   visualsFlipable: {fileID: 7394194429042638207}
   unitVisualRotatable: {fileID: 1829177666794183583}
   unitNotificationEffect: {fileID: 9209489120575824937, guid: ad3a4e569e661de42aecc35d389ed7de, type: 3}
-  unitVisual: {fileID: 3112893788557541511}
+  unitVisual: {fileID: 2467731399549560990}
   spawnPont: {fileID: 3887350311143016167}
   moveTarget: {fileID: 5120903447323990012}
   agent: {fileID: 8583875203054404754}
@@ -1314,7 +1315,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.5
---- !u!1001 &6747750837684649123
+--- !u!1001 &6100353743881835706
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1383,10 +1384,10 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
---- !u!114 &3112893788557541511 stripped
+--- !u!114 &2467731399549560990 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8545558073651477540, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
-  m_PrefabInstance: {fileID: 6747750837684649123}
+  m_PrefabInstance: {fileID: 6100353743881835706}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -1394,8 +1395,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd89021c1db5054aa2f8174e2c1f6a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &8205295481589042383 stripped
+--- !u!4 &8706315759652906198 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3205370405211746412, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
-  m_PrefabInstance: {fileID: 6747750837684649123}
+  m_PrefabInstance: {fileID: 6100353743881835706}
   m_PrefabAsset: {fileID: 0}
