@@ -23,7 +23,8 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
     public void SetSlot(IInventorySlot newSlot)
     {
         Slot = newSlot;
-        newSlot.SlotType = SlotType;
+        if (newSlot != null)
+            newSlot.SlotType = SlotType;
     }
 
     public void OnDrop(PointerEventData eventData)
