@@ -109,7 +109,7 @@ public class UnitVisual : MonoBehaviour
         EnergyShield.SetActive(false);
     }
 
-    public void StartHighLightActiveAbility(ActiveAbility activeAbility, MeleeWeapon weapon)
+    public void StartHighLightActiveAbility(ActiveAbility activeAbility, WeaponSO weapon)
     {
         float dist;
         float angle;
@@ -122,7 +122,7 @@ public class UnitVisual : MonoBehaviour
         else
         {
             dist = activeAbility.AttackDistance;
-            angle = activeAbility.AttackAngle;
+            angle = activeAbility.AttackRadius;
         }
         
         highLightZone.SetActive(true);
@@ -140,5 +140,6 @@ public class UnitVisual : MonoBehaviour
     {
         var newImposter = Instantiate(deathImposter, transform.position, Quaternion.identity);
         newImposter.StartDeath(attacker, damageType, sr.sprite);
+        newImposter.transform.eulerAngles = new Vector3(0, transform.parent.eulerAngles.y, 0);
     }
 }

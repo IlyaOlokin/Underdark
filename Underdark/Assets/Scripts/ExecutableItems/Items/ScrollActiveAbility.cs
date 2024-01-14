@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -41,5 +42,14 @@ public class ScrollActiveAbility : ExecutableItem
         var res = new string[1];
         res[0] = string.Format(description, item.Name , Mathf.Floor(CalculateChance(owner) * 100));
         return res;
+    }
+    
+    public override string[] ToStringAdditional()
+    {
+        List<string> res = new List<string>();
+        
+        res.Add($"Learn chance based on {UnitStats.GetStatFullString(baseStat)}.");
+        
+        return res.ToArray();
     }
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 public class DeathImposter : MonoBehaviour
 {
     [SerializeField] private float pushForce;
+    [SerializeField] private float destroyDelay;
 
     [Header("Dissolve")]
     [SerializeField] private float dissolveDuration;
@@ -20,6 +21,7 @@ public class DeathImposter : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
+        Destroy(gameObject, destroyDelay);
     }
 
 
@@ -40,6 +42,5 @@ public class DeathImposter : MonoBehaviour
             sr.material.SetFloat(Fade, alpha / dissolveDuration);
             yield return null;
         }
-        Destroy(gameObject);
     }
 }

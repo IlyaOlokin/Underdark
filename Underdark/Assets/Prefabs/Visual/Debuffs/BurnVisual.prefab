@@ -987,12 +987,21 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
-          inSlope: 0
-          outSlope: 0
+          value: 0.83009714
+          inSlope: 0.79395854
+          outSlope: 0.79395854
           tangentMode: 0
           weightedMode: 0
           inWeight: 0.33333334
+          outWeight: 0.16321936
+        - serializedVersion: 3
+          time: 0.83031034
+          value: 0.6351262
+          inSlope: -1.4605951
+          outSlope: -1.4605951
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.096723355
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 0.9778389
@@ -1317,8 +1326,8 @@ ParticleSystem:
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 20046
-        ctime2: 35273
+        ctime1: 15998
+        ctime2: 30455
         ctime3: 65535
         ctime4: 0
         ctime5: 0
@@ -4777,7 +4786,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 479f28b57c995154d99c42f810fea0c1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

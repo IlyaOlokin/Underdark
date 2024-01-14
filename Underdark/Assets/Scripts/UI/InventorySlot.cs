@@ -7,10 +7,12 @@ public class InventorySlot : IInventorySlot
     
     public bool IsFull => !IsEmpty && Amount == Item.StackCapacity;
     public bool IsEmpty => Item == null;
+    public bool IsValid { get; set; } = true;
+    public ItemType SlotType { get; set; }
 
     public void SetItem(Item item, int amount = 1)
     {
-        if (!IsEmpty) return;
+        //if (!IsEmpty) return;
         Item = item;
         Amount = amount;
     }

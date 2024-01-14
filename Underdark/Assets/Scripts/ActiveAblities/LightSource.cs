@@ -9,25 +9,34 @@ public class LightSource : ActiveAbility
     
     [SerializeField] private float distanceFromCasterToDestroy;
     [SerializeField] private float projSpeed;
+
+    [Header("Visual")] 
+    [SerializeField] private LightSourceVisual lightSourceVisual;
+    
     private Unit tagetToFollow;
     private bool attachedToUnit;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         rb = GetComponent<Rigidbody2D>();
+        lightSourceVisual.LightUp();
     }
     
     public override void Execute(Unit caster)
     {
         base.Execute(caster);
 
-        rb.velocity = caster.GetAttackDirection() * projSpeed;
+        rb.velocity = attackDir * projSpeed;
     }
 
     private void Update()
     {
         if (Vector2.Distance(transform.position, caster.transform.position) > distanceFromCasterToDestroy)
+        {
+            lightSourceVisual.LightDown();
             Destroy(gameObject);
+        }
     }
 
     private void LateUpdate()

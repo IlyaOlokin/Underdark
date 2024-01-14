@@ -23,8 +23,13 @@ public class InGameToolTip : MonoBehaviour
         if (other.TryGetComponent(out Player player))
         {
             StopAllCoroutines();
-            StartCoroutine(AnimateText(false));
+            if (gameObject.activeInHierarchy) StartCoroutine(AnimateText(false));
         }
+    }
+
+    public void SetText(string text)
+    {
+        this.text.text = text;
     }
 
     private IEnumerator AnimateText(bool appear)

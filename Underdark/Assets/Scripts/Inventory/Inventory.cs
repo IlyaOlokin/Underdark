@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -50,12 +49,17 @@ public class Inventory : IInventory
         {
             EquippedActiveAbilitySlots.Add(new InventorySlot());
         }
+
+        OnInventoryChanged += CheckEquipmentFit;
+        unit.Stats.OnStatsChanged += CheckEquipmentFit;
+        unit.Stats.OnLevelUp += CheckEquipmentFit;
     }
 
     public void UpdateInventory()
     {
         OnActiveAbilitiesChanged?.Invoke(true);
         OnExecutableItemChanged?.Invoke();
+        CheckEquipmentFit();
     }
     
     public int GetItemAmount(string itemID)
@@ -65,6 +69,9 @@ public class Inventory : IInventory
 
     public int TryAddItem(Item item, int amount = 1)
     {
+        if (TryAddToExecutableSlot(item, out IInventorySlot slot))
+            return TryAddToSlot(slot, item, amount);
+            
         var sameItemSlot = slots.Find(slot => !slot.IsEmpty && slot.Item.ID == item.ID && !slot.IsFull);
 
         if (sameItemSlot != null)
@@ -75,6 +82,24 @@ public class Inventory : IInventory
             return TryAddToSlot(emptySlot, item, amount);
 
         return amount;
+    }
+
+    private bool TryAddToExecutableSlot(Item item, out IInventorySlot slot)
+    {
+        if (item is ExecutableItemSO)
+        {
+            foreach (var executableSlot in ExecutableSlots)
+            {
+                if (!executableSlot.IsEmpty && !executableSlot.IsFull && executableSlot.ItemID == item.ID)
+                {
+                    slot = executableSlot;
+                    return true;
+                }
+            }
+        }
+
+        slot = null;
+        return false;
     }
     
     public bool TryAddActiveAbilityItem(Item item)
@@ -167,96 +192,82 @@ public class Inventory : IInventory
         item = GetActiveAbility(itemID);
         return item != null;
     }
-
-    public void MoveItem(IInventorySlot fromSlot, IInventorySlot toSlot, ItemType fromSlotType = ItemType.Any, ItemType toSlotType = ItemType.Any)
+    
+    public bool TryMoveItem(IInventorySlot sourceSlot, IInventorySlot targetSlot, ItemType sourceSlotType, ItemType targetSlotType)
     {
-        if (fromSlot.IsEmpty) return;
-        if (fromSlot == toSlot) return;
-        
-        // check requirements
-        if (fromSlot.Item.ItemType != ItemType.Any && toSlotType != ItemType.Any) 
-        {
-            if (!unit.Stats.RequirementsMet(fromSlot.Item.Requirements)) return;
-        } 
-        // check requirements for swap case
-        if (!toSlot.IsEmpty && toSlot.Item.ItemType != ItemType.Any && fromSlotType != ItemType.Any) 
-        {
-            if (!unit.Stats.RequirementsMet(toSlot.Item.Requirements)) return;
-        }
-        
-        // check two-handed weapon
-        if (fromSlot.Item.ItemType == ItemType.Weapon && toSlotType == ItemType.Weapon) 
-        {
-            if (!Equipment.Shield.IsEmpty && ((MeleeWeapon)fromSlot.Item).WeaponHandedType == WeaponHandedType.TwoHanded)
-            {
-                NotificationManager.Instance.SendNotification(new Notification(null,
-                    "You can't equip a two-handed weapon while wielding a shield."));
-                return;
-            }
-        } 
-        // check two-handed weapon for swap case
-        if (!toSlot.IsEmpty && toSlot.Item.ItemType == ItemType.Weapon && fromSlotType == ItemType.Weapon) 
-        {
-            if (!Equipment.Shield.IsEmpty && ((MeleeWeapon)toSlot.Item).WeaponHandedType == WeaponHandedType.TwoHanded)
-            {
-                NotificationManager.Instance.SendNotification(new Notification(null,
-                    "You can't equip a two-handed weapon while wielding a shield."));
-                return;
-            }
-        }
+        if (sourceSlot.IsEmpty) return false;
+        if (sourceSlot == targetSlot) return false;
 
+        if (!IsFitting(sourceSlotType, targetSlot.Item) || !IsFitting(targetSlotType, sourceSlot.Item)) return false;
+        
         // check shield with two-handed weapon
-        if (fromSlot.Item.ItemType == ItemType.Shield && !Equipment.Weapon.IsEmpty)
+        if (targetSlotType == ItemType.Shield && Equipment.GetWeapon()?.WeaponHandedType is WeaponHandedType.TwoHanded)
         {
-            if (Equipment.GetWeapon().WeaponHandedType == WeaponHandedType.TwoHanded)
-            {
-                NotificationManager.Instance.SendNotification(new Notification(null,
-                    "You can't equip a shield while wielding a two-handed weapon."));
-                return;
-            }
+            NotificationManager.Instance.SendNotification(new Notification(null,
+                "You can't equip a shield while wielding a two-handed weapon."));
+            return false;
         }
-        
-        if (!toSlot.IsEmpty && fromSlot.ItemID != toSlot.ItemID)
-        {
-            var tempItem = fromSlot.Item;
-            var tempAmount = fromSlot.Amount;
-            fromSlot.Clear();
-            fromSlot.SetItem(toSlot.Item, toSlot.Amount);
-            toSlot.Clear();
-            toSlot.SetItem(tempItem,tempAmount);
-            
-            OnInventoryChanged?.Invoke();
-            if (fromSlotType != ItemType.Any || toSlotType != ItemType.Any) OnEquipmentChanged?.Invoke();
-            if (fromSlotType == ItemType.ActiveAbility || toSlotType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
-            if (fromSlotType == ItemType.Executable || toSlotType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
 
-            return;
+        // two-handed weapon requires no shield equipped
+        if ((targetSlotType == ItemType.Weapon && (sourceSlot.Item as WeaponSO)?.WeaponHandedType is WeaponHandedType.TwoHanded
+            || sourceSlotType == ItemType.Weapon && (targetSlot.Item as WeaponSO)?.WeaponHandedType is WeaponHandedType.TwoHanded)
+            && !Equipment.Shield.IsEmpty)
+        {
+            NotificationManager.Instance.SendNotification(new Notification(null,
+                "You can't equip a two-handed weapon while wielding a shield."));
+            return false;
         }
-        if (toSlot.IsFull) return;
         
-        var slotCapacity = fromSlot.Item.StackCapacity;
-        var fits = fromSlot.Amount + toSlot.Amount <= slotCapacity;
-        var amountToAdd = fits ? fromSlot.Amount : slotCapacity - toSlot.Amount;
-        var amountLeft = fromSlot.Amount - amountToAdd;
+        int newTargetAmount = sourceSlot.Amount;
+        int newSourceAmount = targetSlot.Amount;
+        
+        if (targetSlot.ItemID == sourceSlot.ItemID)
+        {
+            var maxSlotCapacity = targetSlot.Item.StackCapacity;
 
-        if (toSlot.IsEmpty)
-        {
-            toSlot.SetItem(fromSlot.Item, fromSlot.Amount);
-            fromSlot.Clear();
-        }
-        else
-        {
-            toSlot.Amount += amountToAdd;
-            if (fits)
-                fromSlot.Clear();
-            else
-                fromSlot.Amount = amountLeft;
+            newTargetAmount = Mathf.Min(sourceSlot.Amount + targetSlot.Amount, maxSlotCapacity);
+            newSourceAmount = sourceSlot.Amount + targetSlot.Amount - maxSlotCapacity;
         }
         
+        var tempItem = targetSlot.Item;
+        targetSlot.SetItem(sourceSlot.Item, newTargetAmount);
+        if (newSourceAmount > 0) sourceSlot.SetItem(tempItem, newSourceAmount);
+        else sourceSlot.Clear();
+        
+        if (sourceSlotType != ItemType.Any || targetSlotType != ItemType.Any) OnEquipmentChanged?.Invoke();
+        if (sourceSlotType == ItemType.ActiveAbility || targetSlotType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
+        if (sourceSlotType == ItemType.Executable || targetSlotType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
         OnInventoryChanged?.Invoke();
-        if (fromSlotType != ItemType.Any || toSlotType != ItemType.Any) OnEquipmentChanged?.Invoke();
-        if (fromSlotType == ItemType.ActiveAbility || toSlotType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
-        if (fromSlotType == ItemType.Executable || toSlotType == ItemType.Executable) OnExecutableItemChanged?.Invoke();
+        
+        return true;
+    }
+
+    private bool IsFitting(ItemType slotType, Item item)
+    {
+        return slotType == ItemType.Any
+               || item == null
+               || (slotType == item.ItemType || slotType == ItemType.Shield &&
+                   unit.HasPassiveOfType<AmbidexteritySO>() && item.ItemType == ItemType.Weapon && ((WeaponSO) item).WeaponHandedType == WeaponHandedType.OneHanded) &&
+               unit.Stats.RequirementsMet(item.Requirements);
+    }
+
+    private void CheckEquipmentFit()
+    {
+        Equipment.Head.IsValid = IsFitting(Equipment.Head.SlotType, Equipment.Head.Item);
+        Equipment.Body.IsValid = IsFitting(Equipment.Body.SlotType,  Equipment.Body.Item);
+        Equipment.Legs.IsValid = IsFitting(Equipment.Legs.SlotType,  Equipment.Legs.Item);
+        Equipment.Weapon.IsValid = IsFitting(Equipment.Weapon.SlotType, Equipment.Weapon.Item);
+        Equipment.Shield.IsValid = IsFitting(Equipment.Shield.SlotType, Equipment.Shield.Item);
+
+        foreach (var accessorySlot in Equipment.Accessories)
+        {
+            accessorySlot.IsValid = IsFitting(accessorySlot.SlotType, accessorySlot.Item);
+        }
+
+        foreach (var slot in slots.Where(slot => !slot.IsEmpty))
+        {
+            slot.IsValid = unit.Stats.RequirementsMet(slot.Item.Requirements);
+        }
     }
     
     public Item GetItem(string itemID)
@@ -295,7 +306,24 @@ public class Inventory : IInventory
 
         return allItems.ToArray();
     }
+    
+    public void Format()
+    {
+        int filledSlotCount = 0;
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (slots[i].IsEmpty) continue;
 
+            if (filledSlotCount < i)
+            {
+                slots[filledSlotCount].SetItem(slots[i].Item, slots[i].Amount);
+                slots[i].Clear();
+            }
+            
+            filledSlotCount++;
+        }
+    }
+    
     public List<IPassiveHolder> GetAllPassiveHolders()
     {
         var res = new List<IPassiveHolder>()
@@ -303,10 +331,10 @@ public class Inventory : IInventory
             Equipment.GetArmor(ItemType.Head),
             Equipment.GetArmor(ItemType.Body),
             Equipment.GetArmor(ItemType.Legs),
-            Equipment.GetArmor(ItemType.Shield),
+            Equipment.GetShieldSlotPassiveHolder(),
             Equipment.GetWeapon(),
         };
-        res.AddRange(Equipment.GetAllAccessories().Cast<IPassiveHolder>());
+        res.AddRange(Equipment.GetAllAccessories());
 
         return res;
     }

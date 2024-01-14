@@ -76,7 +76,7 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         Inventory.OnInventoryChanged += UpdateUI;
         player.Money.OnMoneyChanged += UpdateMoneyDisplay;
         UpdateUI();
-        UpdateMoneyDisplay(player.Money.GetMoney());
+        UpdateMoneyDisplay();
     }
 
     private void UpdateUI()
@@ -109,9 +109,9 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
             player.Params.GetDamageAmplification(player.GetWeapon().Damage.DamageType));
     }
 
-    private void UpdateMoneyDisplay(int moneyCount)
+    private void UpdateMoneyDisplay()
     {
-        moneyText.text = moneyCount.ToString();
+        moneyText.text = player.Money.GetMoneyString();
     }
 
     private void OnDisable()
@@ -120,6 +120,12 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         player.Money.OnMoneyChanged -= UpdateMoneyDisplay;
 
         DeselectSlot();
+        FormatInventory();
+    }
+
+    private void FormatInventory()
+    {
+        Inventory.Format();
     }
     
     public void SelectSlot(UIInventorySlot selectedSlot)

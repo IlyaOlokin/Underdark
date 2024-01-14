@@ -126,20 +126,6 @@ public class UnitStats
             _ => throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null)
         };
     }
-
-    public int GetActualStat(BaseStat baseStat)
-    {
-        return baseStat switch
-        {
-            BaseStat.Strength => Strength,
-            BaseStat.Dexterity => Dexterity,
-            BaseStat.Intelligence => Intelligence,
-            BaseStat.StrDex => StrDex,
-            BaseStat.DexInt => DexInt,
-            BaseStat.IntStr => IntStr,
-            _ => throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null)
-        };
-    }
     
     public void ApplyBonusStat(BaseStat baseStat, int value)
     {
@@ -164,12 +150,26 @@ public class UnitStats
     {
         return baseStat switch
         {
-            BaseStat.Strength => "Str",
-            BaseStat.Dexterity => "Dex",
-            BaseStat.Intelligence => "Int",
-            BaseStat.StrDex => "(Str + Dex)",
-            BaseStat.DexInt => "(Dex + Int)",
-            BaseStat.IntStr => "(Int + Str)",
+            BaseStat.Strength => "<color=#FF1C1C>Str</color>",
+            BaseStat.Dexterity => "<color=#55F82E>Dex</color>",
+            BaseStat.Intelligence => "<color=#3424F5>Int</color>",
+            BaseStat.StrDex => $"({GetStatString(BaseStat.Strength)} + {GetStatString(BaseStat.Dexterity)})",
+            BaseStat.DexInt => $"({GetStatString(BaseStat.Dexterity)} + {GetStatString(BaseStat.Intelligence)})",
+            BaseStat.IntStr => $"({GetStatString(BaseStat.Intelligence)} + {GetStatString(BaseStat.Strength)})",
+            _ => throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null)
+        };
+    }
+    
+    public static string GetStatFullString(BaseStat baseStat)
+    {
+        return baseStat switch
+        {
+            BaseStat.Strength => "<color=#FF1C1C>Strength</color>",
+            BaseStat.Dexterity => "<color=#55F82E>Dexterity</color>",
+            BaseStat.Intelligence => "<color=#3424F5>Intelligence</color>",
+            BaseStat.StrDex => $"{GetStatFullString(BaseStat.Strength)} + {GetStatFullString(BaseStat.Dexterity)}",
+            BaseStat.DexInt => $"{GetStatFullString(BaseStat.Dexterity)} + {GetStatFullString(BaseStat.Intelligence)}",
+            BaseStat.IntStr => $"{GetStatFullString(BaseStat.Intelligence)} + {GetStatFullString(BaseStat.Strength)}",
             _ => throw new ArgumentOutOfRangeException(nameof(baseStat), baseStat, null)
         };
     }

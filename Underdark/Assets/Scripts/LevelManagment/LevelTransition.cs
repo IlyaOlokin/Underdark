@@ -9,17 +9,42 @@ using UnityEngine.Serialization;
 public class LevelTransition : MonoBehaviour
 {
     public static int MaxReachedLevel;
+    public static bool TutorialCompleted;
     public static bool StartFromUp = true;
+
+    public event Action OnLoad; 
     
     [SerializeField] private LoadMode loadSceneMode;
     [SerializeField] private string sceneName;
     private Player player;
-    
+
+    [SerializeField] private InGameToolTip inGameToolTip;
+
+    private void Awake()
+    {
+        if (inGameToolTip == null) return;
+        switch (loadSceneMode)
+        {
+            case LoadMode.Next:
+                inGameToolTip.SetText($"Next Level");
+                break;
+            case LoadMode.Previous:
+                inGameToolTip.SetText("Previous Level");
+                break;
+            case LoadMode.Custom:
+                inGameToolTip.SetText(sceneName);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.TryGetComponent(out Player player))
         {
             this.player = player;
+            OnLoad?.Invoke();
             LoadLevel();
         }
     }

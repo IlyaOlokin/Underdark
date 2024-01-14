@@ -46,16 +46,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CastTime: 0.1
-  cooldown: 15
+  Cooldown: 15
   ManaCost: 10
-  attackMask:
-    serializedVersion: 2
-    m_Bits: 0
-  attackDistance: 0
-  attackAngle: 0
+  <NeedOverrideWithWeaponStats>k__BackingField: 0
+  <NeedAttackRadius>k__BackingField: 0
+  <AttackDistance>k__BackingField: 0
+  <AttackRadius>k__BackingField: 0
   maxValue: 50
   statMultiplier: 2
   baseStat: 2
+  damageType: 0
   validWeaponTypes: 05000000
   debuffInfos: []
   needAutoDestroy: 1
@@ -284,7 +284,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 0.43921572, g: 0.87843144, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -4865,7 +4865,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0c23bf93d8650ce438ca096fe2163182, type: 2}
+  - {fileID: 2100000, guid: 479f28b57c995154d99c42f810fea0c1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

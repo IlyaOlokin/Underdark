@@ -20,4 +20,10 @@ public class ExecutableItemSO : Item
     {
         return executableItem.ToString(owner);
     }
+    
+    public override string[] ToStringAdditional()
+    {
+        return executableItem.ToStringAdditional();
+    }
+    
 }

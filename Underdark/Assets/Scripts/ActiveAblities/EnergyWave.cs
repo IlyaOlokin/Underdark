@@ -33,8 +33,8 @@ public class EnergyWave : ActiveAbility
         var targetScale = transform.localScale * (AttackDistance * 2 + 1);
         transform.localScale = Vector3.zero;
         
-        visualSR.material.SetFloat("_Turn", caster.GetAttackDirAngle());
-        visualSR.material.SetFloat("_FillAmount", AttackAngle);
+        visualSR.material.SetFloat("_Turn", caster.GetAttackDirAngle(attackDir));
+        visualSR.material.SetFloat("_FillAmount", AttackRadius);
         
         while (visualDuration > 0)
         {
@@ -42,5 +42,10 @@ public class EnergyWave : ActiveAbility
             visualDuration -= Time.deltaTime;
             yield return null;
         }
+    }
+    
+    public override bool CanUseAbility(Unit caster, float distToTarget)
+    {
+        return base.CanUseAbility(caster, distToTarget) && distToTarget < 2;
     }
 }

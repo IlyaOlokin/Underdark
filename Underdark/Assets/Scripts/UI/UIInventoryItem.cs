@@ -9,6 +9,7 @@ public class UIInventoryItem : UIItem
 {
     [SerializeField] private Image icon;
     [SerializeField] private TextMeshProUGUI text;
+    [SerializeField] private GameObject nonValidSlotIndicator;
     
     public Item Item { get; private set; }
 
@@ -26,11 +27,14 @@ public class UIInventoryItem : UIItem
         icon.gameObject.SetActive(true);
         text.gameObject.SetActive(slot.Amount > 1);
         text.text = slot.Amount.ToString();
+
+        nonValidSlotIndicator.SetActive(!slot.IsValid);
     }
 
     private void Hide()
     {
         icon.gameObject.SetActive(false);
         text.gameObject.SetActive(false);
+        nonValidSlotIndicator.SetActive(false);
     }
 }

@@ -104,6 +104,7 @@ MonoBehaviour:
   whiteOutAmount: 0.5
   StunBar: {fileID: 6669607364831605719}
   EnergyShield: {fileID: 2887164437733006021}
+  deathImposter: {fileID: 0}
   highLightZone: {fileID: 5575936198900087800}
   highLightZoneMat: {fileID: 2100000, guid: 1a95a980955457142ae70d9b9ceff6df, type: 2}
 --- !u!1 &2220875431503236775
@@ -704,13 +705,14 @@ MonoBehaviour:
     baseColdResistance: 0
     baseElectricResistance: 0
     baseEvasionChance: 0.1
+    baseHPRegenPercent: 0.01
+    baseMPRegenPercent: 0.01
   baseMaxHP: 100
   baseMaxMana: 0
-  regenPercent: 0.01
   <MoveSpeed>k__BackingField: 5
   defaultWeapon: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}
-  baseAttackAbility: {fileID: 4412631732704353108, guid: df5d5603f226c9041a8785d3a431e8d6, type: 3}
-  attackSpeed: 2.5
+  baseAttackAbility: {fileID: 4412631732704353108, guid: 4e683380d81bd0941b471eaf0a72f351, type: 3}
+  attackSpeed: 1.5
   <AttackMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 72

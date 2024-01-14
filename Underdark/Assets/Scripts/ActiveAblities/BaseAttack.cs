@@ -22,7 +22,7 @@ public class BaseAttack : ActiveAbility, IAttacker
 
     private void StartVisual(Unit caster)
     {
-        baseAttackVisual.Swing(caster.GetAttackDirAngle(), AttackAngle, AttackDistance);
+        baseAttackVisual.Swing(caster.GetAttackDirAngle(attackDir), AttackRadius, AttackDistance);
     }
 
     public void Attack()

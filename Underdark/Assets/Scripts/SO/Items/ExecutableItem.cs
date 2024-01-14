@@ -10,4 +10,6 @@ public abstract class ExecutableItem : MonoBehaviour
     public abstract bool Execute(Unit caster);
 
     public abstract string[] ToString(Unit owner);
+
+    public virtual string[] ToStringAdditional() => new string[]{};
 }

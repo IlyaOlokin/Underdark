@@ -18,8 +18,9 @@ public class FireBall : ActiveAbility, IAttacker
     [SerializeField] private List<ParticleSystem> deathExplosion;
     [SerializeField] private float destroyDelay = 1.5f;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
         Invoke(nameof(Die),  AttackDistance / projSpeed);
@@ -31,12 +32,7 @@ public class FireBall : ActiveAbility, IAttacker
         
         damageInfo.AddDamage((int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue), damageType, caster.Params.GetDamageAmplification(damageType));
         
-        var target = FindClosestTarget(caster);
-
-        if (target != null)
-            rb.velocity = (target.transform.position - transform.position).normalized * projSpeed;
-        else
-            rb.velocity = caster.GetAttackDirection() * projSpeed;
+        rb.velocity = attackDir * projSpeed;
         
         var rotAngle = Vector2.Angle(Vector3.up, rb.velocity);
         if (rb.velocity.x > 0) rotAngle *= -1;
@@ -78,5 +74,10 @@ public class FireBall : ActiveAbility, IAttacker
     public void Attack(IDamageable damageable)
     {
         damageable.TakeDamage(caster, this, damageInfo);
+    }
+    
+    public override bool CanUseAbility(Unit caster, float distToTarget)
+    {
+        return base.CanUseAbility(caster, distToTarget) && distToTarget > 2;
     }
 }

@@ -23,11 +23,12 @@ public class Enemy : Unit
     [SerializeField] protected LayerMask alliesLayer;
     [SerializeField] private float lostPlayerDelay;
     private float lostPlayerTimer;
+    public int PreparedActiveAbilityIndex { get; private set; }
     
     [SerializeField] protected float meleeAttackDuration;
     [SerializeField] protected float meleeAttackPreparation;
 
-    public bool CanMove => !IsStunned && !IsPushing;
+    public bool CanMove => !IsDisabled && !IsPushing;
     
     [SerializeField] private int expPerLevel;
     
@@ -57,7 +58,6 @@ public class Enemy : Unit
     {
         base.Update();
         EnemyFSM.OnLogic();
-        RotateAttackDir();
         TryFlipVisual(agent.velocity.x);
         if (isPlayerInChasingRange)
             lastMoveDir = player.position - transform.position;
@@ -125,7 +125,7 @@ public class Enemy : Unit
 
     private void UpdateMovementAbility()
     {
-        if (!IsStunned && !IsPushing)
+        if (!IsDisabled && !IsPushing)
             agent.enabled = true;
         else
             agent.enabled = false;
@@ -194,16 +194,20 @@ public class Enemy : Unit
         base.EndPush();
         UpdateMovementAbility();
     }
-    private void RotateAttackDir()
+    protected override void RotateAttackDir()
     {
-        var dirToPlayer = moveTarget.transform.position - transform.position;
-        attackDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
-        if (dirToPlayer.y < 0) attackDirAngle *= -1;
+        var dirToPlayer = isPlayerInChasingRange
+            ? player.transform.position - transform.position
+            : moveTarget.transform.position - transform.position;
+
+        lastMoveDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
+        if (dirToPlayer.y < 0) lastMoveDirAngle *= -1;
+        unitVisualRotatable.transform.eulerAngles = new Vector3(0, 0, lastMoveDirAngle - 90);
     }
 
     protected void ExecuteActiveAbility()
     {
-        ExecuteActiveAbility(0);
+        ExecuteActiveAbility(PreparedActiveAbilityIndex);
     }
     
     private void FollowPlayerSensor_OnPlayerEnter(Transform player)
@@ -226,8 +230,8 @@ public class Enemy : Unit
     protected bool ShouldMelee(Transition<EnemyState> transition) =>
         attackCDTimer < 0
         && isPlayerInChasingRange
-        && DistToTargetPos() <= GetWeapon().AttackDistance + 1
-        && !IsStunned
+        && DistToTargetPos() <= GetWeapon().AttackDistance + 0.7f
+        && !IsDisabled
         && Physics2D
             .Raycast(transform.position,
                 this.player.transform.position - transform.position, 
@@ -235,15 +239,25 @@ public class Enemy : Unit
                 AttackMask)
             .collider.TryGetComponent(out Player player);
     
-    protected bool ShouldUseActiveAbility(Transition<EnemyState> transition) =>
-        ActiveAbilitiesCD[0] < 0
-        && CanUseActiveAbility(transition);
-    
-    protected bool CanUseActiveAbility(Transition<EnemyState> transition) =>
+    protected bool ShouldUseActiveAbility(Transition<EnemyState> transition)
+    {
+        for (int i = 0; i < Inventory.EquippedActiveAbilitySlots.Count; i++)
+        {
+            if (ActiveAbilitiesCD[i] < 0 && CanUseActiveAbility(transition, i))
+            {
+                PreparedActiveAbilityIndex = i;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    protected bool CanUseActiveAbility(Transition<EnemyState> transition, int index) =>
         isPlayerInChasingRange
-        && CurrentMana >= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.ManaCost
-        && DistToTargetPos() <= ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[0].Item).ActiveAbility.AttackDistance + 1
-        && !IsStunned
+        && !Inventory.EquippedActiveAbilitySlots[index].IsEmpty
+        && ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility.CanUseAbility(this, DistToTargetPos())
+        && !IsDisabled
         && !IsSilenced
         && Physics2D
             .Raycast(transform.position,
@@ -252,7 +266,12 @@ public class Enemy : Unit
                 AttackMask)
             .collider.TryGetComponent(out Player player);
 
-    protected bool CanNotUseActiveAbility(Transition<EnemyState> transition) => isPlayerInChasingRange && !CanUseActiveAbility(transition);
+    protected bool CanNotAnyUseActiveAbility(Transition<EnemyState> transition) => 
+        isPlayerInChasingRange 
+        && !CanUseActiveAbility(transition, 0)
+        && !CanUseActiveAbility(transition, 1)
+        && !CanUseActiveAbility(transition, 2)
+        && !CanUseActiveAbility(transition, 3);
 
     protected bool ShouldAttack(Transition<EnemyState> transition) =>
         ShouldMelee(transition) || ShouldUseActiveAbility(transition);
@@ -265,7 +284,7 @@ public class Enemy : Unit
     protected bool IsNotWithinIdleRange(Transition<EnemyState> transition) => 
         !IsWithinIdleRange(transition);
     
-    protected bool IsUnitStunned(Transition<EnemyState> transition) => IsStunned;
+    protected bool IsUnitStunned(Transition<EnemyState> transition) => IsDisabled;
 
     private void OnDisable()
     {

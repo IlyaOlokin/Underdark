@@ -9,8 +9,9 @@ public class ArrowShot : ActiveAbility, IAttacker
     
     private Rigidbody2D rb;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         rb = GetComponent<Rigidbody2D>();
         Destroy(gameObject, AttackDistance / projSpeed);
     }
@@ -22,12 +23,7 @@ public class ArrowShot : ActiveAbility, IAttacker
         int damage = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
         damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
         
-        var target = FindClosestTarget(caster);
-
-        if (target != null)
-            rb.velocity = (target.transform.position - transform.position).normalized * projSpeed;
-        else
-            rb.velocity = caster.GetAttackDirection() * projSpeed;
+        rb.velocity = attackDir * projSpeed;
         
         var rotAngle = Vector2.Angle(Vector3.up, rb.velocity);
         if (rb.velocity.x > 0) rotAngle *= -1;
@@ -60,5 +56,10 @@ public class ArrowShot : ActiveAbility, IAttacker
                 debuffInfo.Execute(this, (Unit) damageable, caster);
             }
         }
+    }
+    
+    public override bool CanUseAbility(Unit caster, float distToTarget)
+    {
+        return base.CanUseAbility(caster, distToTarget) && distToTarget > 2;
     }
 }

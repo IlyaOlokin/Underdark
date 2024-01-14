@@ -21,6 +21,11 @@ public class SecondWind : ActiveAbility
         newBuff.Init(damageAmplificationDuration, damageAmplification, caster, buffIcon);
         caster.ReceiveStatusEffect(newBuff);
     }
+    
+    public override bool CanUseAbility(Unit caster, float distToTarget)
+    {
+        return base.CanUseAbility(caster, distToTarget) && caster.CurrentHP < caster.MaxHP * 0.5f;
+    }
 
     public override string[] ToString()
     {

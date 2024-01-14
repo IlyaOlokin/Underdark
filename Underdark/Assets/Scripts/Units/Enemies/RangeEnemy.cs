@@ -46,7 +46,7 @@ public class RangeEnemy : Enemy
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle, EnemyState.Chase,
             (transition) => isPlayerInChasingRange
                             && Vector3.Distance(moveTarget.transform.position, transform.position) > agent.stoppingDistance
-                            && !IsStunned)
+                            && !IsDisabled)
         );
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase, EnemyState.Idle,
             (transition) => !isPlayerInChasingRange
@@ -65,9 +65,9 @@ public class RangeEnemy : Enemy
             forceInstantly: true));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Chase, EnemyState.KeepDistance, ShouldKeepDistance,
             forceInstantly: true));
-        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle, EnemyState.Chase, CanNotUseActiveAbility,
+        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.Idle, EnemyState.Chase, CanNotAnyUseActiveAbility,
             forceInstantly: true));
-        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.KeepDistance, EnemyState.Chase, CanNotUseActiveAbility,
+        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.KeepDistance, EnemyState.Chase, CanNotAnyUseActiveAbility,
             forceInstantly: true));
         
         
@@ -76,9 +76,8 @@ public class RangeEnemy : Enemy
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.BaseAttack, EnemyState.Chase, IsNotWithinIdleRange));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.BaseAttack, EnemyState.Idle, IsWithinIdleRange));
         
-        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.AttackPrep, EnemyState.BaseAttack, ShouldMelee));
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.AttackPrep, EnemyState.ActiveAbilityExecute, ShouldUseActiveAbility));
-
+        EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.AttackPrep, EnemyState.BaseAttack, ShouldMelee));
         
         // stun
         EnemyFSM.AddTransition(new Transition<EnemyState>(EnemyState.AttackPrep, EnemyState.Idle, IsUnitStunned,
@@ -98,6 +97,10 @@ public class RangeEnemy : Enemy
     
     private bool ShouldKeepDistance(Transition<EnemyState> transition)
     {
-        return !IsCloseEnoughToForceMelee(transition) && CanUseActiveAbility(transition);
+        return !IsCloseEnoughToForceMelee(transition)
+               && (CanUseActiveAbility(transition, 0)
+               || CanUseActiveAbility(transition, 1)
+               || CanUseActiveAbility(transition, 2)
+               || CanUseActiveAbility(transition, 3));
     }
 }

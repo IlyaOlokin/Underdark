@@ -27,11 +27,13 @@ public class ExecutableSlotsHandler : MonoBehaviour
             RefreshSlot(i);
         }
         player.OnExecutableItemUse += RefreshSlot;
+        player.Inventory.OnInventoryChanged += RefreshAllSlots;
     }
 
     private void OnDisable()
     {
         player.OnExecutableItemUse -= RefreshSlot;
+        player.Inventory.OnInventoryChanged -= RefreshAllSlots;
     }
 
     private void RefreshSlot(int index)

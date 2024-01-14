@@ -29,7 +29,11 @@ public class BuySellMenu : MonoBehaviour
     {
         if (player.Money.TrySpendMoney(activeSlot.Item.Cost))
         {
-            player.Inventory.TryAddItem(activeSlot.Item);
+            if (player.Inventory.TryAddItem(activeSlot.Item) != 0)
+            {
+                NotificationManager.Instance.SendNotification(new Notification(null, "Your inventory is already full."));
+                player.Money.AddMoney(activeSlot.Item.Cost);
+            }
         }
     }
 

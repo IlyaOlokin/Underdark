@@ -41,6 +41,15 @@ public class PlayerInstaller : MonoBehaviour
         player.Inventory.Equipment.Weapon.SetItem(itemsStorageSo.GetItemById(data.Weapon));
         player.Inventory.Equipment.Shield.SetItem(itemsStorageSo.GetItemById(data.Shield));
         
+        var accessories = player.Inventory.Equipment.Accessories;
+        for (int i = 0; i < accessories.Count; i++)
+        {
+            var item = itemsStorageSo.GetItemById(data.Accessories[i]);
+
+            if (item != null)
+                accessories[i].SetItem(item);
+        }
+        
         var activeAbilities = player.Inventory.GetAllActiveAbilitySlots();
         for (int i = 0; i < activeAbilities.Length; i++)
         {

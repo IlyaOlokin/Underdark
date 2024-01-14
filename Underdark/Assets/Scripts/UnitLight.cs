@@ -26,10 +26,10 @@ public class UnitLight : MonoBehaviour
 
     private void UpdateLight()
     {
-        var nightVisions = unit.GetAllGearPassives<NightVisionSO>();
+        var hasNightVision = unit.HasPassiveOfType<NightVisionSO>();
         
-        defaultLight.enabled = nightVisions.Count <= 0;
-        bonusLight.enabled = nightVisions.Count > 0;
+        defaultLight.enabled = !hasNightVision;
+        bonusLight.enabled = hasNightVision;
     }
     
     private void OnDisable()

@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
+public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 {
     private Rigidbody2D rb;
     private Collider2D coll;
@@ -17,7 +17,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     private bool isStunned;
     private bool isFrozen;
-    protected bool IsStunned => isStunned || isFrozen;
+    protected bool IsDisabled => isStunned || isFrozen;
     protected bool IsPushing { get; private set; }
     public bool IsSilenced { get; private set; }
     public event Action OnIsSilenceChanged;
@@ -32,8 +32,9 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         get => _currentHP;
         protected set
         {
-            if (value > MaxHP) value = MaxHP;
-            _currentHP = value;
+            if (value > MaxHP) _currentHP = MaxHP;
+            else if (value < 0) _currentHP = 0;
+            else _currentHP = value;
             OnHealthChanged?.Invoke(_currentHP);
         }
     }
@@ -61,13 +62,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public event Action<int> OnManaChanged;
     public event Action<int> OnMaxManaChanged;
-
-    [SerializeField] [Range(0f, 1f)] private float regenPercent;
-
+    
     [field: SerializeField] public int MoveSpeed { get; private set; }
 
     [field: Header("Attack Setup")] [SerializeField]
-    private MeleeWeapon defaultWeapon;
+    private WeaponSO defaultWeapon;
     [SerializeField] private ActiveAbility baseAttackAbility;
 
     [SerializeField] private float attackSpeed;
@@ -98,7 +97,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     [SerializeField] protected UnitVisual unitVisual;
 
     protected Vector3 lastMoveDir;
-    protected float attackDirAngle;
+    protected float lastMoveDirAngle;
     protected float attackCDTimer;
     private float actionCDTimer;
     private float hpRegenBuffer;
@@ -108,12 +107,15 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
-        Params.SetUnit(this);
+        
+        lastMoveDir = Vector3.right;
         
         Inventory = new Inventory(inventoryCapacity, activeAbilityInventoryCapacity, this);
         
         ActiveAbilitiesCD = new List<float>(new float[Inventory.EquippedActiveAbilitySlots.Count]);
         lastActiveAbilitiesIDs = new string[Inventory.EquippedActiveAbilitySlots.Count];
+        
+        Params.SetUnit(this);
     }
     
     private void Start()
@@ -139,8 +141,11 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         UpdateCoolDowns();
         Regeneration();
+        RotateAttackDir();
     }
     
+    protected abstract void RotateAttackDir();
+
     protected void SetMana(bool toFull = false)
     {
         float currentPart = CurrentMana / (float) MaxMana;
@@ -190,7 +195,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     {
         if (CurrentHP < MaxHP)
         {
-            hpRegenBuffer += MaxHP * regenPercent * Time.deltaTime;
+            hpRegenBuffer += Params.GetRegenPerSecond(RegenType.HP) * Time.deltaTime;
             if (hpRegenBuffer >= 1)
             {
                 RestoreHP((int)Mathf.Floor(hpRegenBuffer));
@@ -204,7 +209,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         if (CurrentMana < MaxMana)
         {
-            manaRegenBuffer += MaxMana * regenPercent * Time.deltaTime;
+            manaRegenBuffer += Params.GetRegenPerSecond(RegenType.MP) * Time.deltaTime;
             if (manaRegenBuffer >= 1)
             {
                 RestoreMP((int)Mathf.Floor(manaRegenBuffer));
@@ -251,8 +256,10 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         if (EnergyShield != null)
         {
-            Vector3 dir = attacker.Transform.position - transform.position;
-            var angle = Vector2.Angle(dir, GetAttackDirection());
+            Vector3 dir = attacker == null ? 
+                sender.transform.position : 
+                attacker.Transform.position - transform.position;
+            var angle = Vector2.Angle(dir, lastMoveDir);
             
             var savedDamage = newDamage;
 
@@ -349,7 +356,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         for (int i = 0; i < ActiveAbilitiesCD.Count; i++)
         {
             if (Inventory.EquippedActiveAbilitySlots[i].IsEmpty) continue;
-            ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).cooldown;
+            ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).Cooldown;
         }
     }
     
@@ -491,8 +498,10 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         {
             totalDamage += (int) Mathf.Floor(damageInfo.GetDamages()[i].GetValue() * Params.GetDamageResistance(damageInfo.GetDamages()[i].DamageType));
         }
+
+        if (totalDamage == 0) return totalDamage;
         
-        return (int)Mathf.Floor(totalDamage * (totalDamage / (totalDamage + GetTotalArmor() * (1 - armorPierce))));
+        return Mathf.FloorToInt(totalDamage * (totalDamage / (totalDamage + GetTotalArmor() * (1 - armorPierce))));
     }
 
     public int GetTotalArmor()
@@ -514,7 +523,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public void Move(Vector3 dir)
     {
-        if (IsStunned || IsPushing) return;
+        if (IsDisabled || IsPushing) return;
         
         rb.MovePosition(rb.position + (Vector2)dir * (MoveSpeed / Params.SlowAmount) * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
@@ -529,7 +538,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
     
     public virtual void Attack()
     {
-        if (attackCDTimer > 0 || actionCDTimer > 0 || IsStunned) return;
+        if (attackCDTimer > 0 || actionCDTimer > 0 || IsDisabled) return;
         
         var newBaseAttack = Instantiate(baseAttackAbility, transform.position, Quaternion.identity);
         newBaseAttack.Execute(this);
@@ -537,7 +546,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         attackCDTimer = 1 / attackSpeed;
         SetActionCD(newBaseAttack.CastTime);
 
-        OnBaseAttack?.Invoke(attackDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
+        OnBaseAttack?.Invoke(lastMoveDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
     }
 
     public void Attack(IDamageable damageable)
@@ -552,7 +561,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public void ExecuteActiveAbility(int index)
     {
-        if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsStunned || IsSilenced || Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
+        if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsDisabled || IsSilenced || Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
         ActiveAbility activeAbility = Inventory.GetEquippedActiveAbility(index);
         if (activeAbility.ManaCost > CurrentMana) return;
 
@@ -560,7 +569,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         var newAbility = Instantiate(activeAbility, transform.position, Quaternion.identity);
         newAbility.Execute(this);
         SetActionCD(newAbility.CastTime);
-        ActiveAbilitiesCD[index] = newAbility.cooldown;
+        ActiveAbilitiesCD[index] = newAbility.Cooldown;
     }
 
     protected void SetActiveAbilitiesCDs(bool reset = false)
@@ -584,7 +593,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
             }
             if (newID != lastActiveAbilitiesIDs[i])
             {
-                ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).cooldown;
+                ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).Cooldown;
             }
 
             lastActiveAbilitiesIDs[i] = newID;
@@ -593,7 +602,7 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
     public void ExecuteExecutableItem(int index)
     {
-        if (IsStunned || Inventory.ExecutableSlots[index].IsEmpty) return;
+        if (IsDisabled || Inventory.ExecutableSlots[index].IsEmpty) return;
 
         if (!Inventory.GetExecutableItem(index).Execute(this)) return;
         
@@ -629,10 +638,16 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
 
         return res;
     }
-
-    public MeleeWeapon GetWeapon()
+    
+    public bool HasPassiveOfType<T>()
     {
-        if (Inventory.Equipment.Weapon.IsEmpty)
+        var passives = GetAllGearPassives<T>();
+        return passives.Count != 0;
+    }
+
+    public WeaponSO GetWeapon()
+    {
+        if (Inventory.Equipment.Weapon.IsEmpty || !Inventory.Equipment.Weapon.IsValid)
             return defaultWeapon;
         return Inventory.Equipment.GetWeapon();
     }
@@ -646,6 +661,23 @@ public class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
         return armor.ArmorAmount;
     }
 
-    public Vector2 GetAttackDirection() => lastMoveDir.normalized;
-    public float GetAttackDirAngle() => attackDirAngle;
+    public virtual Vector2 GetAttackDirection(float distance = 0) => lastMoveDir.normalized;
+
+    protected float MaxActiveAbilityDistance()
+    {
+        float maxDist = GetWeapon().AttackDistance + 1;
+        foreach (var slot in Inventory.GetAllActiveAbilitySlots())
+        {
+            if (slot.IsEmpty) continue;
+
+            var activeAbilityAttackDistance = ((ActiveAbilitySO)slot.Item).ActiveAbility.AttackDistance;
+            if (maxDist < activeAbilityAttackDistance)
+                maxDist = activeAbilityAttackDistance;
+        }
+        return maxDist;
+    }
+
+    public virtual float GetAttackDirAngle(Vector2 attackDir = new Vector2()) => lastMoveDirAngle;
+
+    public Vector2 GetLastMoveDir() => lastMoveDir;
 }

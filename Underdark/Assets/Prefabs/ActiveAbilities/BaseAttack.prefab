@@ -94,11 +94,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CastTime: 0.1
-  cooldown: 0
+  Cooldown: 0.2
   ManaCost: 0
   <NeedOverrideWithWeaponStats>k__BackingField: 1
+  <NeedAttackRadius>k__BackingField: 1
   <AttackDistance>k__BackingField: 1
-  <AttackAngle>k__BackingField: 90
+  <AttackRadius>k__BackingField: 90
   maxValue: 0
   statMultiplier: 1
   baseStat: 0
@@ -214,8 +215,8 @@ TrailRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 0.15686275}
+      key0: {r: 0.8207547, g: 0.16647384, b: 0.16647384, a: 1}
+      key1: {r: 0.81960785, g: 0.16470589, b: 0.16470589, a: 0.05882353}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -231,7 +232,7 @@ TrailRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 47031
+      atime1: 48380
       atime2: 0
       atime3: 0
       atime4: 0

@@ -22,4 +22,13 @@ public class Scroll : ExecutableItem, IStatusEffect
     {
         throw new System.NotImplementedException();
     }
+
+    public override string[] ToStringAdditional()
+    {
+        List<string> res = new List<string>();
+        
+        res.Add("You can have only one active scroll effect at the time.");
+
+        return res.ToArray();
+    }
 }
