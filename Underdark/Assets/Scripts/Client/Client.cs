@@ -35,7 +35,7 @@ public class Client : MonoBehaviour
             Destroy(this);
         }
 
-        ip = IPManager.GetGlobalIPAddress();
+        //ip = IPManager.GetGlobalIPAddress();
         logStatic = log;
         logStatic.text += ip + "\n";
     }
