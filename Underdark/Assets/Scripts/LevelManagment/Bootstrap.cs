@@ -22,9 +22,9 @@ public class Bootstrap : MonoBehaviour
 
     private void Update()
     {
-        if (Input.anyKey)
+        /*if (Input.anyKey)
         {
             SceneManager.LoadScene("MainMenu");
-        }
+        }*/
     }
 }

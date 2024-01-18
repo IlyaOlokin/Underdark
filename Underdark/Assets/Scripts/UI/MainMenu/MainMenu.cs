@@ -25,6 +25,11 @@ public class MainMenu : MonoBehaviour
 
     public void Quit()
     {
-        Application.Quit();
+        SceneManager.LoadScene("BootScene");
+    }
+
+    public void Connect()
+    {
+        Client.instance.ConnectToServer();
     }
 }

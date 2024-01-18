@@ -34,6 +34,8 @@ public class Client : MonoBehaviour
             Debug.Log("Instance already exists, destroying object!");
             Destroy(this);
         }
+        
+        DontDestroyOnLoad(gameObject);
 
         //ip = IPManager.GetGlobalIPAddress();
         logStatic = log;

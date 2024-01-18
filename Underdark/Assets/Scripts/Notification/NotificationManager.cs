@@ -39,10 +39,10 @@ public class NotificationManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Z))
+        /*if (Input.GetKeyDown(KeyCode.Z))
         {
             SendNotification(new Notification(test, "подсказка работает? " + notificationQueue.Count));
-        }
+        }*/
     }
 
     public void SendNotification(Notification notification)
