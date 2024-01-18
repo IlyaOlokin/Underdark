@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Dobro.Text.RegularExpressions;
@@ -13,13 +14,18 @@ public class LoginScreen : MonoBehaviour
     [SerializeField] private TMP_InputField passwordField;
     
     [SerializeField] private TextMeshProUGUI errorText;
+    private static TextMeshProUGUI errorTextStatic;
+
+    private void Awake()
+    {
+        errorTextStatic = errorText;
+    }
 
     public void Login()
     {
         if (IsValidEmail(emailField.text) && IsValidPassword(passwordField.text))
         {
-            //Client.instance.Login()
-            LoadMainMenu();
+            ClientSend.LoginReceived(emailField.text, passwordField.text);
         }
     }
     
@@ -27,8 +33,31 @@ public class LoginScreen : MonoBehaviour
     {
         if (IsValidEmail(emailField.text) && IsValidPassword(passwordField.text))
         {
-            //Client.instance.Register()
+            ClientSend.RegisterReceived(emailField.text, passwordField.text);
+        }
+    }
+
+    public static void RegisterCallBack(bool isRegistrationValid)
+    {
+        if (isRegistrationValid)
+        {
             LoadMainMenu();
+        }
+        else
+        {
+            ShowErrorMessage("This email is already registered.");
+        }
+    }
+    
+    public static void LoginCallBack(bool isLoginValid)
+    {
+        if (isLoginValid)
+        {
+            LoadMainMenu();
+        }
+        else
+        {
+            ShowErrorMessage("Incorrect email or password.");
         }
     }
 
@@ -49,6 +78,8 @@ public class LoginScreen : MonoBehaviour
     
     private bool IsValidEmail(string email)
     {
+        return true;
+        
         if (TestEmail.IsEmail(email))
         {
             return true;
@@ -57,13 +88,13 @@ public class LoginScreen : MonoBehaviour
         return false;
     }
 
-    private void LoadMainMenu()
+    private static void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
 
-    private void ShowErrorMessage(string error)
+    private static void ShowErrorMessage(string error)
     {
-        errorText.text = error;
+        errorTextStatic.text = error;
     }
 }

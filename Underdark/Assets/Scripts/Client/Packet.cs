@@ -8,14 +8,18 @@ using UnityEngine;
 public enum ServerPackets
 {
     welcome = 1,
-    udpTest
+    udpTest,
+    register,
+    login
 }
 
 /// <summary>Sent from client to server.</summary>
 public enum ClientPackets
 {
     welcomeReceived = 1,
-    updTestReceived
+    updTestReceived,
+    registerReceived,
+    loginReceived
 }
 
 public class Packet : IDisposable

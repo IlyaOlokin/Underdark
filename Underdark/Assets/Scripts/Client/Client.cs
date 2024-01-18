@@ -46,12 +46,14 @@ public class Client : MonoBehaviour
     {
         tcp = new TCP();
         udp = new UDP();
+        
+        ConnectToServer();
     }
 
     public void ConnectToServer()
     {
         InitializeClientData();
-
+        
         tcp.Connect();
     }
 
@@ -262,7 +264,9 @@ public class Client : MonoBehaviour
         packetHandlers = new Dictionary<int, PacketHandler>()
         {
             { (int)ServerPackets.welcome, ClientHandle.Welcome },
-            { (int)ServerPackets.udpTest, ClientHandle.UDPTest }
+            { (int)ServerPackets.udpTest, ClientHandle.UDPTest },
+            { (int)ServerPackets.register, ClientHandle.Register },
+            { (int)ServerPackets.login, ClientHandle.Login }
         };
         logStatic.text += "Initialized packets.\n";
         Debug.Log("Initialized packets.");

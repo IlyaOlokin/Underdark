@@ -37,5 +37,27 @@ public class ClientSend
             SendUDPData(_packet);
         }
     }
+    
+    public static void RegisterReceived(string email, string password)
+    {
+        using (Packet _packet = new Packet((int)ClientPackets.registerReceived))
+        {
+            _packet.Write(email);
+            _packet.Write(password);
+
+            SendTCPData(_packet);
+        }
+    }
+    
+    public static void LoginReceived(string email, string password)
+    {
+        using (Packet _packet = new Packet((int)ClientPackets.loginReceived))
+        {
+            _packet.Write(email);
+            _packet.Write(password);
+
+            SendTCPData(_packet);
+        }
+    }
     #endregion
 }

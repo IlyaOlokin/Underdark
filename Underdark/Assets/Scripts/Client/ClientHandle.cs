@@ -36,4 +36,26 @@ public class ClientHandle : MonoBehaviour
         Debug.Log($"Received packet via UDP. Contains message: {_msg}");
         ClientSend.UDPTestReceived();
     }
+    
+    public static void Register(Packet _packet)
+    {
+        string _msg = _packet.ReadString();
+        bool isRegistrationValid = bool.Parse(_msg);
+
+        LoginScreen.RegisterCallBack(isRegistrationValid);
+        
+        logStatic.text += $"Register" + isRegistrationValid;
+        Debug.Log($"Register"+ isRegistrationValid);
+    }
+    
+    public static void Login(Packet _packet)
+    {
+        string _msg = _packet.ReadString();
+        bool isRegistrationValid = bool.Parse(_msg);
+
+        LoginScreen.LoginCallBack(isRegistrationValid);
+
+        logStatic.text += $"Login";
+        Debug.Log($"Login");
+    }
 }
