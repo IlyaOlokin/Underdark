@@ -59,5 +59,26 @@ public class ClientSend
             SendTCPData(_packet);
         }
     }
+    
+    public static void SaveReceived(string email, string data)
+    {
+        using (Packet _packet = new Packet((int)ClientPackets.saveReceived))
+        {
+            _packet.Write(email);
+            _packet.Write(data);
+
+            SendTCPData(_packet);
+        }
+    }
+    
+    public static void LoadReceived(string email)
+    {
+        using (Packet _packet = new Packet((int)ClientPackets.loadReceived))
+        {
+            _packet.Write(email);
+
+            SendTCPData(_packet);
+        }
+    }
     #endregion
 }

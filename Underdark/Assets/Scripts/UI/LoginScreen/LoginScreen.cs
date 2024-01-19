@@ -121,7 +121,8 @@ public class LoginScreen : MonoBehaviour
 
     private void LoadMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        StaticSceneLoader.LoadScene("MainMenu");
+        //SceneManager.LoadScene("MainMenu");
     }
 
     private void ShowErrorMessage(string error)

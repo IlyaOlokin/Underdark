@@ -266,7 +266,9 @@ public class Client : MonoBehaviour
             { (int)ServerPackets.welcome, ClientHandle.Welcome },
             { (int)ServerPackets.udpTest, ClientHandle.UDPTest },
             { (int)ServerPackets.register, ClientHandle.Register },
-            { (int)ServerPackets.login, ClientHandle.Login }
+            { (int)ServerPackets.login, ClientHandle.Login },
+            { (int)ServerPackets.save, ClientHandle.Save },
+            { (int)ServerPackets.load, ClientHandle.Load },
         };
         logStatic.text += "Initialized packets.\n";
         Debug.Log("Initialized packets.");

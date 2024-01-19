@@ -34,14 +34,8 @@ public class FileDataHandler
             {
                 dataToStore = EncryptDecrypt(dataToStore);
             }
-
-            using (FileStream stream = new FileStream(fullPath, FileMode.Create))
-            {
-                using (StreamWriter writer = new StreamWriter(stream))
-                {
-                    writer.Write(dataToStore);
-                }
-            }
+            
+            ClientSend.SaveReceived(DataLoader.metaGameData.Email, dataToStore);
         }
         catch (Exception e)
         {
@@ -77,36 +71,17 @@ public class FileDataHandler
         }
     }
 
-    public GameData Load()
+    public GameData Load(string dataToLoad)
     {
-        string fullPath = Path.Combine(dataDirPath, dataFileName);
         GameData loadedData = null;
-        if (File.Exists(fullPath))
+        
+        if (useEncryption)
         {
-            try
-            {
-                string dataToLoad = "";
-                using (FileStream stream = new FileStream(fullPath, FileMode.Open))
-                {
-                    using (StreamReader reader = new StreamReader(stream))
-                    {
-                        dataToLoad = reader.ReadToEnd();
-                    }
-                }
-                
-                if (useEncryption)
-                {
-                    dataToLoad = EncryptDecrypt(dataToLoad);
-                }
-
-                loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Error occured when trying to load data from file:" + fullPath + "\n" + e);
-            }
+            dataToLoad = EncryptDecrypt(dataToLoad);
         }
 
+        loadedData = JsonUtility.FromJson<GameData>(dataToLoad);
+        
         return loadedData;
     }
     

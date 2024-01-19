@@ -58,4 +58,24 @@ public class ClientHandle : MonoBehaviour
         logStatic.text += $"Login";
         Debug.Log($"Login");
     }
+    
+    public static void Save(Packet _packet)
+    {
+        string _msg = _packet.ReadString();
+        bool isRegistrationValid = bool.Parse(_msg);
+
+        
+
+        logStatic.text += $"Save: " + isRegistrationValid;
+        Debug.Log($"Save: " + isRegistrationValid);
+    }
+    
+    public static void Load(Packet _packet)
+    {
+        string data = _packet.ReadString();
+        
+        LoadingScreen.LoadDataReceived(data);
+        logStatic.text += $"Data loaded";
+        Debug.Log($"Data loaded");
+    }
 }

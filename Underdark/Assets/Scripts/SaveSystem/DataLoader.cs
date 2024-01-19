@@ -17,21 +17,20 @@ public class DataLoader : MonoBehaviour
     void Awake()
     {
         dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, metaFileName, useEncryption);
-        LoadStartData();
+        metaGameData = dataHandler.MetaLoad();
     }
 
-    private void LoadStartData()
+    public static void LoadData(string data)
     {
-        LoadGame();
+        LoadGame(data);
 
         LevelTransition.MaxReachedLevel = gameData.MaxReachedLevel;
         LevelTransition.TutorialCompleted = gameData.TutorialCompleted;
     }
     
-    private static void LoadGame()
+    private static void LoadGame(string data)
     {
-        gameData = dataHandler.Load();
-        metaGameData = dataHandler.MetaLoad();
+        gameData = dataHandler.Load(data);
 
         if (gameData == null)
         {

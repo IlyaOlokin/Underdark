@@ -10,7 +10,9 @@ public enum ServerPackets
     welcome = 1,
     udpTest,
     register,
-    login
+    login,
+    save,
+    load
 }
 
 /// <summary>Sent from client to server.</summary>
@@ -19,7 +21,9 @@ public enum ClientPackets
     welcomeReceived = 1,
     updTestReceived,
     registerReceived,
-    loginReceived
+    loginReceived,
+    saveReceived,
+    loadReceived
 }
 
 public class Packet : IDisposable
