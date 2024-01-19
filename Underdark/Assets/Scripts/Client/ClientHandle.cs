@@ -26,6 +26,7 @@ public class ClientHandle : MonoBehaviour
         ClientSend.WelcomeReceived();
 
         Client.instance.udp.Connect(((IPEndPoint)Client.instance.tcp.socket.Client.LocalEndPoint).Port);
+        LoginScreen.Instance.DeactivateReconnectMenu();
     }
 
     public static void UDPTest(Packet _packet)

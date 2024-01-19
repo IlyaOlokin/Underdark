@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -10,10 +11,13 @@ public class LoadingScreen : MonoBehaviour
     [SerializeField] private Slider slider;
 
     private static bool dataLoaded;
+    private float connectionDelay = 5f;
+    private float timer;
     void Start()
     {
         StartCoroutine(AsyncLoadScene(StaticSceneLoader.SceneToLoadName));
-        ClientSend.LoadReceived(DataLoader.metaGameData.Email);
+        if (StaticSceneLoader.SceneToLoadName != "BootScene")
+            ClientSend.LoadReceived(DataLoader.metaGameData.Email);
     }
     
     IEnumerator AsyncLoadScene(string sceneName)
@@ -22,6 +26,12 @@ public class LoadingScreen : MonoBehaviour
 
         while (!operation.isDone || !dataLoaded)
         {
+            if (!dataLoaded)
+                timer += Time.deltaTime;
+
+            if (timer > connectionDelay)
+                dataLoaded = true;
+            
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
 
             slider.value = progress;

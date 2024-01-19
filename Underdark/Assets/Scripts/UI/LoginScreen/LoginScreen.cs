@@ -17,6 +17,11 @@ public class LoginScreen : MonoBehaviour
     
     [SerializeField] private TextMeshProUGUI errorText;
     
+    [Header("Buttons")]
+    [SerializeField] private Button registerButton;
+    [SerializeField] private Button loginButton;
+    [SerializeField] private Button tryConnectButton;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -32,6 +37,8 @@ public class LoginScreen : MonoBehaviour
 
     private void Start()
     {
+        ConnectToSever();
+        
         if (DataLoader.metaGameData == null) return;
         
         if (!DataLoader.metaGameData.Email.Equals(""))
@@ -47,7 +54,15 @@ public class LoginScreen : MonoBehaviour
         
         if (IsValidEmail(emailField.text) && IsValidPassword(passwordField.text))
         {
-            ClientSend.LoginReceived(emailField.text, passwordField.text);
+            try
+            {
+                ClientSend.LoginReceived(emailField.text, passwordField.text);
+            }
+            catch
+            {
+                ActivateReconnectMenu();
+                throw;
+            }
         }
     }
     
@@ -58,7 +73,15 @@ public class LoginScreen : MonoBehaviour
         
         if (IsValidEmail(emailField.text) && IsValidPassword(passwordField.text))
         {
-            ClientSend.RegisterReceived(emailField.text, passwordField.text);
+            try
+            {
+                ClientSend.RegisterReceived(emailField.text, passwordField.text);
+            }
+            catch
+            {
+                ActivateReconnectMenu();
+                throw;
+            }
         }
     }
 
@@ -109,8 +132,6 @@ public class LoginScreen : MonoBehaviour
     
     private bool IsValidEmail(string email)
     {
-        return true;
-        
         if (TestEmail.IsEmail(email))
         {
             return true;
@@ -122,7 +143,6 @@ public class LoginScreen : MonoBehaviour
     private void LoadMainMenu()
     {
         StaticSceneLoader.LoadScene("MainMenu");
-        //SceneManager.LoadScene("MainMenu");
     }
 
     private void ShowErrorMessage(string error)
@@ -130,4 +150,27 @@ public class LoginScreen : MonoBehaviour
         SetInputFieldsActive(true);
         errorText.text = error;
     }
+
+    public void ConnectToSever()
+    {
+        Client.instance.ConnectToServer();
+    }
+
+    public void ActivateReconnectMenu()
+    {
+        ShowErrorMessage("Connection error");
+        registerButton.gameObject.SetActive(false);
+        loginButton.gameObject.SetActive(false);
+
+        tryConnectButton.gameObject.SetActive(true);
+    }
+    public void DeactivateReconnectMenu()
+    {
+        ShowErrorMessage("");
+        registerButton.gameObject.SetActive(true);
+        loginButton.gameObject.SetActive(true);
+
+        tryConnectButton.gameObject.SetActive(false);
+    }
+    
 }

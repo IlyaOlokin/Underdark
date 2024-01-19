@@ -47,7 +47,7 @@ public class Client : MonoBehaviour
         tcp = new TCP();
         udp = new UDP();
         
-        ConnectToServer();
+        //ConnectToServer();
     }
 
     public void ConnectToServer()
@@ -106,6 +106,15 @@ public class Client : MonoBehaviour
             {
                 logStatic.text += $"Error sending data to server via TCP: {_ex}\n";
                 Debug.Log($"Error sending data to server via TCP: {_ex}");
+
+                if (LoginScreen.Instance != null)
+                {
+                    LoginScreen.Instance.ActivateReconnectMenu();
+                }
+                else
+                {
+                    StaticSceneLoader.LoadScene("BootScene");
+                }
             }
         }
 
@@ -237,6 +246,7 @@ public class Client : MonoBehaviour
             catch
             {
                 // TODO: disconnect
+                StaticSceneLoader.LoadScene("BootScene");
             }
         }
 
