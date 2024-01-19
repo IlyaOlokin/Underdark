@@ -42,7 +42,7 @@ public class ClientHandle : MonoBehaviour
         string _msg = _packet.ReadString();
         bool isRegistrationValid = bool.Parse(_msg);
 
-        LoginScreen.RegisterCallBack(isRegistrationValid);
+        LoginScreen.Instance.RegisterCallBack(isRegistrationValid);
         
         logStatic.text += $"Register" + isRegistrationValid;
         Debug.Log($"Register"+ isRegistrationValid);
@@ -53,7 +53,7 @@ public class ClientHandle : MonoBehaviour
         string _msg = _packet.ReadString();
         bool isRegistrationValid = bool.Parse(_msg);
 
-        LoginScreen.LoginCallBack(isRegistrationValid);
+        LoginScreen.Instance.LoginCallBack(isRegistrationValid);
 
         logStatic.text += $"Login";
         Debug.Log($"Login");

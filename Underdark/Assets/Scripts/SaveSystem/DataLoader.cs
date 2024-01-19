@@ -6,15 +6,17 @@ public class DataLoader : MonoBehaviour
 {
     [Header("File Storage Config")] 
     [SerializeField] private string fileName;
+    [SerializeField] private string metaFileName;
     [SerializeField] private bool useEncryption;
     
     public static GameData gameData;
+    public static MetaGameData metaGameData;
     
     private static FileDataHandler dataHandler;
     
-    void Start()
+    void Awake()
     {
-        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
+        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, metaFileName, useEncryption);
         LoadStartData();
     }
 
@@ -29,6 +31,7 @@ public class DataLoader : MonoBehaviour
     private static void LoadGame()
     {
         gameData = dataHandler.Load();
+        metaGameData = dataHandler.MetaLoad();
 
         if (gameData == null)
         {
@@ -93,6 +96,16 @@ public class DataLoader : MonoBehaviour
         gameData.TutorialCompleted = LevelTransition.TutorialCompleted;
         
         dataHandler.Save(gameData);
+    }
+
+    public static void SaveMetaData(string email, string password)
+    {
+        metaGameData = new MetaGameData();
+
+        metaGameData.Email = email;
+        metaGameData.Password = password;
+        
+        dataHandler.MetaSave(metaGameData);
     }
     
     public static void NewGame()

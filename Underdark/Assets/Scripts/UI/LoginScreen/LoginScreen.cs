@@ -10,19 +10,41 @@ using UnityEngine.UI;
 
 public class LoginScreen : MonoBehaviour
 {
+    public static LoginScreen Instance;
+    
     [SerializeField] private TMP_InputField emailField;
     [SerializeField] private TMP_InputField passwordField;
     
     [SerializeField] private TextMeshProUGUI errorText;
-    private static TextMeshProUGUI errorTextStatic;
-
+    
     private void Awake()
     {
-        errorTextStatic = errorText;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else if (Instance != this)
+        {
+            Debug.Log("Instance already exists, destroying object!");
+            Destroy(this);
+        }
+    }
+
+    private void Start()
+    {
+        if (DataLoader.metaGameData == null) return;
+        
+        if (!DataLoader.metaGameData.Email.Equals(""))
+            emailField.text = DataLoader.metaGameData.Email;
+        if (!DataLoader.metaGameData.Password.Equals(""))
+            passwordField.text = DataLoader.metaGameData.Password;
     }
 
     public void Login()
     {
+        SetInputFieldsActive(false);
+        DataLoader.SaveMetaData(emailField.text, passwordField.text);
+        
         if (IsValidEmail(emailField.text) && IsValidPassword(passwordField.text))
         {
             ClientSend.LoginReceived(emailField.text, passwordField.text);
@@ -31,13 +53,16 @@ public class LoginScreen : MonoBehaviour
     
     public void Register()
     {
+        SetInputFieldsActive(false);
+        DataLoader.SaveMetaData(emailField.text, passwordField.text);
+        
         if (IsValidEmail(emailField.text) && IsValidPassword(passwordField.text))
         {
             ClientSend.RegisterReceived(emailField.text, passwordField.text);
         }
     }
 
-    public static void RegisterCallBack(bool isRegistrationValid)
+    public void RegisterCallBack(bool isRegistrationValid)
     {
         if (isRegistrationValid)
         {
@@ -49,7 +74,7 @@ public class LoginScreen : MonoBehaviour
         }
     }
     
-    public static void LoginCallBack(bool isLoginValid)
+    public void LoginCallBack(bool isLoginValid)
     {
         if (isLoginValid)
         {
@@ -59,6 +84,12 @@ public class LoginScreen : MonoBehaviour
         {
             ShowErrorMessage("Incorrect email or password.");
         }
+    }
+
+    private void SetInputFieldsActive(bool isActive)
+    {
+        emailField.interactable = isActive;
+        passwordField.interactable = isActive;
     }
 
     private bool IsValidPassword(string password)
@@ -88,13 +119,14 @@ public class LoginScreen : MonoBehaviour
         return false;
     }
 
-    private static void LoadMainMenu()
+    private void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
 
-    private static void ShowErrorMessage(string error)
+    private void ShowErrorMessage(string error)
     {
-        errorTextStatic.text = error;
+        SetInputFieldsActive(true);
+        errorText.text = error;
     }
 }
