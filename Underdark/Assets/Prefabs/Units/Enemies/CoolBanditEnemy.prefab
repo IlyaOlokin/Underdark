@@ -1040,7 +1040,19 @@ MonoBehaviour:
   moneyAmountMax: 8
   moneyDropEffect: {fileID: 9209489120575824937, guid: 13c46b6c267a7d842b20423e04afe9de, type: 3}
   droppedItemPref: {fileID: 7200458106229667149, guid: d11e455e2eba1fc4eb9546ce5859c796, type: 3}
-  drop: []
+  drop:
+  - Item: {fileID: 11400000, guid: cfff7a563d6e39f40bfe7215fcecc0ea, type: 2}
+    ItemAmount: 3
+    ChanceToDropLeft: 0
+    ChanceToDropRight: 0.1
+  - Item: {fileID: 11400000, guid: ea82bba4a0033a642abf6aaf7585c992, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0.15
+    ChanceToDropRight: 0.25
+  - Item: {fileID: 11400000, guid: 6ee8d8e92691d394683571fa127b5230, type: 2}
+    ItemAmount: 3
+    ChanceToDropLeft: 0.3
+    ChanceToDropRight: 0.4
 --- !u!114 &5290106731956819956
 MonoBehaviour:
   m_ObjectHideFlags: 0
