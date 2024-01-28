@@ -76,12 +76,12 @@ public class Inventory : IInventory
             return result;
         }
             
-        var sameItemSlot = slots.Find(slot => !slot.IsEmpty && slot.Item.ID == item.ID && !slot.IsFull);
+        var sameItemSlot = slots.Find(inventorySlot => !inventorySlot.IsEmpty && inventorySlot.Item.ID == item.ID && !inventorySlot.IsFull);
 
         if (sameItemSlot != null)
             return TryAddToSlot(sameItemSlot, item, amount);
 
-        var emptySlot = slots.Find(slot => slot.IsEmpty);
+        var emptySlot = slots.Find(inventorySlot => inventorySlot.IsEmpty);
         if (emptySlot != null)
             return TryAddToSlot(emptySlot, item, amount);
 
@@ -151,6 +151,13 @@ public class Inventory : IInventory
     
     public bool TryAddActiveAbilityItem(Item item)
     {
+        if (TryToEquipActiveAbilityItem(out IInventorySlot activeAbilitySlot))
+        {
+            TryAddToSlot(activeAbilitySlot, item, 1);
+            OnActiveAbilitiesChanged?.Invoke(false);
+            return true;
+        }
+        
         var sameItemSlot = activeAbilitySlots.Find(slot => !slot.IsEmpty && slot.Item.ID == item.ID && !slot.IsFull);
         if (sameItemSlot != null)
         {
@@ -165,6 +172,21 @@ public class Inventory : IInventory
             return true;
         }
 
+        return false;
+    }
+    
+    private bool TryToEquipActiveAbilityItem(out IInventorySlot slot)
+    {
+        foreach (var activeAbilitySlot in EquippedActiveAbilitySlots)
+        {
+            if (activeAbilitySlot.IsEmpty)
+            {
+                slot = activeAbilitySlot;
+                return true;
+            }
+        }
+        
+        slot = null;
         return false;
     }
 
