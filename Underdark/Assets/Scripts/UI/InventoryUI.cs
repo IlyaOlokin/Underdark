@@ -73,6 +73,8 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
 
     private void OnEnable()
     {
+        Inventory.CheckEquipmentFit();
+        
         Inventory.OnInventoryChanged += UpdateUI;
         player.Money.OnMoneyChanged += UpdateMoneyDisplay;
         UpdateUI();

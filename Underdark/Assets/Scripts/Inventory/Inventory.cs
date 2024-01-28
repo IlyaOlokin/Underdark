@@ -251,7 +251,7 @@ public class Inventory : IInventory
                unit.Stats.RequirementsMet(item.Requirements);
     }
 
-    private void CheckEquipmentFit()
+    public void CheckEquipmentFit()
     {
         Equipment.Head.IsValid = IsFitting(Equipment.Head.SlotType, Equipment.Head.Item);
         Equipment.Body.IsValid = IsFitting(Equipment.Body.SlotType,  Equipment.Body.Item);

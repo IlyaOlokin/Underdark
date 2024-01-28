@@ -41,6 +41,7 @@ public class BuySellMenu : MonoBehaviour
     {
         player.Money.AddMoney(activeSlot.Item.Cost);
         player.Inventory.Remove(activeSlot);
+        player.Inventory.Format();
     }
     public void UpdateButtons(bool isPlayersSlot, IInventorySlot slot)
     {
