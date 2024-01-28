@@ -69,8 +69,12 @@ public class Inventory : IInventory
 
     public int TryAddItem(Item item, int amount = 1)
     {
-        if (TryAddToExecutableSlot(item, out IInventorySlot slot))
-            return TryAddToSlot(slot, item, amount);
+        if (TryToEquipItem(item, out IInventorySlot slot))
+        {
+            var result = TryAddToSlot(slot, item, amount);
+            OnEquipmentChanged?.Invoke();
+            return result;
+        }
             
         var sameItemSlot = slots.Find(slot => !slot.IsEmpty && slot.Item.ID == item.ID && !slot.IsFull);
 
@@ -84,20 +88,63 @@ public class Inventory : IInventory
         return amount;
     }
 
-    private bool TryAddToExecutableSlot(Item item, out IInventorySlot slot)
+    private bool TryToEquipItem(Item item, out IInventorySlot slot)
     {
-        if (item is ExecutableItemSO)
+        switch (item.ItemType)
         {
-            foreach (var executableSlot in ExecutableSlots)
-            {
-                if (!executableSlot.IsEmpty && !executableSlot.IsFull && executableSlot.ItemID == item.ID)
+            case ItemType.Executable when TryAddToExecutableSlot(item, out IInventorySlot exSlot):
+                slot = exSlot;
+                return true;
+            case ItemType.Head when Equipment.Head.IsEmpty && IsFitting(Equipment.Head.SlotType, item):
+                slot = Equipment.Head;
+                return true;
+            case ItemType.Body when Equipment.Body.IsEmpty && IsFitting(Equipment.Body.SlotType, item):
+                slot = Equipment.Body;
+                return true;
+            case ItemType.Legs when Equipment.Legs.IsEmpty && IsFitting(Equipment.Legs.SlotType, item):
+                slot = Equipment.Legs;
+                return true;
+            case ItemType.Weapon when Equipment.Weapon.IsEmpty && IsFitting(Equipment.Weapon.SlotType, item):
+                slot = Equipment.Weapon;
+                return true;
+            case ItemType.Shield when Equipment.Shield.IsEmpty && IsFitting(Equipment.Shield.SlotType, item):
+                slot = Equipment.Shield;
+                return true;
+            case ItemType.Accessory:
+                foreach (var accessorySlot in Equipment.Accessories.Where(accessorySlot => accessorySlot.IsEmpty && IsFitting(accessorySlot.SlotType, item)))
                 {
-                    slot = executableSlot;
+                    slot = accessorySlot;
                     return true;
                 }
+                
+                slot = null;
+                return false;
+            default:
+                slot = null;
+                return false;
+        }
+    }
+    
+    private bool TryAddToExecutableSlot(Item item, out IInventorySlot slot)
+    {
+        foreach (var executableSlot in ExecutableSlots)
+        {
+            if (!executableSlot.IsEmpty && !executableSlot.IsFull && executableSlot.ItemID == item.ID)
+            {
+                slot = executableSlot;
+                return true;
             }
         }
-
+        
+        foreach (var executableSlot in ExecutableSlots)
+        {
+            if (executableSlot.IsEmpty)
+            {
+                slot = executableSlot;
+                return true;
+            }
+        }
+        
         slot = null;
         return false;
     }
@@ -165,11 +212,6 @@ public class Inventory : IInventory
         OnInventoryChanged?.Invoke();
         
         if (itemItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
-    }
-
-    public IInventorySlot[] GetAllSlots(string itemID)
-    {
-        return slots.FindAll(slot => !slot.IsEmpty & slot.ItemID == itemID).ToArray();
     }
     public IInventorySlot[] GetAllSlots()
     {
@@ -337,11 +379,6 @@ public class Inventory : IInventory
         res.AddRange(Equipment.GetAllAccessories());
 
         return res;
-    }
-
-    public Item[] GetEquippedItems()
-    {
-        throw new NotImplementedException();
     }
 
     public ExecutableItemSO GetExecutableItem(int index)
