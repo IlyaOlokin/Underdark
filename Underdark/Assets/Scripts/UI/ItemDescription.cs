@@ -25,8 +25,7 @@ public class ItemDescription : MonoBehaviour
     [SerializeField] private Button canselDeleteItemButton;
     
     [SerializeField] private GameObject confirmPanel;
-
-    private ExecutableItemSO currExecutableItem;
+    
     private Unit currOwner;
     private IInventorySlot currInventorySlot;
 
@@ -44,11 +43,7 @@ public class ItemDescription : MonoBehaviour
     {
         ResetDescriptionActive(true);
         
-        if (item.GetType() == typeof(ExecutableItemSO))
-        {
-            currExecutableItem = (ExecutableItemSO) item;
-            useItemButton.interactable = true;
-        }
+        useItemButton.interactable = slot.SlotType is ItemType.Any or ItemType.Executable;
         
         currOwner = owner;
         currInventorySlot = slot;
@@ -108,9 +103,48 @@ public class ItemDescription : MonoBehaviour
 
     private void UseItem()
     {
-        if (!currExecutableItem.Execute(currOwner)) return;
-
-        currOwner.Inventory.Remove(currInventorySlot);
+        var item = currInventorySlot.Item;
+        IInventorySlot targetSlot = currInventorySlot;
+        
+        switch (item.ItemType)
+        {
+            case ItemType.Head:
+                targetSlot = currOwner.Inventory.Equipment.Head;
+                break;
+            case ItemType.Body:
+                targetSlot = currOwner.Inventory.Equipment.Body;
+                break;
+            case ItemType.Legs:
+                targetSlot = currOwner.Inventory.Equipment.Legs;
+                break;
+            case ItemType.Weapon:
+                targetSlot = currOwner.Inventory.Equipment.Weapon;
+                break;
+            case ItemType.Shield:
+                targetSlot = currOwner.Inventory.Equipment.Shield;
+                break;
+            case ItemType.Accessory:
+                targetSlot = currOwner.Inventory.Equipment.Accessories[0];
+                foreach (var accessorySlot in currOwner.Inventory.Equipment.Accessories)
+                {
+                    if (accessorySlot.IsEmpty)
+                    {
+                        targetSlot = accessorySlot;
+                        break;
+                    }
+                }
+                
+                break;
+            case ItemType.Executable:
+                ((ExecutableItemSO)item).Execute(currOwner);
+                currOwner.Inventory.Remove(currInventorySlot);
+                return;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
+        currOwner.Inventory.TryMoveItem(currInventorySlot, targetSlot,
+            currInventorySlot.SlotType, targetSlot.SlotType);
     }
 
     private void DeleteItem()
