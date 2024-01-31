@@ -55,7 +55,7 @@ public class Equipment
 
         foreach (var accessorySlot in Accessories)
         {
-            if (accessorySlot.IsEmpty || !accessorySlot.IsEmpty) continue;
+            if (accessorySlot.IsEmpty) continue;
             res.Add((AccessorySO)accessorySlot.Item);
         }
 

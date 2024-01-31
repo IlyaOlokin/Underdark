@@ -16,7 +16,4 @@ public interface IInventory
 
     Item[] GetAllItems();
     Item[] GetAllItems(string itemID);
-    Item[] GetEquippedItems();
-
-    
 }
