@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlayerUI : MonoBehaviour
 {
@@ -18,5 +15,10 @@ public class PlayerUI : MonoBehaviour
         paramsUI.Init(player);
         characterWindowUI.Init(player);
         statusEffectUI.Init(player);
+    }
+
+    private void Awake()
+    {
+        inventoryUI.AwakeInit();
     }
 }

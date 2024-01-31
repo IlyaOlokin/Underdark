@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -24,7 +21,7 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
     {
         Slot = newSlot;
         if (newSlot != null)
-            newSlot.SlotType = SlotType;
+            Slot.SlotType = SlotType;
     }
 
     public void OnDrop(PointerEventData eventData)

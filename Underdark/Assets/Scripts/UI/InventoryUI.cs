@@ -1,7 +1,5 @@
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour, IInventoryUI
 {
@@ -36,7 +34,7 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         this.player = player;
     }
 
-    private void Awake()
+    public void AwakeInit()
     {
         Inventory = player.Inventory;
         
