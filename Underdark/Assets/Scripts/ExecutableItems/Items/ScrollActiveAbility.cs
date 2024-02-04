@@ -12,19 +12,21 @@ public class ScrollActiveAbility : ExecutableItem
     
     public override bool Execute(Unit caster)
     {
-        if (caster.Inventory.HasActiveAbility(item.ID, out Item itemInInventory))
-        {
-            NotificationManager.Instance.SendNotification(new Notification(itemInInventory.Sprite, "You already know this spell."));
-            return false;
-        }
-        
         if (Random.Range(0f, 1f) <= CalculateChance(caster))
         {
+            if (caster.Inventory.HasActiveAbility(item.ID, out Item itemInInventory))
+            {
+                //NotificationManager.Instance.SendNotification(new Notification(itemInInventory.Sprite, "You already know this spell."));
+                caster.AddExpToActiveAbility(item.ID, 1);
+                return true;
+            }
+            
             if (!caster.Inventory.TryAddActiveAbilityItem(item))
             {
                 NotificationManager.Instance.SendNotification(new Notification(item.Sprite, "You've run out of space."));
                 return false;
             }
+            caster.AddExpToActiveAbility(item.ID, 1);
         }
         
         return true;

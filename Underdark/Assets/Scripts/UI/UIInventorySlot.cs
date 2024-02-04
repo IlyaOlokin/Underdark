@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 {
@@ -9,19 +11,13 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
     [SerializeField] private GameObject selectIndicator;
     public IInventoryUI InventoryUI { get; private set; }
 
-    private Vector2 pressPos;
-
-    private void Awake()
-    {
-        InventoryUI = GetComponentInParent<IInventoryUI>();
-        Refresh();
-    }
-
-    public void SetSlot(IInventorySlot newSlot)
+    public void SetSlot(IInventorySlot newSlot, IInventoryUI inventoryUI)
     {
         Slot = newSlot;
         if (newSlot != null)
             Slot.SlotType = SlotType;
+
+        InventoryUI = inventoryUI;
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -38,7 +34,7 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void Refresh()
     {
-        uiInventoryItem.Refresh(Slot);
+        uiInventoryItem.Refresh(Slot, InventoryUI.Player.ActiveAbilitiesExp);
     }
 
     public void OnSelect()

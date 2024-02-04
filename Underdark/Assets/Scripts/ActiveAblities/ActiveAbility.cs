@@ -6,6 +6,7 @@ using UnityEngine.Serialization;
 
 public abstract class ActiveAbility : MonoBehaviour
 {
+    [FormerlySerializedAs("activeAbilityLevelSetupSo")] public ActiveAbilityLevelSetupSO ActiveAbilityLevelSetupSo;
     public float CastTime;
     public float Cooldown;
     public int ManaCost;

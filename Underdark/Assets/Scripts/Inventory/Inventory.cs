@@ -157,13 +157,6 @@ public class Inventory : IInventory
             OnActiveAbilitiesChanged?.Invoke(false);
             return true;
         }
-        
-        var sameItemSlot = activeAbilitySlots.Find(slot => !slot.IsEmpty && slot.Item.ID == item.ID && !slot.IsFull);
-        if (sameItemSlot != null)
-        {
-            TryAddToSlot(sameItemSlot, item, 1);
-            return true;
-        }
 
         var emptySlot = activeAbilitySlots.Find(slot => slot.IsEmpty);
         if (emptySlot != null)

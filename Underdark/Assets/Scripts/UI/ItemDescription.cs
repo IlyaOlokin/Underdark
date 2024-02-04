@@ -136,8 +136,8 @@ public class ItemDescription : MonoBehaviour
                 
                 break;
             case ItemType.Executable:
-                ((ExecutableItemSO)item).Execute(currOwner);
-                currOwner.Inventory.Remove(currInventorySlot);
+                if (((ExecutableItemSO)item).Execute(currOwner))
+                    currOwner.Inventory.Remove(currInventorySlot);
                 return;
             default:
                 throw new ArgumentOutOfRangeException();

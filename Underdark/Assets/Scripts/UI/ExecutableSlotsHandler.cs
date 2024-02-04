@@ -38,14 +38,14 @@ public class ExecutableSlotsHandler : MonoBehaviour
 
     private void RefreshSlot(int index)
     {
-        items[index].Refresh(executableSlots[index]);
+        items[index].Refresh(executableSlots[index], player.ActiveAbilitiesExp);
     }
 
     public void RefreshAllSlots()
     {
         for (int i = 0; i < executableSlots.Count; i++)
         {
-            items[i].Refresh(executableSlots[i]);
+            items[i].Refresh(executableSlots[i], player.ActiveAbilitiesExp);
         }
     }
 }

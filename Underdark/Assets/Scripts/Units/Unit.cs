@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -82,8 +83,9 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
 
     [field: Header("Abilities Setup")]
     private string[] lastActiveAbilitiesIDs;
-
+    
     [field: NonSerialized] public List<float> ActiveAbilitiesCD { get; private set; }
+    public Dictionary<string, int> ActiveAbilitiesExp { get; private set; } = new Dictionary<string, int>();
     
     [Header("Inventory Setup")]
     [SerializeField] private int inventoryCapacity;
@@ -600,7 +602,19 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
         }
     }
 
-    public void ExecuteExecutableItem(int index)
+    public void AddExpToActiveAbility(string abilityID, int exp)
+    {
+        if (ActiveAbilitiesExp.ContainsKey(abilityID))
+        {
+            ActiveAbilitiesExp[abilityID] += exp;
+        }
+        else
+        {
+            ActiveAbilitiesExp.Add(abilityID, exp);
+        }
+    }
+
+    protected void ExecuteExecutableItem(int index)
     {
         if (IsDisabled || Inventory.ExecutableSlots[index].IsEmpty) return;
 
