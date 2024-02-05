@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class ScrollActiveAbility : ExecutableItem
 {
-    [SerializeField] private ActiveAbilitySO item;
+    [SerializeField] public ActiveAbilitySO item;
     [SerializeField] private BaseStat baseStat;
     [SerializeField] private int param;
     

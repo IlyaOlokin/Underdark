@@ -13,7 +13,7 @@ public class UIInventoryItem : UIItem
     
     public Item Item { get; private set; }
 
-    public void Refresh(IInventorySlot slot, Dictionary<string, int> ownerAbilitiesExp)
+    public void Refresh(IInventorySlot slot, Unit owner)
     {
         if (slot == null || slot.IsEmpty)
         {
@@ -29,8 +29,8 @@ public class UIInventoryItem : UIItem
         if (slot.Item.ItemType == ItemType.ActiveAbility)
         {
             var activeAbilitySo = (ActiveAbilitySO)slot.Item;
-            text.text = (activeAbilitySo.ActiveAbility.ActiveAbilityLevelSetupSo.GetCurrentLevel(
-                ownerAbilitiesExp[activeAbilitySo.ID]) + 1).ToString();
+            text.text = activeAbilitySo.ActiveAbility.ActiveAbilityLevelSetupSo.GetCurrentLevel(
+                owner.GetExpOfActiveAbility(activeAbilitySo.ID)).ToString();
             text.gameObject.SetActive(true);
         }
         else

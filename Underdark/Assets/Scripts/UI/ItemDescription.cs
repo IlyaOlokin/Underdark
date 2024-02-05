@@ -24,7 +24,9 @@ public class ItemDescription : MonoBehaviour
     [SerializeField] private Button confirmDeleteItemButton;
     [SerializeField] private Button canselDeleteItemButton;
     
+    [Header("Other")]
     [SerializeField] private GameObject confirmPanel;
+    [SerializeField] private AbilityLevelDisplayUI abilityLevelDisplay;
     
     private Unit currOwner;
     private IInventorySlot currInventorySlot;
@@ -77,6 +79,20 @@ public class ItemDescription : MonoBehaviour
             
             newText.rectTransform.anchoredPosition = new Vector3(lastPropertyPos.x, lastPropertyPos.y - yOffset, 0);
         }
+
+        if (item.ItemType == ItemType.Executable && ((ExecutableItemSO)item).executableItem is ScrollActiveAbility)
+        {
+            abilityLevelDisplay.gameObject.SetActive(true);
+
+            var scroll = (ScrollActiveAbility)((ExecutableItemSO)item).executableItem;
+            abilityLevelDisplay.DisplayAbilityLevel(scroll.item, owner.GetExpOfActiveAbility(scroll.item.ID));
+        }
+        else if (item.ItemType == ItemType.ActiveAbility)
+        {
+            abilityLevelDisplay.gameObject.SetActive(true);
+            
+            abilityLevelDisplay.DisplayAbilityLevel((ActiveAbilitySO)item, owner.GetExpOfActiveAbility(item.ID));
+        }
     }
 
     public void ResetDescriptionActive(bool enabled)
@@ -99,6 +115,7 @@ public class ItemDescription : MonoBehaviour
         itemName.gameObject.SetActive(enabled);
 
         CloseConfirmPanel();
+        abilityLevelDisplay.gameObject.SetActive(false);
     }
 
     private void UseItem()

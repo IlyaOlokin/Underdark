@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ActiveAbilityLevelSetup", fileName = "New ActiveAbilityLevelSetup")]
@@ -11,11 +12,23 @@ public class ActiveAbilityLevelSetupSO : ScriptableObject
     {
         for (int i = 0; i < expNeeded.Length - 1; i++)
         {
-            if (exp <= expNeeded[i]) return i;
+            if (exp < expNeeded[i]) return i;
 
             exp -= expNeeded[i];
         }
 
         return MaxLevel;
+    }
+    
+    public float GetCurrentProgressInPercent(int exp)
+    {
+        for (int i = 0; i < expNeeded.Length - 1; i++)
+        {
+            if (exp < expNeeded[i]) return exp / (float)expNeeded[i];
+
+            exp -= expNeeded[i];
+        }
+
+        return 1;
     }
 }

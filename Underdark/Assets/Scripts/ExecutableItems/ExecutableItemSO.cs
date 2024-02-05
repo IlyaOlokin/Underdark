@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class ExecutableItemSO : Item
 {
-    [SerializeField] private ExecutableItem executableItem;
+    [SerializeField] public ExecutableItem executableItem;
 
     public bool Execute(Unit caster)
     {

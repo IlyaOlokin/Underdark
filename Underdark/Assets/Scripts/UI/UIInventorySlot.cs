@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Zenject;
@@ -34,7 +35,7 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     public void Refresh()
     {
-        uiInventoryItem.Refresh(Slot, InventoryUI.Player.ActiveAbilitiesExp);
+        uiInventoryItem.Refresh(Slot, InventoryUI.Player);
     }
 
     public void OnSelect()

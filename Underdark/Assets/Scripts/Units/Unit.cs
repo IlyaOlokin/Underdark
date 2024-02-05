@@ -613,6 +613,18 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
             ActiveAbilitiesExp.Add(abilityID, exp);
         }
     }
+    
+    public int GetExpOfActiveAbility(string abilityID)
+    {
+        if (ActiveAbilitiesExp.ContainsKey(abilityID))
+        {
+            return ActiveAbilitiesExp[abilityID];
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
     protected void ExecuteExecutableItem(int index)
     {
