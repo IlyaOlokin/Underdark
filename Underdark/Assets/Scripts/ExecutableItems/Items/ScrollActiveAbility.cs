@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class ScrollActiveAbility : ExecutableItem
 {
-    [SerializeField] public ActiveAbilitySO item;
+    [field:SerializeField] public ActiveAbilitySO Item { get; private set; }
     [SerializeField] private BaseStat baseStat;
     [SerializeField] private int param;
     
@@ -14,19 +14,18 @@ public class ScrollActiveAbility : ExecutableItem
     {
         if (Random.Range(0f, 1f) <= CalculateChance(caster))
         {
-            if (caster.Inventory.HasActiveAbility(item.ID, out Item itemInInventory))
+            if (caster.Inventory.HasActiveAbility(Item.ID, out Item itemInInventory))
             {
-                //NotificationManager.Instance.SendNotification(new Notification(itemInInventory.Sprite, "You already know this spell."));
-                caster.AddExpToActiveAbility(item.ID, 1);
+                caster.AddExpToActiveAbility(Item.ID, 1);
                 return true;
             }
             
-            if (!caster.Inventory.TryAddActiveAbilityItem(item))
+            if (!caster.Inventory.TryAddActiveAbilityItem(Item))
             {
-                NotificationManager.Instance.SendNotification(new Notification(item.Sprite, "You've run out of space."));
+                NotificationManager.Instance.SendNotification(new Notification(Item.Sprite, "You've run out of space."));
                 return false;
             }
-            caster.AddExpToActiveAbility(item.ID, 1);
+            caster.AddExpToActiveAbility(Item.ID, 1);
         }
         
         return true;
@@ -42,7 +41,7 @@ public class ScrollActiveAbility : ExecutableItem
     public override string[] ToString(Unit owner)
     {
         var res = new string[1];
-        res[0] = string.Format(description, item.Name , Mathf.Floor(CalculateChance(owner) * 100));
+        res[0] = string.Format(description, Item.Name , Mathf.Floor(CalculateChance(owner) * 100));
         return res;
     }
     

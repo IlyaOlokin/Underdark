@@ -80,12 +80,12 @@ public class ItemDescription : MonoBehaviour
             newText.rectTransform.anchoredPosition = new Vector3(lastPropertyPos.x, lastPropertyPos.y - yOffset, 0);
         }
 
-        if (item.ItemType == ItemType.Executable && ((ExecutableItemSO)item).executableItem is ScrollActiveAbility)
+        if (item.ItemType == ItemType.Executable && ((ExecutableItemSO)item).ExecutableItem is ScrollActiveAbility)
         {
             abilityLevelDisplay.gameObject.SetActive(true);
 
-            var scroll = (ScrollActiveAbility)((ExecutableItemSO)item).executableItem;
-            abilityLevelDisplay.DisplayAbilityLevel(scroll.item, owner.GetExpOfActiveAbility(scroll.item.ID));
+            var scroll = (ScrollActiveAbility)((ExecutableItemSO)item).ExecutableItem;
+            abilityLevelDisplay.DisplayAbilityLevel(scroll.Item, owner.GetExpOfActiveAbility(scroll.Item.ID));
         }
         else if (item.ItemType == ItemType.ActiveAbility)
         {

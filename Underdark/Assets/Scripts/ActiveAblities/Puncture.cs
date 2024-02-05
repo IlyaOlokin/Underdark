@@ -5,7 +5,7 @@ public class Puncture : ActiveAbility, IAttacker
 {
     public Transform Transform => transform;
     
-    [SerializeField] private int targetsCount;
+    [SerializeField] private ActiveAbilityProperty<int> attacksCount;
     [SerializeField] private float attackDelay;
 
     [Header("Visual")] 
@@ -23,7 +23,7 @@ public class Puncture : ActiveAbility, IAttacker
 
     IEnumerator PerformAttack()
     {
-        for (int i = 0; i < targetsCount; i++)
+        for (int i = 0; i < attacksCount.GetValue(abilityLevel); i++)
         {
             var target = FindClosestTarget(caster);
 

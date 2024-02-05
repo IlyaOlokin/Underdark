@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750d24a05f5cc6c408d0cefda6260359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
   Cooldown: 10
   ManaCost: 0
@@ -61,6 +62,7 @@ MonoBehaviour:
   needAutoDestroy: 1
   autoDestroyDelay: 0.5
   description: You make three quick attacks.
-  targetsCount: 3
+  attacksCount:
+    values: 
   attackDelay: 0.1
   visualPrefab: {fileID: 2110307370418043212, guid: 4583219448fcf0e448026298a9af9738, type: 3}
