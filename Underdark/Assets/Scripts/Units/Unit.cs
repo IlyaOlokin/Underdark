@@ -543,7 +543,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
         if (attackCDTimer > 0 || actionCDTimer > 0 || IsDisabled) return;
         
         var newBaseAttack = Instantiate(baseAttackAbility, transform.position, Quaternion.identity);
-        newBaseAttack.Execute(this);
+        newBaseAttack.Execute(this, 1);
 
         attackCDTimer = 1 / attackSpeed;
         SetActionCD(newBaseAttack.CastTime);
@@ -565,11 +565,11 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
     {
         if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsDisabled || IsSilenced || Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
         ActiveAbility activeAbility = Inventory.GetEquippedActiveAbility(index);
-        if (activeAbility.ManaCost > CurrentMana) return;
+        if (activeAbility.ManaCost > CurrentMana) return; // fix (GetManaCost) TODO
 
         SpendMana(activeAbility.ManaCost);
         var newAbility = Instantiate(activeAbility, transform.position, Quaternion.identity);
-        newAbility.Execute(this);
+        newAbility.Execute(this, GetExpOfActiveAbility(Inventory.EquippedActiveAbilitySlots[index].ItemID));
         SetActionCD(newAbility.CastTime);
         ActiveAbilitiesCD[index] = newAbility.Cooldown;
     }
@@ -616,14 +616,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
     
     public int GetExpOfActiveAbility(string abilityID)
     {
-        if (ActiveAbilitiesExp.ContainsKey(abilityID))
-        {
-            return ActiveAbilitiesExp[abilityID];
-        }
-        else
-        {
-            return 0;
-        }
+        return ActiveAbilitiesExp.TryGetValue(abilityID, out var value) ? value : 0;
     }
 
     protected void ExecuteExecutableItem(int index)

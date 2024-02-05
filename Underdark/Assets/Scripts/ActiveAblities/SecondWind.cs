@@ -9,9 +9,9 @@ public class SecondWind : ActiveAbility
     [SerializeField] private float damageAmplification;
     [SerializeField] private float damageAmplificationDuration;
     [SerializeField] private Sprite buffIcon;
-    public override void Execute(Unit caster)
+    public override void Execute(Unit caster, int level)
     {
-        base.Execute(caster);
+        base.Execute(caster, level);
 
         var healAmount = Mathf.Max(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, caster.Stats.GetTotalStatValue(secondStat) * statMultiplier);
         transform.SetParent(caster.transform);

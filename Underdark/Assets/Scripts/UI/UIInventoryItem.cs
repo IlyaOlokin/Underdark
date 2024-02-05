@@ -29,7 +29,7 @@ public class UIInventoryItem : UIItem
         if (slot.Item.ItemType == ItemType.ActiveAbility)
         {
             var activeAbilitySo = (ActiveAbilitySO)slot.Item;
-            text.text = activeAbilitySo.ActiveAbility.ActiveAbilityLevelSetupSo.GetCurrentLevel(
+            text.text = activeAbilitySo.ActiveAbility.ActiveAbilityLevelSetupSO.GetCurrentLevel(
                 owner.GetExpOfActiveAbility(activeAbilitySo.ID)).ToString();
             text.gameObject.SetActive(true);
         }

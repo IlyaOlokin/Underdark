@@ -8,9 +8,9 @@ public class BaseAttack : ActiveAbility, IAttacker
 
     [Header("Visual")] 
     [SerializeField] private BaseAttackVisual baseAttackVisual;
-    public override void Execute(Unit caster)
+    public override void Execute(Unit caster, int level)
     {
-        base.Execute(caster);
+        base.Execute(caster, level);
 
         int damage = caster.GetWeapon().Damage.GetValue() + caster.Stats.GetTotalStatValue(baseStat) * statMultiplier;
         damageInfo.AddDamage(damage, caster.GetWeapon().Damage.DamageType, caster.Params.GetDamageAmplification(caster.GetWeapon().Damage.DamageType));

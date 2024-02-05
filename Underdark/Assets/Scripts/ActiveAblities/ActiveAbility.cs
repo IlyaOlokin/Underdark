@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public abstract class ActiveAbility : MonoBehaviour
 {
-    [FormerlySerializedAs("activeAbilityLevelSetupSo")] public ActiveAbilityLevelSetupSO ActiveAbilityLevelSetupSo;
+    public ActiveAbilityLevelSetupSO ActiveAbilityLevelSetupSO;
     public float CastTime;
     public float Cooldown;
     public int ManaCost;
@@ -33,17 +32,19 @@ public abstract class ActiveAbility : MonoBehaviour
     
     protected Unit caster;
     protected Vector2 attackDir;
+    protected int abilityLevel;
 
     protected virtual void Awake()
     {
         if (needAutoDestroy) Destroy(gameObject, autoDestroyDelay);
     }
 
-    public virtual void Execute(Unit caster)
+    public virtual void Execute(Unit caster, int exp)
     {
         if (NeedOverrideWithWeaponStats) 
             OverrideWeaponStats(caster.GetWeapon());
         this.caster = caster;
+        abilityLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(exp);
         attackDir = caster.GetAttackDirection(AttackDistance);
     }
     

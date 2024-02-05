@@ -11,9 +11,9 @@ public class Puncture : ActiveAbility, IAttacker
     [Header("Visual")] 
     [SerializeField] private PunctureVisual visualPrefab;
     
-    public override void Execute(Unit caster)
+    public override void Execute(Unit caster, int level)
     {
-        base.Execute(caster);
+        base.Execute(caster, level);
         
         int damage = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
         damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));

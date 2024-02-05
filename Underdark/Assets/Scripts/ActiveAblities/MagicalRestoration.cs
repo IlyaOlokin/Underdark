@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class MagicalRestoration : ActiveAbility
 {
-    public override void Execute(Unit caster)
+    public override void Execute(Unit caster, int level)
     {
-        base.Execute(caster);
+        base.Execute(caster, level);
         
         var healAmount = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
         transform.SetParent(caster.transform);

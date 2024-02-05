@@ -14,9 +14,9 @@ public class Dash : ActiveAbility
     [Header("Visual")] 
     [SerializeField] private List<ParticleSystem> particleSystems;
     
-    public override void Execute(Unit caster)
+    public override void Execute(Unit caster, int level)
     {
-        base.Execute(caster);
+        base.Execute(caster, level);
         
         transform.SetParent(caster.transform);
         

@@ -19,8 +19,8 @@ public class AbilityLevelDisplayUI : MonoBehaviour
 
     private void UpdateProgress(ActiveAbilitySO abilitySO, int exp)
     {
-        currentLevel.text = (abilitySO.ActiveAbility.ActiveAbilityLevelSetupSo.GetCurrentLevel(exp)).ToString();
-        var progress = abilitySO.ActiveAbility.ActiveAbilityLevelSetupSo.GetCurrentProgressInPercent(exp);
+        currentLevel.text = (abilitySO.ActiveAbility.ActiveAbilityLevelSetupSO.GetCurrentLevel(exp)).ToString();
+        var progress = abilitySO.ActiveAbility.ActiveAbilityLevelSetupSO.GetCurrentProgressInPercent(exp);
 
         progressText.text = progress < 1 ? Mathf.Floor(progress * 100) + "%" : "Max Level";
         progressBar.value = progress;

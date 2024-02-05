@@ -26,9 +26,9 @@ public class FireBall : ActiveAbility, IAttacker
         Invoke(nameof(Die),  AttackDistance / projSpeed);
     }
 
-    public override void Execute(Unit caster)
+    public override void Execute(Unit caster, int level)
     {
-        base.Execute(caster);
+        base.Execute(caster, level);
         
         damageInfo.AddDamage((int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue), damageType, caster.Params.GetDamageAmplification(damageType));
         

@@ -23,9 +23,9 @@ public class LightSource : ActiveAbility
         lightSourceVisual.LightUp();
     }
     
-    public override void Execute(Unit caster)
+    public override void Execute(Unit caster, int level)
     {
-        base.Execute(caster);
+        base.Execute(caster, level);
 
         rb.velocity = attackDir * projSpeed;
     }
