@@ -14,8 +14,9 @@ public class Puncture : ActiveAbility, IAttacker
     public override void Execute(Unit caster, int level)
     {
         base.Execute(caster, level);
-        
-        int damage = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
+
+        int damage = (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
+            MaxValue.GetValue(abilityLevel));
         damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
         
         StartCoroutine(PerformAttack());

@@ -13,14 +13,15 @@ public class ArrowShot : ActiveAbility, IAttacker
     {
         base.Awake();
         rb = GetComponent<Rigidbody2D>();
-        Destroy(gameObject, AttackDistance / projSpeed);
+        Destroy(gameObject, AttackDistance.GetValue(abilityLevel) / projSpeed);
     }
 
     public override void Execute(Unit caster, int level)
     {
         base.Execute(caster, level);
-        
-        int damage = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
+
+        int damage = (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
+            MaxValue.GetValue(abilityLevel));
         damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
         
         rb.velocity = attackDir * projSpeed;

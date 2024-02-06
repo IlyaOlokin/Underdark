@@ -141,10 +141,17 @@ MonoBehaviour:
     values: 05000000
   <NeedOverrideWithWeaponStats>k__BackingField: 0
   <NeedAttackRadius>k__BackingField: 0
-  <AttackDistance>k__BackingField: 10
-  <AttackRadius>k__BackingField: 360
-  maxValue: 50
-  statMultiplier: 2
+  <AttackDistance>k__BackingField:
+    values:
+    - 10
+  <AttackRadius>k__BackingField:
+    values:
+    - 360
+  <MaxValue>k__BackingField:
+    values:
+    - 50
+  <StatMultiplier>k__BackingField:
+    values: 02000000
   baseStat: 2
   damageType: 2
   validWeaponTypes: 05000000

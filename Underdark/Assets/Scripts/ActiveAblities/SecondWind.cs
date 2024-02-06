@@ -13,7 +13,8 @@ public class SecondWind : ActiveAbility
     {
         base.Execute(caster, level);
 
-        var healAmount = Mathf.Max(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, caster.Stats.GetTotalStatValue(secondStat) * statMultiplier);
+        var healAmount = Mathf.Max(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
+            caster.Stats.GetTotalStatValue(secondStat) * StatMultiplier.GetValue(abilityLevel));
         transform.SetParent(caster.transform);
         caster.RestoreHP(healAmount, true);
 
@@ -31,7 +32,7 @@ public class SecondWind : ActiveAbility
     {
         var res = new string[3];
         res[0] = description;
-        res[1] = $"Heal: {statMultiplier} * max({UnitStats.GetStatString(baseStat)}, {UnitStats.GetStatString(secondStat)})";
+        res[1] = $"Heal: {StatMultiplier} * max({UnitStats.GetStatString(baseStat)}, {UnitStats.GetStatString(secondStat)})";
         res[2] = $"Damage Amplification: {damageAmplification * 100}% ";
         return res;
     }

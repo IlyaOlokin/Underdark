@@ -7,8 +7,10 @@ public class MagicalRestoration : ActiveAbility
     public override void Execute(Unit caster, int level)
     {
         base.Execute(caster, level);
-        
-        var healAmount = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
+
+        var healAmount =
+            (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
+                MaxValue.GetValue(abilityLevel));
         transform.SetParent(caster.transform);
         caster.RestoreHP(healAmount, true);
     }
@@ -24,7 +26,7 @@ public class MagicalRestoration : ActiveAbility
         var abilityLevel = GetManaCost(owner.GetExpOfActiveAbility(ID));
 
         res[0] = description;
-        res[1] = $"Heal: {statMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {maxValue})";
+        res[1] = $"Heal: {StatMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {MaxValue})";
         if (GetManaCost(owner.GetExpOfActiveAbility(ID)) != 0) res[2] = $"Mana: {GetManaCost(owner.GetExpOfActiveAbility(ID))}";
         if (Cooldown.GetValue(abilityLevel) != 0) res[5] = $"Cooldown: {Cooldown.GetValue(abilityLevel)}";
         return res;

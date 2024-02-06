@@ -23,14 +23,16 @@ public class FireBall : ActiveAbility, IAttacker
         base.Awake();
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
-        Invoke(nameof(Die),  AttackDistance / projSpeed);
+        Invoke(nameof(Die),  AttackDistance.GetValue(abilityLevel) / projSpeed);
     }
 
     public override void Execute(Unit caster, int level)
     {
         base.Execute(caster, level);
-        
-        damageInfo.AddDamage((int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue), damageType, caster.Params.GetDamageAmplification(damageType));
+
+        damageInfo.AddDamage(
+            (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
+                MaxValue.GetValue(abilityLevel)), damageType, caster.Params.GetDamageAmplification(damageType));
         
         rb.velocity = attackDir * projSpeed;
         

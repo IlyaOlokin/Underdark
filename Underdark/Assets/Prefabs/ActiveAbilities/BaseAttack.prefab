@@ -101,12 +101,17 @@ MonoBehaviour:
     - 0.6
   manaCost:
     values: 00000000
-  <NeedOverrideWithWeaponStats>k__BackingField: 1
   <NeedAttackRadius>k__BackingField: 1
-  <AttackDistance>k__BackingField: 1
-  <AttackRadius>k__BackingField: 90
-  maxValue: 0
-  statMultiplier: 1
+  <AttackDistance>k__BackingField:
+    values:
+    - 1
+  <AttackRadius>k__BackingField:
+    values:
+    - 90
+  <MaxValue>k__BackingField:
+    values: []
+  <StatMultiplier>k__BackingField:
+    values: 01000000
   baseStat: 0
   damageType: 0
   validWeaponTypes: 
@@ -114,6 +119,8 @@ MonoBehaviour:
   needAutoDestroy: 1
   autoDestroyDelay: 0.3
   description: 
+  <baseAttackDistance>k__BackingField: 1
+  <baseAttackRadius>k__BackingField: 90
   baseAttackVisual: {fileID: 6158878861667496765}
 --- !u!1 &8740656880677488545
 GameObject:

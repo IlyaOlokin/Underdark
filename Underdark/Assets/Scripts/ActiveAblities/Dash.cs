@@ -75,7 +75,7 @@ public class Dash : ActiveAbility
         var hits = new List<RaycastHit2D>();
 
        Physics2D.Raycast(transform.position, caster.GetLastMoveDir(), contactFilter, hits,
-            AttackDistance);
+            AttackDistance.GetValue(abilityLevel));
 
         bool wallHit = false;
         foreach (var hit in hits)
@@ -85,7 +85,7 @@ public class Dash : ActiveAbility
             break;
         }
 
-        if (!wallHit) destinationPoint += caster.GetLastMoveDir() * AttackDistance;
+        if (!wallHit) destinationPoint += caster.GetLastMoveDir() * AttackDistance.GetValue(abilityLevel);
         return destinationPoint;
     }
 }

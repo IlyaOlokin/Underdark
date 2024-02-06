@@ -687,20 +687,6 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
 
     public virtual Vector2 GetAttackDirection(float distance = 0) => lastMoveDir.normalized;
 
-    protected float MaxActiveAbilityDistance()
-    {
-        float maxDist = GetWeapon().AttackDistance + 1;
-        foreach (var slot in Inventory.GetAllActiveAbilitySlots())
-        {
-            if (slot.IsEmpty) continue;
-
-            var activeAbilityAttackDistance = ((ActiveAbilitySO)slot.Item).ActiveAbility.AttackDistance;
-            if (maxDist < activeAbilityAttackDistance)
-                maxDist = activeAbilityAttackDistance;
-        }
-        return maxDist;
-    }
-
     public virtual float GetAttackDirAngle(Vector2 attackDir = new Vector2()) => lastMoveDirAngle;
 
     public Vector2 GetLastMoveDir() => lastMoveDir;
