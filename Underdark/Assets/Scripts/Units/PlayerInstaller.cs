@@ -67,6 +67,11 @@ public class PlayerInstaller : MonoBehaviour
             if (item != null)
                 equippedActiveAbilities[i].SetItem(item);
         }
+
+        for (int i = 0; i < data.LearnedAbilityIDs.Count; i++)
+        {
+            player.AddExpToActiveAbility(data.LearnedAbilityIDs[i], data.AbilityExp[i]);
+        }
         
         player.Money.SetMoney(data.MoneyCount);
 
