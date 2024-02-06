@@ -53,12 +53,18 @@ MonoBehaviour:
     - 15
   manaCost:
     values: 0a000000
-  <NeedOverrideWithWeaponStats>k__BackingField: 0
   <NeedAttackRadius>k__BackingField: 0
-  <AttackDistance>k__BackingField: 0
-  <AttackRadius>k__BackingField: 0
-  maxValue: 50
-  statMultiplier: 2
+  <AttackDistance>k__BackingField:
+    values:
+    - 0
+  <AttackRadius>k__BackingField:
+    values:
+    - 0
+  <MaxValue>k__BackingField:
+    values:
+    - 50
+  <StatMultiplier>k__BackingField:
+    values: 02000000
   baseStat: 2
   damageType: 0
   validWeaponTypes: 05000000
