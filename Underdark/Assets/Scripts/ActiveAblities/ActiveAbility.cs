@@ -5,10 +5,11 @@ using UnityEngine;
 
 public abstract class ActiveAbility : MonoBehaviour
 {
+    [field:SerializeField] public string ID { get; private set; }
     public ActiveAbilityLevelSetupSO ActiveAbilityLevelSetupSO;
     public float CastTime;
     public float Cooldown;
-    public int ManaCost;
+    [SerializeField] private ActiveAbilityProperty<int> manaCost;
     
     [field:SerializeField] public bool NeedOverrideWithWeaponStats { get; private set; }
     [field:SerializeField] public bool NeedAttackRadius { get; private set; }
@@ -108,18 +109,23 @@ public abstract class ActiveAbility : MonoBehaviour
         return validWeaponTypes.Contains(WeaponType.Any) || validWeaponTypes.Contains(weapon.WeaponType) || validWeaponTypes.Count == 0;
     }
 
+    public int GetManaCost(int exp)
+    {
+        return manaCost.GetValue(ActiveAbilityLevelSetupSO.GetCurrentLevel(exp));
+    }
+
     public virtual bool CanUseAbility(Unit caster, float distToTarget)
     {
         var attackDist = NeedOverrideWithWeaponStats ? caster.GetWeapon().AttackDistance : AttackDistance;
-        return caster.CurrentMana >= ManaCost && (distToTarget <= attackDist + 0.7f || attackDist == 0);
+        return caster.CurrentMana >= GetManaCost(caster.GetExpOfActiveAbility(ID)) && (distToTarget <= attackDist + 0.7f || attackDist == 0);
     }
 
-    public new virtual string[] ToString()
+    public virtual string[] ToString(Unit owner)
     {
         var res = new string[7];
         res[0] = description;
         if (statMultiplier != 0) res[1] = $"Damage: {statMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {maxValue})";
-        if (ManaCost != 0)       res[2] = $"Mana: {ManaCost}";
+        if (GetManaCost(owner.GetExpOfActiveAbility(ID)) != 0)       res[2] = $"Mana: {GetManaCost(owner.GetExpOfActiveAbility(ID))}";
         if (AttackDistance != 0) res[3] = $"Distance: {AttackDistance}";
         if (AttackRadius != 0 && NeedAttackRadius) res[4] = $"Radius: {AttackRadius}";
         if (Cooldown != 0)    res[5] = $"Cooldown: {Cooldown}";
@@ -127,7 +133,7 @@ public abstract class ActiveAbility : MonoBehaviour
         return res;
     }
     
-    public string[] ToStringAdditional()
+    public string[] ToStringAdditional(Unit owner)
     {
         List<string> res = new List<string>();
 

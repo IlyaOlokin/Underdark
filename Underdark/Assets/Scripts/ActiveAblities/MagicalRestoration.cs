@@ -18,12 +18,12 @@ public class MagicalRestoration : ActiveAbility
         return base.CanUseAbility(caster, distToTarget) && caster.CurrentHP < caster.MaxHP * 0.5f;
     }
     
-    public override string[] ToString()
+    public override string[] ToString(Unit owner)
     {
         var res = new string[6];
         res[0] = description;
         res[1] = $"Heal: {statMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {maxValue})";
-        if (ManaCost != 0) res[2] = $"Mana: {ManaCost}";
+        if (GetManaCost(owner.GetExpOfActiveAbility(ID)) != 0) res[2] = $"Mana: {GetManaCost(owner.GetExpOfActiveAbility(ID))}";
         if (Cooldown != 0) res[5] = $"Cooldown: {Cooldown}";
         return res;
     }

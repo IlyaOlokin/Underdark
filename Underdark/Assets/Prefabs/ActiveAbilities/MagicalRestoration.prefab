@@ -45,10 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2475cc84da923b479c27a6f9b41a3b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <ID>k__BackingField: magical_restoration
   ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
   Cooldown: 15
-  ManaCost: 10
+  manaCost:
+    values: 0a000000
   <NeedOverrideWithWeaponStats>k__BackingField: 0
   <NeedAttackRadius>k__BackingField: 0
   <AttackDistance>k__BackingField: 0

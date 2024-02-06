@@ -55,9 +55,9 @@ public class Inventory : IInventory
         unit.Stats.OnLevelUp += CheckEquipmentFit;
     }
 
-    public void UpdateInventory()
+    public void UpdateInventory(bool reset = false)
     {
-        OnActiveAbilitiesChanged?.Invoke(true);
+        OnActiveAbilitiesChanged?.Invoke(reset);
         OnExecutableItemChanged?.Invoke();
         CheckEquipmentFit();
     }

@@ -16,7 +16,15 @@ public class ScrollActiveAbility : ExecutableItem
         {
             if (caster.Inventory.HasActiveAbility(Item.ID, out Item itemInInventory))
             {
-                caster.AddExpToActiveAbility(Item.ID, 1);
+                if (Item.ActiveAbility.ActiveAbilityLevelSetupSO.GetCurrentProgressInPercent(
+                        caster.GetExpOfActiveAbility(Item.ActiveAbility.ID)) >= 1)
+                {
+                    NotificationManager.Instance.SendNotification(new Notification(Item.Sprite, "You've already learned this ability."));
+                    return false;
+                }
+                
+                caster.AddExpToActiveAbility(Item.ActiveAbility.ID, 1);
+                caster.Inventory.UpdateInventory();
                 return true;
             }
             
@@ -25,7 +33,7 @@ public class ScrollActiveAbility : ExecutableItem
                 NotificationManager.Instance.SendNotification(new Notification(Item.Sprite, "You've run out of space."));
                 return false;
             }
-            caster.AddExpToActiveAbility(Item.ID, 1);
+            caster.AddExpToActiveAbility(Item.ActiveAbility.ID, 1);
         }
         
         return true;

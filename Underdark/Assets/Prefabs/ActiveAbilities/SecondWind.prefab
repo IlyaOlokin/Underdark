@@ -45,10 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0794e9f737b2f14abc46a4cc6667244, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <ID>k__BackingField: second_wind
   ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
   Cooldown: 20
-  ManaCost: 0
+  manaCost:
+    values: 00000000
   <NeedOverrideWithWeaponStats>k__BackingField: 0
   <NeedAttackRadius>k__BackingField: 0
   <AttackDistance>k__BackingField: 0

@@ -75,7 +75,7 @@ public class PlayerInstaller : MonoBehaviour
         
         player.Money.SetMoney(data.MoneyCount);
 
-        player.Inventory.UpdateInventory();
+        player.Inventory.UpdateInventory(true);
     }
 
     private void Start()

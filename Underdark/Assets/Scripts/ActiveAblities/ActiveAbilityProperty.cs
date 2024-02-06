@@ -9,7 +9,7 @@ public class ActiveAbilityProperty<T>
 
     public T GetValue(int level)
     {
-        level -= 1;
+        if (level > 0) level -= 1;
         
         return values.Count > level ? values[level] : values[^1];
     }

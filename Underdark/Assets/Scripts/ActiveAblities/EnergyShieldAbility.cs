@@ -19,12 +19,12 @@ public class EnergyShieldAbility : ActiveAbility
         return base.CanUseAbility(caster, distToTarget) && caster.CurrentHP < caster.MaxHP * 0.5f;
     }
     
-    public override string[] ToString()
+    public override string[] ToString(Unit owner)
     {
         var res = new string[5];
         res[0] = description;
         res[1] = $"Shield durability: {shieldHP}";
-        if (ManaCost != 0)       res[2] = $"Mana: {ManaCost}"; 
+        if (GetManaCost(owner.GetExpOfActiveAbility(ID)) != 0) res[2] = $"Mana: {GetManaCost(owner.GetExpOfActiveAbility(ID))}"; 
         res[3] = $"Shield Radius: {shieldRadius}";
         return res;
     }

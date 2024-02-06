@@ -564,12 +564,15 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
     public void ExecuteActiveAbility(int index)
     {
         if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsDisabled || IsSilenced || Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
+        
         ActiveAbility activeAbility = Inventory.GetEquippedActiveAbility(index);
-        if (activeAbility.ManaCost > CurrentMana) return; // fix (GetManaCost) TODO
-
-        SpendMana(activeAbility.ManaCost);
+        var manaCost = activeAbility.GetManaCost(GetExpOfActiveAbility(activeAbility.ID));
+        
+        if (manaCost > CurrentMana) return;
+        SpendMana(manaCost);
+        
         var newAbility = Instantiate(activeAbility, transform.position, Quaternion.identity);
-        newAbility.Execute(this, GetExpOfActiveAbility(Inventory.EquippedActiveAbilitySlots[index].ItemID));
+        newAbility.Execute(this, GetExpOfActiveAbility(activeAbility.ID));
         SetActionCD(newAbility.CastTime);
         ActiveAbilitiesCD[index] = newAbility.Cooldown;
     }

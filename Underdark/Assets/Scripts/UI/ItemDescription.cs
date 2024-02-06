@@ -62,7 +62,7 @@ public class ItemDescription : MonoBehaviour
             propertyFields[i].text = properties[i];
         }
 
-        var additionalProperties = item.ToStringAdditional();
+        var additionalProperties = item.ToStringAdditional(owner);
         
         for (int i = 0; i < additionalProperties.Length; i++)
         {
@@ -85,13 +85,13 @@ public class ItemDescription : MonoBehaviour
             abilityLevelDisplay.gameObject.SetActive(true);
 
             var scroll = (ScrollActiveAbility)((ExecutableItemSO)item).ExecutableItem;
-            abilityLevelDisplay.DisplayAbilityLevel(scroll.Item, owner.GetExpOfActiveAbility(scroll.Item.ID));
+            abilityLevelDisplay.DisplayAbilityLevel(scroll.Item, owner.GetExpOfActiveAbility(scroll.Item.ActiveAbility.ID));
         }
         else if (item.ItemType == ItemType.ActiveAbility)
         {
             abilityLevelDisplay.gameObject.SetActive(true);
             
-            abilityLevelDisplay.DisplayAbilityLevel((ActiveAbilitySO)item, owner.GetExpOfActiveAbility(item.ID));
+            abilityLevelDisplay.DisplayAbilityLevel((ActiveAbilitySO)item, owner.GetExpOfActiveAbility(((ActiveAbilitySO)item).ActiveAbility.ID));
         }
     }
 

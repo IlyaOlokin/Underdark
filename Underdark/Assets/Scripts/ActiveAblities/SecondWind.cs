@@ -27,7 +27,7 @@ public class SecondWind : ActiveAbility
         return base.CanUseAbility(caster, distToTarget) && caster.CurrentHP < caster.MaxHP * 0.5f;
     }
 
-    public override string[] ToString()
+    public override string[] ToString(Unit owner)
     {
         var res = new string[3];
         res[0] = description;

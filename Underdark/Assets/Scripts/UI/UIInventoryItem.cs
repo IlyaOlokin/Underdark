@@ -28,9 +28,9 @@ public class UIInventoryItem : UIItem
         
         if (slot.Item.ItemType == ItemType.ActiveAbility)
         {
-            var activeAbilitySo = (ActiveAbilitySO)slot.Item;
-            text.text = activeAbilitySo.ActiveAbility.ActiveAbilityLevelSetupSO.GetCurrentLevel(
-                owner.GetExpOfActiveAbility(activeAbilitySo.ID)).ToString();
+            var activeAbility = ((ActiveAbilitySO)slot.Item).ActiveAbility;
+            text.text = activeAbility.ActiveAbilityLevelSetupSO
+                .GetCurrentLevel(owner.GetExpOfActiveAbility(activeAbility.ID)).ToString();
             text.gameObject.SetActive(true);
         }
         else

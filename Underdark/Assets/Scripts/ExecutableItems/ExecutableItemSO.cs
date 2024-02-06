@@ -21,7 +21,7 @@ public class ExecutableItemSO : Item
         return ExecutableItem.ToString(owner);
     }
     
-    public override string[] ToStringAdditional()
+    public override string[] ToStringAdditional(Unit owner)
     {
         return ExecutableItem.ToStringAdditional();
     }

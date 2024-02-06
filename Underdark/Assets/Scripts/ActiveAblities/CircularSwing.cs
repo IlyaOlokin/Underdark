@@ -8,7 +8,6 @@ public class CircularSwing : ActiveAbility, IAttacker
     [Header("Visual")]
     [SerializeField] private BaseAttackVisual visual;
     
-    
     public override void Execute(Unit caster, int level)
     {
         base.Execute(caster, level);
