@@ -96,7 +96,9 @@ MonoBehaviour:
   <ID>k__BackingField: base_attakck
   ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 807e11c8f74aaf74dbc27c42fd146208, type: 2}
   CastTime: 0.1
-  Cooldown: 0.2
+  <Cooldown>k__BackingField:
+    values:
+    - 0.6
   manaCost:
     values: 00000000
   <NeedOverrideWithWeaponStats>k__BackingField: 1

@@ -8,7 +8,7 @@ public abstract class ActiveAbility : MonoBehaviour
     [field:SerializeField] public string ID { get; private set; }
     public ActiveAbilityLevelSetupSO ActiveAbilityLevelSetupSO;
     public float CastTime;
-    public float Cooldown;
+    [field:SerializeField] public ActiveAbilityProperty<float> Cooldown { get; private set; }
     [SerializeField] private ActiveAbilityProperty<int> manaCost;
     
     [field:SerializeField] public bool NeedOverrideWithWeaponStats { get; private set; }
@@ -123,12 +123,14 @@ public abstract class ActiveAbility : MonoBehaviour
     public virtual string[] ToString(Unit owner)
     {
         var res = new string[7];
+        var abilityLevel = GetManaCost(owner.GetExpOfActiveAbility(ID));
+
         res[0] = description;
         if (statMultiplier != 0) res[1] = $"Damage: {statMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {maxValue})";
-        if (GetManaCost(owner.GetExpOfActiveAbility(ID)) != 0)       res[2] = $"Mana: {GetManaCost(owner.GetExpOfActiveAbility(ID))}";
+        if (abilityLevel != 0)       res[2] = $"Mana: {abilityLevel}";
         if (AttackDistance != 0) res[3] = $"Distance: {AttackDistance}";
         if (AttackRadius != 0 && NeedAttackRadius) res[4] = $"Radius: {AttackRadius}";
-        if (Cooldown != 0)    res[5] = $"Cooldown: {Cooldown}";
+        if (Cooldown.GetValue(abilityLevel) != 0)    res[5] = $"Cooldown: {Cooldown.GetValue(abilityLevel)}";
         if (validWeaponTypes.Count != 0 && !validWeaponTypes.Contains(WeaponType.Any)) res[6] = $"Weapon: {GetValidWeaponTypesString()}";
         return res;
     }

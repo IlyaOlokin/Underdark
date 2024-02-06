@@ -47,7 +47,9 @@ MonoBehaviour:
   <ID>k__BackingField: puncture
   ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
-  Cooldown: 2
+  <Cooldown>k__BackingField:
+    values:
+    - 2
   manaCost:
     values: 00000000
   <NeedOverrideWithWeaponStats>k__BackingField: 0
@@ -62,7 +64,7 @@ MonoBehaviour:
   debuffInfos:
   - {fileID: 11400000, guid: a70ffa3326a7a1a4aa92b94e022f3ca5, type: 2}
   needAutoDestroy: 1
-  autoDestroyDelay: 0.2
+  autoDestroyDelay: 1
   description: You deliver one precise thrust to the enemy's most vulnerable spot.
   attacksCount:
     values: 0100000003000000

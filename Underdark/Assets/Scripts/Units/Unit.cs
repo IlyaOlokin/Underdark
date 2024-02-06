@@ -358,7 +358,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
         for (int i = 0; i < ActiveAbilitiesCD.Count; i++)
         {
             if (Inventory.EquippedActiveAbilitySlots[i].IsEmpty) continue;
-            ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).Cooldown;
+            var equippedActiveAbility = Inventory.GetEquippedActiveAbility(i);
+            ActiveAbilitiesCD[i] = equippedActiveAbility.Cooldown.GetValue(GetExpOfActiveAbility(equippedActiveAbility.ID));
         }
     }
     
@@ -574,7 +575,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
         var newAbility = Instantiate(activeAbility, transform.position, Quaternion.identity);
         newAbility.Execute(this, GetExpOfActiveAbility(activeAbility.ID));
         SetActionCD(newAbility.CastTime);
-        ActiveAbilitiesCD[index] = newAbility.Cooldown;
+        ActiveAbilitiesCD[index] = newAbility.Cooldown.GetValue(GetExpOfActiveAbility(newAbility.ID));
     }
 
     protected void SetActiveAbilitiesCDs(bool reset = false)
@@ -598,7 +599,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
             }
             if (newID != lastActiveAbilitiesIDs[i])
             {
-                ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).Cooldown;
+                var equippedActiveAbility = Inventory.GetEquippedActiveAbility(i);
+                ActiveAbilitiesCD[i] = equippedActiveAbility.Cooldown.GetValue(GetExpOfActiveAbility(equippedActiveAbility.ID));
             }
 
             lastActiveAbilitiesIDs[i] = newID;

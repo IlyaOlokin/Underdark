@@ -48,7 +48,9 @@ MonoBehaviour:
   <ID>k__BackingField: firefly
   ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
-  Cooldown: 10
+  <Cooldown>k__BackingField:
+    values:
+    - 10
   manaCost:
     values: 0a000000
   <NeedOverrideWithWeaponStats>k__BackingField: 0

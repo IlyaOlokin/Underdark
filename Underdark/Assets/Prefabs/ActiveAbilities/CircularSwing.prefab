@@ -241,7 +241,9 @@ MonoBehaviour:
   <ID>k__BackingField: circular_swing
   ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
-  Cooldown: 5
+  <Cooldown>k__BackingField:
+    values:
+    - 5
   manaCost:
     values: 00000000
   <NeedOverrideWithWeaponStats>k__BackingField: 0
