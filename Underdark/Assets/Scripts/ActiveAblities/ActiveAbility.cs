@@ -120,7 +120,7 @@ public abstract class ActiveAbility : MonoBehaviour
     public virtual string[] ToString(Unit owner)
     {
         var res = new string[7];
-        var abilityLevel = GetManaCost(owner.GetExpOfActiveAbility(ID));
+        var abilityLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
 
         res[0] = description;
         if (StatMultiplier.GetValue(abilityLevel) != 0)
