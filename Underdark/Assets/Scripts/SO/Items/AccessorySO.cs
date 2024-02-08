@@ -15,7 +15,7 @@ public class AccessorySO : Item, IPassiveHolder
         return res.ToArray();
     }
 
-    public override string[] ToStringAdditional()
+    public override string[] ToStringAdditional(Unit owner)
     {
         List<string> res = new List<string>();
           

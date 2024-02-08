@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -82,8 +83,9 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
 
     [field: Header("Abilities Setup")]
     private string[] lastActiveAbilitiesIDs;
-
+    
     [field: NonSerialized] public List<float> ActiveAbilitiesCD { get; private set; }
+    public Dictionary<string, int> ActiveAbilitiesExp { get; private set; } = new Dictionary<string, int>();
     
     [Header("Inventory Setup")]
     [SerializeField] private int inventoryCapacity;
@@ -356,7 +358,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
         for (int i = 0; i < ActiveAbilitiesCD.Count; i++)
         {
             if (Inventory.EquippedActiveAbilitySlots[i].IsEmpty) continue;
-            ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).Cooldown;
+            var equippedActiveAbility = Inventory.GetEquippedActiveAbility(i);
+            ActiveAbilitiesCD[i] = equippedActiveAbility.Cooldown.GetValue(GetExpOfActiveAbility(equippedActiveAbility.ID));
         }
     }
     
@@ -541,7 +544,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
         if (attackCDTimer > 0 || actionCDTimer > 0 || IsDisabled) return;
         
         var newBaseAttack = Instantiate(baseAttackAbility, transform.position, Quaternion.identity);
-        newBaseAttack.Execute(this);
+        newBaseAttack.Execute(this, 1);
 
         attackCDTimer = 1 / attackSpeed;
         SetActionCD(newBaseAttack.CastTime);
@@ -562,14 +565,17 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
     public void ExecuteActiveAbility(int index)
     {
         if (actionCDTimer > 0 || ActiveAbilitiesCD[index] > 0 || IsDisabled || IsSilenced || Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
+        
         ActiveAbility activeAbility = Inventory.GetEquippedActiveAbility(index);
-        if (activeAbility.ManaCost > CurrentMana) return;
-
-        SpendMana(activeAbility.ManaCost);
+        var manaCost = activeAbility.GetManaCost(GetExpOfActiveAbility(activeAbility.ID));
+        
+        if (manaCost > CurrentMana) return;
+        SpendMana(manaCost);
+        
         var newAbility = Instantiate(activeAbility, transform.position, Quaternion.identity);
-        newAbility.Execute(this);
+        newAbility.Execute(this, GetExpOfActiveAbility(activeAbility.ID));
         SetActionCD(newAbility.CastTime);
-        ActiveAbilitiesCD[index] = newAbility.Cooldown;
+        ActiveAbilitiesCD[index] = newAbility.Cooldown.GetValue(GetExpOfActiveAbility(newAbility.ID));
     }
 
     protected void SetActiveAbilitiesCDs(bool reset = false)
@@ -593,14 +599,32 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
             }
             if (newID != lastActiveAbilitiesIDs[i])
             {
-                ActiveAbilitiesCD[i] = Inventory.GetEquippedActiveAbility(i).Cooldown;
+                var equippedActiveAbility = Inventory.GetEquippedActiveAbility(i);
+                ActiveAbilitiesCD[i] = equippedActiveAbility.Cooldown.GetValue(GetExpOfActiveAbility(equippedActiveAbility.ID));
             }
 
             lastActiveAbilitiesIDs[i] = newID;
         }
     }
 
-    public void ExecuteExecutableItem(int index)
+    public void AddExpToActiveAbility(string abilityID, int exp)
+    {
+        if (ActiveAbilitiesExp.ContainsKey(abilityID))
+        {
+            ActiveAbilitiesExp[abilityID] += exp;
+        }
+        else
+        {
+            ActiveAbilitiesExp.Add(abilityID, exp);
+        }
+    }
+    
+    public int GetExpOfActiveAbility(string abilityID)
+    {
+        return ActiveAbilitiesExp.TryGetValue(abilityID, out var value) ? value : 0;
+    }
+
+    protected void ExecuteExecutableItem(int index)
     {
         if (IsDisabled || Inventory.ExecutableSlots[index].IsEmpty) return;
 
@@ -662,20 +686,6 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
     }
 
     public virtual Vector2 GetAttackDirection(float distance = 0) => lastMoveDir.normalized;
-
-    protected float MaxActiveAbilityDistance()
-    {
-        float maxDist = GetWeapon().AttackDistance + 1;
-        foreach (var slot in Inventory.GetAllActiveAbilitySlots())
-        {
-            if (slot.IsEmpty) continue;
-
-            var activeAbilityAttackDistance = ((ActiveAbilitySO)slot.Item).ActiveAbility.AttackDistance;
-            if (maxDist < activeAbilityAttackDistance)
-                maxDist = activeAbilityAttackDistance;
-        }
-        return maxDist;
-    }
 
     public virtual float GetAttackDirAngle(Vector2 attackDir = new Vector2()) => lastMoveDirAngle;
 

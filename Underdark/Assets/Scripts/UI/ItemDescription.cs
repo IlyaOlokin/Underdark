@@ -24,7 +24,9 @@ public class ItemDescription : MonoBehaviour
     [SerializeField] private Button confirmDeleteItemButton;
     [SerializeField] private Button canselDeleteItemButton;
     
+    [Header("Other")]
     [SerializeField] private GameObject confirmPanel;
+    [SerializeField] private AbilityLevelDisplayUI abilityLevelDisplay;
     
     private Unit currOwner;
     private IInventorySlot currInventorySlot;
@@ -60,7 +62,7 @@ public class ItemDescription : MonoBehaviour
             propertyFields[i].text = properties[i];
         }
 
-        var additionalProperties = item.ToStringAdditional();
+        var additionalProperties = item.ToStringAdditional(owner);
         
         for (int i = 0; i < additionalProperties.Length; i++)
         {
@@ -76,6 +78,20 @@ public class ItemDescription : MonoBehaviour
             var lastPropertyPos = additionalPropertyFields[i - 1].rectTransform.anchoredPosition;
             
             newText.rectTransform.anchoredPosition = new Vector3(lastPropertyPos.x, lastPropertyPos.y - yOffset, 0);
+        }
+
+        if (item.ItemType == ItemType.Executable && ((ExecutableItemSO)item).ExecutableItem is ScrollActiveAbility)
+        {
+            abilityLevelDisplay.gameObject.SetActive(true);
+
+            var scroll = (ScrollActiveAbility)((ExecutableItemSO)item).ExecutableItem;
+            abilityLevelDisplay.DisplayAbilityLevel(scroll.Item, owner.GetExpOfActiveAbility(scroll.Item.ActiveAbility.ID));
+        }
+        else if (item.ItemType == ItemType.ActiveAbility)
+        {
+            abilityLevelDisplay.gameObject.SetActive(true);
+            
+            abilityLevelDisplay.DisplayAbilityLevel((ActiveAbilitySO)item, owner.GetExpOfActiveAbility(((ActiveAbilitySO)item).ActiveAbility.ID));
         }
     }
 
@@ -99,6 +115,7 @@ public class ItemDescription : MonoBehaviour
         itemName.gameObject.SetActive(enabled);
 
         CloseConfirmPanel();
+        abilityLevelDisplay.gameObject.SetActive(false);
     }
 
     private void UseItem()
@@ -136,8 +153,8 @@ public class ItemDescription : MonoBehaviour
                 
                 break;
             case ItemType.Executable:
-                ((ExecutableItemSO)item).Execute(currOwner);
-                currOwner.Inventory.Remove(currInventorySlot);
+                if (((ExecutableItemSO)item).Execute(currOwner))
+                    currOwner.Inventory.Remove(currInventorySlot);
                 return;
             default:
                 throw new ArgumentOutOfRangeException();

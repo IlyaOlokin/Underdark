@@ -54,7 +54,7 @@ public class Player : Unit, IPickUper, IMoneyHolder
         if (Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
         var activeAbility = ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility;
         
-        unitVisual.StartHighLightActiveAbility(activeAbility, GetWeapon());
+        unitVisual.StartHighLightActiveAbility(activeAbility, this);
     }
     
     private void EndHighLightActiveAbility(int index)

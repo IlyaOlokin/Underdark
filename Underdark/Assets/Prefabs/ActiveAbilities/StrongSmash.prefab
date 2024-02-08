@@ -129,15 +129,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f63f2fec80dacf45a0a2b38310f8bbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <ID>k__BackingField: strong_smash
+  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
-  Cooldown: 2
-  ManaCost: 0
-  <NeedOverrideWithWeaponStats>k__BackingField: 1
+  <Cooldown>k__BackingField:
+    values:
+    - 2
+  manaCost:
+    values: 00000000
   <NeedAttackRadius>k__BackingField: 1
-  <AttackDistance>k__BackingField: 1
-  <AttackRadius>k__BackingField: 120
-  maxValue: 80
-  statMultiplier: 3
+  <AttackDistance>k__BackingField:
+    values:
+    - 1
+  <AttackRadius>k__BackingField:
+    values:
+    - 120
+  <MaxValue>k__BackingField:
+    values:
+    - 80
+  <StatMultiplier>k__BackingField:
+    values: 03000000
   baseStat: 0
   damageType: 0
   validWeaponTypes: 05000000

@@ -19,7 +19,7 @@ public abstract class Item : ScriptableObject
         throw new NotImplementedException();
     }
     
-    public  virtual string[] ToStringAdditional()
+    public  virtual string[] ToStringAdditional(Unit owner)
     {
         return new string[]{};
     }

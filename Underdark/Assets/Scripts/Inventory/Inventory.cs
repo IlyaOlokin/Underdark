@@ -55,9 +55,9 @@ public class Inventory : IInventory
         unit.Stats.OnLevelUp += CheckEquipmentFit;
     }
 
-    public void UpdateInventory()
+    public void UpdateInventory(bool reset = false)
     {
-        OnActiveAbilitiesChanged?.Invoke(true);
+        OnActiveAbilitiesChanged?.Invoke(reset);
         OnExecutableItemChanged?.Invoke();
         CheckEquipmentFit();
     }
@@ -155,13 +155,6 @@ public class Inventory : IInventory
         {
             TryAddToSlot(activeAbilitySlot, item, 1);
             OnActiveAbilitiesChanged?.Invoke(false);
-            return true;
-        }
-        
-        var sameItemSlot = activeAbilitySlots.Find(slot => !slot.IsEmpty && slot.Item.ID == item.ID && !slot.IsFull);
-        if (sameItemSlot != null)
-        {
-            TryAddToSlot(sameItemSlot, item, 1);
             return true;
         }
 

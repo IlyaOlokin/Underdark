@@ -10,10 +10,11 @@ public class StrongSmash : ActiveAbility, IAttacker
     [SerializeField] private float visualDuration;
     [SerializeField] private float scaleLerpSpeed;
     
-    public override void Execute(Unit caster)
+    public override void Execute(Unit caster, int level)
     {
-        base.Execute(caster);
-        int damage = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
+        base.Execute(caster, level);
+        int damage = (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
+            MaxValue.GetValue(abilityLevel));
         damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
         Attack();
         
@@ -24,11 +25,11 @@ public class StrongSmash : ActiveAbility, IAttacker
     {
         visualSR.material = new Material(visualSR.material);
         
-        var targetScale = transform.localScale * (AttackDistance * 2 + 1);
+        var targetScale = transform.localScale * (AttackDistance.GetValue(abilityLevel) * 2 + 1);
         transform.localScale = Vector3.zero;
         
         visualSR.material.SetFloat("_Turn", caster.GetAttackDirAngle(attackDir));
-        visualSR.material.SetFloat("_FillAmount", AttackRadius);
+        visualSR.material.SetFloat("_FillAmount", AttackRadius.GetValue(abilityLevel));
         
         while (visualDuration > 0)
         {
