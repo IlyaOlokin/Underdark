@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DataLoader : MonoBehaviour
@@ -86,6 +87,9 @@ public class DataLoader : MonoBehaviour
         {
             gameData.EquipedActiveAbilities.Add(t.ItemID);
         }
+
+        gameData.LearnedAbilityIDs = player.ActiveAbilitiesExp.Keys.ToList(); 
+        gameData.AbilityExp = player.ActiveAbilitiesExp.Values.ToList(); 
 
         gameData.MoneyCount = player.Money.GetMoney();
         gameData.MaxReachedLevel = LevelTransition.MaxReachedLevel;

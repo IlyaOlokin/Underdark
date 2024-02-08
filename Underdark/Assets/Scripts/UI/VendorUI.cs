@@ -8,6 +8,8 @@ using Zenject;
 
 public class VendorUI : InGameUiWindow, IInventoryUI
 {
+    public Player Player => player;
+    
     private UIInventorySlot selectedSlot;
     
     private bool isPlayersSlot;
@@ -78,12 +80,14 @@ public class VendorUI : InGameUiWindow, IInventoryUI
             if (i >= vendorInventorySlots.Count) continue;
 
             slotsVendor[i].CostText.gameObject.SetActive(true);
-            slotsVendor[i].InventorySlot.SetSlot(vendorInventorySlots[i]);
+            slotsVendor[i].InventorySlot.SetSlot(vendorInventorySlots[i], this);
 
             var color = vendorInventorySlots[i].Item.Cost < player.Money.GetMoney()
                 ? "<color=#FFFFFF>"
                 : "<color=#FF4E4E>";
             slotsVendor[i].CostText.text = $"{color}• {vendorInventorySlots[i].Item.Cost}";
+            
+            slotsVendor[i].InventorySlot.Refresh();
         }
     }
 
@@ -94,11 +98,11 @@ public class VendorUI : InGameUiWindow, IInventoryUI
         for (int i = 0; i < playerInventorySlots.Length; i++)
         {
             slotsPlayer[i].CostText.gameObject.SetActive(false);
-            slotsPlayer[filledSlotIndex].InventorySlot.SetSlot(null);
+            slotsPlayer[i].InventorySlot.SetSlot(null, this);
 
             if (playerInventorySlots[i].IsEmpty) continue;
-
-            slotsPlayer[filledSlotIndex].InventorySlot.SetSlot(playerInventorySlots[i]);
+            
+            slotsPlayer[filledSlotIndex].InventorySlot.SetSlot(playerInventorySlots[i], this);
             slotsPlayer[filledSlotIndex].CostText.gameObject.SetActive(true);
             slotsPlayer[filledSlotIndex].CostText.text =
                 "• " + slotsPlayer[filledSlotIndex].InventorySlot.Slot.Item.Cost;

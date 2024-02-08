@@ -238,15 +238,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f821624129d47842befa7a13b308363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <ID>k__BackingField: circular_swing
+  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
-  Cooldown: 5
-  ManaCost: 0
-  <NeedOverrideWithWeaponStats>k__BackingField: 0
+  <Cooldown>k__BackingField:
+    values:
+    - 5
+  manaCost:
+    values: 00000000
   <NeedAttackRadius>k__BackingField: 1
-  <AttackDistance>k__BackingField: 2
-  <AttackRadius>k__BackingField: 360
-  maxValue: 80
-  statMultiplier: 3
+  <AttackDistance>k__BackingField:
+    values:
+    - 2
+  <AttackRadius>k__BackingField:
+    values:
+    - 360
+  <MaxValue>k__BackingField:
+    values:
+    - 80
+  <StatMultiplier>k__BackingField:
+    values: 03000000
   baseStat: 0
   damageType: 0
   validWeaponTypes: 00000000

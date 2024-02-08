@@ -109,21 +109,13 @@ public class UnitVisual : MonoBehaviour
         EnergyShield.SetActive(false);
     }
 
-    public void StartHighLightActiveAbility(ActiveAbility activeAbility, WeaponSO weapon)
+    public void StartHighLightActiveAbility(ActiveAbility activeAbility, Unit owner)
     {
         float dist;
         float angle;
         
-        if (activeAbility.NeedOverrideWithWeaponStats && weapon.ID != "empty")
-        {
-            dist = weapon.AttackDistance;
-            angle = weapon.AttackRadius;
-        }
-        else
-        {
-            dist = activeAbility.AttackDistance;
-            angle = activeAbility.AttackRadius;
-        }
+        dist = activeAbility.AttackDistance.GetValue(owner.GetExpOfActiveAbility(activeAbility.ID));
+        angle = activeAbility.AttackRadius.GetValue(owner.GetExpOfActiveAbility(activeAbility.ID));
         
         highLightZone.SetActive(true);
         highLightZone.transform.localScale = new Vector3(dist * 2 + 1, dist * 2 + 1);

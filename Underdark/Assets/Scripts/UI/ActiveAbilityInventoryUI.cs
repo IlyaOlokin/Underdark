@@ -6,7 +6,8 @@ using Zenject;
 
 public class ActiveAbilityInventoryUI : MonoBehaviour, IInventoryUI
 {
-    private Player player;
+    public Player Player { get; private set; }
+
     public Inventory Inventory { get; private set; }
     private UIInventorySlot selectedSlot;
 
@@ -19,23 +20,23 @@ public class ActiveAbilityInventoryUI : MonoBehaviour, IInventoryUI
     [Inject]
     private void Construct(Player player)
     {
-        this.player = player;
+        Player = player;
     }
 
     private void Awake()
     {
-        Inventory = player.Inventory;
+        Inventory = Player.Inventory;
         Inventory.OnInventoryChanged += UpdateUI;
         
         var inventorySlots = Inventory.GetAllActiveAbilitySlots();
         for (int i = 0; i < inventorySlots.Length; i++)
         {
-            slots[i].SetSlot(inventorySlots[i]);
+            slots[i].SetSlot(inventorySlots[i], this);
         }
         
         for (int i = 0; i < Inventory.EquippedActiveAbilitySlots.Count; i++)
         {
-            equippedSlots[i].SetSlot(Inventory.EquippedActiveAbilitySlots[i]);
+            equippedSlots[i].SetSlot(Inventory.EquippedActiveAbilitySlots[i], this);
         }
     }
     
@@ -74,6 +75,6 @@ public class ActiveAbilityInventoryUI : MonoBehaviour, IInventoryUI
         if (selectedSlot == null || selectedSlot.Slot.IsEmpty)
             itemDescription.ResetDescriptionActive(false);
         else
-            itemDescription.ShowItemDescription(selectedSlot.Slot.Item, player, selectedSlot.Slot);
+            itemDescription.ShowItemDescription(selectedSlot.Slot.Item, Player, selectedSlot.Slot);
     }
 }

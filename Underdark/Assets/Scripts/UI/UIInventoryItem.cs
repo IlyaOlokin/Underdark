@@ -13,7 +13,7 @@ public class UIInventoryItem : UIItem
     
     public Item Item { get; private set; }
 
-    public void Refresh(IInventorySlot slot)
+    public void Refresh(IInventorySlot slot, Unit owner)
     {
         if (slot == null || slot.IsEmpty)
         {
@@ -25,8 +25,19 @@ public class UIInventoryItem : UIItem
         var item = slot.Item;
         icon.sprite = item.Sprite;
         icon.gameObject.SetActive(true);
-        text.gameObject.SetActive(slot.Amount > 1);
-        text.text = slot.Amount.ToString();
+        
+        if (slot.Item.ItemType == ItemType.ActiveAbility)
+        {
+            var activeAbility = ((ActiveAbilitySO)slot.Item).ActiveAbility;
+            text.text = activeAbility.ActiveAbilityLevelSetupSO
+                .GetCurrentLevel(owner.GetExpOfActiveAbility(activeAbility.ID)).ToString();
+            text.gameObject.SetActive(true);
+        }
+        else
+        {
+            text.gameObject.SetActive(slot.Amount > 1);
+            text.text = slot.Amount.ToString();
+        }
 
         nonValidSlotIndicator.SetActive(!slot.IsValid);
     }

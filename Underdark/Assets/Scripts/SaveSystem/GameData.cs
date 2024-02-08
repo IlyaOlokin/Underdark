@@ -28,6 +28,10 @@ public class GameData
     public List<string> ActiveAbilities = new ();
     public List<string> EquipedActiveAbilities = new ();
     
+    //Ability Levels
+    public List<string> LearnedAbilityIDs = new ();
+    public List<int> AbilityExp = new ();
+    
     // Environment
     public int MaxReachedLevel = 1;
     

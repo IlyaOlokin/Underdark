@@ -12,9 +12,10 @@ public class UnitGearInstaller : MonoBehaviour
     [SerializeField] private Item shield;
     [SerializeField] private Item weapon;
     
-    [SerializeField] private List<Item> executableItems;
+    [SerializeField] private List<ExecutableItemSO> executableItems;
     
-    [SerializeField] private List<Item> activeAbilities;
+    [SerializeField] private List<ActiveAbilitySO> activeAbilities;
+    [SerializeField] private List<int> activeAbilitiesExp;
 
     private void Start()
     {
@@ -34,6 +35,11 @@ public class UnitGearInstaller : MonoBehaviour
         var loopsAA = Mathf.Min(unit.Inventory.EquippedActiveAbilitySlots.Count, activeAbilities.Count);
         for (int i = 0; i < loopsAA; i++)
             unit.Inventory.EquippedActiveAbilitySlots[i].SetItem(activeAbilities[i]);
+
+        for (int i = 0; i < activeAbilitiesExp.Count; i++)
+        {
+            unit.AddExpToActiveAbility(activeAbilities[i].ActiveAbility.ID, activeAbilitiesExp[i]);
+        }
         
         Destroy(this);
     }

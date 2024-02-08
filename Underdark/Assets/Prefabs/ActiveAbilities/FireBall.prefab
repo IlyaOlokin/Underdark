@@ -131,15 +131,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04c9ec889294f6444a96494e79ef926e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <ID>k__BackingField: fire_ball
+  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
-  Cooldown: 0.5
-  ManaCost: 5
+  <Cooldown>k__BackingField:
+    values:
+    - 0.5
+  manaCost:
+    values: 05000000
   <NeedOverrideWithWeaponStats>k__BackingField: 0
   <NeedAttackRadius>k__BackingField: 0
-  <AttackDistance>k__BackingField: 10
-  <AttackRadius>k__BackingField: 360
-  maxValue: 50
-  statMultiplier: 2
+  <AttackDistance>k__BackingField:
+    values:
+    - 10
+  <AttackRadius>k__BackingField:
+    values:
+    - 360
+  <MaxValue>k__BackingField:
+    values:
+    - 50
+  <StatMultiplier>k__BackingField:
+    values: 02000000
   baseStat: 2
   damageType: 2
   validWeaponTypes: 05000000
