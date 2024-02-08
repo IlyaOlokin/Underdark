@@ -3,23 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProjectileAbility : ActiveAbility, IAttacker
+public class ProjectileAbility : ActiveAbility
 {
-    [Header("Projectile Settings")]
+    [Header("Projectile Settings")] 
+    [SerializeField] private ActiveAbilityProperty<Projectile> projectilePref;
+    [SerializeField] protected ActiveAbilityProperty<ProjectileShotInfo> shotInfo;
     [SerializeField] protected float projSpeed;
-    public Transform Transform => transform;
-
-    protected Rigidbody2D rb;
-    protected Collider2D coll;
-    
-
-    protected override void Awake()
-    {
-        base.Awake();
-        rb = GetComponent<Rigidbody2D>();
-        coll = GetComponent<Collider2D>();
-        Invoke(nameof(Die),  AttackDistance.GetValue(abilityLevel) / projSpeed);
-    }
 
     public override void Execute(Unit caster, int level)
     {
@@ -28,46 +17,31 @@ public class ProjectileAbility : ActiveAbility, IAttacker
         damageInfo.AddDamage(
             (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
                 MaxValue.GetValue(abilityLevel)), damageType, caster.Params.GetDamageAmplification(damageType));
+
+        StartCoroutine(InstantiateProjectiles());
+    }
+
+    private IEnumerator InstantiateProjectiles()
+    {
+        var currShotInfo = shotInfo.GetValue(abilityLevel);
+        var currProjPref = projectilePref.GetValue(abilityLevel);
+        var destroyDelay = AttackDistance.GetValue(abilityLevel) / projSpeed;
+        var angle = Mathf.Rad2Deg * Mathf.Acos(Vector2.Dot(Vector2.right, attackDir));
+        if (attackDir.y < 0) angle *= -1;
         
-        rb.velocity = attackDir * projSpeed;
-        
-        var rotAngle = Vector2.Angle(Vector3.up, rb.velocity);
-        if (rb.velocity.x > 0) rotAngle *= -1;
-        transform.Rotate(Vector3.forward, rotAngle);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if(caster.AttackMask == (caster.AttackMask | (1 << other.gameObject.layer)))
+        for (int i = 0; i < currShotInfo.Shots; i++)
         {
-            if (other.TryGetComponent(out IDamageable damageable))
+            for (int j = 0; j < currShotInfo.ProjCountInShot; j++)
             {
-                Attack(damageable);
+                var localAngle = angle + currShotInfo.AngleBetweenProj * ((j + 1) / 2) * (j % 2 == 0 ? 1 : -1);
+                var localDir = new Vector2(Mathf.Cos(localAngle * Mathf.Deg2Rad), Mathf.Sin(localAngle * Mathf.Deg2Rad));
+                var velocity = localDir * projSpeed; 
+                
+                var newProj = Instantiate(currProjPref, transform.position, Quaternion.identity);
+                newProj.Init(caster, destroyDelay, damageInfo, debuffInfos, velocity);
             }
-            Die();
-        }
-    }
 
-    protected virtual void Die()
-    {
-        coll.enabled = false;
-        rb.velocity = Vector2.zero;
-        Destroy(gameObject);
-    }
-    
-    public void Attack()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Attack(IDamageable damageable)
-    {
-        if (damageable.TakeDamage(caster, this, damageInfo))
-        {
-            foreach (var debuffInfo in debuffInfos)
-            {
-                debuffInfo.Execute(this, (Unit) damageable, caster);
-            }
+            yield return new WaitForSeconds(0.1f);
         }
     }
     
