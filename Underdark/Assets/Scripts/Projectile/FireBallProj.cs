@@ -6,6 +6,7 @@ public class FireBallProj : Projectile
 {
     [Header("Visual")] 
     [SerializeField] private GameObject lightSpot;
+    [SerializeField] private SpriteRenderer sr;
     [SerializeField] private List<ParticleSystem> particleSystems;
     [SerializeField] private List<ParticleSystem> deathExplosion;
     [SerializeField] private float destroyDelay = 1.5f;
@@ -15,6 +16,8 @@ public class FireBallProj : Projectile
         coll.enabled = false;
         rb.velocity = Vector2.zero;
         lightSpot.SetActive(false);
+
+        sr.enabled = false;
 
         foreach (var system in particleSystems)
             system.Stop();
