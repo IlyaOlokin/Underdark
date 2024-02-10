@@ -7,11 +7,12 @@ public class Projectile : MonoBehaviour, IAttackerTarget
 {
     public Transform Transform => transform;
     
-    private Unit caster;
+    protected Unit caster;
     
     protected DamageInfo damageInfo = new();
     
     protected List<DebuffInfo> debuffInfos;
+    protected int abilityLevel;
     
     protected Rigidbody2D rb;
     protected Collider2D coll;
@@ -30,6 +31,7 @@ public class Projectile : MonoBehaviour, IAttackerTarget
         Invoke(nameof(Die),  destroyDelay);
         this.damageInfo = damageInfo;
         this.debuffInfos = debuffInfos;
+        this.abilityLevel = abilityLevel;
         
         rb.velocity = velocity;
         var rotAngle = Vector2.Angle(Vector3.up, rb.velocity);
@@ -49,7 +51,7 @@ public class Projectile : MonoBehaviour, IAttackerTarget
         }
     }
 
-    public void Attack(IDamageable damageable)
+    public virtual void Attack(IDamageable damageable)
     {
         if (damageable.TakeDamage(caster, this, damageInfo))
         {
