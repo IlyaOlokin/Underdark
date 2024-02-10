@@ -38,7 +38,7 @@ public class ProjectileAbility : ActiveAbility
                 var velocity = localDir * projSpeed; 
                 
                 var newProj = Instantiate(currProjPref, transform.position, Quaternion.identity);
-                newProj.Init(caster, destroyDelay, damageInfo, debuffInfos, velocity);
+                newProj.Init(caster, damageInfo, debuffInfos, abilityLevel, velocity, destroyDelay);
             }
 
             yield return new WaitForSeconds(0.1f);

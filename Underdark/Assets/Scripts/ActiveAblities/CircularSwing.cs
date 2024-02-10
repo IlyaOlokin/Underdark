@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CircularSwing : ActiveAbility, IAttacker
+public class CircularSwing : ActiveAbility, IAttackerAOE
 {
     public Transform Transform => transform;
     [Header("Visual")]
@@ -36,10 +36,5 @@ public class CircularSwing : ActiveAbility, IAttacker
                 }
             }
         }
-    }
-
-    public void Attack(IDamageable unit)
-    {
-        throw new System.NotImplementedException();
     }
 }

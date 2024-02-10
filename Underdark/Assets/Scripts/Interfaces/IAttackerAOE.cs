@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityHFSM;
 
-public interface IAttacker
+public interface IAttackerAOE : IAttacker
 {
-    Transform Transform { get; }
+    void Attack();
 }

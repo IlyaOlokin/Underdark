@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class StrongSmash : ActiveAbility, IAttacker
+public class StrongSmash : ActiveAbility, IAttackerAOE
 {
     public Transform Transform => transform;
     
@@ -53,10 +53,5 @@ public class StrongSmash : ActiveAbility, IAttacker
                 }
             }
         }
-    }
-
-    public void Attack(IDamageable unit)
-    {
-        throw new System.NotImplementedException();
     }
 }

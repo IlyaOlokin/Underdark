@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour, IAttacker
+public class Projectile : MonoBehaviour, IAttackerTarget
 {
     public Transform Transform => transform;
     
@@ -22,7 +22,8 @@ public class Projectile : MonoBehaviour, IAttacker
         
     }
 
-    public void Init(Unit caster, float destroyDelay, DamageInfo damageInfo, List<DebuffInfo> debuffInfos, Vector2 velocity)
+    public void Init(Unit caster, DamageInfo damageInfo, List<DebuffInfo> debuffInfos, int abilityLevel, 
+        Vector2 velocity, float destroyDelay)
     {
         this.caster = caster;
         
@@ -46,11 +47,6 @@ public class Projectile : MonoBehaviour, IAttacker
             }
             Die();
         }
-    }
-    
-    public void Attack()
-    {
-        throw new NotImplementedException();
     }
 
     public void Attack(IDamageable damageable)
