@@ -68,7 +68,8 @@ MonoBehaviour:
   damageType: 0
   validWeaponTypes: 05000000
   debuffInfos:
-  - {fileID: 11400000, guid: 79781878cac3dc04aa80e53098438616, type: 2}
+    values:
+    - DebuffInfos: []
   needAutoDestroy: 1
   autoDestroyDelay: 0.1
   description: You fire an arrow from your summoned bow.

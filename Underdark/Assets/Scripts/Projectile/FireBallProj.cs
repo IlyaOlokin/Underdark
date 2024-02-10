@@ -5,7 +5,6 @@ using UnityEngine;
 public class FireBallProj : Projectile
 {
     [SerializeField] private ActiveAbilityProperty<float> explosionRadius; 
-    [SerializeField] private Collider2D explosionCollider; 
     
     [Header("Visual")] 
     [SerializeField] private GameObject lightSpot;
@@ -45,8 +44,6 @@ public class FireBallProj : Projectile
 
     private void Explode()
     {
-        //explosionCollider.enabled = true;
-        
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hits = new List<Collider2D>();

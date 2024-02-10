@@ -45,7 +45,7 @@ public class Puncture : ActiveAbility, IAttackerTarget
     {
         if (damageable.TakeDamage(caster, this, damageInfo))
         {
-            foreach (var debuffInfo in debuffInfos)
+            foreach (var debuffInfo in debuffInfos.GetValue(abilityLevel).DebuffInfos)
             {
                 debuffInfo.Execute(this, (Unit) damageable, caster);
             }

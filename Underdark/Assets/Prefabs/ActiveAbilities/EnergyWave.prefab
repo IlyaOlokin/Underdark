@@ -153,7 +153,8 @@ MonoBehaviour:
   damageType: 0
   validWeaponTypes: 05000000
   debuffInfos:
-  - {fileID: 11400000, guid: 41e3e8d7a78efba44bda9fb1d36e71f2, type: 2}
+    values:
+    - DebuffInfos: []
   needAutoDestroy: 1
   autoDestroyDelay: 0.5
   description: Release a stream of magic in front of you, knocking enemies back.

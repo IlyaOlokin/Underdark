@@ -22,7 +22,7 @@ public abstract class ActiveAbility : MonoBehaviour
     
     protected DamageInfo damageInfo = new();
     
-    [SerializeField] protected List<DebuffInfo> debuffInfos;
+    [SerializeField] protected ActiveAbilityProperty<DebuffInfoList> debuffInfos;
     
     [SerializeField] private bool needAutoDestroy;
     [SerializeField] private float autoDestroyDelay;
@@ -138,7 +138,7 @@ public abstract class ActiveAbility : MonoBehaviour
     {
         List<string> res = new List<string>();
 
-        foreach (var debuffInfo in debuffInfos)
+        foreach (var debuffInfo in debuffInfos.GetValue(abilityLevel).DebuffInfos)
         {
             res.Add(debuffInfo.ToString());
         }

@@ -47,7 +47,7 @@ public class StrongSmash : ActiveAbility, IAttackerAOE
         {
             if (target.GetComponent<IDamageable>().TakeDamage(caster, this, damageInfo))
             {
-                foreach (var debuffInfo in debuffInfos)
+                foreach (var debuffInfo in debuffInfos.GetValue(abilityLevel).DebuffInfos)
                 {
                     debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
                 }

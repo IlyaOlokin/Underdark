@@ -68,7 +68,8 @@ MonoBehaviour:
   damageType: 0
   validWeaponTypes: 0000000001000000
   debuffInfos:
-  - {fileID: 11400000, guid: a70ffa3326a7a1a4aa92b94e022f3ca5, type: 2}
+    values:
+    - DebuffInfos: []
   needAutoDestroy: 1
   autoDestroyDelay: 1
   description: You deliver one precise thrust to the enemy's most vulnerable spot.
