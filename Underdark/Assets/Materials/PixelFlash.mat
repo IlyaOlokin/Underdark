@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PixelFireBall
+  m_Name: PixelFlash
   m_Shader: {fileID: -6465566751694194690, guid: 29acc64fa55df874093da8e0affef7f0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -32,7 +32,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 576cdf1ca06604447b317e040e537155, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
@@ -57,11 +57,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_3F14E9B5: 5
+    - Vector1_3F14E9B5: 10
     - Vector1_46884A1A: 0.1
     - Vector1_B714E383: 0.1
-    - Vector1_B86E164D: 30
-    - Vector1_BA5FE260: 0.4
+    - Vector1_B86E164D: 5
+    - Vector1_BA5FE260: 0.2
     - Vector1_BA771778: 10
     - Vector1_CE56FA2E: 0.6
     - Vector1_D398B94F: 0.3
@@ -69,8 +69,8 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - Vector2_3AE9784C: {r: 0, g: 1, b: 0, a: 0}
-    - Vector2_C398BF15: {r: 0.3, g: 0.3, b: 0, a: 0}
+    - Vector2_3AE9784C: {r: 0.1, g: -0.1, b: 0, a: 0}
+    - Vector2_C398BF15: {r: -0.1, g: 0.1, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _ColorInner: {r: 1, g: 0.8968646, b: 0.7216981, a: 0}
     - _ColorMid: {r: 1, g: 0.56021845, b: 0.089622594, a: 0}
@@ -78,7 +78,7 @@ Material:
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &3318819909282795510
+--- !u!114 &8441643634981942942
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
