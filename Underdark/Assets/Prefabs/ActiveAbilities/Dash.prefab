@@ -9982,7 +9982,9 @@ MonoBehaviour:
   baseStat: 0
   damageType: 0
   validWeaponTypes: 
-  debuffInfos: []
+  debuffInfos:
+    values:
+    - DebuffInfos: []
   needAutoDestroy: 1
   autoDestroyDelay: 1.7
   description: You dash forward 10 cells or until the first obstacle you encounter.

@@ -68,7 +68,9 @@ MonoBehaviour:
   baseStat: 2
   damageType: 0
   validWeaponTypes: 05000000
-  debuffInfos: []
+  debuffInfos:
+    values:
+    - DebuffInfos: []
   needAutoDestroy: 1
   autoDestroyDelay: 2
   description: You heal your wounds with magic.

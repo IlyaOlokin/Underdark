@@ -68,7 +68,9 @@ MonoBehaviour:
   baseStat: 0
   damageType: 0
   validWeaponTypes: 05000000
-  debuffInfos: []
+  debuffInfos:
+    values:
+    - DebuffInfos: []
   needAutoDestroy: 1
   autoDestroyDelay: 2
   description: You awaken the body's hidden reserves, restoring health and strengthening.

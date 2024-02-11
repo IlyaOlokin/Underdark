@@ -31,8 +31,10 @@ public class SecondWind : ActiveAbility
     public override string[] ToString(Unit owner)
     {
         var res = new string[3];
+        var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
+        
         res[0] = description;
-        res[1] = $"Heal: {StatMultiplier} * max({UnitStats.GetStatString(baseStat)}, {UnitStats.GetStatString(secondStat)})";
+        res[1] = $"Heal: {StatMultiplier.GetValue(currentLevel)} * max({UnitStats.GetStatString(baseStat)}, {UnitStats.GetStatString(secondStat)})";
         res[2] = $"Damage Amplification: {damageAmplification * 100}% ";
         return res;
     }

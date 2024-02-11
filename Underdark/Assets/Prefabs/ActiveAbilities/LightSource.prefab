@@ -132,7 +132,9 @@ MonoBehaviour:
   baseStat: 0
   damageType: 0
   validWeaponTypes: 
-  debuffInfos: []
+  debuffInfos:
+    values:
+    - DebuffInfos: []
   needAutoDestroy: 1
   autoDestroyDelay: 60
   description: You create a firefly that flies in a straight line to the nearest
