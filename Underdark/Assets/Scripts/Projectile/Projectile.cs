@@ -10,9 +10,9 @@ public class Projectile : MonoBehaviour, IAttackerTarget
     protected Unit caster;
     
     protected DamageInfo damageInfo = new();
-    
     protected List<DebuffInfo> debuffInfos;
     protected int abilityLevel;
+    protected int penetrationCount;
     
     protected Rigidbody2D rb;
     protected Collider2D coll;
@@ -24,7 +24,7 @@ public class Projectile : MonoBehaviour, IAttackerTarget
     }
 
     public void Init(Unit caster, DamageInfo damageInfo, List<DebuffInfo> debuffInfos, int abilityLevel, 
-        Vector2 velocity, float destroyDelay)
+        Vector2 velocity, float destroyDelay, int penetrationCount)
     {
         this.caster = caster;
         
@@ -32,6 +32,7 @@ public class Projectile : MonoBehaviour, IAttackerTarget
         this.damageInfo = damageInfo;
         this.debuffInfos = debuffInfos;
         this.abilityLevel = abilityLevel;
+        this.penetrationCount = penetrationCount;
         
         rb.velocity = velocity;
         var rotAngle = Vector2.Angle(Vector3.up, rb.velocity);
@@ -47,7 +48,18 @@ public class Projectile : MonoBehaviour, IAttackerTarget
             {
                 Attack(damageable);
             }
-            Die();
+            else
+            {
+                Die();
+                return;
+            }
+            
+            if (penetrationCount == -1) return;
+            
+            if (penetrationCount > 0)
+                penetrationCount--;
+            else
+                Die();
         }
     }
 
