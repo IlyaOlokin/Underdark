@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Puncture : ActiveAbility, IAttacker
+public class Puncture : ActiveAbility, IAttackerTarget
 {
     public Transform Transform => transform;
     
@@ -40,17 +40,12 @@ public class Puncture : ActiveAbility, IAttacker
             yield return new WaitForSeconds(attackDelay);
         }
     }
-    
-    public void Attack()
-    {
-        
-    }
 
     public void Attack(IDamageable damageable)
     {
         if (damageable.TakeDamage(caster, this, damageInfo))
         {
-            foreach (var debuffInfo in debuffInfos)
+            foreach (var debuffInfo in debuffInfos.GetValue(abilityLevel).DebuffInfos)
             {
                 debuffInfo.Execute(this, (Unit) damageable, caster);
             }

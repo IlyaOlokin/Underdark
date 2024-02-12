@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICaster
+public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, ICaster
 {
     private Rigidbody2D rb;
     private Collider2D coll;
@@ -550,11 +550,6 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttacker, ICas
         SetActionCD(newBaseAttack.CastTime);
 
         OnBaseAttack?.Invoke(lastMoveDirAngle, GetWeapon().AttackRadius, GetWeapon().AttackDistance);
-    }
-
-    public void Attack(IDamageable damageable)
-    {
-        throw new NotImplementedException();
     }
 
     private bool TryToEvade()

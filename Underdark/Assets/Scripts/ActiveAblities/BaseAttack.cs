@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseAttack : ActiveAbility, IAttacker
+public class BaseAttack : ActiveAbility, IAttackerAOE
 {
     public Transform Transform => transform;
     
@@ -73,10 +73,5 @@ public class BaseAttack : ActiveAbility, IAttacker
         }
 
         return targets;
-    }
-
-    public void Attack(IDamageable unit)
-    {
-        throw new System.NotImplementedException();
     }
 }

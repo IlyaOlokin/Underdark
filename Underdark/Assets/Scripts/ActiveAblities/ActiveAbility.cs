@@ -22,7 +22,7 @@ public abstract class ActiveAbility : MonoBehaviour
     
     protected DamageInfo damageInfo = new();
     
-    [SerializeField] protected List<DebuffInfo> debuffInfos;
+    [SerializeField] protected ActiveAbilityProperty<DebuffInfoList> debuffInfos;
     
     [SerializeField] private bool needAutoDestroy;
     [SerializeField] private float autoDestroyDelay;
@@ -120,16 +120,16 @@ public abstract class ActiveAbility : MonoBehaviour
     public virtual string[] ToString(Unit owner)
     {
         var res = new string[7];
-        var abilityLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
+        var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
 
         res[0] = description;
-        if (StatMultiplier.GetValue(abilityLevel) != 0)
+        if (StatMultiplier.GetValue(currentLevel) != 0)
             res[1] =
-                $"Damage: {StatMultiplier.GetValue(abilityLevel)} * {UnitStats.GetStatString(baseStat)} (max: {MaxValue.GetValue(abilityLevel)})";
-        if (abilityLevel != 0)       res[2] = $"Mana: {abilityLevel}";
-        if (AttackDistance.GetValue(abilityLevel) != 0) res[3] = $"Distance: {AttackDistance.GetValue(abilityLevel)}";
-        if (AttackRadius.GetValue(abilityLevel) != 0 && NeedAttackRadius) res[4] = $"Radius: {AttackRadius.GetValue(abilityLevel)}";
-        if (Cooldown.GetValue(abilityLevel) != 0)    res[5] = $"Cooldown: {Cooldown.GetValue(abilityLevel)}";
+                $"Damage: {StatMultiplier.GetValue(currentLevel)} * {UnitStats.GetStatString(baseStat)} (max: {MaxValue.GetValue(currentLevel)})";
+        if (currentLevel != 0)       res[2] = $"Mana: {currentLevel}";
+        if (AttackDistance.GetValue(currentLevel) != 0) res[3] = $"Distance: {AttackDistance.GetValue(currentLevel)}";
+        if (AttackRadius.GetValue(currentLevel) != 0 && NeedAttackRadius) res[4] = $"Radius: {AttackRadius.GetValue(currentLevel)}";
+        if (Cooldown.GetValue(currentLevel) != 0)    res[5] = $"Cooldown: {Cooldown.GetValue(currentLevel)}";
         if (validWeaponTypes.Count != 0 && !validWeaponTypes.Contains(WeaponType.Any)) res[6] = $"Weapon: {GetValidWeaponTypesString()}";
         return res;
     }
@@ -137,8 +137,9 @@ public abstract class ActiveAbility : MonoBehaviour
     public string[] ToStringAdditional(Unit owner)
     {
         List<string> res = new List<string>();
+        var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
 
-        foreach (var debuffInfo in debuffInfos)
+        foreach (var debuffInfo in debuffInfos.GetValue(currentLevel).DebuffInfos)
         {
             res.Add(debuffInfo.ToString());
         }

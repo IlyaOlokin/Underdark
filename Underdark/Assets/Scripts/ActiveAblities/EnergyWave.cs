@@ -17,7 +17,7 @@ public class EnergyWave : ActiveAbility
 
         foreach (var target in targets)
         {
-            foreach (var debuffInfo in debuffInfos)
+            foreach (var debuffInfo in debuffInfos.GetValue(abilityLevel).DebuffInfos)
             {
                 debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
             }

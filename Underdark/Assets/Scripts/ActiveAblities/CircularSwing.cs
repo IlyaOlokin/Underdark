@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CircularSwing : ActiveAbility, IAttacker
+public class CircularSwing : ActiveAbility, IAttackerAOE
 {
     public Transform Transform => transform;
     [Header("Visual")]
@@ -30,16 +30,11 @@ public class CircularSwing : ActiveAbility, IAttacker
         {
             if (target.GetComponent<IDamageable>().TakeDamage(caster, this, damageInfo))
             {
-                foreach (var debuffInfo in debuffInfos)
+                foreach (var debuffInfo in debuffInfos.GetValue(abilityLevel).DebuffInfos)
                 {
                     debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
                 }
             }
         }
-    }
-
-    public void Attack(IDamageable unit)
-    {
-        throw new System.NotImplementedException();
     }
 }

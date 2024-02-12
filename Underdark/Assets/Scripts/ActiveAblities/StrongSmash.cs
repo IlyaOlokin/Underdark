@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class StrongSmash : ActiveAbility, IAttacker
+public class StrongSmash : ActiveAbility, IAttackerAOE
 {
     public Transform Transform => transform;
     
@@ -47,16 +47,11 @@ public class StrongSmash : ActiveAbility, IAttacker
         {
             if (target.GetComponent<IDamageable>().TakeDamage(caster, this, damageInfo))
             {
-                foreach (var debuffInfo in debuffInfos)
+                foreach (var debuffInfo in debuffInfos.GetValue(abilityLevel).DebuffInfos)
                 {
                     debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
                 }
             }
         }
-    }
-
-    public void Attack(IDamageable unit)
-    {
-        throw new System.NotImplementedException();
     }
 }

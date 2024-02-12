@@ -20,14 +20,4 @@ public class PushZone : MonoBehaviour, IAttacker
             }
         }
     }
-
-    public void Attack()
-    {
-        throw new NotImplementedException();
-    }
-
-    public void Attack(IDamageable unit)
-    {
-        throw new NotImplementedException();
-    }
 }

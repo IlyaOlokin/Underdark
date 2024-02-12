@@ -23,12 +23,12 @@ public class MagicalRestoration : ActiveAbility
     public override string[] ToString(Unit owner)
     {
         var res = new string[6];
-        var abilityLevel = GetManaCost(owner.GetExpOfActiveAbility(ID));
-
+        var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
+        
         res[0] = description;
-        res[1] = $"Heal: {StatMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {MaxValue})";
+        res[1] = $"Heal: {StatMultiplier.GetValue(currentLevel)} * {UnitStats.GetStatString(baseStat)} (max: {MaxValue.GetValue(currentLevel)})";
         if (GetManaCost(owner.GetExpOfActiveAbility(ID)) != 0) res[2] = $"Mana: {GetManaCost(owner.GetExpOfActiveAbility(ID))}";
-        if (Cooldown.GetValue(abilityLevel) != 0) res[5] = $"Cooldown: {Cooldown.GetValue(abilityLevel)}";
+        if (Cooldown.GetValue(currentLevel) != 0) res[5] = $"Cooldown: {Cooldown.GetValue(currentLevel)}";
         return res;
     }
 }

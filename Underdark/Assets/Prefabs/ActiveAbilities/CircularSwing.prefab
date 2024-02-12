@@ -261,7 +261,9 @@ MonoBehaviour:
   baseStat: 0
   damageType: 0
   validWeaponTypes: 00000000
-  debuffInfos: []
+  debuffInfos:
+    values:
+    - DebuffInfos: []
   needAutoDestroy: 1
   autoDestroyDelay: 0.5
   description: You quickly spin around yourself, cutting through all nearby enemies.

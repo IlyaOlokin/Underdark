@@ -67,7 +67,9 @@ MonoBehaviour:
   baseStat: 0
   damageType: 0
   validWeaponTypes: 05000000
-  debuffInfos: []
+  debuffInfos:
+    values:
+    - DebuffInfos: []
   needAutoDestroy: 1
   autoDestroyDelay: 0.1
   description: You create a bad magical shield in front of you that absorbs damage
