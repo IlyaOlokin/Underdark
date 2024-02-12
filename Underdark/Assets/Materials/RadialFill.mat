@@ -28,7 +28,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Tex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 84487d73ca4b791498332d8f6858417f, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_a652beac2ff24532b3afbedc414c7522_Out_0_Texture2D:
@@ -57,10 +57,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FillAmount: 60
+    - _FillAmount: 360
     - _NeedOneMinusAlpha: 0
-    - _Thikness: 8
-    - _Turn: 90
+    - _PixelCount: 50
+    - _Thikness: 6
+    - _Turn: 0
     m_Colors:
     - _Color: {r: 7.9999995, g: 7.9999995, b: 7.9999995, a: 0}
   m_BuildTextureStacks: []
