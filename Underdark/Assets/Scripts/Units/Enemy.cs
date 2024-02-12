@@ -86,9 +86,9 @@ public class Enemy : Unit
 
     public override bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
     {
-        Agr(sender.transform.position);
+        Agr(sender.transform.position); // optional
         var res = base.TakeDamage(sender, attacker, damageInfo, evadable);
-        AgrNearbyAllies();
+        AgrNearbyAllies(); // optional
 
         return res;
     }

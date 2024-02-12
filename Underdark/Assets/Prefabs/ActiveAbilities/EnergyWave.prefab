@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 0.16509432, g: 0.5743185, b: 1, a: 1}
+  m_Color: {r: 0.42330417, g: 0.1990477, b: 0.6698113, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -154,7 +154,8 @@ MonoBehaviour:
   validWeaponTypes: 05000000
   debuffInfos:
     values:
-    - DebuffInfos: []
+    - DebuffInfos:
+      - {fileID: 11400000, guid: 41e3e8d7a78efba44bda9fb1d36e71f2, type: 2}
   needAutoDestroy: 1
   autoDestroyDelay: 0.5
   description: Release a stream of magic in front of you, knocking enemies back.
