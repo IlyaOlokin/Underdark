@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
-  m_Color: {r: 0.16509432, g: 0.5743185, b: 1, a: 1}
+  m_Color: {r: 0.42330417, g: 0.1990477, b: 0.6698113, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -129,20 +129,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34eaaba3137648945bd9bc7b52a86f1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <ID>k__BackingField: energy_wave
+  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
-  Cooldown: 5
-  ManaCost: 5
-  <NeedOverrideWithWeaponStats>k__BackingField: 0
+  <Cooldown>k__BackingField:
+    values:
+    - 5
+  manaCost:
+    values: 05000000
   <NeedAttackRadius>k__BackingField: 1
-  <AttackDistance>k__BackingField: 5
-  <AttackRadius>k__BackingField: 120
-  maxValue: 0
-  statMultiplier: 0
+  <AttackDistance>k__BackingField:
+    values:
+    - 5
+  <AttackRadius>k__BackingField:
+    values:
+    - 120
+  <MaxValue>k__BackingField:
+    values:
+    - 0
+  <StatMultiplier>k__BackingField:
+    values: 00000000
   baseStat: 0
   damageType: 0
   validWeaponTypes: 05000000
   debuffInfos:
-  - {fileID: 11400000, guid: 41e3e8d7a78efba44bda9fb1d36e71f2, type: 2}
+    values:
+    - DebuffInfos:
+      - {fileID: 11400000, guid: 41e3e8d7a78efba44bda9fb1d36e71f2, type: 2}
   needAutoDestroy: 1
   autoDestroyDelay: 0.5
   description: Release a stream of magic in front of you, knocking enemies back.

@@ -6,24 +6,24 @@ using UnityEngine;
 
 public class ExecutableItemSO : Item
 {
-    [SerializeField] private ExecutableItem executableItem;
+    [field:SerializeField] public ExecutableItem ExecutableItem { get; private set; }
 
     public bool Execute(Unit caster)
     {
-        if (executableItem is Elixir)
+        if (ExecutableItem is Elixir)
             ElixirStaticData.ElixirID = ID;
         
-        return executableItem.Execute(caster);
+        return ExecutableItem.Execute(caster);
     }
 
     public override string[] ToString(Unit owner)
     {
-        return executableItem.ToString(owner);
+        return ExecutableItem.ToString(owner);
     }
     
-    public override string[] ToStringAdditional()
+    public override string[] ToStringAdditional(Unit owner)
     {
-        return executableItem.ToStringAdditional();
+        return ExecutableItem.ToStringAdditional();
     }
     
 }

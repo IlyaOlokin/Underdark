@@ -2,24 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CircularSwing : ActiveAbility, IAttacker
+public class CircularSwing : ActiveAbility, IAttackerAOE
 {
     public Transform Transform => transform;
     [Header("Visual")]
     [SerializeField] private BaseAttackVisual visual;
     
-    
-    public override void Execute(Unit caster)
+    public override void Execute(Unit caster, int level)
     {
-        base.Execute(caster);
-        
-        int damage = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
+        base.Execute(caster, level);
+
+        int damage = (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
+            MaxValue.GetValue(abilityLevel));
         damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
         
         Attack();
         
         var attackDirAngle = Vector3.Angle(Vector3.right, attackDir);
-        visual.Swing(attackDirAngle, AttackRadius, AttackDistance);
+        visual.Swing(attackDirAngle, AttackRadius.GetValue(abilityLevel), AttackDistance.GetValue(abilityLevel), true);
     }
     
     public void Attack()
@@ -30,16 +30,11 @@ public class CircularSwing : ActiveAbility, IAttacker
         {
             if (target.GetComponent<IDamageable>().TakeDamage(caster, this, damageInfo))
             {
-                foreach (var debuffInfo in debuffInfos)
+                foreach (var debuffInfo in debuffInfos.GetValue(abilityLevel).DebuffInfos)
                 {
                     debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
                 }
             }
         }
-    }
-
-    public void Attack(IDamageable unit)
-    {
-        throw new System.NotImplementedException();
     }
 }

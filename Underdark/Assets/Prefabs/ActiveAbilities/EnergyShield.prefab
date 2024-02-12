@@ -44,19 +44,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b7aa0757fe183e4ebfe583340fd14f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <ID>k__BackingField: energy_shield
+  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
-  Cooldown: 60
-  ManaCost: 25
-  <NeedOverrideWithWeaponStats>k__BackingField: 0
+  <Cooldown>k__BackingField:
+    values:
+    - 60
+  manaCost:
+    values: 19000000
   <NeedAttackRadius>k__BackingField: 1
-  <AttackDistance>k__BackingField: 0
-  <AttackRadius>k__BackingField: 120
-  maxValue: 0
-  statMultiplier: 0
+  <AttackDistance>k__BackingField:
+    values:
+    - 1
+  <AttackRadius>k__BackingField:
+    values:
+    - 120
+  <MaxValue>k__BackingField:
+    values:
+    - 0
+  <StatMultiplier>k__BackingField:
+    values: 00000000
   baseStat: 0
   damageType: 0
   validWeaponTypes: 05000000
-  debuffInfos: []
+  debuffInfos:
+    values:
+    - DebuffInfos: []
   needAutoDestroy: 1
   autoDestroyDelay: 0.1
   description: You create a bad magical shield in front of you that absorbs damage

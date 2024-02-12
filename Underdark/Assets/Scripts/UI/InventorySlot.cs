@@ -12,9 +12,8 @@ public class InventorySlot : IInventorySlot
 
     public void SetItem(Item item, int amount = 1)
     {
-        //if (!IsEmpty) return;
         Item = item;
-        Amount = amount;
+        if (item != null) Amount = amount;
     }
 
     public void Clear()

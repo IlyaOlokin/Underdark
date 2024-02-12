@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "ItemsStorage", fileName = "ItemStorage")]
@@ -16,6 +17,8 @@ public class ItemsStorageSO : ScriptableObject
         {
             Items.Add(item);
         }
+
+        EditorUtility.SetDirty(this);
     }
 
     public void Clear()

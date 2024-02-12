@@ -1,21 +1,22 @@
 using System.Collections;
 using UnityEngine;
 
-public class Puncture : ActiveAbility, IAttacker
+public class Puncture : ActiveAbility, IAttackerTarget
 {
     public Transform Transform => transform;
     
-    [SerializeField] private int targetsCount;
+    [SerializeField] private ActiveAbilityProperty<int> attacksCount;
     [SerializeField] private float attackDelay;
 
     [Header("Visual")] 
     [SerializeField] private PunctureVisual visualPrefab;
     
-    public override void Execute(Unit caster)
+    public override void Execute(Unit caster, int level)
     {
-        base.Execute(caster);
-        
-        int damage = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, maxValue);
+        base.Execute(caster, level);
+
+        int damage = (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
+            MaxValue.GetValue(abilityLevel));
         damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
         
         StartCoroutine(PerformAttack());
@@ -23,7 +24,7 @@ public class Puncture : ActiveAbility, IAttacker
 
     IEnumerator PerformAttack()
     {
-        for (int i = 0; i < targetsCount; i++)
+        for (int i = 0; i < attacksCount.GetValue(abilityLevel); i++)
         {
             var target = FindClosestTarget(caster);
 
@@ -39,17 +40,12 @@ public class Puncture : ActiveAbility, IAttacker
             yield return new WaitForSeconds(attackDelay);
         }
     }
-    
-    public void Attack()
-    {
-        
-    }
 
     public void Attack(IDamageable damageable)
     {
         if (damageable.TakeDamage(caster, this, damageInfo))
         {
-            foreach (var debuffInfo in debuffInfos)
+            foreach (var debuffInfo in debuffInfos.GetValue(abilityLevel).DebuffInfos)
             {
                 debuffInfo.Execute(this, (Unit) damageable, caster);
             }

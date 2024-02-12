@@ -44,23 +44,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750d24a05f5cc6c408d0cefda6260359, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <ID>k__BackingField: puncture
+  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
-  Cooldown: 2
-  ManaCost: 0
-  <NeedOverrideWithWeaponStats>k__BackingField: 0
+  <Cooldown>k__BackingField:
+    values:
+    - 2
+  manaCost:
+    values: 00000000
   <NeedAttackRadius>k__BackingField: 1
-  <AttackDistance>k__BackingField: 1
-  <AttackRadius>k__BackingField: 120
-  maxValue: 80
-  statMultiplier: 3
+  <AttackDistance>k__BackingField:
+    values:
+    - 1
+  <AttackRadius>k__BackingField:
+    values:
+    - 120
+  <MaxValue>k__BackingField:
+    values:
+    - 80
+  <StatMultiplier>k__BackingField:
+    values: 03000000
   baseStat: 1
   damageType: 0
   validWeaponTypes: 0000000001000000
   debuffInfos:
-  - {fileID: 11400000, guid: a70ffa3326a7a1a4aa92b94e022f3ca5, type: 2}
+    values:
+    - DebuffInfos:
+      - {fileID: 11400000, guid: a70ffa3326a7a1a4aa92b94e022f3ca5, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: 5043a551c1dc0c84b9f7ee47e4367fc3, type: 2}
   needAutoDestroy: 1
-  autoDestroyDelay: 0.2
+  autoDestroyDelay: 1
   description: You deliver one precise thrust to the enemy's most vulnerable spot.
-  targetsCount: 1
-  attackDelay: 0
+  attacksCount:
+    values: 0100000003000000
+  attackDelay: 0.1
   visualPrefab: {fileID: 2110307370418043212, guid: 4583219448fcf0e448026298a9af9738, type: 3}

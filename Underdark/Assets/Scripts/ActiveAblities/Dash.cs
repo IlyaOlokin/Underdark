@@ -14,9 +14,9 @@ public class Dash : ActiveAbility
     [Header("Visual")] 
     [SerializeField] private List<ParticleSystem> particleSystems;
     
-    public override void Execute(Unit caster)
+    public override void Execute(Unit caster, int level)
     {
-        base.Execute(caster);
+        base.Execute(caster, level);
         
         transform.SetParent(caster.transform);
         
@@ -75,7 +75,7 @@ public class Dash : ActiveAbility
         var hits = new List<RaycastHit2D>();
 
        Physics2D.Raycast(transform.position, caster.GetLastMoveDir(), contactFilter, hits,
-            AttackDistance);
+            AttackDistance.GetValue(abilityLevel));
 
         bool wallHit = false;
         foreach (var hit in hits)
@@ -85,7 +85,7 @@ public class Dash : ActiveAbility
             break;
         }
 
-        if (!wallHit) destinationPoint += caster.GetLastMoveDir() * AttackDistance;
+        if (!wallHit) destinationPoint += caster.GetLastMoveDir() * AttackDistance.GetValue(abilityLevel);
         return destinationPoint;
     }
 }

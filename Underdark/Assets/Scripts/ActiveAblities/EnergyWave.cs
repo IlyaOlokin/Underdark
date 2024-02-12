@@ -9,15 +9,15 @@ public class EnergyWave : ActiveAbility
     [SerializeField] private float visualDuration;
     [SerializeField] private float scaleLerpSpeed;
     
-    public override void Execute(Unit caster)
+    public override void Execute(Unit caster, int level)
     {
-        base.Execute(caster);
+        base.Execute(caster, level);
         
         var targets = FindAllTargets(caster);
 
         foreach (var target in targets)
         {
-            foreach (var debuffInfo in debuffInfos)
+            foreach (var debuffInfo in debuffInfos.GetValue(abilityLevel).DebuffInfos)
             {
                 debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
             }
@@ -30,11 +30,11 @@ public class EnergyWave : ActiveAbility
     {
         visualSR.material = new Material(visualSR.material);
         
-        var targetScale = transform.localScale * (AttackDistance * 2 + 1);
+        var targetScale = transform.localScale * (AttackDistance.GetValue(abilityLevel) * 2 + 1);
         transform.localScale = Vector3.zero;
         
         visualSR.material.SetFloat("_Turn", caster.GetAttackDirAngle(attackDir));
-        visualSR.material.SetFloat("_FillAmount", AttackRadius);
+        visualSR.material.SetFloat("_FillAmount", AttackRadius.GetValue(abilityLevel));
         
         while (visualDuration > 0)
         {

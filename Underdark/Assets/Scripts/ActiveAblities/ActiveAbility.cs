@@ -2,27 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public abstract class ActiveAbility : MonoBehaviour
 {
+    [field:SerializeField] public string ID { get; private set; }
+    public ActiveAbilityLevelSetupSO ActiveAbilityLevelSetupSO;
     public float CastTime;
-    public float Cooldown;
-    public int ManaCost;
+    [field:SerializeField] public ActiveAbilityProperty<float> Cooldown { get; private set; }
+    [SerializeField] private ActiveAbilityProperty<int> manaCost;
     
-    [field:SerializeField] public bool NeedOverrideWithWeaponStats { get; private set; }
     [field:SerializeField] public bool NeedAttackRadius { get; private set; }
-    [field:SerializeField] public float AttackDistance { get; protected set; }
-    [field:SerializeField] public float AttackRadius { get; protected set; }
-    [SerializeField] protected float maxValue;
-    [SerializeField] protected int statMultiplier;
+    [field:SerializeField] public ActiveAbilityProperty<float> AttackDistance { get; protected set; }
+    [field:SerializeField] public ActiveAbilityProperty<float> AttackRadius { get; protected set; }
+    [field:SerializeField] protected ActiveAbilityProperty<float> MaxValue { get; set; }
+    [field:SerializeField] protected ActiveAbilityProperty<int> StatMultiplier { get; set; }
     [SerializeField] protected BaseStat baseStat;
     [SerializeField] protected DamageType damageType;
     [SerializeField] protected List<WeaponType> validWeaponTypes;
     
     protected DamageInfo damageInfo = new();
     
-    [SerializeField] protected List<DebuffInfo> debuffInfos;
+    [SerializeField] protected ActiveAbilityProperty<DebuffInfoList> debuffInfos;
     
     [SerializeField] private bool needAutoDestroy;
     [SerializeField] private float autoDestroyDelay;
@@ -32,18 +32,18 @@ public abstract class ActiveAbility : MonoBehaviour
     
     protected Unit caster;
     protected Vector2 attackDir;
+    protected int abilityLevel;
 
     protected virtual void Awake()
     {
         if (needAutoDestroy) Destroy(gameObject, autoDestroyDelay);
     }
 
-    public virtual void Execute(Unit caster)
+    public virtual void Execute(Unit caster, int exp)
     {
-        if (NeedOverrideWithWeaponStats) 
-            OverrideWeaponStats(caster.GetWeapon());
         this.caster = caster;
-        attackDir = caster.GetAttackDirection(AttackDistance);
+        abilityLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(exp);
+        attackDir = caster.GetAttackDirection(AttackDistance.GetValue(abilityLevel));
     }
     
     protected Collider2D FindClosestTarget(Unit caster)
@@ -51,7 +51,7 @@ public abstract class ActiveAbility : MonoBehaviour
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(caster.transform.position, AttackDistance + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(caster.transform.position, AttackDistance.GetValue(abilityLevel) + 0.5f, contactFilter, hitColliders);
 
         Collider2D target = null;
         float minDist = float.MaxValue;
@@ -61,7 +61,7 @@ public abstract class ActiveAbility : MonoBehaviour
 
             Vector3 dir = collider.transform.position - caster.transform.position;
             var angle = Vector2.Angle(dir, attackDir);
-            if (angle < AttackRadius / 2f && dir.magnitude < minDist)
+            if (angle < AttackRadius.GetValue(abilityLevel) / 2f && dir.magnitude < minDist)
             {
                 minDist = dir.magnitude;
                 target = collider;
@@ -76,7 +76,7 @@ public abstract class ActiveAbility : MonoBehaviour
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(caster.transform.position, AttackDistance + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(caster.transform.position, AttackDistance.GetValue(abilityLevel) + 0.5f, contactFilter, hitColliders);
 
         List<Collider2D> targets = new List<Collider2D>();
         foreach (var collider in hitColliders)
@@ -85,7 +85,7 @@ public abstract class ActiveAbility : MonoBehaviour
             
             Vector3 dir = collider.transform.position - caster.transform.position;
             var angle = Vector2.Angle(dir, attackDir);
-            if (angle < AttackRadius / 2f)
+            if (angle < AttackRadius.GetValue(abilityLevel) / 2f)
             {
                 targets.Add(collider);
             }
@@ -97,8 +97,8 @@ public abstract class ActiveAbility : MonoBehaviour
     private void OverrideWeaponStats(WeaponSO weapon)
     {
         if (weapon.ID == "empty") return;
-        AttackDistance = weapon.AttackDistance;
-        AttackRadius = weapon.AttackRadius;
+        //AttackDistance = weapon.AttackDistance;
+        //AttackRadius = weapon.AttackRadius;
     }
 
     public bool RequirementsMet(WeaponSO weapon)
@@ -106,30 +106,40 @@ public abstract class ActiveAbility : MonoBehaviour
         return validWeaponTypes.Contains(WeaponType.Any) || validWeaponTypes.Contains(weapon.WeaponType) || validWeaponTypes.Count == 0;
     }
 
-    public virtual bool CanUseAbility(Unit caster, float distToTarget)
+    public int GetManaCost(int exp)
     {
-        var attackDist = NeedOverrideWithWeaponStats ? caster.GetWeapon().AttackDistance : AttackDistance;
-        return caster.CurrentMana >= ManaCost && (distToTarget <= attackDist + 0.7f || attackDist == 0);
+        return manaCost.GetValue(ActiveAbilityLevelSetupSO.GetCurrentLevel(exp));
     }
 
-    public new virtual string[] ToString()
+    public virtual bool CanUseAbility(Unit caster, float distToTarget)
+    {
+        var attackDist = AttackDistance.GetValue(abilityLevel);
+        return caster.CurrentMana >= GetManaCost(caster.GetExpOfActiveAbility(ID)) && (distToTarget <= attackDist + 0.7f || attackDist == 0);
+    }
+
+    public virtual string[] ToString(Unit owner)
     {
         var res = new string[7];
+        var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
+
         res[0] = description;
-        if (statMultiplier != 0) res[1] = $"Damage: {statMultiplier} * {UnitStats.GetStatString(baseStat)} (max: {maxValue})";
-        if (ManaCost != 0)       res[2] = $"Mana: {ManaCost}";
-        if (AttackDistance != 0) res[3] = $"Distance: {AttackDistance}";
-        if (AttackRadius != 0 && NeedAttackRadius) res[4] = $"Radius: {AttackRadius}";
-        if (Cooldown != 0)    res[5] = $"Cooldown: {Cooldown}";
+        if (StatMultiplier.GetValue(currentLevel) != 0)
+            res[1] =
+                $"Damage: {StatMultiplier.GetValue(currentLevel)} * {UnitStats.GetStatString(baseStat)} (max: {MaxValue.GetValue(currentLevel)})";
+        if (currentLevel != 0)       res[2] = $"Mana: {currentLevel}";
+        if (AttackDistance.GetValue(currentLevel) != 0) res[3] = $"Distance: {AttackDistance.GetValue(currentLevel)}";
+        if (AttackRadius.GetValue(currentLevel) != 0 && NeedAttackRadius) res[4] = $"Radius: {AttackRadius.GetValue(currentLevel)}";
+        if (Cooldown.GetValue(currentLevel) != 0)    res[5] = $"Cooldown: {Cooldown.GetValue(currentLevel)}";
         if (validWeaponTypes.Count != 0 && !validWeaponTypes.Contains(WeaponType.Any)) res[6] = $"Weapon: {GetValidWeaponTypesString()}";
         return res;
     }
     
-    public string[] ToStringAdditional()
+    public string[] ToStringAdditional(Unit owner)
     {
         List<string> res = new List<string>();
+        var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
 
-        foreach (var debuffInfo in debuffInfos)
+        foreach (var debuffInfo in debuffInfos.GetValue(currentLevel).DebuffInfos)
         {
             res.Add(debuffInfo.ToString());
         }

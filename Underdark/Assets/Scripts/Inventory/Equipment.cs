@@ -27,6 +27,14 @@ public class Equipment
         return Weapon.IsValid ? (WeaponSO) Weapon.Item : null;
     }
     
+    public WeaponSO GetSecondaryWeapon()
+    {
+        if (!Shield.IsEmpty && Shield.IsValid && Shield.Item.ItemType == ItemType.Weapon)
+            return (WeaponSO) Shield.Item;
+
+        return null;
+    }
+    
     public IPassiveHolder GetShieldSlotPassiveHolder()
     {
         return Shield.IsValid ? (IPassiveHolder) Shield.Item : null;
@@ -55,7 +63,7 @@ public class Equipment
 
         foreach (var accessorySlot in Accessories)
         {
-            if (accessorySlot.IsEmpty || !accessorySlot.IsEmpty) continue;
+            if (accessorySlot.IsEmpty) continue;
             res.Add((AccessorySO)accessorySlot.Item);
         }
 

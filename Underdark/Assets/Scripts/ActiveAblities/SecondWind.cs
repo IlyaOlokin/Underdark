@@ -9,11 +9,12 @@ public class SecondWind : ActiveAbility
     [SerializeField] private float damageAmplification;
     [SerializeField] private float damageAmplificationDuration;
     [SerializeField] private Sprite buffIcon;
-    public override void Execute(Unit caster)
+    public override void Execute(Unit caster, int level)
     {
-        base.Execute(caster);
+        base.Execute(caster, level);
 
-        var healAmount = Mathf.Max(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier, caster.Stats.GetTotalStatValue(secondStat) * statMultiplier);
+        var healAmount = Mathf.Max(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
+            caster.Stats.GetTotalStatValue(secondStat) * StatMultiplier.GetValue(abilityLevel));
         transform.SetParent(caster.transform);
         caster.RestoreHP(healAmount, true);
 
@@ -27,11 +28,13 @@ public class SecondWind : ActiveAbility
         return base.CanUseAbility(caster, distToTarget) && caster.CurrentHP < caster.MaxHP * 0.5f;
     }
 
-    public override string[] ToString()
+    public override string[] ToString(Unit owner)
     {
         var res = new string[3];
+        var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
+        
         res[0] = description;
-        res[1] = $"Heal: {statMultiplier} * max({UnitStats.GetStatString(baseStat)}, {UnitStats.GetStatString(secondStat)})";
+        res[1] = $"Heal: {StatMultiplier.GetValue(currentLevel)} * max({UnitStats.GetStatString(baseStat)}, {UnitStats.GetStatString(secondStat)})";
         res[2] = $"Damage Amplification: {damageAmplification * 100}% ";
         return res;
     }

@@ -24,9 +24,10 @@ public class ItemDescription : MonoBehaviour
     [SerializeField] private Button confirmDeleteItemButton;
     [SerializeField] private Button canselDeleteItemButton;
     
+    [Header("Other")]
     [SerializeField] private GameObject confirmPanel;
-
-    private ExecutableItemSO currExecutableItem;
+    [SerializeField] private AbilityLevelDisplayUI abilityLevelDisplay;
+    
     private Unit currOwner;
     private IInventorySlot currInventorySlot;
 
@@ -44,11 +45,7 @@ public class ItemDescription : MonoBehaviour
     {
         ResetDescriptionActive(true);
         
-        if (item.GetType() == typeof(ExecutableItemSO))
-        {
-            currExecutableItem = (ExecutableItemSO) item;
-            useItemButton.interactable = true;
-        }
+        useItemButton.interactable = slot.SlotType is ItemType.Any or ItemType.Executable;
         
         currOwner = owner;
         currInventorySlot = slot;
@@ -65,7 +62,7 @@ public class ItemDescription : MonoBehaviour
             propertyFields[i].text = properties[i];
         }
 
-        var additionalProperties = item.ToStringAdditional();
+        var additionalProperties = item.ToStringAdditional(owner);
         
         for (int i = 0; i < additionalProperties.Length; i++)
         {
@@ -81,6 +78,20 @@ public class ItemDescription : MonoBehaviour
             var lastPropertyPos = additionalPropertyFields[i - 1].rectTransform.anchoredPosition;
             
             newText.rectTransform.anchoredPosition = new Vector3(lastPropertyPos.x, lastPropertyPos.y - yOffset, 0);
+        }
+
+        if (item.ItemType == ItemType.Executable && ((ExecutableItemSO)item).ExecutableItem is ScrollActiveAbility)
+        {
+            abilityLevelDisplay.gameObject.SetActive(true);
+
+            var scroll = (ScrollActiveAbility)((ExecutableItemSO)item).ExecutableItem;
+            abilityLevelDisplay.DisplayAbilityLevel(scroll.Item, owner.GetExpOfActiveAbility(scroll.Item.ActiveAbility.ID));
+        }
+        else if (item.ItemType == ItemType.ActiveAbility)
+        {
+            abilityLevelDisplay.gameObject.SetActive(true);
+            
+            abilityLevelDisplay.DisplayAbilityLevel((ActiveAbilitySO)item, owner.GetExpOfActiveAbility(((ActiveAbilitySO)item).ActiveAbility.ID));
         }
     }
 
@@ -104,13 +115,53 @@ public class ItemDescription : MonoBehaviour
         itemName.gameObject.SetActive(enabled);
 
         CloseConfirmPanel();
+        abilityLevelDisplay.gameObject.SetActive(false);
     }
 
     private void UseItem()
     {
-        if (!currExecutableItem.Execute(currOwner)) return;
-
-        currOwner.Inventory.Remove(currInventorySlot);
+        var item = currInventorySlot.Item;
+        IInventorySlot targetSlot = currInventorySlot;
+        
+        switch (item.ItemType)
+        {
+            case ItemType.Head:
+                targetSlot = currOwner.Inventory.Equipment.Head;
+                break;
+            case ItemType.Body:
+                targetSlot = currOwner.Inventory.Equipment.Body;
+                break;
+            case ItemType.Legs:
+                targetSlot = currOwner.Inventory.Equipment.Legs;
+                break;
+            case ItemType.Weapon:
+                targetSlot = currOwner.Inventory.Equipment.Weapon;
+                break;
+            case ItemType.Shield:
+                targetSlot = currOwner.Inventory.Equipment.Shield;
+                break;
+            case ItemType.Accessory:
+                targetSlot = currOwner.Inventory.Equipment.Accessories[0];
+                foreach (var accessorySlot in currOwner.Inventory.Equipment.Accessories)
+                {
+                    if (accessorySlot.IsEmpty)
+                    {
+                        targetSlot = accessorySlot;
+                        break;
+                    }
+                }
+                
+                break;
+            case ItemType.Executable:
+                if (((ExecutableItemSO)item).Execute(currOwner))
+                    currOwner.Inventory.Remove(currInventorySlot);
+                return;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+        
+        currOwner.Inventory.TryMoveItem(currInventorySlot, targetSlot,
+            currInventorySlot.SlotType, targetSlot.SlotType);
     }
 
     private void DeleteItem()

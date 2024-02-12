@@ -1,11 +1,9 @@
-using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour, IInventoryUI
 {
-    private Player player;
+    public Player Player { get; private set; }
     public Inventory Inventory { get; private set; }
     private UIInventorySlot selectedSlot;
 
@@ -33,17 +31,17 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     
     public void Init(Player player)
     {
-        this.player = player;
+        Player = player;
     }
 
-    private void Awake()
+    public void AwakeInit()
     {
-        Inventory = player.Inventory;
+        Inventory = Player.Inventory;
         
         var inventorySlots = Inventory.GetAllSlots();
         for (int i = 0; i < inventorySlots.Length; i++)
         {
-            slots[i].SetSlot(inventorySlots[i]);
+            slots[i].SetSlot(inventorySlots[i], this);
         }
 
         SetEquipmentSlots();
@@ -54,21 +52,21 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     {
         for (int i = 0; i < Inventory.ExecutableSlots.Count; i++)
         {
-            executableSlots[i].SetSlot(Inventory.ExecutableSlots[i]);
+            executableSlots[i].SetSlot(Inventory.ExecutableSlots[i], this);
         }
     }
 
     private void SetEquipmentSlots()
     {
         var equipmentSlots = Inventory.Equipment;
-        head.SetSlot(equipmentSlots.Head);
-        body.SetSlot(equipmentSlots.Body);
-        legs.SetSlot(equipmentSlots.Legs);
-        weapon.SetSlot(equipmentSlots.Weapon);
-        shield.SetSlot(equipmentSlots.Shield);
+        head.SetSlot(equipmentSlots.Head, this);
+        body.SetSlot(equipmentSlots.Body, this);
+        legs.SetSlot(equipmentSlots.Legs, this);
+        weapon.SetSlot(equipmentSlots.Weapon, this);
+        shield.SetSlot(equipmentSlots.Shield, this);
         
         for (var i = 0; i < equipmentSlots.Accessories.Count; i++)
-            accessories[i].SetSlot(equipmentSlots.Accessories[i]);
+            accessories[i].SetSlot(equipmentSlots.Accessories[i], this);
     }
 
     private void OnEnable()
@@ -76,7 +74,7 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         Inventory.CheckEquipmentFit();
         
         Inventory.OnInventoryChanged += UpdateUI;
-        player.Money.OnMoneyChanged += UpdateMoneyDisplay;
+        Player.Money.OnMoneyChanged += UpdateMoneyDisplay;
         UpdateUI();
         UpdateMoneyDisplay();
     }
@@ -106,20 +104,20 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         
         UpdateSelectedSlot();
 
-        armorText.text = player.GetTotalArmor().ToString();
-        attackText.text = player.GetWeapon().Damage.ToString(player.Stats.GetTotalStatValue(BaseStat.Strength),
-            player.Params.GetDamageAmplification(player.GetWeapon().Damage.DamageType));
+        armorText.text = Player.GetTotalArmor().ToString();
+        attackText.text = Player.GetWeapon().Damage.ToString(Player.Stats.GetTotalStatValue(BaseStat.Strength),
+            Player.Params.GetDamageAmplification(Player.GetWeapon().Damage.DamageType));
     }
 
     private void UpdateMoneyDisplay()
     {
-        moneyText.text = player.Money.GetMoneyString();
+        moneyText.text = Player.Money.GetMoneyString();
     }
 
     private void OnDisable()
     {
         Inventory.OnInventoryChanged -= UpdateUI;
-        player.Money.OnMoneyChanged -= UpdateMoneyDisplay;
+        Player.Money.OnMoneyChanged -= UpdateMoneyDisplay;
 
         DeselectSlot();
         FormatInventory();
@@ -146,7 +144,7 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         if (selectedSlot == null || selectedSlot.Slot.IsEmpty)
             itemDescription.ResetDescriptionActive(false);
         else
-            itemDescription.ShowItemDescription(selectedSlot.Slot.Item, player, selectedSlot.Slot);
+            itemDescription.ShowItemDescription(selectedSlot.Slot.Item, Player, selectedSlot.Slot);
     }
 
     private void DeselectSlot()

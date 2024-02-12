@@ -7,11 +7,11 @@ public class ActiveAbilitySO : Item
     
     public override string[] ToString(Unit owner)
     {
-        return ActiveAbility.ToString();
+        return ActiveAbility.ToString(owner);
     }
     
-    public override string[] ToStringAdditional()
+    public override string[] ToStringAdditional(Unit owner)
     {
-        return ActiveAbility.ToStringAdditional();
+        return ActiveAbility.ToStringAdditional(owner);
     }
 }
