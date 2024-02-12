@@ -154,7 +154,8 @@ MonoBehaviour:
   validWeaponTypes: 05000000
   debuffInfos:
     values:
-    - DebuffInfos: []
+    - DebuffInfos:
+      - {fileID: 11400000, guid: 3189324a1652f15439fe077e31727e8c, type: 2}
   needAutoDestroy: 1
   autoDestroyDelay: 0.3
   description: You deliver a powerful sweeping blow, putting all your strength into
