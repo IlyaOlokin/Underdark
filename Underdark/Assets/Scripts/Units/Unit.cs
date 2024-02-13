@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -22,6 +23,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     protected bool IsDisabled => isStunned || isFrozen;
     protected bool IsPushing { get; private set; }
     public bool IsSilenced { get; private set; }
+    public bool IsDead { get; private set; } 
+
     public event Action OnIsSilenceChanged;
 
     [SerializeField] private int baseMaxHP;
@@ -128,6 +131,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
     protected void SetUnit()
     {
+        IsDead = false;
         SetHP(true);
         SetMana(true);
         SetActiveAbilitiesCDs(true);
@@ -247,6 +251,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
     public virtual bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
     {
+        if (IsDead) return false;
+        
         var newEffect = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
 
         if (evadable && TryToEvade())
@@ -521,6 +527,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
     protected virtual void Death(Unit killer, IAttacker attacker, DamageType damageType)
     {
+        IsDead = true;
         OnUnitDeath?.Invoke();
         gameObject.SetActive(false);
     }

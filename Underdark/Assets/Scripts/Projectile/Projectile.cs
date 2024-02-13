@@ -17,11 +17,10 @@ public class Projectile : MonoBehaviour, IAttackerTarget
     
     protected Rigidbody2D rb;
     protected Collider2D coll;
-    protected void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
-        
     }
 
     public void Init(Unit caster, DamageInfo damageInfo, List<DebuffInfo> debuffInfos, int abilityLevel, 

@@ -17,7 +17,6 @@ public class FireBallProj : Projectile
         coll.enabled = false;
         rb.velocity = Vector2.zero;
         lightSpot.SetActive(false);
-
         sr.enabled = false;
 
         foreach (var system in deathExplosion)
