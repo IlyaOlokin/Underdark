@@ -8,9 +8,10 @@ public class CircularSwing : ActiveAbility, IAttackerAOE
     [Header("Visual")]
     [SerializeField] private BaseAttackVisual visual;
     
-    public override void Execute(Unit caster, int level)
+    public override void Execute(Unit caster, int level, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level);
+        base.Execute(caster, level, base.attackDir);
 
         int damage = (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
             MaxValue.GetValue(abilityLevel));
@@ -18,7 +19,7 @@ public class CircularSwing : ActiveAbility, IAttackerAOE
         
         Attack();
         
-        var attackDirAngle = Vector3.Angle(Vector3.right, attackDir);
+        var attackDirAngle = Vector3.Angle(Vector3.right, base.attackDir);
         visual.Swing(attackDirAngle, AttackRadius.GetValue(abilityLevel), AttackDistance.GetValue(abilityLevel), true);
     }
     

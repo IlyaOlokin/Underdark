@@ -1,19 +1,21 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Puncture : ActiveAbility, IAttackerTarget
 {
     public Transform Transform => transform;
     
-    [SerializeField] private ActiveAbilityProperty<int> attacksCount;
+    [SerializeField] private ScalableProperty<int> attacksCount;
     [SerializeField] private float attackDelay;
 
     [Header("Visual")] 
     [SerializeField] private PunctureVisual visualPrefab;
     
-    public override void Execute(Unit caster, int level)
+    public override void Execute(Unit caster, int level, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level);
+        base.Execute(caster, level, base.attackDir);
 
         int damage = (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
             MaxValue.GetValue(abilityLevel));

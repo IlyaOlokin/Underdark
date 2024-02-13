@@ -14,9 +14,10 @@ public class Dash : ActiveAbility
     [Header("Visual")] 
     [SerializeField] private List<ParticleSystem> particleSystems;
     
-    public override void Execute(Unit caster, int level)
+    public override void Execute(Unit caster, int level, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level);
+        base.Execute(caster, level, base.attackDir);
         
         transform.SetParent(caster.transform);
         

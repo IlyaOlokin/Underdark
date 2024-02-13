@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public class ActiveAbilityProperty<T> where T : new()
+public class ScalableProperty<T> where T : new()
 {
     [SerializeField] private List<T> values;
 

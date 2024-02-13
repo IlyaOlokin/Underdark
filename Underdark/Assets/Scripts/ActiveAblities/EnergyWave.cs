@@ -9,9 +9,10 @@ public class EnergyWave : ActiveAbility
     [SerializeField] private float visualDuration;
     [SerializeField] private float scaleLerpSpeed;
     
-    public override void Execute(Unit caster, int level)
+    public override void Execute(Unit caster, int level, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level);
+        base.Execute(caster, level, base.attackDir);
         
         var targets = FindAllTargets(caster);
 

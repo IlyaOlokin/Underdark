@@ -1,7 +1,10 @@
 using System;
+using UnityEngine;
 
 public interface IDamageable
 {
+    Transform Transform { get; }
+
     int MaxHP { get; }
     int CurrentHP { get; }
     public event Action<int> OnHealthChanged;

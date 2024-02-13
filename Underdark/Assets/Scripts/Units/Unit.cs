@@ -545,7 +545,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         if (attackCDTimer > 0 || actionCDTimer > 0 || IsDisabled) return;
         
         var newBaseAttack = Instantiate(baseAttackAbility, transform.position, Quaternion.identity);
-        newBaseAttack.Execute(this, 1);
+        newBaseAttack.Execute(this, 1, GetAttackDirection(newBaseAttack.AttackDistance.GetValue(1)));
 
         attackCDTimer = 1 / attackSpeed;
         SetActionCD(newBaseAttack.CastTime);
@@ -569,7 +569,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         SpendMana(manaCost);
         
         var newAbility = Instantiate(activeAbility, transform.position, Quaternion.identity);
-        newAbility.Execute(this, GetExpOfActiveAbility(activeAbility.ID));
+        var currentLevel = newAbility.ActiveAbilityLevelSetupSO.GetCurrentLevel(GetExpOfActiveAbility(activeAbility.ID));
+        newAbility.Execute(this, currentLevel, GetAttackDirection(newAbility.AttackDistance.GetValue(currentLevel)));
         SetActionCD(newAbility.CastTime);
         ActiveAbilitiesCD[index] = newAbility.Cooldown.GetValue(GetExpOfActiveAbility(newAbility.ID));
     }
