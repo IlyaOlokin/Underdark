@@ -19,7 +19,7 @@ public class CircularSwing : ActiveAbility, IAttackerAOE
         Attack();
         
         var attackDirAngle = Vector3.Angle(Vector3.right, attackDir);
-        visual.Swing(attackDirAngle, AttackRadius.GetValue(abilityLevel), AttackDistance.GetValue(abilityLevel));
+        visual.Swing(attackDirAngle, AttackRadius.GetValue(abilityLevel), AttackDistance.GetValue(abilityLevel), true);
     }
     
     public void Attack()

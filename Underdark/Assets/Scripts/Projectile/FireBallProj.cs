@@ -22,7 +22,7 @@ public class FireBallProj : Projectile
 
         foreach (var system in deathExplosion)
         {
-            var scale = explosionRadius.GetValue(abilityLevel);
+            var scale = explosionRadius.GetValue(abilityLevel) - 0.5f;
             system.transform.localScale = new Vector3(scale, scale);
             system.Play();
         }
@@ -48,7 +48,7 @@ public class FireBallProj : Projectile
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hits = new List<Collider2D>();
 
-        Physics2D.OverlapCircle(transform.position, explosionRadius.GetValue(abilityLevel) + 0.5f, contactFilter, hits);
+        Physics2D.OverlapCircle(transform.position, explosionRadius.GetValue(abilityLevel), contactFilter, hits);
 
         foreach (var hit in hits)
         {
