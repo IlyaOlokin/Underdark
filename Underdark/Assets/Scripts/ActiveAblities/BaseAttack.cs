@@ -13,12 +13,13 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
     [FormerlySerializedAs("baseAttackVisual")]
     [Header("Visual")] 
     [SerializeField] private BaseAttackVisual baseAttackVisualPref;
-    public override void Execute(Unit caster, int exp)
+    public override void Execute(Unit caster, int exp, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore1 = null)
     {
         this.caster = caster;
         abilityLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(exp);
         
-        attackDir = caster.GetAttackDirection(caster.GetWeapon().AttackDistance);
+        base.attackDir = caster.GetAttackDirection(caster.GetWeapon().AttackDistance);
         
         int damage = caster.GetWeapon().Damage.GetValue() + caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel);
         damageInfo.AddDamage(damage, caster.GetWeapon().Damage.DamageType, caster.Params.GetDamageAmplification(caster.GetWeapon().Damage.DamageType));

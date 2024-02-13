@@ -6,14 +6,15 @@ using UnityEngine;
 public class ProjectileAbility : ActiveAbility
 {
     [Header("Projectile Settings")] 
-    [SerializeField] private ActiveAbilityProperty<Projectile> projectilePref;
-    [SerializeField] protected ActiveAbilityProperty<ProjectileShotInfo> shotInfo;
-    [SerializeField] protected ActiveAbilityProperty<int> penetrationCount;
+    [SerializeField] private ScalableProperty<Projectile> projectilePref;
+    [SerializeField] protected ScalableProperty<ProjectileShotInfo> shotInfo;
+    [SerializeField] protected ScalableProperty<int> penetrationCount;
     [SerializeField] protected float projSpeed;
 
-    public override void Execute(Unit caster, int level)
+    public override void Execute(Unit caster, int exp, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore = null)
     {
-        base.Execute(caster, level);
+        base.Execute(caster, exp, attackDir, damageablesToIgnore);
 
         damageInfo.AddDamage(
             (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
@@ -22,7 +23,7 @@ public class ProjectileAbility : ActiveAbility
         StartCoroutine(InstantiateProjectiles());
     }
 
-    private IEnumerator InstantiateProjectiles()
+    protected virtual IEnumerator InstantiateProjectiles()
     {
         var currShotInfo = shotInfo.GetValue(abilityLevel);
         var currProjPref = projectilePref.GetValue(abilityLevel);
@@ -38,10 +39,10 @@ public class ProjectileAbility : ActiveAbility
                 var localAngle = angle + currShotInfo.AngleBetweenProj * ((j + 1) / 2) * (j % 2 == 0 ? 1 : -1);
                 var localDir = new Vector2(Mathf.Cos(localAngle * Mathf.Deg2Rad), Mathf.Sin(localAngle * Mathf.Deg2Rad));
                 var velocity = localDir * projSpeed; 
-                 
                 
                 var newProj = Instantiate(currProjPref, transform.position, Quaternion.identity);
-                newProj.Init(caster, damageInfo, debuffInfos.GetValue(abilityLevel).DebuffInfos, abilityLevel, velocity, destroyDelay, penetrations);
+                newProj.Init(caster, damageInfo, debuffInfos.GetValue(abilityLevel).DebuffInfos, abilityLevel, velocity,
+                    destroyDelay, penetrations, damageablesToIgnore);
             }
 
             yield return new WaitForSeconds(0.1f);

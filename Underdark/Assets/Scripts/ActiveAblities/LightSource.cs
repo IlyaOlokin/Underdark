@@ -23,11 +23,12 @@ public class LightSource : ActiveAbility
         lightSourceVisual.LightUp();
     }
     
-    public override void Execute(Unit caster, int level)
+    public override void Execute(Unit caster, int level, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level);
+        base.Execute(caster, level, base.attackDir);
 
-        rb.velocity = attackDir * projSpeed;
+        rb.velocity = base.attackDir * projSpeed;
     }
 
     private void Update()

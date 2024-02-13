@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class MagicalRestoration : ActiveAbility
 {
-    public override void Execute(Unit caster, int level)
+    public override void Execute(Unit caster, int level, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level);
+        base.Execute(caster, level, base.attackDir);
 
         var healAmount =
             (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),

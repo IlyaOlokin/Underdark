@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class StrongSmash : ActiveAbility, IAttackerAOE
@@ -10,9 +11,10 @@ public class StrongSmash : ActiveAbility, IAttackerAOE
     [SerializeField] private float visualDuration;
     [SerializeField] private float scaleLerpSpeed;
     
-    public override void Execute(Unit caster, int level)
+    public override void Execute(Unit caster, int level, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level);
+        base.Execute(caster, level, base.attackDir);
         int damage = (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
             MaxValue.GetValue(abilityLevel));
         damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));

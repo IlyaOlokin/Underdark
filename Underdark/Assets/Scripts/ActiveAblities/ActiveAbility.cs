@@ -8,21 +8,21 @@ public abstract class ActiveAbility : MonoBehaviour
     [field:SerializeField] public string ID { get; private set; }
     public ActiveAbilityLevelSetupSO ActiveAbilityLevelSetupSO;
     public float CastTime;
-    [field:SerializeField] public ActiveAbilityProperty<float> Cooldown { get; private set; }
-    [SerializeField] private ActiveAbilityProperty<int> manaCost;
+    [field:SerializeField] public ScalableProperty<float> Cooldown { get; private set; }
+    [SerializeField] private ScalableProperty<int> manaCost;
     
     [field:SerializeField] public bool NeedAttackRadius { get; private set; }
-    [field:SerializeField] public ActiveAbilityProperty<float> AttackDistance { get; protected set; }
-    [field:SerializeField] public ActiveAbilityProperty<float> AttackRadius { get; protected set; }
-    [field:SerializeField] protected ActiveAbilityProperty<float> MaxValue { get; set; }
-    [field:SerializeField] protected ActiveAbilityProperty<int> StatMultiplier { get; set; }
+    [field:SerializeField] public ScalableProperty<float> AttackDistance { get; protected set; }
+    [field:SerializeField] public ScalableProperty<float> AttackRadius { get; protected set; }
+    [field:SerializeField] protected ScalableProperty<float> MaxValue { get; set; }
+    [field:SerializeField] protected ScalableProperty<int> StatMultiplier { get; set; }
     [SerializeField] protected BaseStat baseStat;
     [SerializeField] protected DamageType damageType;
     [SerializeField] protected List<WeaponType> validWeaponTypes;
     
     protected DamageInfo damageInfo = new();
     
-    [SerializeField] protected ActiveAbilityProperty<DebuffInfoList> debuffInfos;
+    [SerializeField] protected ScalableProperty<DebuffInfoList> debuffInfos;
     
     [SerializeField] private bool needAutoDestroy;
     [SerializeField] private float autoDestroyDelay;
@@ -33,17 +33,20 @@ public abstract class ActiveAbility : MonoBehaviour
     protected Unit caster;
     protected Vector2 attackDir;
     protected int abilityLevel;
+    protected List<IDamageable> damageablesToIgnore;
 
     protected virtual void Awake()
     {
         if (needAutoDestroy) Destroy(gameObject, autoDestroyDelay);
     }
 
-    public virtual void Execute(Unit caster, int exp)
+    public virtual void Execute(Unit caster, int level, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore = null)
     {
         this.caster = caster;
-        abilityLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(exp);
-        attackDir = caster.GetAttackDirection(AttackDistance.GetValue(abilityLevel));
+        abilityLevel = level;
+        this.damageablesToIgnore = damageablesToIgnore;
+        this.attackDir = attackDir; //caster.GetAttackDirection(AttackDistance.GetValue(abilityLevel));
     }
     
     protected Collider2D FindClosestTarget(Unit caster)

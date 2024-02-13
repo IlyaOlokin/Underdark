@@ -9,9 +9,10 @@ public class SecondWind : ActiveAbility
     [SerializeField] private float damageAmplification;
     [SerializeField] private float damageAmplificationDuration;
     [SerializeField] private Sprite buffIcon;
-    public override void Execute(Unit caster, int level)
+    public override void Execute(Unit caster, int level, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level);
+        base.Execute(caster, level, base.attackDir);
 
         var healAmount = Mathf.Max(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
             caster.Stats.GetTotalStatValue(secondStat) * StatMultiplier.GetValue(abilityLevel));

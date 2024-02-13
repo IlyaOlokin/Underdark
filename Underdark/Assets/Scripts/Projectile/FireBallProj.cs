@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FireBallProj : Projectile
 {
-    [SerializeField] private ActiveAbilityProperty<float> explosionRadius; 
+    [SerializeField] private ScalableProperty<float> explosionRadius; 
     
     [Header("Visual")] 
     [SerializeField] private GameObject lightSpot;
@@ -12,12 +12,11 @@ public class FireBallProj : Projectile
     [SerializeField] private List<ParticleSystem> deathExplosion;
     [SerializeField] private float destroyDelay = 1.5f;
 
-    protected override void Die()
+    protected override void Die(IDamageable damageable)
     {
         coll.enabled = false;
         rb.velocity = Vector2.zero;
         lightSpot.SetActive(false);
-
         sr.enabled = false;
 
         foreach (var system in deathExplosion)
@@ -32,7 +31,7 @@ public class FireBallProj : Projectile
             Explode();
         }
         
-        CancelInvoke(nameof(Die));
+        CancelInvoke(nameof(DieOld));
         Destroy(gameObject, destroyDelay);
     }
 
