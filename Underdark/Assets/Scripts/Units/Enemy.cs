@@ -23,6 +23,7 @@ public class Enemy : Unit
     [SerializeField] protected LayerMask alliesLayer;
     [SerializeField] private float lostPlayerDelay;
     private float lostPlayerTimer;
+    private const float AgrRadius = 20;
     public int PreparedActiveAbilityIndex { get; private set; }
     
     [SerializeField] protected float meleeAttackDuration;
@@ -86,9 +87,12 @@ public class Enemy : Unit
 
     public override bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
     {
-        Agr(sender.transform.position); // optional
         var res = base.TakeDamage(sender, attacker, damageInfo, evadable);
-        AgrNearbyAllies(); // optional
+        if (Vector2.Distance(transform.position, sender.transform.position) < AgrRadius)
+        {
+            Agr(sender.transform.position);
+            AgrNearbyAllies();
+        }
 
         return res;
     }
