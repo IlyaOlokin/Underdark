@@ -11,7 +11,7 @@ public abstract class ActiveAbility : MonoBehaviour
     [field:SerializeField] public ScalableProperty<float> Cooldown { get; private set; }
     [SerializeField] private ScalableProperty<int> manaCost;
     
-    [field:SerializeField] public bool NeedAttackRadius { get; private set; }
+    [field:SerializeField] public bool NeedAttackRadiusDisplay { get; private set; }
     [field:SerializeField] public ScalableProperty<float> AttackDistance { get; protected set; }
     [field:SerializeField] public ScalableProperty<float> AttackRadius { get; protected set; }
     [field:SerializeField] protected ScalableProperty<float> MaxValue { get; set; }
@@ -96,13 +96,6 @@ public abstract class ActiveAbility : MonoBehaviour
 
         return targets;
     }
-    
-    private void OverrideWeaponStats(WeaponSO weapon)
-    {
-        if (weapon.ID == "empty") return;
-        //AttackDistance = weapon.AttackDistance;
-        //AttackRadius = weapon.AttackRadius;
-    }
 
     public bool RequirementsMet(WeaponSO weapon)
     {
@@ -131,7 +124,7 @@ public abstract class ActiveAbility : MonoBehaviour
                 $"Damage: {StatMultiplier.GetValue(currentLevel)} * {UnitStats.GetStatString(baseStat)} (max: {MaxValue.GetValue(currentLevel)})";
         if (currentLevel != 0)       res[2] = $"Mana: {currentLevel}";
         if (AttackDistance.GetValue(currentLevel) != 0) res[3] = $"Distance: {AttackDistance.GetValue(currentLevel)}";
-        if (AttackRadius.GetValue(currentLevel) != 0 && NeedAttackRadius) res[4] = $"Radius: {AttackRadius.GetValue(currentLevel)}";
+        if (AttackRadius.GetValue(currentLevel) != 0 && NeedAttackRadiusDisplay) res[4] = $"Radius: {AttackRadius.GetValue(currentLevel)}";
         if (Cooldown.GetValue(currentLevel) != 0)    res[5] = $"Cooldown: {Cooldown.GetValue(currentLevel)}";
         if (validWeaponTypes.Count != 0 && !validWeaponTypes.Contains(WeaponType.Any)) res[6] = $"Weapon: {GetValidWeaponTypesString()}";
         return res;

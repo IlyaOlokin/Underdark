@@ -49,10 +49,10 @@ MonoBehaviour:
   CastTime: 0.1
   <Cooldown>k__BackingField:
     values:
-    - 0.5
+    - 3
   manaCost:
-    values: 05000000
-  <NeedAttackRadius>k__BackingField: 0
+    values: 050000000f0000004b000000
+  <NeedAttackRadiusDisplay>k__BackingField: 0
   <AttackDistance>k__BackingField:
     values:
     - 10
@@ -62,8 +62,12 @@ MonoBehaviour:
   <MaxValue>k__BackingField:
     values:
     - 50
+    - 100
+    - 200
+    - 500
+    - -1
   <StatMultiplier>k__BackingField:
-    values: 02000000
+    values: 0200000003000000040000000500000007000000
   baseStat: 2
   damageType: 2
   validWeaponTypes: 05000000
@@ -78,13 +82,23 @@ MonoBehaviour:
   projectilePref:
     values:
     - {fileID: 6288543716236813285, guid: f6d2b72615169ae47bc2638c678e6cb7, type: 3}
+  distributionType: 1
   shotInfo:
     values:
     - <Shots>k__BackingField: 1
       <ProjCountInShot>k__BackingField: 1
       <AngleBetweenProj>k__BackingField: 0
+    - <Shots>k__BackingField: 1
+      <ProjCountInShot>k__BackingField: 1
+      <AngleBetweenProj>k__BackingField: 30
     - <Shots>k__BackingField: 3
-      <ProjCountInShot>k__BackingField: 12
+      <ProjCountInShot>k__BackingField: 1
+      <AngleBetweenProj>k__BackingField: 10
+    - <Shots>k__BackingField: 7
+      <ProjCountInShot>k__BackingField: 1
+      <AngleBetweenProj>k__BackingField: 10
+    - <Shots>k__BackingField: 5
+      <ProjCountInShot>k__BackingField: 3
       <AngleBetweenProj>k__BackingField: 30
   penetrationCount:
     values: 00000000
