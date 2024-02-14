@@ -8,6 +8,7 @@ public class Lightning : ActiveAbility, IAttackerTarget
     public Transform Transform => transform;
 
     [SerializeField] private ScalableProperty<int> lightningCount;
+    [SerializeField] private ScalableProperty<float> lightningBounceDist;
     
     [Header("Visual")] 
     [SerializeField] private GameObject lightningPref;
@@ -22,23 +23,13 @@ public class Lightning : ActiveAbility, IAttackerTarget
         damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
 
         StartCoroutine(ShootLightning(caster.transform.position, 1, lightningCount.GetValue(abilityLevel),
+            AttackDistance.GetValue(abilityLevel),
             new List<IDamageable>()));
     }
-
-    public void Attack(IDamageable damageable)
-    {
-        if (damageable.TakeDamage(caster, this, damageInfo))
-        {
-            foreach (var debuffInfo in debuffInfos.GetValue(abilityLevel).DebuffInfos)
-            {
-                debuffInfo.Execute(this, (Unit) damageable, caster);
-            }
-        }
-    }
     
-    private IEnumerator ShootLightning(Vector3 startPos, float dmgMultiplier, int lightningsLeft, List<IDamageable> pickedEnemies)
+    private IEnumerator ShootLightning(Vector3 startPos, float dmgMultiplier, int lightningsLeft, float bounceDist, List<IDamageable> pickedTargets)
     {
-        var target = FindClosestTarget(caster, startPos);
+        var target = FindClosestTarget(caster, startPos, bounceDist, pickedTargets);
         
         if (lightningsLeft == 0 || target == null || !target.TryGetComponent(out IDamageable damageable))
         {
@@ -54,10 +45,21 @@ public class Lightning : ActiveAbility, IAttackerTarget
         lineRenderer.SetPosition(1, endPos);
         
         Attack(damageable);
-        pickedEnemies.Add(damageable);
+        pickedTargets.Add(damageable);
 
         yield return new WaitForSeconds(0.2f);
         
-        StartCoroutine(ShootLightning(endPos, dmgMultiplier, lightningsLeft--, pickedEnemies));
+        StartCoroutine(ShootLightning(endPos, dmgMultiplier, --lightningsLeft, lightningBounceDist.GetValue(abilityLevel), pickedTargets));
+    }
+    
+    public void Attack(IDamageable damageable)
+    {
+        if (damageable.TakeDamage(caster, this, damageInfo))
+        {
+            foreach (var debuffInfo in debuffInfos.GetValue(abilityLevel).DebuffInfos)
+            {
+                debuffInfo.Execute(this, (Unit) damageable, caster);
+            }
+        }
     }
 }

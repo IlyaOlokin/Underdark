@@ -51,14 +51,14 @@ MonoBehaviour:
     values:
     - 2
   manaCost:
-    values: 00000000
+    values: 07000000
   <NeedAttackRadiusDisplay>k__BackingField: 0
   <AttackDistance>k__BackingField:
     values:
     - 10
   <AttackRadius>k__BackingField:
     values:
-    - 120
+    - 360
   <MaxValue>k__BackingField:
     values:
     - 80
@@ -68,13 +68,14 @@ MonoBehaviour:
   damageType: 6
   validWeaponTypes: 05000000
   debuffInfos:
-    values:
-    - DebuffInfos:
-      - {fileID: 11400000, guid: 3189324a1652f15439fe077e31727e8c, type: 2}
-  needAutoDestroy: 1
-  autoDestroyDelay: 0.3
+    values: []
+  needAutoDestroy: 0
+  autoDestroyDelay: 0
   description: You deliver a powerful sweeping blow, putting all your strength into
     it.
   lightningCount:
     values: 02000000
+  lightningBounceDist:
+    values:
+    - 1.5
   lightningPref: {fileID: 8867036247694115972, guid: 13f237ef82639a34a88a93dfc693dcde, type: 3}

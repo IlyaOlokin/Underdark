@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WhiteFlash 1
+  m_Name: Lightning
   m_Shader: {fileID: -6465566751694194690, guid: de6b35b2fc7db404bb1aecdfa4ea9b3c, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -94,13 +94,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_3953024c36e7482ea694ecd85218819d: 1
-    - Vector1_3a2481cafac241b0a49be5cd4e4cb6ea: 0.1
+    - Vector1_3953024c36e7482ea694ecd85218819d: 0.5
+    - Vector1_3a2481cafac241b0a49be5cd4e4cb6ea: 0.2
     - Vector1_4cb11bff09b9470db3f30b5aff1c9bd5: 0.2
     - Vector1_7bc9cabd8a52474281679659bbd54d62: 0.15
     - Vector1_95765d9de2b94d679bf517d8f687022b: 25
     - _AlphaClip: 0
     - _Blend: 0
+    - _BorderStep: 0.9
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -123,6 +124,7 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
+    - _Width: 4.82
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public abstract class ActiveAbility : MonoBehaviour
 {
@@ -49,18 +50,20 @@ public abstract class ActiveAbility : MonoBehaviour
         this.attackDir = attackDir;
     }
     
-    protected Collider2D FindClosestTarget(Unit caster, Vector3 center)
+    protected Collider2D FindClosestTarget(Unit caster, Vector3 center, float distance, List<IDamageable> objectsToIgnore = null)
     {
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(center, AttackDistance.GetValue(abilityLevel) + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(center, distance / + 0.5f, contactFilter, hitColliders);
 
         Collider2D target = null;
         float minDist = float.MaxValue;
         foreach (var collider in hitColliders)
         {
-            if (!HitCheck(center,collider.transform, contactFilter)) continue;
+            if (!collider.TryGetComponent(out IDamageable damageable)) continue;
+            if (objectsToIgnore != null && objectsToIgnore.Contains(damageable)) continue;
+            if (!HitCheck(center, collider.transform, contactFilter)) continue;
 
             Vector3 dir = collider.transform.position - center;
             var angle = Vector2.Angle(dir, attackDir);
@@ -74,17 +77,19 @@ public abstract class ActiveAbility : MonoBehaviour
         return target;
     }
     
-    protected List<Collider2D> FindAllTargets(Unit caster, Vector3 center)
+    protected List<Collider2D> FindAllTargets(Unit caster, Vector3 center, float distance, List<IDamageable> objectsToIgnore = null)
     {
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(center, AttackDistance.GetValue(abilityLevel) + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(center, distance + 0.5f, contactFilter, hitColliders);
 
         List<Collider2D> targets = new List<Collider2D>();
         foreach (var collider in hitColliders)
         {
-            if (!HitCheck(center,collider.transform, contactFilter)) continue;
+            if (!collider.TryGetComponent(out IDamageable damageable)) continue;
+            if (objectsToIgnore != null && objectsToIgnore.Contains(damageable)) continue;
+            if (!HitCheck(center, collider.transform, contactFilter)) continue;
             
             Vector3 dir = collider.transform.position - center;
             var angle = Vector2.Angle(dir, attackDir);

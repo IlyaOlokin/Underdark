@@ -28,7 +28,7 @@ public class Puncture : ActiveAbility, IAttackerTarget
     {
         for (int i = 0; i < attacksCount.GetValue(abilityLevel); i++)
         {
-            var target = FindClosestTarget(caster, caster.transform.position);
+            var target = FindClosestTarget(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel));
 
             var visualPos = target == null
                 ? (Vector3)attackDir + transform.position

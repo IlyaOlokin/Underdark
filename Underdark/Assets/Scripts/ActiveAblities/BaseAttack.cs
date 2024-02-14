@@ -57,7 +57,7 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
 
     public void Attack()
     {
-        var hitUnits = FindAllTargets(caster, caster.transform.position);
+        var hitUnits = FindAllTargets(caster, caster.transform.position, currentWeapon.AttackDistance);
 
         foreach (var collider in hitUnits)
         {
@@ -74,16 +74,18 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
         }
     }
 
-    private new List<Collider2D> FindAllTargets(Unit caster, Vector3 center)
+    private new List<Collider2D> FindAllTargets(Unit caster, Vector3 center, float distance, List<IDamageable> objectsToIgnore = null)
     {
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(center, currentWeapon.AttackDistance + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(center, distance + 0.5f, contactFilter, hitColliders);
 
         List<Collider2D> targets = new List<Collider2D>();
         foreach (var collider in hitColliders)
         {
+            if (!collider.TryGetComponent(out IDamageable damageable)) continue;
+            if (objectsToIgnore != null && objectsToIgnore.Contains(damageable)) continue;
             if (!HitCheck(center, collider.transform, contactFilter)) continue;
             
             Vector3 dir = collider.transform.position - center;

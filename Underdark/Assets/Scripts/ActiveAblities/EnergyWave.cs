@@ -14,7 +14,7 @@ public class EnergyWave : ActiveAbility
     {
         base.Execute(caster, level, attackDir);
         
-        var targets = FindAllTargets(caster, caster.transform.position);
+        var targets = FindAllTargets(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel));
 
         foreach (var target in targets)
         {

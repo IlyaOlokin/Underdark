@@ -43,7 +43,7 @@ public class StrongSmash : ActiveAbility, IAttackerAOE
     
     public void Attack()
     {
-        var targets = FindAllTargets(caster, caster.transform.position);
+        var targets = FindAllTargets(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel));
 
         foreach (var target in targets)
         {
