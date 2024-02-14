@@ -15,7 +15,7 @@ public class Puncture : ActiveAbility, IAttackerTarget
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level, base.attackDir);
+        base.Execute(caster, level, attackDir);
 
         int damage = (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
             MaxValue.GetValue(abilityLevel));
@@ -28,7 +28,7 @@ public class Puncture : ActiveAbility, IAttackerTarget
     {
         for (int i = 0; i < attacksCount.GetValue(abilityLevel); i++)
         {
-            var target = FindClosestTarget(caster);
+            var target = FindClosestTarget(caster, caster.transform.position);
 
             var visualPos = target == null
                 ? (Vector3)attackDir + transform.position

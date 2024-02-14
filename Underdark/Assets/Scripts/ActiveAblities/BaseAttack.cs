@@ -57,7 +57,7 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
 
     public void Attack()
     {
-        var hitUnits = FindAllTargets(caster);
+        var hitUnits = FindAllTargets(caster, caster.transform.position);
 
         foreach (var collider in hitUnits)
         {
@@ -74,19 +74,19 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
         }
     }
 
-    private new List<Collider2D> FindAllTargets(Unit caster)
+    private new List<Collider2D> FindAllTargets(Unit caster, Vector3 center)
     {
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(caster.transform.position, currentWeapon.AttackDistance + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(center, currentWeapon.AttackDistance + 0.5f, contactFilter, hitColliders);
 
         List<Collider2D> targets = new List<Collider2D>();
         foreach (var collider in hitColliders)
         {
-            if (!HitCheck(caster.transform,collider.transform, contactFilter)) continue;
+            if (!HitCheck(center, collider.transform, contactFilter)) continue;
             
-            Vector3 dir = collider.transform.position - caster.transform.position;
+            Vector3 dir = collider.transform.position - center;
             var angle = Vector2.Angle(dir, attackDir);
             if (angle < currentWeapon.AttackRadius / 2f)
             {

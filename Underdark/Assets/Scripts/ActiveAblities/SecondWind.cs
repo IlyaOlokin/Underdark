@@ -12,7 +12,7 @@ public class SecondWind : ActiveAbility
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level, base.attackDir);
+        base.Execute(caster, level, attackDir);
 
         var healAmount = Mathf.Max(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
             caster.Stats.GetTotalStatValue(secondStat) * StatMultiplier.GetValue(abilityLevel));

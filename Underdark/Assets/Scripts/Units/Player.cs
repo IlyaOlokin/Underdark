@@ -92,7 +92,7 @@ public class Player : Unit, IPickUper, IMoneyHolder
         float minDist = float.MaxValue;
         foreach (var collider in hitColliders)
         {
-            if (!ActiveAbility.HitCheck(transform, collider.transform, contactFilter)) continue;
+            if (!ActiveAbility.HitCheck(transform.position, collider.transform, contactFilter)) continue;
 
             var distToTarget = Vector3.Distance(transform.position, collider.transform.position);
             if (distToTarget < minDist)

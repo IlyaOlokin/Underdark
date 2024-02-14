@@ -46,23 +46,23 @@ public abstract class ActiveAbility : MonoBehaviour
         this.caster = caster;
         abilityLevel = level;
         this.damageablesToIgnore = damageablesToIgnore;
-        this.attackDir = attackDir; //caster.GetAttackDirection(AttackDistance.GetValue(abilityLevel));
+        this.attackDir = attackDir;
     }
     
-    protected Collider2D FindClosestTarget(Unit caster)
+    protected Collider2D FindClosestTarget(Unit caster, Vector3 center)
     {
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(caster.transform.position, AttackDistance.GetValue(abilityLevel) + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(center, AttackDistance.GetValue(abilityLevel) + 0.5f, contactFilter, hitColliders);
 
         Collider2D target = null;
         float minDist = float.MaxValue;
         foreach (var collider in hitColliders)
         {
-            if (!HitCheck(caster.transform,collider.transform, contactFilter)) continue;
+            if (!HitCheck(center,collider.transform, contactFilter)) continue;
 
-            Vector3 dir = collider.transform.position - caster.transform.position;
+            Vector3 dir = collider.transform.position - center;
             var angle = Vector2.Angle(dir, attackDir);
             if (angle < AttackRadius.GetValue(abilityLevel) / 2f && dir.magnitude < minDist)
             {
@@ -74,19 +74,19 @@ public abstract class ActiveAbility : MonoBehaviour
         return target;
     }
     
-    protected List<Collider2D> FindAllTargets(Unit caster)
+    protected List<Collider2D> FindAllTargets(Unit caster, Vector3 center)
     {
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(caster.transform.position, AttackDistance.GetValue(abilityLevel) + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(center, AttackDistance.GetValue(abilityLevel) + 0.5f, contactFilter, hitColliders);
 
         List<Collider2D> targets = new List<Collider2D>();
         foreach (var collider in hitColliders)
         {
-            if (!HitCheck(caster.transform,collider.transform, contactFilter)) continue;
+            if (!HitCheck(center,collider.transform, contactFilter)) continue;
             
-            Vector3 dir = collider.transform.position - caster.transform.position;
+            Vector3 dir = collider.transform.position - center;
             var angle = Vector2.Angle(dir, attackDir);
             if (angle < AttackRadius.GetValue(abilityLevel) / 2f)
             {
@@ -122,7 +122,7 @@ public abstract class ActiveAbility : MonoBehaviour
         if (StatMultiplier.GetValue(currentLevel) != 0)
             res[1] =
                 $"Damage: {StatMultiplier.GetValue(currentLevel)} * {UnitStats.GetStatString(baseStat)} (max: {MaxValue.GetValue(currentLevel)})";
-        if (currentLevel != 0)       res[2] = $"Mana: {currentLevel}";
+        if (currentLevel != 0)       res[2] = $"Mana: {manaCost.GetValue(currentLevel)}";
         if (AttackDistance.GetValue(currentLevel) != 0) res[3] = $"Distance: {AttackDistance.GetValue(currentLevel)}";
         if (AttackRadius.GetValue(currentLevel) != 0 && NeedAttackRadiusDisplay) res[4] = $"Radius: {AttackRadius.GetValue(currentLevel)}";
         if (Cooldown.GetValue(currentLevel) != 0)    res[5] = $"Cooldown: {Cooldown.GetValue(currentLevel)}";
@@ -156,12 +156,11 @@ public abstract class ActiveAbility : MonoBehaviour
         return str.ToString();
     }
     
-    public static bool HitCheck(Transform caster, Transform target, ContactFilter2D contactFilter)
+    public static bool HitCheck(Vector3 startPos, Transform target, ContactFilter2D contactFilter)
     {
         List<RaycastHit2D> hits = new List<RaycastHit2D>();
 
-        Physics2D.Raycast(caster.transform.position,
-            target.position - caster.transform.position,
+        Physics2D.Raycast(startPos, target.position - startPos,
             contactFilter,
             hits);
         foreach (var hit in hits)
