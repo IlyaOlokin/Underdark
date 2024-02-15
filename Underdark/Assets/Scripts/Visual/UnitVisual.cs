@@ -115,7 +115,7 @@ public class UnitVisual : MonoBehaviour
         float angle;
         
         dist = activeAbility.AttackDistance.GetValue(owner.GetExpOfActiveAbility(activeAbility.ID));
-        angle = activeAbility.AttackRadius.GetValue(owner.GetExpOfActiveAbility(activeAbility.ID));
+        angle = activeAbility.AttackAngle.GetValue(owner.GetExpOfActiveAbility(activeAbility.ID));
         
         highLightZone.SetActive(true);
         highLightZone.transform.localScale = new Vector3(dist * 2 + 1, dist * 2 + 1);

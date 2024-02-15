@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7555566392093547892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8170032374961837674}
+  - component: {fileID: 4622702471863553492}
+  m_Layer: 0
+  m_Name: Lightning
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8170032374961837674
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7555566392093547892}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4622702471863553492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7555566392093547892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2b0e651663240b46a3eec46d64b7237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ID>k__BackingField: lightning
+  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
+  CastTime: 0.1
+  <Cooldown>k__BackingField:
+    values:
+    - 4
+  manaCost:
+    values: 07000000090000000a000000
+  <NeedAttackRadiusDisplay>k__BackingField: 0
+  <AttackDistance>k__BackingField:
+    values:
+    - 10
+  <AttackRadius>k__BackingField:
+    values:
+    - 360
+  <MaxValue>k__BackingField:
+    values:
+    - 100
+    - 200
+    - 350
+    - 500
+    - -1
+  <StatMultiplier>k__BackingField:
+    values: 030000000400000005000000070000000a000000
+  baseStat: 2
+  damageType: 6
+  validWeaponTypes: 05000000
+  debuffInfos:
+    values:
+    - DebuffInfos: []
+    - DebuffInfos:
+      - {fileID: 11400000, guid: b063529774e466b42866c32db944a551, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: ac6ba36a7c7193f4b9d8c28e9974f1dd, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: 9112b890ed8766944a1093c6506a0b97, type: 2}
+      - {fileID: 11400000, guid: de6806fe68737014d9c56d0194f493b8, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: cefd0a5875a23974ea19798cf72b483b, type: 2}
+      - {fileID: 11400000, guid: 21ecba8f2f2f5744fbea3e9ae660fb31, type: 2}
+  needAutoDestroy: 0
+  autoDestroyDelay: 0
+  description: You deliver a powerful sweeping blow, putting all your strength into
+    it.
+  lightningCount:
+    values: 0200000002000000030000000500000007000000
+  lightningBounceDist:
+    values:
+    - 1.5
+    - 2
+    - 2
+    - 3
+    - 5
+  bounceDamageMultiplier:
+    values:
+    - 0.5
+    - 0.75
+    - 1
+  lightningPref: {fileID: 8867036247694115972, guid: 13f237ef82639a34a88a93dfc693dcde, type: 3}
+  sparksPref: {fileID: 6922698475453868489, guid: 283f956747adc284db2ea761cb9013de, type: 3}

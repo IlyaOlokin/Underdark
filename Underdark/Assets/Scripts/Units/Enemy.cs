@@ -153,7 +153,7 @@ public class Enemy : Unit
     public override void ApplySlow(float slow)
     {
         base.ApplySlow(slow);
-        agent.speed = MoveSpeed / slow;
+        agent.speed = MoveSpeed * Params.SlowAmount;
     }
     
     public override bool GetStunned(StunInfo stunInfo, Sprite effectIcon)

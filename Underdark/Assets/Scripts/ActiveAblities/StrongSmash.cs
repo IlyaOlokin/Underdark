@@ -14,10 +14,9 @@ public class StrongSmash : ActiveAbility, IAttackerAOE
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level, base.attackDir);
-        int damage = (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
-            MaxValue.GetValue(abilityLevel));
-        damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
+        base.Execute(caster, level, attackDir);
+        
+        InitDamage(caster);
         Attack();
         
         StartCoroutine(StartVisual());
@@ -31,7 +30,7 @@ public class StrongSmash : ActiveAbility, IAttackerAOE
         transform.localScale = Vector3.zero;
         
         visualSR.material.SetFloat("_Turn", caster.GetAttackDirAngle(attackDir));
-        visualSR.material.SetFloat("_FillAmount", AttackRadius.GetValue(abilityLevel));
+        visualSR.material.SetFloat("_FillAmount", AttackAngle.GetValue(abilityLevel));
         
         while (visualDuration > 0)
         {
@@ -43,7 +42,7 @@ public class StrongSmash : ActiveAbility, IAttackerAOE
     
     public void Attack()
     {
-        var targets = FindAllTargets(caster);
+        var targets = FindAllTargets(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel));
 
         foreach (var target in targets)
         {
