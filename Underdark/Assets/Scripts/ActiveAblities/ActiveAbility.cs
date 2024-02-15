@@ -14,7 +14,7 @@ public abstract class ActiveAbility : MonoBehaviour
     
     [field:SerializeField] public bool NeedAttackRadiusDisplay { get; private set; }
     [field:SerializeField] public ScalableProperty<float> AttackDistance { get; protected set; }
-    [field:SerializeField] public ScalableProperty<float> AttackRadius { get; protected set; }
+    [field:SerializeField] public ScalableProperty<float> AttackAngle { get; protected set; }
     [field:SerializeField] protected ScalableProperty<float> MaxValue { get; set; }
     [field:SerializeField] protected ScalableProperty<int> StatMultiplier { get; set; }
     [SerializeField] protected BaseStat baseStat;
@@ -75,7 +75,7 @@ public abstract class ActiveAbility : MonoBehaviour
 
             Vector3 dir = collider.transform.position - center;
             var angle = Vector2.Angle(dir, attackDir);
-            if (angle < AttackRadius.GetValue(abilityLevel) / 2f && dir.magnitude < minDist)
+            if (angle < AttackAngle.GetValue(abilityLevel) / 2f && dir.magnitude < minDist)
             {
                 minDist = dir.magnitude;
                 target = collider;
@@ -101,7 +101,7 @@ public abstract class ActiveAbility : MonoBehaviour
             
             Vector3 dir = collider.transform.position - center;
             var angle = Vector2.Angle(dir, attackDir);
-            if (angle < AttackRadius.GetValue(abilityLevel) / 2f)
+            if (angle < AttackAngle.GetValue(abilityLevel) / 2f)
             {
                 targets.Add(collider);
             }
@@ -137,7 +137,7 @@ public abstract class ActiveAbility : MonoBehaviour
                 $"Damage: {StatMultiplier.GetValue(currentLevel)} * {UnitStats.GetStatString(baseStat)} (max: {MaxValue.GetValue(currentLevel)})";
         if (currentLevel != 0)       res[2] = $"Mana: {manaCost.GetValue(currentLevel)}";
         if (AttackDistance.GetValue(currentLevel) != 0) res[3] = $"Distance: {AttackDistance.GetValue(currentLevel)}";
-        if (AttackRadius.GetValue(currentLevel) != 0 && NeedAttackRadiusDisplay) res[4] = $"Radius: {AttackRadius.GetValue(currentLevel)}";
+        if (AttackAngle.GetValue(currentLevel) != 0 && NeedAttackRadiusDisplay) res[4] = $"Radius: {AttackAngle.GetValue(currentLevel)}";
         if (Cooldown.GetValue(currentLevel) != 0)    res[5] = $"Cooldown: {Cooldown.GetValue(currentLevel)}";
         if (validWeaponTypes.Count != 0 && !validWeaponTypes.Contains(WeaponType.Any)) res[6] = $"Weapon: {GetValidWeaponTypesString()}";
         return res;
