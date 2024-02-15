@@ -52,8 +52,9 @@ public abstract class ActiveAbility : MonoBehaviour
     
     protected virtual void InitDamage(Unit caster, float damageMultiplier = 1f)
     {
+        float maxDamage = MaxValue.GetValue(abilityLevel) <= 0 ? int.MaxValue : MaxValue.GetValue(abilityLevel);
         int damage = (int) (Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
-            MaxValue.GetValue(abilityLevel)) * damageMultiplier);
+            maxDamage) * damageMultiplier);
         damageInfo = new DamageInfo();
         damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
     }
@@ -134,7 +135,7 @@ public abstract class ActiveAbility : MonoBehaviour
         res[0] = description;
         if (StatMultiplier.GetValue(currentLevel) != 0)
             res[1] =
-                $"Damage: {StatMultiplier.GetValue(currentLevel)} * {UnitStats.GetStatString(baseStat)} (max: {MaxValue.GetValue(currentLevel)})";
+                $"Damage: {StatMultiplier.GetValue(currentLevel)} * {UnitStats.GetStatString(baseStat)}" + MaxValueToString(currentLevel);
         if (currentLevel != 0)       res[2] = $"Mana: {manaCost.GetValue(currentLevel)}";
         if (AttackDistance.GetValue(currentLevel) != 0) res[3] = $"Distance: {AttackDistance.GetValue(currentLevel)}";
         if (AttackAngle.GetValue(currentLevel) != 0 && NeedAttackRadiusDisplay) res[4] = $"Radius: {AttackAngle.GetValue(currentLevel)}";
@@ -154,6 +155,11 @@ public abstract class ActiveAbility : MonoBehaviour
         }
 
         return res.ToArray();
+    }
+
+    protected string MaxValueToString(int level)
+    {
+        return MaxValue.GetValue(level) <= 0 ? "" : $" (max: {MaxValue.GetValue(level)})";
     }
 
     private string GetValidWeaponTypesString()
