@@ -125,7 +125,10 @@ public class UnitParams
 
     public void ApplySlow(float slow)
     {
-        SlowAmount = slow;
+        var newSlow = 1 - slow;
+        if (newSlow < 0) newSlow = 0;
+        
+        SlowAmount = newSlow;
     }
 
     public void AddAllDamageAmplification(float dmgAmplification)
