@@ -18,10 +18,8 @@ public class ProjectileAbility : ActiveAbility
     {
         base.Execute(caster, exp, attackDir, damageablesToIgnore);
         transform.parent = caster.transform;
-
-        damageInfo.AddDamage(
-            (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
-                MaxValue.GetValue(abilityLevel)), damageType, caster.Params.GetDamageAmplification(damageType));
+        
+        InitDamage(caster);
 
         switch (distributionType)
         {

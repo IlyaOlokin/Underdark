@@ -11,21 +11,19 @@ public class CircularSwing : ActiveAbility, IAttackerAOE
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level, base.attackDir);
-
-        int damage = (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
-            MaxValue.GetValue(abilityLevel));
-        damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
+        base.Execute(caster, level, attackDir);
+        
+        InitDamage(caster);
         
         Attack();
         
         var attackDirAngle = Vector3.Angle(Vector3.right, base.attackDir);
-        visual.Swing(attackDirAngle, AttackRadius.GetValue(abilityLevel), AttackDistance.GetValue(abilityLevel), true);
+        visual.Swing(attackDirAngle, AttackAngle.GetValue(abilityLevel), AttackDistance.GetValue(abilityLevel), true);
     }
     
     public void Attack()
     {
-        var targets = FindAllTargets(caster);
+        var targets = FindAllTargets(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel));
 
         foreach (var target in targets)
         {

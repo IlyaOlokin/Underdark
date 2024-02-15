@@ -10,7 +10,7 @@ public class EnergyShieldAbility : ActiveAbility
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level, base.attackDir);
+        base.Execute(caster, level, attackDir);
 
         caster.GetEnergyShield(shieldHP, shieldRadius);
     }

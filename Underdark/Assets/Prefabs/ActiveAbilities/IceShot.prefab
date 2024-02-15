@@ -52,11 +52,11 @@ MonoBehaviour:
     - 1
   manaCost:
     values: 05000000
-  <NeedAttackRadius>k__BackingField: 0
+  <NeedAttackRadiusDisplay>k__BackingField: 0
   <AttackDistance>k__BackingField:
     values:
     - 10
-  <AttackRadius>k__BackingField:
+  <AttackAngle>k__BackingField:
     values:
     - 360
   <MaxValue>k__BackingField:
@@ -75,6 +75,7 @@ MonoBehaviour:
   projectilePref:
     values:
     - {fileID: 6288543716236813285, guid: f7726701f2b1e7146b16c67948974fc9, type: 3}
+  distributionType: 0
   shotInfo:
     values:
     - <Shots>k__BackingField: 1

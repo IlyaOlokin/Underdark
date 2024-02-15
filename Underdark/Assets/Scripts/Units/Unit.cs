@@ -194,7 +194,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
         for (var index = 0; index < ActiveAbilitiesCD.Count; index++)
         {
-            ActiveAbilitiesCD[index] -= Time.deltaTime / Params.SlowAmount;
+            ActiveAbilitiesCD[index] -= Time.deltaTime * Params.SlowAmount;
         }
     }
 
@@ -536,7 +536,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     {
         if (IsDisabled || IsPushing) return;
         
-        rb.MovePosition(rb.position + (Vector2)dir * (MoveSpeed / Params.SlowAmount) * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + (Vector2)dir * (MoveSpeed * Params.SlowAmount) * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
             lastMoveDir = dir;
         TryFlipVisual(dir.x);
