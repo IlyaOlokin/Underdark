@@ -11,6 +11,7 @@ public class Lightning : ActiveAbility, IAttackerTarget
 
     [SerializeField] private ScalableProperty<int> lightningCount;
     [SerializeField] private ScalableProperty<float> lightningBounceDist;
+    [SerializeField] private ScalableProperty<float> bounceDamageMultiplier;
     
     [Header("Visual")] 
     [SerializeField] private GameObject lightningPref;
@@ -21,15 +22,13 @@ public class Lightning : ActiveAbility, IAttackerTarget
     { 
         base.Execute(caster, level, attackDir);
         
-        int damage = (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
-            MaxValue.GetValue(abilityLevel));
-        damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
+        InitDamage(caster);
 
         StartCoroutine(ShootLightning(caster.transform.position, 1, lightningCount.GetValue(abilityLevel),
             AttackDistance.GetValue(abilityLevel),
             new List<IDamageable>()));
     }
-    
+
     private IEnumerator ShootLightning(Vector3 startPos, float dmgMultiplier, int lightningsLeft, float bounceDist, List<IDamageable> pickedTargets)
     {
         var target = FindClosestTarget(caster, startPos, bounceDist, pickedTargets);
@@ -49,6 +48,7 @@ public class Lightning : ActiveAbility, IAttackerTarget
         pickedTargets.Add(damageable);
 
         yield return new WaitForSeconds(0.1f);
+        InitDamage(caster, bounceDamageMultiplier.GetValue(abilityLevel));
         
         StartCoroutine(ShootLightning(endPos, dmgMultiplier, --lightningsLeft, lightningBounceDist.GetValue(abilityLevel), pickedTargets));
     }

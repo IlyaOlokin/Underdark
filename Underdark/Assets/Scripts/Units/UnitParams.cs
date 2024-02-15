@@ -34,13 +34,13 @@ public class UnitParams
     private float HPRegenAmplification;
     private float MPRegenAmplification;
 
-    public float SlowAmount { get; private set; }
+    public float SlowAmount { get; private set; } = 1f;
     public float AllDmgAmplification { get; private set; }
 
     public void SetUnit(Unit unit)
     {
         this.unit = unit;
-        ApplySlow(1f);
+        ApplySlow(0);
 
         unit.Inventory.OnEquipmentChanged += CashParams;
         CashParams();

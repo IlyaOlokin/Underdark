@@ -21,10 +21,16 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
         
         base.attackDir = caster.GetAttackDirection(caster.GetWeapon().AttackDistance);
         
-        int damage = caster.GetWeapon().Damage.GetValue() + caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel);
-        damageInfo.AddDamage(damage, caster.GetWeapon().Damage.DamageType, caster.Params.GetDamageAmplification(caster.GetWeapon().Damage.DamageType));
-
         StartCoroutine(ExecuteAttack());
+    }
+
+    protected override void InitDamage(Unit caster, float damageMultiplier = 1f)
+    {
+        int damage = (int) ((currentWeapon.Damage.GetValue() +
+                     caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel)) * damageMultiplier);
+        damageInfo = new DamageInfo();
+        damageInfo.AddDamage(damage, currentWeapon.Damage.DamageType,
+            caster.Params.GetDamageAmplification(currentWeapon.Damage.DamageType));
     }
 
     private void StartVisual(Unit caster, bool reversed)
@@ -51,6 +57,7 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
     private void AttackWithWeapon(WeaponSO weapon, bool reversed)
     {
         currentWeapon = weapon;
+        InitDamage(caster);
         Attack();
         StartVisual(caster, reversed);
     }

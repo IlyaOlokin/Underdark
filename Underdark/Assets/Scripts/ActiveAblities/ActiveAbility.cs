@@ -50,6 +50,14 @@ public abstract class ActiveAbility : MonoBehaviour
         this.attackDir = attackDir;
     }
     
+    protected virtual void InitDamage(Unit caster, float damageMultiplier = 1f)
+    {
+        int damage = (int) (Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
+            MaxValue.GetValue(abilityLevel)) * damageMultiplier);
+        damageInfo = new DamageInfo();
+        damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
+    }
+    
     protected Collider2D FindClosestTarget(Unit caster, Vector3 center, float distance, List<IDamageable> objectsToIgnore = null)
     {
         var contactFilter = new ContactFilter2D();

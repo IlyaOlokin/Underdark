@@ -16,10 +16,8 @@ public class Puncture : ActiveAbility, IAttackerTarget
         List<IDamageable> damageablesToIgnore1 = null)
     {
         base.Execute(caster, level, attackDir);
-
-        int damage = (int)Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
-            MaxValue.GetValue(abilityLevel));
-        damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
+        
+        InitDamage(caster);
         
         StartCoroutine(PerformAttack());
     }

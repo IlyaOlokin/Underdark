@@ -51,7 +51,7 @@ MonoBehaviour:
     values:
     - 4
   manaCost:
-    values: 07000000
+    values: 07000000090000000a000000
   <NeedAttackRadiusDisplay>k__BackingField: 0
   <AttackDistance>k__BackingField:
     values:
@@ -67,7 +67,7 @@ MonoBehaviour:
     - 500
     - -1
   <StatMultiplier>k__BackingField:
-    values: 03000000
+    values: 030000000400000005000000070000000a000000
   baseStat: 2
   damageType: 6
   validWeaponTypes: 05000000
@@ -93,5 +93,14 @@ MonoBehaviour:
   lightningBounceDist:
     values:
     - 1.5
+    - 2
+    - 2
+    - 3
+    - 5
+  bounceDamageMultiplier:
+    values:
+    - 0.5
+    - 0.75
+    - 1
   lightningPref: {fileID: 8867036247694115972, guid: 13f237ef82639a34a88a93dfc693dcde, type: 3}
   sparksPref: {fileID: 6922698475453868489, guid: 283f956747adc284db2ea761cb9013de, type: 3}
