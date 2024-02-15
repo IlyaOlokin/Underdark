@@ -55,7 +55,7 @@ public abstract class ActiveAbility : MonoBehaviour
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(center, distance / + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(center, distance + 0.5f, contactFilter, hitColliders);
 
         Collider2D target = null;
         float minDist = float.MaxValue;
