@@ -57,7 +57,7 @@ public class Projectile : MonoBehaviour, IAttackerTarget
                 return;
             }
             
-            if (penetrationCount == -1) return;
+            if (penetrationCount <= -1) return;
             
             if (penetrationCount > 0)
                 penetrationCount--;
