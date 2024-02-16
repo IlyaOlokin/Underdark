@@ -107,6 +107,14 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         armorText.text = Player.GetTotalArmor().ToString();
         attackText.text = Player.GetWeapon().Damage.ToString(Player.Stats.GetTotalStatValue(BaseStat.Strength),
             Player.Params.GetDamageAmplification(Player.GetWeapon().Damage.DamageType));
+
+        var secondaryWeapon = Player.Inventory.Equipment.GetSecondaryWeapon();
+        if (secondaryWeapon != null)
+        {
+            var text = secondaryWeapon.Damage.ToString(Player.Stats.GetTotalStatValue(BaseStat.Strength),
+                Player.Params.GetDamageAmplification(secondaryWeapon.Damage.DamageType));
+            attackText.text += $"\n{text}";
+        }
     }
 
     private void UpdateMoneyDisplay()

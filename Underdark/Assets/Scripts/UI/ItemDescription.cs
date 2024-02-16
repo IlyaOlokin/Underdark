@@ -14,7 +14,6 @@ public class ItemDescription : MonoBehaviour
 
     [Header("Additional Properties")]
     [SerializeField] private TextMeshProUGUI additionalPropertyFieldPref;
-    [SerializeField] private Transform additionalPropertyFieldInitialPos;
     [SerializeField] private Transform additionalPropertyFieldParents;
     private List<TextMeshProUGUI> additionalPropertyFields = new List<TextMeshProUGUI>();
 
@@ -66,18 +65,9 @@ public class ItemDescription : MonoBehaviour
         
         for (int i = 0; i < additionalProperties.Length; i++)
         {
-            var newText = Instantiate(additionalPropertyFieldPref, additionalPropertyFieldInitialPos.position, Quaternion.identity, additionalPropertyFieldParents);
-            
-            additionalPropertyFields.Add(newText);
+            var newText = Instantiate(additionalPropertyFieldPref, transform.position, Quaternion.identity, additionalPropertyFieldParents);
             newText.text = additionalProperties[i];
-            newText.ForceMeshUpdate();
-            if (i == 0) continue;
-            
-            var renderedValues = additionalPropertyFields[i - 1].GetRenderedValues(true);
-            var yOffset = (renderedValues.y + 10) / 6f;
-            var lastPropertyPos = additionalPropertyFields[i - 1].rectTransform.anchoredPosition;
-            
-            newText.rectTransform.anchoredPosition = new Vector3(lastPropertyPos.x, lastPropertyPos.y - yOffset, 0);
+            additionalPropertyFields.Add(newText);
         }
 
         if (item.ItemType == ItemType.Executable && ((ExecutableItemSO)item).ExecutableItem is ScrollActiveAbility)

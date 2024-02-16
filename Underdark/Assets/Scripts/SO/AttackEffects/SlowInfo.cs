@@ -17,6 +17,6 @@ public class SlowInfo : DebuffInfo
     public override string ToString()
     {
         return
-            $"With a {chance * 100}% chance slows the target by {(SlowAmount - 1) * 100}% for {Duration} seconds.";
+            $"With a {chance * 100}% chance slows the target by {SlowAmount * 100}% for {Duration} seconds.";
     }
 }
