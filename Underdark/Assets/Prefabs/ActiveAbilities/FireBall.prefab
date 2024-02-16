@@ -51,7 +51,7 @@ MonoBehaviour:
     values:
     - 3
   manaCost:
-    values: 050000000f0000004b000000
+    values: 050000000a00000014000000
   <NeedAttackRadiusDisplay>k__BackingField: 0
   <AttackDistance>k__BackingField:
     values:
@@ -76,6 +76,15 @@ MonoBehaviour:
     - DebuffInfos: []
     - DebuffInfos:
       - {fileID: 11400000, guid: 453e5b75b8874e742b21670b16fa6306, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: 841e871a75e89d545ab7a4120a465c21, type: 2}
+      - {fileID: 11400000, guid: fcf36e8e73068114fb6beead263805d0, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: d0a7b756950db154ca7bb4473943c08f, type: 2}
+      - {fileID: 11400000, guid: fd6aae2b6c0e2b64a966b17501e4d073, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: b4681639ad7363741accffa8ddd345e7, type: 2}
+      - {fileID: 11400000, guid: 779fdec764f9aa946ba5de6a221d408d, type: 2}
   needAutoDestroy: 1
   autoDestroyDelay: 1
   description: You create a spark that flies in a straight line over a short distance.
