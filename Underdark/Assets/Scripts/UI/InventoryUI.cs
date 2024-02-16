@@ -126,8 +126,7 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     {
         Inventory.OnInventoryChanged -= UpdateUI;
         Player.Money.OnMoneyChanged -= UpdateMoneyDisplay;
-
-        DeselectSlot();
+        
         FormatInventory();
     }
 
@@ -153,16 +152,6 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
             itemDescription.ResetDescriptionActive(false);
         else
             itemDescription.ShowItemDescription(selectedSlot.Slot.Item, Player, selectedSlot.Slot);
-    }
-
-    private void DeselectSlot()
-    {
-        if (selectedSlot == null)
-        {
-            return;
-        }
-        selectedSlot.OnDeselect();
-        selectedSlot = null;
     }
 
     private void ClearSlots()
