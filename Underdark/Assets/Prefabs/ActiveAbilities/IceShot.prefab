@@ -68,7 +68,12 @@ MonoBehaviour:
   damageType: 5
   validWeaponTypes: 05000000
   debuffInfos:
-    values: []
+    values:
+    - DebuffInfos: []
+    - DebuffInfos: []
+    - DebuffInfos: []
+    - DebuffInfos: []
+    - DebuffInfos: []
   needAutoDestroy: 1
   autoDestroyDelay: 1
   description: You create a spark that flies in a straight line over a short distance.
