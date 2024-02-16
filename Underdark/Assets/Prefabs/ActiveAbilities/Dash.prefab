@@ -157,10 +157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fc36d50b10ba041873d01e0ac6b5cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mask:
-    serializedVersion: 2
-    m_Bits: 64
-  pushInfo: {fileID: 11400000, guid: 258d9e2b7a90a9c49817d7df662ef2c4, type: 2}
 --- !u!1 &6170803351055398634
 GameObject:
   m_ObjectHideFlags: 0
@@ -9960,30 +9956,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ID>k__BackingField: dash
-  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
+  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 954d4615708ccd74485b0fbca018989b, type: 2}
   CastTime: 0.1
   <Cooldown>k__BackingField:
     values:
     - 10
   manaCost:
     values: 00000000
-  <NeedAttackRadius>k__BackingField: 0
+  <NeedAttackRadiusDisplay>k__BackingField: 0
   <AttackDistance>k__BackingField:
     values:
     - 5
-  <AttackRadius>k__BackingField:
+    - 5
+    - 7
+  <AttackAngle>k__BackingField:
     values:
-    - 0
+    - 360
   <MaxValue>k__BackingField:
     values:
     - 0
+    - 50
+    - 100
   <StatMultiplier>k__BackingField:
-    values: 00000000
+    values: 000000000200000003000000
   baseStat: 0
   damageType: 0
   validWeaponTypes: 
   debuffInfos:
-    values: []
+    values:
+    - DebuffInfos:
+      - {fileID: 11400000, guid: 258d9e2b7a90a9c49817d7df662ef2c4, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: 258d9e2b7a90a9c49817d7df662ef2c4, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: 258d9e2b7a90a9c49817d7df662ef2c4, type: 2}
+      - {fileID: 11400000, guid: 3189324a1652f15439fe077e31727e8c, type: 2}
   needAutoDestroy: 1
   autoDestroyDelay: 1.7
   description: You dash forward 5 cells or until the first obstacle you encounter.
@@ -10145,10 +10152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00fc36d50b10ba041873d01e0ac6b5cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mask:
-    serializedVersion: 2
-    m_Bits: 64
-  pushInfo: {fileID: 11400000, guid: 258d9e2b7a90a9c49817d7df662ef2c4, type: 2}
 --- !u!1 &8663269184880916275
 GameObject:
   m_ObjectHideFlags: 0
