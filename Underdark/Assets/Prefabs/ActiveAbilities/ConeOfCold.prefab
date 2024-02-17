@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8170032374961837674}
-  - component: {fileID: 4949812109997606170}
+  - component: {fileID: 4622702471863553492}
   m_Layer: 0
-  m_Name: EnergyWave
+  m_Name: ConeOfCold
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,10 +30,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6667289441013143073}
+  - {fileID: 3098056214952080957}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4949812109997606170
+--- !u!114 &4622702471863553492
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,50 +42,49 @@ MonoBehaviour:
   m_GameObject: {fileID: 7555566392093547892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34eaaba3137648945bd9bc7b52a86f1b, type: 3}
+  m_Script: {fileID: 11500000, guid: c941427037c1d5442ba15fa4f404b9e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ID>k__BackingField: energy_wave
-  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 954d4615708ccd74485b0fbca018989b, type: 2}
+  <ID>k__BackingField: cone_of_cold
+  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
   <Cooldown>k__BackingField:
     values:
-    - 5
+    - 2
   manaCost:
-    values: 050000000f00000019000000
+    values: 05000000
   <NeedAttackRadiusDisplay>k__BackingField: 1
   <AttackDistance>k__BackingField:
     values:
     - 5
-    - 5
     - 7
+    - 7
+    - 7
+    - 10
   <AttackAngle>k__BackingField:
     values:
-    - 120
+    - 60
+    - 60
+    - 240
+    - 360
     - 360
   <MaxValue>k__BackingField:
-    values: []
+    values:
+    - 80
   <StatMultiplier>k__BackingField:
     values: 
-  baseStat: 0
-  damageType: 0
+  baseStat: 2
+  damageType: 5
   validWeaponTypes: 05000000
   debuffInfos:
-    values:
-    - DebuffInfos:
-      - {fileID: 11400000, guid: 41e3e8d7a78efba44bda9fb1d36e71f2, type: 2}
-    - DebuffInfos:
-      - {fileID: 11400000, guid: 07758661e3e993344ae73e2e557bf14b, type: 2}
-    - DebuffInfos:
-      - {fileID: 11400000, guid: f65f84feb7db84746befdc9ca8ec1df3, type: 2}
-      - {fileID: 11400000, guid: 79be85fc61970b642ad141e32af00285, type: 2}
+    values: []
   needAutoDestroy: 1
-  autoDestroyDelay: 0.5
-  description: Release a stream of magic in front of you, knocking enemies back.
-  visual: {fileID: 6914768188527249861}
-  visualDuration: 0.5
+  autoDestroyDelay: 0.3
+  description: You cast a wave of frost.
+  visual: {fileID: 2994410883749472729}
+  visualDuration: 0.3
   scaleLerpSpeed: 4
---- !u!1001 &6901899383843402917
+--- !u!1001 &3003902285468980409
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -137,20 +136,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: RadialFillVisual
       objectReference: {fileID: 0}
+    - target: {fileID: 7506565784762385585, guid: 8e56ba104480ce947beb5104380eb3ed, type: 3}
+      propertyPath: m_Color.b
+      value: 0.9272069
+      objectReference: {fileID: 0}
+    - target: {fileID: 7506565784762385585, guid: 8e56ba104480ce947beb5104380eb3ed, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7506565784762385585, guid: 8e56ba104480ce947beb5104380eb3ed, type: 3}
+      propertyPath: m_Color.r
+      value: 0.23137254
+      objectReference: {fileID: 0}
+    - target: {fileID: 7506565784762385585, guid: 8e56ba104480ce947beb5104380eb3ed, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 91834ecbd6184ea4aacdf99bb0f9a9be, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e56ba104480ce947beb5104380eb3ed, type: 3}
---- !u!4 &6667289441013143073 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 238269117595132548, guid: 8e56ba104480ce947beb5104380eb3ed, type: 3}
-  m_PrefabInstance: {fileID: 6901899383843402917}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6914768188527249861 stripped
+--- !u!114 &2994410883749472729 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 17532691959233888, guid: 8e56ba104480ce947beb5104380eb3ed, type: 3}
-  m_PrefabInstance: {fileID: 6901899383843402917}
+  m_PrefabInstance: {fileID: 3003902285468980409}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -158,3 +168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd0d50c972eb7044f86c96571a730dc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &3098056214952080957 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 238269117595132548, guid: 8e56ba104480ce947beb5104380eb3ed, type: 3}
+  m_PrefabInstance: {fileID: 3003902285468980409}
+  m_PrefabAsset: {fileID: 0}
