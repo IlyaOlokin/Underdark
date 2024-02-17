@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StrongSmash : ActiveAbility, IAttackerAOE
+public class ConeOfCold : ActiveAbility, IAttackerAOE
 {
     public Transform Transform => transform;
     
@@ -10,7 +10,7 @@ public class StrongSmash : ActiveAbility, IAttackerAOE
     [SerializeField] private RadialFillVisual visual;
     [SerializeField] private float visualDuration;
     [SerializeField] private float scaleLerpSpeed;
-    
+
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null)
     {
@@ -22,7 +22,7 @@ public class StrongSmash : ActiveAbility, IAttackerAOE
         StartCoroutine(visual.StartVisual(AttackDistance.GetValue(abilityLevel), caster.GetAttackDirAngle(attackDir),
             AttackAngle.GetValue(abilityLevel), visualDuration, scaleLerpSpeed));
     }
-    
+   
     public void Attack()
     {
         var targets = FindAllTargets(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel));
