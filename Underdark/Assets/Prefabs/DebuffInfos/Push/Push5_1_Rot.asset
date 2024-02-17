@@ -9,13 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab59fed1a05bc474c93801aeca213cfa, type: 3}
-  m_Name: Burn15
+  m_Script: {fileID: 11500000, guid: 6f0b5c35322f75441add810d7e40a260, type: 3}
+  m_Name: Push5_1_Rot
   m_EditorClassIdentifier: 
   effectIcon: {fileID: 21300000, guid: bff433fa88a92eb4dbdab16572cf91ab, type: 3}
-  chance: 0.15
-  Damage: 2
-  DmgDelay: 1
-  Duration: 5
-  BurnJumpDistance: 1.5
-  visualPrefab: {fileID: 8777896914342727903, guid: a29ffa0d250bf7d4f88fa8ba73256664, type: 3}
+  chance: 0.05
+  Force: 5
+  PushType: 1
+  PushDuration: 0.5

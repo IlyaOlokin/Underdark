@@ -136,7 +136,7 @@ public abstract class ActiveAbility : MonoBehaviour
         if (StatMultiplier.GetValue(currentLevel) != 0)
             res[1] =
                 $"Damage: {StatMultiplier.GetValue(currentLevel)} * {UnitStats.GetStatString(baseStat)}" + MaxValueToString(currentLevel);
-        if (currentLevel != 0)       res[2] = $"Mana: {manaCost.GetValue(currentLevel)}";
+        if (manaCost.GetValue(currentLevel) != 0)       res[2] = $"Mana: {manaCost.GetValue(currentLevel)}";
         if (AttackDistance.GetValue(currentLevel) != 0) res[3] = $"Distance: {AttackDistance.GetValue(currentLevel)}";
         if (AttackAngle.GetValue(currentLevel) != 0 && NeedAttackRadiusDisplay) res[4] = $"Radius: {AttackAngle.GetValue(currentLevel)}";
         if (Cooldown.GetValue(currentLevel) != 0)    res[5] = $"Cooldown: {Cooldown.GetValue(currentLevel)}";

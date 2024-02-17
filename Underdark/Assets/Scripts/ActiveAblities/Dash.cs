@@ -24,6 +24,13 @@ public class Dash : ActiveAbility
         transform.eulerAngles = new Vector3(0, 0, caster.GetAttackDirAngle(caster.GetLastMoveDir()));
         
         var destinationPoint = FindDestinationPoint(caster);
+        InitDamage(caster);
+
+        foreach (var pushCollider in pushColliders)
+        {
+            pushCollider.GetComponent<PushZone>()
+                .Init(caster, damageInfo, debuffInfos.GetValue(abilityLevel).DebuffInfos, abilityLevel);
+        }
         
         StartCoroutine(PushCaster(destinationPoint));
     }
