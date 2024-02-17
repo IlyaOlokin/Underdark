@@ -583,5 +583,5 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
     public virtual float GetAttackDirAngle(Vector2 attackDir = new Vector2()) => lastMoveDirAngle;
 
-    public Vector2 GetLastMoveDir() => lastMoveDir;
+    public Vector2 GetLastMoveDir() => lastMoveDir.normalized;
 }

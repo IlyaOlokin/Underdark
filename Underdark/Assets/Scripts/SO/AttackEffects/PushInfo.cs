@@ -29,7 +29,7 @@ public class PushInfo : DebuffInfo
         
         if (Random.Range(0f, 1f) > chance) return;
 
-        receiver.StartPushState();
+        
         if (receiver.TryGetComponent(out Push pushComponent))
         {
             receiver.EndPushState();

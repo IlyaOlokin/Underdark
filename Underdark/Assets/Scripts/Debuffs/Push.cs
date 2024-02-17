@@ -11,8 +11,8 @@ public class Push : Debuff
         Timer = pushDuration;
         this.receiver = receiver;
         Icon = effectIcon;
+        receiver.StartPushState();
     }
-    
     
     void Update()
     {
