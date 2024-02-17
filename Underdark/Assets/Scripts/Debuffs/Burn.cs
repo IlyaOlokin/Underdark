@@ -40,7 +40,7 @@ public class Burn : Debuff
                     if (Vector2.Distance(transform.position, otherEnemy.transform.position) <=
                         burnInfo.BurnJumpDistance)
                     {
-                        otherEnemy.GetBurn(burnInfo, caster, currentVisualPrefab, Icon);
+                        burnInfo.Execute(receiver, otherEnemy, receiver);
                     }
                 }
             }

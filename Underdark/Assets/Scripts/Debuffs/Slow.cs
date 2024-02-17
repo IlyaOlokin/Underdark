@@ -15,7 +15,7 @@ public class Slow : Debuff
         
         Duration = slowInfo.Duration;
         Timer = Duration;
-        ApplySlow();
+        ApplySlow(receiver);
     }
 
     private void Update()
@@ -28,22 +28,22 @@ public class Slow : Debuff
         }
     }
     
-    private void ApplySlow()
+    private void OnDestroy()
     {
-        float slow = 1;
-        foreach (var slowComp in receiver.GetComponents<Slow>())
+        ApplySlow(receiver);
+        receiver.LooseStatusEffect(this);
+    }
+    
+    private static void ApplySlow(Unit unit)
+    {
+        float slow = 0;
+        foreach (var slowComp in unit.GetComponents<Slow>())
         {
             if (slowComp.Timer < 0) continue;
             if (slowComp.slowInfo.SlowAmount > slow)
                 slow = slowComp.slowInfo.SlowAmount;
         }
         
-        receiver.ApplySlow(slow);
-    }
-    
-    private void OnDestroy()
-    {
-        ApplySlow();
-        receiver.LooseStatusEffect(this);
+        unit.ApplySlow(slow);
     }
 }

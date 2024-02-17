@@ -11,7 +11,11 @@ public class SlowInfo : DebuffInfo
     
     public override void Execute(IAttacker attacker, Unit receiver, Unit unitCaster)
     {
-        receiver.GetSlowed(this, effectIcon);
+        if (Random.Range(0f, 1f) > chance) return;
+
+        var newSlow = receiver.gameObject.AddComponent<Slow>();
+        newSlow.Init(this, receiver, effectIcon);
+        receiver.ReceiveStatusEffect(newSlow);
     }
 
     public override string ToString()

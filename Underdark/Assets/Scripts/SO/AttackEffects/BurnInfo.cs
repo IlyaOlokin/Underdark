@@ -12,7 +12,16 @@ public class BurnInfo : DebuffInfo
     
     public override void Execute(IAttacker attacker, Unit receiver, Unit unitCaster)
     {
-        receiver.GetBurn(this, unitCaster, visualPrefab, effectIcon);
+        if (receiver.TryGetComponent(out Freeze freeze))
+            Destroy(freeze);
+        
+        if (Random.Range(0f, 1f) > chance) return;
+        if (receiver.TryGetComponent(out Burn burn)) return;
+        
+        var newBurn = receiver.gameObject.AddComponent<Burn>();
+        newBurn.Init(this, receiver, unitCaster, visualPrefab, effectIcon);
+        
+        receiver.ReceiveStatusEffect(newBurn);
     }
     
     public override string ToString()

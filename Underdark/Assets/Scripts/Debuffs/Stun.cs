@@ -9,14 +9,14 @@ public class Stun : Debuff
     private StunInfo stunInfo;
     private Slider stunBar;
 
-    public void Init(StunInfo stunInfo, Unit receiver, GameObject stunBar, Sprite effectIcon)
+    public void Init(StunInfo stunInfo, Unit receiver, Sprite effectIcon)
     {
         Duration = stunInfo.Duration;
         Timer = Duration;
         this.receiver = receiver;
         Icon = effectIcon;
-        this.stunBar = stunBar.GetComponent<Slider>();
-        this.stunBar.gameObject.SetActive(true);
+        stunBar = receiver.UnitVisual.StunBar.GetComponent<Slider>();
+        stunBar.gameObject.SetActive(true);
     }
     
     void Update()

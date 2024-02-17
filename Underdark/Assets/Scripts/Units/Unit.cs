@@ -100,7 +100,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     [SerializeField] protected GameObject unitVisualRotatable;
     private bool facingRight = true;
     [SerializeField] protected UnitNotificationEffect unitNotificationEffect;
-    [SerializeField] protected UnitVisual unitVisual;
+    [field:SerializeField] public UnitVisual UnitVisual { get; private set; }
 
     protected Vector3 lastMoveDir;
     protected float lastMoveDirAngle;
@@ -136,7 +136,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         SetMana(true);
         SetActiveAbilitiesCDs(true);
         GetUnStunned();
-        EndPush();
+        EndPushState();
         LooseEnergyShield();
         foreach (var buffs in GetComponents<IStatusEffect>())
         {
@@ -289,7 +289,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         }
         
         CurrentHP -= newDamage;
-        unitVisual.StartWhiteOut();
+        UnitVisual.StartWhiteOut();
         if (CurrentHP <= 0) Death(sender, attacker, damageInfo.GetDamages()[0].DamageType);
         newEffect.WriteDamage(newDamage);
         return true;
@@ -313,44 +313,13 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     public void GetEnergyShield(int maxHP, float radius)
     {
         EnergyShield = new EnergyShield(maxHP, radius);
-        unitVisual.ActivateEnergyShieldVisual(radius);
+        UnitVisual.ActivateEnergyShieldVisual(radius);
     }
     
     private void LooseEnergyShield()
     {
         EnergyShield = null;
-        unitVisual.DeactivateEnergyShieldVisual();
-    }
-
-    public void GetHarmOverTime(HarmInfo harmInfo, Unit caster, GameObject visual, Sprite effectIcon)
-    {
-        if (Random.Range(0f, 1f) > harmInfo.chance) return;
-        
-        var newPoison = gameObject.AddComponent<HarmOverTime>();
-        newPoison.Init(harmInfo, this, caster, visual, effectIcon);
-        ReceiveStatusEffect(newPoison);
-    }
-    
-    public void GetSlowed(SlowInfo slowInfo, Sprite effectIcon)
-    {
-        if (Random.Range(0f, 1f) > slowInfo.chance) return;
-
-        var newSlow = transform.AddComponent<Slow>();
-        newSlow.Init(slowInfo, this, effectIcon);
-        ReceiveStatusEffect(newSlow);
-    }
-    
-    public void GetBurn(BurnInfo burnInfo, Unit caster, GameObject visual, Sprite effectIcon)
-    {
-        if (TryGetComponent(out Freeze freeze))
-            Destroy(freeze);
-        
-        if (Random.Range(0f, 1f) > burnInfo.chance) return;
-        if (TryGetComponent(out Burn burn)) return;
-        
-        var newBurn = gameObject.AddComponent<Burn>();
-        newBurn.Init(burnInfo, this, caster, visual, effectIcon);
-        ReceiveStatusEffect(newBurn);
+        UnitVisual.DeactivateEnergyShieldVisual();
     }
     
     public virtual void ApplySlow(float slow)
@@ -358,10 +327,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         Params.ApplySlow(slow);
     }
     
-    public void GetBashed(BashInfo bashInfo)
+    public void ResetAbilityCoolDowns()
     {
-        if (Random.Range(0f, 1f) > bashInfo.chance) return;
-        
         for (int i = 0; i < ActiveAbilitiesCD.Count; i++)
         {
             if (Inventory.EquippedActiveAbilitySlots[i].IsEmpty) continue;
@@ -370,78 +337,15 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         }
     }
     
-    public virtual bool GetStunned(StunInfo stunInfo, Sprite effectIcon)
-    {
-        if (Random.Range(0f, 1f) > stunInfo.chance) return false;
-        
-        isStunned = true;
-       
-        if (transform.TryGetComponent(out Stun stunComponent))
-        {
-            stunComponent.AddDuration(stunInfo.Duration);
-        }
-        else
-        {
-            var newStun = gameObject.AddComponent<Stun>();
-            newStun.Init(stunInfo, this, unitVisual.StunBar, effectIcon);
-            ReceiveStatusEffect(newStun);
-        }
+    public virtual void GetStunned() => isStunned = true;
 
-        return true;
-    }
+    public virtual void GetUnStunned() => isStunned = false;
 
-    public virtual void GetUnStunned()
-    {
-        isStunned = false;
-    }
-    
-    public virtual bool GetFrozen(FreezeInfo freezeInfo, Sprite effectIcon)
-    {
-        if (TryGetComponent(out Burn burn))
-            Destroy(burn);
-        
-        if (Random.Range(0f, 1f) > freezeInfo.chance) return false;
-        
-        isFrozen = true;
-       
-        if (transform.TryGetComponent(out Freeze stunComponent))
-        {
-            stunComponent.AddDuration(freezeInfo.Duration);
-        }
-        else
-        {
-            var newStun = gameObject.AddComponent<Freeze>();
-            newStun.Init(freezeInfo, this, unitVisual.StunBar, effectIcon);
-            ReceiveStatusEffect(newStun);
-        }
+    public virtual void GetFrozen() => isFrozen = true;
 
-        return true;
-    }
-    
-    public virtual void GetUnFrozen()
-    {
-        isFrozen = false;
-    }
-    
-    public void GetSilence(SilenceInfo silenceInfo, Sprite effectIcon)
-    {
-        if (Random.Range(0f, 1f) > silenceInfo.chance) return;
+    public virtual void GetUnFrozen() => isFrozen = false;
 
-        if (transform.TryGetComponent(out Silence silenceComponent))
-        {
-            if (silenceComponent.Timer > silenceInfo.Duration) return;
-            
-            EndSilence();
-            Destroy(silenceComponent);
-        }
-        
-        StartSilence();
-        var newSilence = gameObject.AddComponent<Silence>();
-        newSilence.Init(silenceInfo.Duration, this, effectIcon);
-        ReceiveStatusEffect(newSilence);
-    }
-    
-    private void StartSilence()
+    public void StartSilence()
     {
         IsSilenced = true;
         OnIsSilenceChanged?.Invoke();
@@ -453,32 +357,18 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         OnIsSilenceChanged?.Invoke();
     }
     
-    public virtual bool GetPushed(PushInfo pushInfo, Vector2 pushDir, Sprite effectIcon)
+    public virtual void GetPushed(Vector2 pushDir)
     {
-        if (Random.Range(0f, 1f) > pushInfo.chance) return false;
-
-        StartPush();
-        if (transform.TryGetComponent(out Push pushComponent))
-        {
-            EndPush();
-            Destroy(pushComponent);
-        }
-        
-        var newPush = gameObject.AddComponent<Push>();
-        newPush.Init(pushInfo.PushDuration, this, effectIcon);
-        ReceiveStatusEffect(newPush);
-        
         rb.velocity = pushDir;
-        return true;
     }
 
-    public void StartPush(bool isTrigger = false)
+    public void StartPushState(bool isTrigger = false)
     {
         IsPushing = true;
         coll.isTrigger = isTrigger;
     }
     
-    public virtual void EndPush()
+    public virtual void EndPushState()
     {
         IsPushing = false;
         coll.isTrigger = false;

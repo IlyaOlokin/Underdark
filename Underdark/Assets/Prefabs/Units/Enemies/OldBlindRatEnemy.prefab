@@ -1096,7 +1096,7 @@ MonoBehaviour:
   visualsFlipable: {fileID: 7394194429042638207}
   unitVisualRotatable: {fileID: 1829177666794183583}
   unitNotificationEffect: {fileID: 9209489120575824937, guid: ad3a4e569e661de42aecc35d389ed7de, type: 3}
-  unitVisual: {fileID: 2467731399549560990}
+  <UnitVisual>k__BackingField: {fileID: 2467731399549560990}
   spawnPont: {fileID: 3887350311143016167}
   moveTarget: {fileID: 5120903447323990012}
   agent: {fileID: 8583875203054404754}
@@ -1153,6 +1153,7 @@ MonoBehaviour:
   weapon: {fileID: 0}
   executableItems: []
   activeAbilities: []
+  activeAbilitiesExp: 
 --- !u!1 &7916519281579307983
 GameObject:
   m_ObjectHideFlags: 0
