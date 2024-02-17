@@ -10,7 +10,23 @@ public class FreezeInfo : DebuffInfo
     
     public override void Execute(IAttacker attacker, Unit receiver, Unit unitCaster)
     {
-        receiver.GetFrozen(this, effectIcon);
+        if (receiver.TryGetComponent(out Burn burn))
+            Destroy(burn);
+        
+        if (Random.Range(0f, 1f) > chance) return;
+        
+        if (receiver.TryGetComponent(out Freeze stunComponent))
+        {
+            stunComponent.AddDuration(Duration);
+        }
+        else
+        {
+            var newStun = receiver.gameObject.AddComponent<Freeze>();
+            newStun.Init(this, receiver, effectIcon);
+            receiver.ReceiveStatusEffect(newStun);
+        }
+        
+        receiver.GetFrozen();
     }
     
     public override string ToString()

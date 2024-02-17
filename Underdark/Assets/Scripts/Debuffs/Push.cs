@@ -19,7 +19,7 @@ public class Push : Debuff
         Timer -= Time.deltaTime;
         if (Timer <= 0)
         {
-            receiver.EndPush();
+            receiver.EndPushState();
             Destroy(this);
         }
     }

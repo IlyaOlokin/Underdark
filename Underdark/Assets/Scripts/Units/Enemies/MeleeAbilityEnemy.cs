@@ -19,7 +19,7 @@ public class MeleeAbilityEnemy : Enemy
         EnemyFSM.AddState(EnemyState.Idle, new IdleState(false, this));
         EnemyFSM.AddState(EnemyState.Chase, new ChaseState(true, this, moveTarget, ChaseTarget));
         // base attack
-        EnemyFSM.AddState(EnemyState.AttackPrep, new BaseAttackPrepState(true, this, unitVisual.StartAlert, meleeAttackPreparation));
+        EnemyFSM.AddState(EnemyState.AttackPrep, new BaseAttackPrepState(true, this, UnitVisual.StartAlert, meleeAttackPreparation));
         EnemyFSM.AddState(EnemyState.ActiveAbilityExecute, new ActiveAbilityExecuteState(true, this, ExecuteActiveAbility, meleeAttackDuration));
         EnemyFSM.AddState(EnemyState.BaseAttack, new BaseAttackState(true, this, Attack, meleeAttackDuration));
     }

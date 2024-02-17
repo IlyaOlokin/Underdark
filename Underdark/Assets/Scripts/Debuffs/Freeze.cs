@@ -9,14 +9,14 @@ public class Freeze : Debuff
     private FreezeInfo freezeInfo;
     private Slider stunBar;
 
-    public void Init(FreezeInfo freezeInfo, Unit receiver, GameObject stunBar, Sprite effectIcon)
+    public void Init(FreezeInfo freezeInfo, Unit receiver, Sprite effectIcon)
     {
         Duration = freezeInfo.Duration;
         Timer = Duration;
         this.receiver = receiver;
         Icon = effectIcon;
-        this.stunBar = stunBar.GetComponent<Slider>();
-        this.stunBar.gameObject.SetActive(true);
+        stunBar = receiver.UnitVisual.StunBar.GetComponent<Slider>();
+        stunBar.gameObject.SetActive(true);
     }
     
     void Update()

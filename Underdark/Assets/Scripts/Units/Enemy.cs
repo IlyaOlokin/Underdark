@@ -146,7 +146,7 @@ public class Enemy : Unit
         if (killer.TryGetComponent(out Player player))
             player.Stats.GetExp(Stats.Level * expPerLevel);
         
-        unitVisual.StartDeathEffect(attacker, damageType);
+        UnitVisual.StartDeathEffect(attacker, damageType);
         
         base.Death(killer, attacker, damageType);
     }
@@ -156,13 +156,12 @@ public class Enemy : Unit
         agent.speed = MoveSpeed * Params.SlowAmount;
     }
     
-    public override bool GetStunned(StunInfo stunInfo, Sprite effectIcon)
+    public override void GetStunned()
     {
-        if (!base.GetStunned(stunInfo, effectIcon)) return false;
-        
-        unitVisual.AbortAlert();
+        base.GetStunned();
+        UnitVisual.AbortAlert();
         UpdateMovementAbility();
-        return true;
+        
     }
 
     public override void GetUnStunned()
@@ -171,13 +170,11 @@ public class Enemy : Unit
         UpdateMovementAbility();
     }
     
-    public override bool GetFrozen(FreezeInfo freezeInfo, Sprite effectIcon)
+    public override void GetFrozen()
     {
-        if (!base.GetFrozen(freezeInfo, effectIcon)) return false;
-        
-        unitVisual.AbortAlert();
+        base.GetFrozen();
+        UnitVisual.AbortAlert();
         UpdateMovementAbility();
-        return true;
     }
 
     public override void GetUnFrozen()
@@ -186,16 +183,15 @@ public class Enemy : Unit
         UpdateMovementAbility();
     }
 
-    public override bool GetPushed(PushInfo pushInfo, Vector2 pushDir, Sprite effectIcon)
+    public override void GetPushed(Vector2 pushDir)
     {
-        if (!base.GetPushed(pushInfo, pushDir, effectIcon)) return false;
+        base.GetPushed(pushDir);
         UpdateMovementAbility();
-        return true;
     }
     
-    public override void EndPush()
+    public override void EndPushState()
     {
-        base.EndPush();
+        base.EndPushState();
         UpdateMovementAbility();
     }
     protected override void RotateAttackDir()

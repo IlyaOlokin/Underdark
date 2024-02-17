@@ -37,7 +37,7 @@ public class Dash : ActiveAbility
 
     private IEnumerator PushCaster(Vector2 destinationPoint)
     {
-        caster.StartPush(true);
+        caster.StartPushState(true);
 
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(stopMask);
@@ -61,7 +61,7 @@ public class Dash : ActiveAbility
 
         DisableColliders();
 
-        caster.EndPush();
+        caster.EndPushState();
         transform.SetParent(null);
         foreach (var particleSystem in particleSystems)
             particleSystem.Stop();

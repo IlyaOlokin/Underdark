@@ -54,12 +54,12 @@ public class Player : Unit, IPickUper, IMoneyHolder
         if (Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
         var activeAbility = ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility;
         
-        unitVisual.StartHighLightActiveAbility(activeAbility, this);
+        UnitVisual.StartHighLightActiveAbility(activeAbility, this);
     }
     
     private void EndHighLightActiveAbility(int index)
     {
-        unitVisual.EndHighLightActiveAbility();
+        UnitVisual.EndHighLightActiveAbility();
     }
 
     protected override void Death(Unit killer, IAttacker attacker, DamageType damageType)
