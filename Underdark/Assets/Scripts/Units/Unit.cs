@@ -68,19 +68,23 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     public event Action<int> OnManaChanged;
     public event Action<int> OnMaxManaChanged;
     
+    [NonSerialized] public List<IStatusEffect> Buffs = new();
+    public event Action<IStatusEffect> OnStatusEffectReceive;
+    public event Action<IStatusEffect> OnStatusEffectLoose;
+    
+    private List<PassiveSO> Passives = new();
+    
+    public event Action OnUnitPassivesChanged;
+    
     [field: SerializeField] public int MoveSpeed { get; private set; }
 
-    [field: Header("Attack Setup")] [SerializeField]
-    private WeaponSO defaultWeapon;
+    [field: Header("Attack Setup")] 
+    [SerializeField] private WeaponSO defaultWeapon;
     [SerializeField] private ActiveAbility baseAttackAbility;
 
     [SerializeField] private float attackSpeed;
     public event Action<float, float, float> OnBaseAttack;
     public event Action<int> OnExecutableItemUse;
-
-    [NonSerialized] public List<IStatusEffect> Buffs = new();
-    public event Action<IStatusEffect> OnStatusEffectReceive;
-    public event Action<IStatusEffect> OnStatusEffectLoose;
 
     [field:SerializeField] public LayerMask AttackMask { get; protected set; }
     public Transform Transform => transform;
@@ -389,6 +393,18 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         Buffs.Remove(statusEffect);
         OnStatusEffectLoose?.Invoke(statusEffect);
     }
+
+    public void ReceivePassive(PassiveSO passive)
+    {
+        Passives.Add(passive);
+        OnUnitPassivesChanged?.Invoke();
+    }
+    
+    public void LoosePassive(PassiveSO passive)
+    {
+        Passives.Remove(passive);
+        OnUnitPassivesChanged?.Invoke();
+    }
     
     private int CalculateTakenDamage(DamageInfo damageInfo, float armorPierce)
     {
@@ -538,7 +554,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         actionCDTimer = cd;
     }
 
-    public List<T> GetAllGearPassives<T>()
+    public List<T> GetAllPassives<T>()
     {
         var res = new List<T>();
 
@@ -554,12 +570,20 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
             }
         }
 
+        foreach (var passive in Passives)
+        {
+            if (passive is T passive1)
+            {
+                res.Add(passive1);
+            }
+        }
+
         return res;
     }
     
     public bool HasPassiveOfType<T>()
     {
-        var passives = GetAllGearPassives<T>();
+        var passives = GetAllPassives<T>();
         return passives.Count != 0;
     }
 

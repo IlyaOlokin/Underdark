@@ -6,9 +6,8 @@ using UnityEngine;
 public class SecondWind : ActiveAbility
 {
     [SerializeField] private BaseStat secondStat;
-    [SerializeField] private float damageAmplification;
     [SerializeField] private float damageAmplificationDuration;
-    [SerializeField] private Sprite buffIcon;
+    [SerializeField] private ScalableProperty<PassivesList> passives;
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null)
     {
@@ -19,9 +18,11 @@ public class SecondWind : ActiveAbility
         transform.SetParent(caster.transform);
         caster.RestoreHP(healAmount, true);
 
-        var newBuff = caster.AddComponent<AllDamageAmplification>();
-        newBuff.Init(damageAmplificationDuration, damageAmplification, caster, buffIcon);
-        caster.ReceiveStatusEffect(newBuff);
+        var currentPassive = passives.GetValue(abilityLevel);
+        foreach (var passive in currentPassive.Passives)
+        {
+            Buff.ApplyBuff(base.caster, passive, damageAmplificationDuration);
+        }
     }
     
     public override bool CanUseAbility(Unit caster, float distToTarget)
@@ -31,12 +32,15 @@ public class SecondWind : ActiveAbility
 
     public override string[] ToString(Unit owner)
     {
-        var res = new string[3];
+        var res = new List<string>(4);
         var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
-        
-        res[0] = description;
-        res[1] = $"Heal: {StatMultiplier.GetValue(currentLevel)} * max({UnitStats.GetStatString(baseStat)}, {UnitStats.GetStatString(secondStat)})";
-        res[2] = $"Damage Amplification: {damageAmplification * 100}% ";
-        return res;
+
+        res.Add(description);
+        res.Add($"Heal: {StatMultiplier.GetValue(currentLevel)} * max({UnitStats.GetStatString(baseStat)}, {UnitStats.GetStatString(secondStat)})");
+        for (int i = 0; i < passives.GetValue(currentLevel).Passives.Count; i++)
+        {
+            res.Add(passives.GetValue(currentLevel).Passives[i].ToString());
+        }
+        return res.ToArray();
     }
 }

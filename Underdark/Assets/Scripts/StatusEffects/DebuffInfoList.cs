@@ -6,5 +6,5 @@ using UnityEngine;
 [Serializable]
 public class DebuffInfoList
 {
-    [SerializeField]public List<DebuffInfo> DebuffInfos = new List<DebuffInfo>();
+    [SerializeField] public List<DebuffInfo> DebuffInfos = new List<DebuffInfo>();
 }
