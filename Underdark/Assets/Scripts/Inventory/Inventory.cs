@@ -105,9 +105,19 @@ public class Inventory : IInventory
                 slot = Equipment.Legs;
                 return true;
             case ItemType.Weapon when Equipment.Weapon.IsEmpty && IsFitting(Equipment.Weapon.SlotType, item):
+                if (((WeaponSO)item).WeaponHandedType != WeaponHandedType.TwoHanded || !Equipment.Shield.IsEmpty)
+                {
+                    slot = null;
+                    return false;
+                }
                 slot = Equipment.Weapon;
                 return true;
             case ItemType.Shield when Equipment.Shield.IsEmpty && IsFitting(Equipment.Shield.SlotType, item):
+                if (!Equipment.Weapon.IsEmpty && Equipment.GetWeapon().WeaponHandedType == WeaponHandedType.TwoHanded)
+                {
+                    slot = null;
+                    return false;
+                }
                 slot = Equipment.Shield;
                 return true;
             case ItemType.Accessory:

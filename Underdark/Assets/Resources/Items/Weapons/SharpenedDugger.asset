@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce3d00c96bc6aa44e881e146998641af, type: 3}
-  m_Name: OldDullDagger
+  m_Name: SharpenedDugger
   m_EditorClassIdentifier: 
-  ID: old_dull_dagger
-  Name: Odl dull dagger
-  Cost: 25
+  ID: sharpened_dugger
+  Name: Sharpened dugger
+  Cost: 50
   ItemType: 4
-  Sprite: {fileID: 21300000, guid: 1ff1175d56df9eb4f8cfa0ba429d9254, type: 3}
+  Sprite: {fileID: 21300000, guid: f2a6caf7b6afd7b4095cfac985b5869c, type: 3}
   StackCapacity: 1
   Requirements:
-    <Level>k__BackingField: 2
+    <Level>k__BackingField: 5
     <Strength>k__BackingField: 0
-    <Dexterity>k__BackingField: 5
+    <Dexterity>k__BackingField: 10
     <Intelligence>k__BackingField: 0
     <StrDex>k__BackingField: 0
     <DexInt>k__BackingField: 0
@@ -29,12 +29,12 @@ MonoBehaviour:
     <AllStats>k__BackingField: 0
   Damage:
     <DamageType>k__BackingField: 0
-    minDamage: 3
-    maxDamage: 5
+    minDamage: 5
+    maxDamage: 9
   WeaponType: 1
   WeaponHandedType: 0
   AttackRadius: 120
   AttackDistance: 1
-  ArmorPierce: 0
+  ArmorPierce: 0.1
   DebuffInfos: []
   <Passives>k__BackingField: []
