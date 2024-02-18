@@ -35,7 +35,6 @@ public class UnitParams
     private float MPRegenAmplification;
 
     public float SlowAmount { get; private set; } = 1f;
-    public float AllDmgAmplification { get; private set; }
 
     public void SetUnit(Unit unit)
     {
@@ -43,6 +42,7 @@ public class UnitParams
         ApplySlow(0);
 
         unit.Inventory.OnEquipmentChanged += CashParams;
+        unit.OnUnitPassivesChanged += CashParams;
         CashParams();
     }
 
@@ -50,23 +50,29 @@ public class UnitParams
     {
         float dmgAmpl = 0;
         
-        foreach (var passive in unit.GetAllGearPassives<DamageAmplificationSO>())
+        foreach (var passive in unit.GetAllPassives<DamageAmplificationSO>())
         {
             if (passive.DamageType == damageType)
             {
                 dmgAmpl += passive.Value;
             }
         }
+
+        float allDmgAmpl = 0;
+        foreach (var passive in unit.GetAllPassives<AllDamageAmplificationSO>())
+        {
+            allDmgAmpl += passive.Value;
+        }
         
         return damageType switch
         {
-            DamageType.Physic => (basePhysicDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Chaos => (baseChaosDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Fire => (baseFireDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Air => (baseAirDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Water => (baseWaterDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Cold => (baseColdDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Electric => (baseElectricDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Physic => (basePhysicDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
+            DamageType.Chaos => (baseChaosDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
+            DamageType.Fire => (baseFireDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
+            DamageType.Air => (baseAirDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
+            DamageType.Water => (baseWaterDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
+            DamageType.Cold => (baseColdDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
+            DamageType.Electric => (baseElectricDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
         };
     }
@@ -75,7 +81,7 @@ public class UnitParams
     {
         float dmgRes = 0;
         
-        foreach (var passive in unit.GetAllGearPassives<DamageResistSO>())
+        foreach (var passive in unit.GetAllPassives<DamageResistSO>())
         {
             if (passive.DamageType == damageType)
             {
@@ -105,7 +111,7 @@ public class UnitParams
     public float GetEvasionChance()
     {
         var hitChance = 1 - baseEvasionChance;
-        foreach (var evasionAmplification in unit.GetAllGearPassives<EvasionAmplificationSO>())
+        foreach (var evasionAmplification in unit.GetAllPassives<EvasionAmplificationSO>())
             hitChance *= 1 - evasionAmplification.EvasionChance;
         
         hitChance = Mathf.Clamp(hitChance, 0.05f, 1f);
@@ -131,11 +137,6 @@ public class UnitParams
         SlowAmount = newSlow;
     }
 
-    public void AddAllDamageAmplification(float dmgAmplification)
-    {
-        AllDmgAmplification += dmgAmplification;
-    }
-
     private void CashParams()
     {
         SetRegeneration();
@@ -146,7 +147,7 @@ public class UnitParams
         var hpRegenAmpl = 0f;
         var mpRegenAmpl = 0f;
         
-        foreach (var passive in unit.GetAllGearPassives<RegenAmplificationSO>())
+        foreach (var passive in unit.GetAllPassives<RegenAmplificationSO>())
         {
             switch (passive.RegenType)
             {

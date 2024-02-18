@@ -9,6 +9,7 @@ public class SecondWind : ActiveAbility
     [SerializeField] private float damageAmplification;
     [SerializeField] private float damageAmplificationDuration;
     [SerializeField] private Sprite buffIcon;
+    [SerializeField] private PassiveSO passive;
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null)
     {
@@ -18,10 +19,8 @@ public class SecondWind : ActiveAbility
             caster.Stats.GetTotalStatValue(secondStat) * StatMultiplier.GetValue(abilityLevel));
         transform.SetParent(caster.transform);
         caster.RestoreHP(healAmount, true);
-
-        var newBuff = caster.AddComponent<AllDamageAmplification>();
-        newBuff.Init(damageAmplificationDuration, damageAmplification, caster, buffIcon);
-        caster.ReceiveStatusEffect(newBuff);
+        
+        Buff.ApplyBuff(base.caster, passive, buffIcon, damageAmplificationDuration);
     }
     
     public override bool CanUseAbility(Unit caster, float distToTarget)

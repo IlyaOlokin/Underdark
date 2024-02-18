@@ -53,13 +53,12 @@ MonoBehaviour:
     - 20
   manaCost:
     values: 00000000
-  <NeedAttackRadius>k__BackingField: 0
+  <NeedAttackRadiusDisplay>k__BackingField: 0
   <AttackDistance>k__BackingField:
     values:
     - 0
-  <AttackRadius>k__BackingField:
-    values:
-    - 0
+  <AttackAngle>k__BackingField:
+    values: []
   <MaxValue>k__BackingField:
     values:
     - 0
@@ -77,6 +76,7 @@ MonoBehaviour:
   damageAmplification: 0.1
   damageAmplificationDuration: 60
   buffIcon: {fileID: 21300000, guid: e41335ed24c5d4641b9e03ec7a6adcd0, type: 3}
+  passive: {fileID: 11400000, guid: aa49bafb31d232249853b36f04b17bcf, type: 2}
 --- !u!1 &8328540744568435009
 GameObject:
   m_ObjectHideFlags: 0
