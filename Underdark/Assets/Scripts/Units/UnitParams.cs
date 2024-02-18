@@ -30,6 +30,9 @@ public class UnitParams
     [Header("Regen")]
     [SerializeField] [Range(0f, 1f)] private float baseHPRegenPercent;
     [SerializeField] [Range(0f, 1f)] private float baseMPRegenPercent;
+    
+    private float HPRegenPercent;
+    private float MPRegenPercent;
 
     private float HPRegenAmplification;
     private float MPRegenAmplification;
@@ -123,8 +126,8 @@ public class UnitParams
     {
         return regenType switch
         {
-            RegenType.HP => unit.MaxHP * baseHPRegenPercent * HPRegenAmplification,
-            RegenType.MP => unit.MaxMana * baseMPRegenPercent * MPRegenAmplification,
+            RegenType.HP => unit.MaxHP * HPRegenPercent * HPRegenAmplification,
+            RegenType.MP => unit.MaxMana * MPRegenPercent * MPRegenAmplification,
             _ => throw new ArgumentOutOfRangeException(nameof(regenType), regenType, null)
         };
     }
@@ -139,10 +142,11 @@ public class UnitParams
 
     private void CashParams()
     {
-        SetRegeneration();
+        SetRegenerationAmplification();
+        SetBaseRegeneration();
     }
 
-    private void SetRegeneration()
+    private void SetRegenerationAmplification()
     {
         var hpRegenAmpl = 0f;
         var mpRegenAmpl = 0f;
@@ -168,5 +172,37 @@ public class UnitParams
 
         HPRegenAmplification = 1 + hpRegenAmpl;
         MPRegenAmplification = 1 + mpRegenAmpl;
+    }
+    
+    private void SetBaseRegeneration()
+    {
+        var hpRegen = baseHPRegenPercent;
+        var mpRegen = baseMPRegenPercent;
+        
+        foreach (var passive in unit.GetAllPassives<BaseRegenerationSO>())
+        {
+            switch (passive.RegenType)
+            {
+                case RegenType.HP:
+                    if (passive.Value > hpRegen)
+                        hpRegen = passive.Value;
+                    break;
+                case RegenType.MP:
+                    if (passive.Value > mpRegen)
+                        mpRegen = passive.Value;
+                    break;
+                case RegenType.Both:
+                    if (passive.Value > hpRegen)
+                        hpRegen = passive.Value;
+                    if (passive.Value > mpRegen)
+                        mpRegen = passive.Value;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        HPRegenPercent = hpRegen;
+        MPRegenPercent = mpRegen;
     }
 }

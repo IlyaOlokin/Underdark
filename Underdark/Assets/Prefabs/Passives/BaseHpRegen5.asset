@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45ba3942ad7b05a47ad6fcf563307d4e, type: 3}
-  m_Name: AllDmgAmpl10
+  m_Script: {fileID: 11500000, guid: 92708d05ded18eb4091e6199cab937de, type: 3}
+  m_Name: BaseHpRegen5
   m_EditorClassIdentifier: 
-  <Icon>k__BackingField: {fileID: 21300000, guid: e41335ed24c5d4641b9e03ec7a6adcd0, type: 3}
-  Value: 0.1
+  <Icon>k__BackingField: {fileID: 0}
+  RegenType: 0
+  Value: 0.05

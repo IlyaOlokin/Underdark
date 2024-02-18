@@ -12,11 +12,11 @@ public class Buff : MonoBehaviour, IStatusEffect
     private Unit receiver;
     private PassiveSO passive;
     
-    private void Init(Unit receiver, PassiveSO passive, Sprite icon, float duration)
+    private void Init(Unit receiver, PassiveSO passive, float duration)
     {
         Duration = duration;
         Timer = duration;
-        Icon = icon;
+        Icon = passive.Icon;
         this.passive = passive;
         this.receiver = receiver;
         
@@ -40,10 +40,10 @@ public class Buff : MonoBehaviour, IStatusEffect
         receiver.LooseStatusEffect(this);
     }
 
-    public static void ApplyBuff(Unit receiver, PassiveSO passive, Sprite icon, float duration)
+    public static void ApplyBuff(Unit receiver, PassiveSO passive, float duration)
     {
         var newBuff = receiver.transform.AddComponent<Buff>();
-        newBuff.Init(receiver, passive, icon, duration);
+        newBuff.Init(receiver, passive, duration);
     }
 
     
