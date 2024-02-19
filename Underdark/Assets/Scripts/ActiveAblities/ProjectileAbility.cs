@@ -90,11 +90,6 @@ public class ProjectileAbility : ActiveAbility
         newProj.Init(caster, damageInfo, debuffInfos.GetValue(abilityLevel).DebuffInfos, abilityLevel, velocity,
             AttackDistance.GetValue(abilityLevel) / projSpeed, penetrationCount.GetValue(abilityLevel), damageablesToIgnore);
     }
-
-    public override bool CanUseAbility(Unit caster, float distToTarget)
-    {
-        return base.CanUseAbility(caster, distToTarget) && distToTarget > 2;
-    }
     
     private float NextTriangular(Random rand, double min, double max, double mean)
     {

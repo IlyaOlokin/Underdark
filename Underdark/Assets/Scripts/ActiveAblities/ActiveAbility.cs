@@ -111,9 +111,11 @@ public abstract class ActiveAbility : MonoBehaviour
         return targets;
     }
 
-    public bool RequirementsMet(WeaponSO weapon)
+    public bool GearRequirementsMet(Equipment equipment)
     {
-        return validWeaponTypes.Contains(WeaponType.Any) || validWeaponTypes.Contains(weapon.WeaponType) || validWeaponTypes.Count == 0;
+        return validWeaponTypes.Contains(WeaponType.Any) 
+               || validWeaponTypes.Contains(equipment.GetWeapon().WeaponType) 
+               || validWeaponTypes.Count == 0;
     }
 
     public int GetManaCost(int exp)

@@ -1625,6 +1625,14 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
+      propertyPath: drop1.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
+      propertyPath: drop1.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 37d39a574158d1e4e8e3308db96c7563, type: 2}
+    - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: drop.Array.data[0].Item
       value: 
       objectReference: {fileID: 11400000, guid: cfff7a563d6e39f40bfe7215fcecc0ea, type: 2}

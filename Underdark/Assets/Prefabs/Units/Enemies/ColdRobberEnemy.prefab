@@ -969,7 +969,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7684371324137006495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ed55afce2e64ab41b8eec4331228169, type: 3}
+  m_Script: {fileID: 11500000, guid: e1ca018905a30a249a87d3a462e854af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Stats:
@@ -1025,8 +1025,6 @@ MonoBehaviour:
   meleeAttackDuration: 0.4
   meleeAttackPreparation: 0.5
   expPerLevel: 10
-  distToForceMelee: 3
-  distToKeep: 1
 --- !u!114 &5577980821815337067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1419,6 +1417,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2244675903043554139}
     m_Modifications:
+    - target: {fileID: 703529798311657539, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 703529798311657539, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
+      propertyPath: m_Color.g
+      value: 0.78904617
+      objectReference: {fileID: 0}
+    - target: {fileID: 703529798311657539, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
+      propertyPath: m_Color.r
+      value: 0.4575472
+      objectReference: {fileID: 0}
     - target: {fileID: 2341313059646512682, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
       propertyPath: m_Name
       value: UnitVisual
