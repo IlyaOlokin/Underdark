@@ -1096,7 +1096,7 @@ MonoBehaviour:
   visualsFlipable: {fileID: 7394194429042638207}
   unitVisualRotatable: {fileID: 1829177666794183583}
   unitNotificationEffect: {fileID: 9209489120575824937, guid: ad3a4e569e661de42aecc35d389ed7de, type: 3}
-  unitVisual: {fileID: 1699728732726565061}
+  <UnitVisual>k__BackingField: {fileID: 1699728732726565061}
   spawnPont: {fileID: 3887350311143016167}
   moveTarget: {fileID: 5120903447323990012}
   agent: {fileID: 8583875203054404754}
@@ -1106,7 +1106,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   lostPlayerDelay: 5
-  meleeAttackDuration: 0.8
+  meleeAttackDuration: 0.4
   meleeAttackPreparation: 0.5
   expPerLevel: 10
   distToForceMelee: 2

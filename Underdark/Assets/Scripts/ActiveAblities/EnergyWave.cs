@@ -1,19 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnergyWave : ActiveAbility
 {
     [Header("Visual")]
-    [SerializeField] private SpriteRenderer visualSR;
+    [SerializeField] private RadialFillVisual visual;
     [SerializeField] private float visualDuration;
     [SerializeField] private float scaleLerpSpeed;
     
-    public override void Execute(Unit caster, int level)
+    public override void Execute(Unit caster, int level, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level);
+        base.Execute(caster, level, attackDir);
         
-        var targets = FindAllTargets(caster);
+        var targets = FindAllTargets(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel));
 
         foreach (var target in targets)
         {
@@ -22,26 +24,10 @@ public class EnergyWave : ActiveAbility
                 debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
             }
         }
+
         
-        StartCoroutine(StartVisual());
-    }
-    
-    IEnumerator StartVisual()
-    {
-        visualSR.material = new Material(visualSR.material);
-        
-        var targetScale = transform.localScale * (AttackDistance.GetValue(abilityLevel) * 2 + 1);
-        transform.localScale = Vector3.zero;
-        
-        visualSR.material.SetFloat("_Turn", caster.GetAttackDirAngle(attackDir));
-        visualSR.material.SetFloat("_FillAmount", AttackRadius.GetValue(abilityLevel));
-        
-        while (visualDuration > 0)
-        {
-            transform.localScale = Vector3.Lerp( transform.localScale, targetScale, scaleLerpSpeed / visualDuration * Time.deltaTime);
-            visualDuration -= Time.deltaTime;
-            yield return null;
-        }
+        StartCoroutine(visual.StartVisual(AttackDistance.GetValue(abilityLevel), caster.GetAttackDirAngle(attackDir),
+            AttackAngle.GetValue(abilityLevel), visualDuration, scaleLerpSpeed));
     }
     
     public override bool CanUseAbility(Unit caster, float distToTarget)

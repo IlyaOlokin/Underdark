@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05d888432bee62d47af9ff250e5b601b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swingDuration: 0.5
+  swingDuration: 0.25
   trailRenderer: {fileID: 4217598937188255408}
   swingPoint: {fileID: 2825220188116429564}
 --- !u!1 &7490984337324328252
@@ -246,11 +246,11 @@ MonoBehaviour:
     - 5
   manaCost:
     values: 00000000
-  <NeedAttackRadius>k__BackingField: 1
+  <NeedAttackRadiusDisplay>k__BackingField: 1
   <AttackDistance>k__BackingField:
     values:
     - 2
-  <AttackRadius>k__BackingField:
+  <AttackAngle>k__BackingField:
     values:
     - 360
   <MaxValue>k__BackingField:

@@ -13,17 +13,24 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
     [FormerlySerializedAs("baseAttackVisual")]
     [Header("Visual")] 
     [SerializeField] private BaseAttackVisual baseAttackVisualPref;
-    public override void Execute(Unit caster, int exp)
+    public override void Execute(Unit caster, int exp, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore1 = null)
     {
         this.caster = caster;
         abilityLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(exp);
         
-        attackDir = caster.GetAttackDirection(caster.GetWeapon().AttackDistance);
+        base.attackDir = caster.GetAttackDirection(caster.GetWeapon().AttackDistance);
         
-        int damage = caster.GetWeapon().Damage.GetValue() + caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel);
-        damageInfo.AddDamage(damage, caster.GetWeapon().Damage.DamageType, caster.Params.GetDamageAmplification(caster.GetWeapon().Damage.DamageType));
-
         StartCoroutine(ExecuteAttack());
+    }
+
+    protected override void InitDamage(Unit caster, float damageMultiplier = 1f)
+    {
+        int damage = (int) ((currentWeapon.Damage.GetValue() +
+                     caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel)) * damageMultiplier);
+        damageInfo = new DamageInfo();
+        damageInfo.AddDamage(damage, currentWeapon.Damage.DamageType,
+            caster.Params.GetDamageAmplification(currentWeapon.Damage.DamageType));
     }
 
     private void StartVisual(Unit caster, bool reversed)
@@ -50,13 +57,14 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
     private void AttackWithWeapon(WeaponSO weapon, bool reversed)
     {
         currentWeapon = weapon;
+        InitDamage(caster);
         Attack();
         StartVisual(caster, reversed);
     }
 
     public void Attack()
     {
-        var hitUnits = FindAllTargets(caster);
+        var hitUnits = FindAllTargets(caster, caster.transform.position, currentWeapon.AttackDistance);
 
         foreach (var collider in hitUnits)
         {
@@ -73,19 +81,21 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
         }
     }
 
-    private new List<Collider2D> FindAllTargets(Unit caster)
+    private new List<Collider2D> FindAllTargets(Unit caster, Vector3 center, float distance, List<IDamageable> objectsToIgnore = null)
     {
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(caster.transform.position, currentWeapon.AttackDistance + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(center, distance + 0.5f, contactFilter, hitColliders);
 
         List<Collider2D> targets = new List<Collider2D>();
         foreach (var collider in hitColliders)
         {
-            if (!HitCheck(caster.transform,collider.transform, contactFilter)) continue;
+            if (!collider.TryGetComponent(out IDamageable damageable)) continue;
+            if (objectsToIgnore != null && objectsToIgnore.Contains(damageable)) continue;
+            if (!HitCheck(center, collider.transform, contactFilter)) continue;
             
-            Vector3 dir = collider.transform.position - caster.transform.position;
+            Vector3 dir = collider.transform.position - center;
             var angle = Vector2.Angle(dir, attackDir);
             if (angle < currentWeapon.AttackRadius / 2f)
             {

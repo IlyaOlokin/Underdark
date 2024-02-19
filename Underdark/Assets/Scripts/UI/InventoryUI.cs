@@ -107,6 +107,14 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
         armorText.text = Player.GetTotalArmor().ToString();
         attackText.text = Player.GetWeapon().Damage.ToString(Player.Stats.GetTotalStatValue(BaseStat.Strength),
             Player.Params.GetDamageAmplification(Player.GetWeapon().Damage.DamageType));
+
+        var secondaryWeapon = Player.Inventory.Equipment.GetSecondaryWeapon();
+        if (secondaryWeapon != null)
+        {
+            var text = secondaryWeapon.Damage.ToString(Player.Stats.GetTotalStatValue(BaseStat.Strength),
+                Player.Params.GetDamageAmplification(secondaryWeapon.Damage.DamageType));
+            attackText.text += $"\n{text}";
+        }
     }
 
     private void UpdateMoneyDisplay()
@@ -118,8 +126,7 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
     {
         Inventory.OnInventoryChanged -= UpdateUI;
         Player.Money.OnMoneyChanged -= UpdateMoneyDisplay;
-
-        DeselectSlot();
+        
         FormatInventory();
     }
 
@@ -145,16 +152,6 @@ public class InventoryUI : MonoBehaviour, IInventoryUI
             itemDescription.ResetDescriptionActive(false);
         else
             itemDescription.ShowItemDescription(selectedSlot.Slot.Item, Player, selectedSlot.Slot);
-    }
-
-    private void DeselectSlot()
-    {
-        if (selectedSlot == null)
-        {
-            return;
-        }
-        selectedSlot.OnDeselect();
-        selectedSlot = null;
     }
 
     private void ClearSlots()

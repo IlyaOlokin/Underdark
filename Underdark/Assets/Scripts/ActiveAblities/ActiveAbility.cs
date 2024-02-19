@@ -2,27 +2,28 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public abstract class ActiveAbility : MonoBehaviour
 {
     [field:SerializeField] public string ID { get; private set; }
     public ActiveAbilityLevelSetupSO ActiveAbilityLevelSetupSO;
     public float CastTime;
-    [field:SerializeField] public ActiveAbilityProperty<float> Cooldown { get; private set; }
-    [SerializeField] private ActiveAbilityProperty<int> manaCost;
+    [field:SerializeField] public ScalableProperty<float> Cooldown { get; private set; }
+    [SerializeField] private ScalableProperty<int> manaCost;
     
-    [field:SerializeField] public bool NeedAttackRadius { get; private set; }
-    [field:SerializeField] public ActiveAbilityProperty<float> AttackDistance { get; protected set; }
-    [field:SerializeField] public ActiveAbilityProperty<float> AttackRadius { get; protected set; }
-    [field:SerializeField] protected ActiveAbilityProperty<float> MaxValue { get; set; }
-    [field:SerializeField] protected ActiveAbilityProperty<int> StatMultiplier { get; set; }
+    [field:SerializeField] public bool NeedAttackRadiusDisplay { get; private set; }
+    [field:SerializeField] public ScalableProperty<float> AttackDistance { get; protected set; }
+    [field:SerializeField] public ScalableProperty<float> AttackAngle { get; protected set; }
+    [field:SerializeField] protected ScalableProperty<float> MaxValue { get; set; }
+    [field:SerializeField] protected ScalableProperty<int> StatMultiplier { get; set; }
     [SerializeField] protected BaseStat baseStat;
     [SerializeField] protected DamageType damageType;
     [SerializeField] protected List<WeaponType> validWeaponTypes;
     
     protected DamageInfo damageInfo = new();
     
-    [SerializeField] protected ActiveAbilityProperty<DebuffInfoList> debuffInfos;
+    [SerializeField] protected ScalableProperty<DebuffInfoList> debuffInfos;
     
     [SerializeField] private bool needAutoDestroy;
     [SerializeField] private float autoDestroyDelay;
@@ -33,35 +34,49 @@ public abstract class ActiveAbility : MonoBehaviour
     protected Unit caster;
     protected Vector2 attackDir;
     protected int abilityLevel;
+    protected List<IDamageable> damageablesToIgnore;
 
     protected virtual void Awake()
     {
         if (needAutoDestroy) Destroy(gameObject, autoDestroyDelay);
     }
 
-    public virtual void Execute(Unit caster, int exp)
+    public virtual void Execute(Unit caster, int level, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore = null)
     {
         this.caster = caster;
-        abilityLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(exp);
-        attackDir = caster.GetAttackDirection(AttackDistance.GetValue(abilityLevel));
+        abilityLevel = level;
+        this.damageablesToIgnore = damageablesToIgnore;
+        this.attackDir = attackDir;
     }
     
-    protected Collider2D FindClosestTarget(Unit caster)
+    protected virtual void InitDamage(Unit caster, float damageMultiplier = 1f)
+    {
+        float maxDamage = MaxValue.GetValue(abilityLevel) <= 0 ? int.MaxValue : MaxValue.GetValue(abilityLevel);
+        int damage = (int) (Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
+            maxDamage) * damageMultiplier);
+        damageInfo = new DamageInfo();
+        damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
+    }
+    
+    protected Collider2D FindClosestTarget(Unit caster, Vector3 center, float distance, List<IDamageable> objectsToIgnore = null)
     {
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(caster.transform.position, AttackDistance.GetValue(abilityLevel) + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(center, distance + 0.5f, contactFilter, hitColliders);
 
         Collider2D target = null;
         float minDist = float.MaxValue;
         foreach (var collider in hitColliders)
         {
-            if (!HitCheck(caster.transform,collider.transform, contactFilter)) continue;
+            if (!collider.TryGetComponent(out IDamageable damageable)) continue;
+            if (objectsToIgnore != null && objectsToIgnore.Contains(damageable)) continue;
+            if (!HitCheck(center, collider.transform, contactFilter)) continue;
 
-            Vector3 dir = collider.transform.position - caster.transform.position;
+            Vector3 dir = collider.transform.position - center;
             var angle = Vector2.Angle(dir, attackDir);
-            if (angle < AttackRadius.GetValue(abilityLevel) / 2f && dir.magnitude < minDist)
+            if (angle < AttackAngle.GetValue(abilityLevel) / 2f && dir.magnitude < minDist)
             {
                 minDist = dir.magnitude;
                 target = collider;
@@ -71,21 +86,23 @@ public abstract class ActiveAbility : MonoBehaviour
         return target;
     }
     
-    protected List<Collider2D> FindAllTargets(Unit caster)
+    protected List<Collider2D> FindAllTargets(Unit caster, Vector3 center, float distance, List<IDamageable> objectsToIgnore = null)
     {
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
         List<Collider2D> hitColliders = new List<Collider2D>();
-        Physics2D.OverlapCircle(caster.transform.position, AttackDistance.GetValue(abilityLevel) + 0.5f, contactFilter, hitColliders);
+        Physics2D.OverlapCircle(center, distance + 0.5f, contactFilter, hitColliders);
 
         List<Collider2D> targets = new List<Collider2D>();
         foreach (var collider in hitColliders)
         {
-            if (!HitCheck(caster.transform,collider.transform, contactFilter)) continue;
+            if (!collider.TryGetComponent(out IDamageable damageable)) continue;
+            if (objectsToIgnore != null && objectsToIgnore.Contains(damageable)) continue;
+            if (!HitCheck(center, collider.transform, contactFilter)) continue;
             
-            Vector3 dir = collider.transform.position - caster.transform.position;
+            Vector3 dir = collider.transform.position - center;
             var angle = Vector2.Angle(dir, attackDir);
-            if (angle < AttackRadius.GetValue(abilityLevel) / 2f)
+            if (angle < AttackAngle.GetValue(abilityLevel) / 2f)
             {
                 targets.Add(collider);
             }
@@ -93,17 +110,12 @@ public abstract class ActiveAbility : MonoBehaviour
 
         return targets;
     }
-    
-    private void OverrideWeaponStats(WeaponSO weapon)
-    {
-        if (weapon.ID == "empty") return;
-        //AttackDistance = weapon.AttackDistance;
-        //AttackRadius = weapon.AttackRadius;
-    }
 
-    public bool RequirementsMet(WeaponSO weapon)
+    public bool GearRequirementsMet(Equipment equipment)
     {
-        return validWeaponTypes.Contains(WeaponType.Any) || validWeaponTypes.Contains(weapon.WeaponType) || validWeaponTypes.Count == 0;
+        return validWeaponTypes.Contains(WeaponType.Any) 
+               || validWeaponTypes.Contains(equipment.GetWeapon().WeaponType) 
+               || validWeaponTypes.Count == 0;
     }
 
     public int GetManaCost(int exp)
@@ -125,10 +137,10 @@ public abstract class ActiveAbility : MonoBehaviour
         res[0] = description;
         if (StatMultiplier.GetValue(currentLevel) != 0)
             res[1] =
-                $"Damage: {StatMultiplier.GetValue(currentLevel)} * {UnitStats.GetStatString(baseStat)} (max: {MaxValue.GetValue(currentLevel)})";
-        if (currentLevel != 0)       res[2] = $"Mana: {currentLevel}";
+                $"Damage: {StatMultiplier.GetValue(currentLevel)} * {UnitStats.GetStatString(baseStat)}" + MaxValueToString(currentLevel);
+        if (manaCost.GetValue(currentLevel) != 0)       res[2] = $"Mana: {manaCost.GetValue(currentLevel)}";
         if (AttackDistance.GetValue(currentLevel) != 0) res[3] = $"Distance: {AttackDistance.GetValue(currentLevel)}";
-        if (AttackRadius.GetValue(currentLevel) != 0 && NeedAttackRadius) res[4] = $"Radius: {AttackRadius.GetValue(currentLevel)}";
+        if (AttackAngle.GetValue(currentLevel) != 0 && NeedAttackRadiusDisplay) res[4] = $"Radius: {AttackAngle.GetValue(currentLevel)}";
         if (Cooldown.GetValue(currentLevel) != 0)    res[5] = $"Cooldown: {Cooldown.GetValue(currentLevel)}";
         if (validWeaponTypes.Count != 0 && !validWeaponTypes.Contains(WeaponType.Any)) res[6] = $"Weapon: {GetValidWeaponTypesString()}";
         return res;
@@ -147,6 +159,11 @@ public abstract class ActiveAbility : MonoBehaviour
         return res.ToArray();
     }
 
+    protected string MaxValueToString(int level)
+    {
+        return MaxValue.GetValue(level) <= 0 ? "" : $" (max: {MaxValue.GetValue(level)})";
+    }
+
     private string GetValidWeaponTypesString()
     {
         StringBuilder str = new StringBuilder();
@@ -160,12 +177,11 @@ public abstract class ActiveAbility : MonoBehaviour
         return str.ToString();
     }
     
-    public static bool HitCheck(Transform caster, Transform target, ContactFilter2D contactFilter)
+    public static bool HitCheck(Vector3 startPos, Transform target, ContactFilter2D contactFilter)
     {
         List<RaycastHit2D> hits = new List<RaycastHit2D>();
 
-        Physics2D.Raycast(caster.transform.position,
-            target.position - caster.transform.position,
+        Physics2D.Raycast(startPos, target.position - startPos,
             contactFilter,
             hits);
         foreach (var hit in hits)

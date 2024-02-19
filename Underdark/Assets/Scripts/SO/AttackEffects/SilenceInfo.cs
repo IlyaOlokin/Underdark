@@ -10,7 +10,20 @@ public class SilenceInfo : DebuffInfo
     
     public override void Execute(IAttacker attacker, Unit receiver, Unit unitCaster)
     {
-        receiver.GetSilence(this, effectIcon);
+        if (Random.Range(0f, 1f) > chance) return;
+
+        if (receiver.TryGetComponent(out Silence silenceComponent))
+        {
+            if (silenceComponent.Timer > Duration) return;
+            
+            receiver.EndSilence();
+            Destroy(silenceComponent);
+        }
+        
+        receiver.StartSilence();
+        var newSilence = receiver.gameObject.AddComponent<Silence>();
+        newSilence.Init(Duration, receiver, effectIcon);
+        receiver.ReceiveStatusEffect(newSilence);
     }
 
     public override string ToString()

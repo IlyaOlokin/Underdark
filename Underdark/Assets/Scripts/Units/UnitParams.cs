@@ -30,19 +30,22 @@ public class UnitParams
     [Header("Regen")]
     [SerializeField] [Range(0f, 1f)] private float baseHPRegenPercent;
     [SerializeField] [Range(0f, 1f)] private float baseMPRegenPercent;
+    
+    private float HPRegenPercent;
+    private float MPRegenPercent;
 
     private float HPRegenAmplification;
     private float MPRegenAmplification;
 
-    public float SlowAmount { get; private set; }
-    public float AllDmgAmplification { get; private set; }
+    public float SlowAmount { get; private set; } = 1f;
 
     public void SetUnit(Unit unit)
     {
         this.unit = unit;
-        ApplySlow(1f);
+        ApplySlow(0);
 
         unit.Inventory.OnEquipmentChanged += CashParams;
+        unit.OnUnitPassivesChanged += CashParams;
         CashParams();
     }
 
@@ -50,23 +53,29 @@ public class UnitParams
     {
         float dmgAmpl = 0;
         
-        foreach (var passive in unit.GetAllGearPassives<DamageAmplificationSO>())
+        foreach (var passive in unit.GetAllPassives<DamageAmplificationSO>())
         {
             if (passive.DamageType == damageType)
             {
                 dmgAmpl += passive.Value;
             }
         }
+
+        float allDmgAmpl = 0;
+        foreach (var passive in unit.GetAllPassives<AllDamageAmplificationSO>())
+        {
+            allDmgAmpl += passive.Value;
+        }
         
         return damageType switch
         {
-            DamageType.Physic => (basePhysicDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Chaos => (baseChaosDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Fire => (baseFireDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Air => (baseAirDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Water => (baseWaterDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Cold => (baseColdDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
-            DamageType.Electric => (baseElectricDmgAmplification + dmgAmpl + 1) * (AllDmgAmplification + 1),
+            DamageType.Physic => (basePhysicDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
+            DamageType.Chaos => (baseChaosDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
+            DamageType.Fire => (baseFireDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
+            DamageType.Air => (baseAirDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
+            DamageType.Water => (baseWaterDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
+            DamageType.Cold => (baseColdDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
+            DamageType.Electric => (baseElectricDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
         };
     }
@@ -75,7 +84,7 @@ public class UnitParams
     {
         float dmgRes = 0;
         
-        foreach (var passive in unit.GetAllGearPassives<DamageResistSO>())
+        foreach (var passive in unit.GetAllPassives<DamageResistSO>())
         {
             if (passive.DamageType == damageType)
             {
@@ -105,7 +114,7 @@ public class UnitParams
     public float GetEvasionChance()
     {
         var hitChance = 1 - baseEvasionChance;
-        foreach (var evasionAmplification in unit.GetAllGearPassives<EvasionAmplificationSO>())
+        foreach (var evasionAmplification in unit.GetAllPassives<EvasionAmplificationSO>())
             hitChance *= 1 - evasionAmplification.EvasionChance;
         
         hitChance = Mathf.Clamp(hitChance, 0.05f, 1f);
@@ -117,33 +126,32 @@ public class UnitParams
     {
         return regenType switch
         {
-            RegenType.HP => unit.MaxHP * baseHPRegenPercent * HPRegenAmplification,
-            RegenType.MP => unit.MaxMana * baseMPRegenPercent * MPRegenAmplification,
+            RegenType.HP => unit.MaxHP * HPRegenPercent * HPRegenAmplification,
+            RegenType.MP => unit.MaxMana * MPRegenPercent * MPRegenAmplification,
             _ => throw new ArgumentOutOfRangeException(nameof(regenType), regenType, null)
         };
     }
 
     public void ApplySlow(float slow)
     {
-        SlowAmount = slow;
-    }
-
-    public void AddAllDamageAmplification(float dmgAmplification)
-    {
-        AllDmgAmplification += dmgAmplification;
+        var newSlow = 1 - slow;
+        if (newSlow < 0) newSlow = 0;
+        
+        SlowAmount = newSlow;
     }
 
     private void CashParams()
     {
-        SetRegeneration();
+        SetRegenerationAmplification();
+        SetBaseRegeneration();
     }
 
-    private void SetRegeneration()
+    private void SetRegenerationAmplification()
     {
         var hpRegenAmpl = 0f;
         var mpRegenAmpl = 0f;
         
-        foreach (var passive in unit.GetAllGearPassives<RegenAmplificationSO>())
+        foreach (var passive in unit.GetAllPassives<RegenAmplificationSO>())
         {
             switch (passive.RegenType)
             {
@@ -164,5 +172,37 @@ public class UnitParams
 
         HPRegenAmplification = 1 + hpRegenAmpl;
         MPRegenAmplification = 1 + mpRegenAmpl;
+    }
+    
+    private void SetBaseRegeneration()
+    {
+        var hpRegen = baseHPRegenPercent;
+        var mpRegen = baseMPRegenPercent;
+        
+        foreach (var passive in unit.GetAllPassives<BaseRegenerationSO>())
+        {
+            switch (passive.RegenType)
+            {
+                case RegenType.HP:
+                    if (passive.Value > hpRegen)
+                        hpRegen = passive.Value;
+                    break;
+                case RegenType.MP:
+                    if (passive.Value > mpRegen)
+                        mpRegen = passive.Value;
+                    break;
+                case RegenType.Both:
+                    if (passive.Value > hpRegen)
+                        hpRegen = passive.Value;
+                    if (passive.Value > mpRegen)
+                        mpRegen = passive.Value;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        HPRegenPercent = hpRegen;
+        MPRegenPercent = mpRegen;
     }
 }

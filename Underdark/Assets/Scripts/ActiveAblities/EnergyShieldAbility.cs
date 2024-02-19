@@ -7,9 +7,10 @@ public class EnergyShieldAbility : ActiveAbility
     [SerializeField] private int shieldHP;
     [SerializeField] private float shieldRadius;
     
-    public override void Execute(Unit caster, int level)
+    public override void Execute(Unit caster, int level, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore1 = null)
     {
-        base.Execute(caster, level);
+        base.Execute(caster, level, attackDir);
 
         caster.GetEnergyShield(shieldHP, shieldRadius);
     }

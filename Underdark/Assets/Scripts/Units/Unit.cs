@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -22,6 +23,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     protected bool IsDisabled => isStunned || isFrozen;
     protected bool IsPushing { get; private set; }
     public bool IsSilenced { get; private set; }
+    public bool IsDead { get; private set; } 
+
     public event Action OnIsSilenceChanged;
 
     [SerializeField] private int baseMaxHP;
@@ -65,19 +68,23 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     public event Action<int> OnManaChanged;
     public event Action<int> OnMaxManaChanged;
     
+    [NonSerialized] public List<IStatusEffect> Buffs = new();
+    public event Action<IStatusEffect> OnStatusEffectReceive;
+    public event Action<IStatusEffect> OnStatusEffectLoose;
+    
+    private List<PassiveSO> Passives = new();
+    
+    public event Action OnUnitPassivesChanged;
+    
     [field: SerializeField] public int MoveSpeed { get; private set; }
 
-    [field: Header("Attack Setup")] [SerializeField]
-    private WeaponSO defaultWeapon;
+    [field: Header("Attack Setup")] 
+    [SerializeField] private WeaponSO defaultWeapon;
     [SerializeField] private ActiveAbility baseAttackAbility;
 
     [SerializeField] private float attackSpeed;
     public event Action<float, float, float> OnBaseAttack;
     public event Action<int> OnExecutableItemUse;
-
-    [NonSerialized] public List<IStatusEffect> Buffs = new();
-    public event Action<IStatusEffect> OnStatusEffectReceive;
-    public event Action<IStatusEffect> OnStatusEffectLoose;
 
     [field:SerializeField] public LayerMask AttackMask { get; protected set; }
     public Transform Transform => transform;
@@ -97,7 +104,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     [SerializeField] protected GameObject unitVisualRotatable;
     private bool facingRight = true;
     [SerializeField] protected UnitNotificationEffect unitNotificationEffect;
-    [SerializeField] protected UnitVisual unitVisual;
+    [field:SerializeField] public UnitVisual UnitVisual { get; private set; }
 
     protected Vector3 lastMoveDir;
     protected float lastMoveDirAngle;
@@ -128,11 +135,12 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
     protected void SetUnit()
     {
+        IsDead = false;
         SetHP(true);
         SetMana(true);
         SetActiveAbilitiesCDs(true);
         GetUnStunned();
-        EndPush();
+        EndPushState();
         LooseEnergyShield();
         foreach (var buffs in GetComponents<IStatusEffect>())
         {
@@ -190,7 +198,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
         for (var index = 0; index < ActiveAbilitiesCD.Count; index++)
         {
-            ActiveAbilitiesCD[index] -= Time.deltaTime / Params.SlowAmount;
+            ActiveAbilitiesCD[index] -= Time.deltaTime * Params.SlowAmount;
         }
     }
 
@@ -247,6 +255,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
     public virtual bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
     {
+        if (IsDead) return false;
+        
         var newEffect = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
 
         if (evadable && TryToEvade())
@@ -283,7 +293,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         }
         
         CurrentHP -= newDamage;
-        unitVisual.StartWhiteOut();
+        UnitVisual.StartWhiteOut();
         if (CurrentHP <= 0) Death(sender, attacker, damageInfo.GetDamages()[0].DamageType);
         newEffect.WriteDamage(newDamage);
         return true;
@@ -307,44 +317,13 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     public void GetEnergyShield(int maxHP, float radius)
     {
         EnergyShield = new EnergyShield(maxHP, radius);
-        unitVisual.ActivateEnergyShieldVisual(radius);
+        UnitVisual.ActivateEnergyShieldVisual(radius);
     }
     
     private void LooseEnergyShield()
     {
         EnergyShield = null;
-        unitVisual.DeactivateEnergyShieldVisual();
-    }
-
-    public void GetHarmOverTime(HarmInfo harmInfo, Unit caster, GameObject visual, Sprite effectIcon)
-    {
-        if (Random.Range(0f, 1f) > harmInfo.chance) return;
-        
-        var newPoison = gameObject.AddComponent<HarmOverTime>();
-        newPoison.Init(harmInfo, this, caster, visual, effectIcon);
-        ReceiveStatusEffect(newPoison);
-    }
-    
-    public void GetSlowed(SlowInfo slowInfo, Sprite effectIcon)
-    {
-        if (Random.Range(0f, 1f) > slowInfo.chance) return;
-
-        var newSlow = transform.AddComponent<Slow>();
-        newSlow.Init(slowInfo, this, effectIcon);
-        ReceiveStatusEffect(newSlow);
-    }
-    
-    public void GetBurn(BurnInfo burnInfo, Unit caster, GameObject visual, Sprite effectIcon)
-    {
-        if (TryGetComponent(out Freeze freeze))
-            Destroy(freeze);
-        
-        if (Random.Range(0f, 1f) > burnInfo.chance) return;
-        if (TryGetComponent(out Burn burn)) return;
-        
-        var newBurn = gameObject.AddComponent<Burn>();
-        newBurn.Init(burnInfo, this, caster, visual, effectIcon);
-        ReceiveStatusEffect(newBurn);
+        UnitVisual.DeactivateEnergyShieldVisual();
     }
     
     public virtual void ApplySlow(float slow)
@@ -352,10 +331,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         Params.ApplySlow(slow);
     }
     
-    public void GetBashed(BashInfo bashInfo)
+    public void ResetAbilityCoolDowns()
     {
-        if (Random.Range(0f, 1f) > bashInfo.chance) return;
-        
         for (int i = 0; i < ActiveAbilitiesCD.Count; i++)
         {
             if (Inventory.EquippedActiveAbilitySlots[i].IsEmpty) continue;
@@ -364,78 +341,15 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         }
     }
     
-    public virtual bool GetStunned(StunInfo stunInfo, Sprite effectIcon)
-    {
-        if (Random.Range(0f, 1f) > stunInfo.chance) return false;
-        
-        isStunned = true;
-       
-        if (transform.TryGetComponent(out Stun stunComponent))
-        {
-            stunComponent.AddDuration(stunInfo.Duration);
-        }
-        else
-        {
-            var newStun = gameObject.AddComponent<Stun>();
-            newStun.Init(stunInfo, this, unitVisual.StunBar, effectIcon);
-            ReceiveStatusEffect(newStun);
-        }
+    public virtual void GetStunned() => isStunned = true;
 
-        return true;
-    }
+    public virtual void GetUnStunned() => isStunned = false;
 
-    public virtual void GetUnStunned()
-    {
-        isStunned = false;
-    }
-    
-    public virtual bool GetFrozen(FreezeInfo freezeInfo, Sprite effectIcon)
-    {
-        if (TryGetComponent(out Burn burn))
-            Destroy(burn);
-        
-        if (Random.Range(0f, 1f) > freezeInfo.chance) return false;
-        
-        isFrozen = true;
-       
-        if (transform.TryGetComponent(out Freeze stunComponent))
-        {
-            stunComponent.AddDuration(freezeInfo.Duration);
-        }
-        else
-        {
-            var newStun = gameObject.AddComponent<Freeze>();
-            newStun.Init(freezeInfo, this, unitVisual.StunBar, effectIcon);
-            ReceiveStatusEffect(newStun);
-        }
+    public virtual void GetFrozen() => isFrozen = true;
 
-        return true;
-    }
-    
-    public virtual void GetUnFrozen()
-    {
-        isFrozen = false;
-    }
-    
-    public void GetSilence(SilenceInfo silenceInfo, Sprite effectIcon)
-    {
-        if (Random.Range(0f, 1f) > silenceInfo.chance) return;
+    public virtual void GetUnFrozen() => isFrozen = false;
 
-        if (transform.TryGetComponent(out Silence silenceComponent))
-        {
-            if (silenceComponent.Timer > silenceInfo.Duration) return;
-            
-            EndSilence();
-            Destroy(silenceComponent);
-        }
-        
-        StartSilence();
-        var newSilence = gameObject.AddComponent<Silence>();
-        newSilence.Init(silenceInfo.Duration, this, effectIcon);
-        ReceiveStatusEffect(newSilence);
-    }
-    
-    private void StartSilence()
+    public void StartSilence()
     {
         IsSilenced = true;
         OnIsSilenceChanged?.Invoke();
@@ -447,32 +361,18 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         OnIsSilenceChanged?.Invoke();
     }
     
-    public virtual bool GetPushed(PushInfo pushInfo, Vector2 pushDir, Sprite effectIcon)
+    public virtual void GetPushed(Vector2 pushDir)
     {
-        if (Random.Range(0f, 1f) > pushInfo.chance) return false;
-
-        StartPush();
-        if (transform.TryGetComponent(out Push pushComponent))
-        {
-            EndPush();
-            Destroy(pushComponent);
-        }
-        
-        var newPush = gameObject.AddComponent<Push>();
-        newPush.Init(pushInfo.PushDuration, this, effectIcon);
-        ReceiveStatusEffect(newPush);
-        
         rb.velocity = pushDir;
-        return true;
     }
 
-    public void StartPush(bool isTrigger = false)
+    public void StartPushState(bool isTrigger = false)
     {
         IsPushing = true;
         coll.isTrigger = isTrigger;
     }
     
-    public virtual void EndPush()
+    public virtual void EndPushState()
     {
         IsPushing = false;
         coll.isTrigger = false;
@@ -492,6 +392,18 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     {
         Buffs.Remove(statusEffect);
         OnStatusEffectLoose?.Invoke(statusEffect);
+    }
+
+    public void ReceivePassive(PassiveSO passive)
+    {
+        Passives.Add(passive);
+        OnUnitPassivesChanged?.Invoke();
+    }
+    
+    public void LoosePassive(PassiveSO passive)
+    {
+        Passives.Remove(passive);
+        OnUnitPassivesChanged?.Invoke();
     }
     
     private int CalculateTakenDamage(DamageInfo damageInfo, float armorPierce)
@@ -521,6 +433,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
     protected virtual void Death(Unit killer, IAttacker attacker, DamageType damageType)
     {
+        IsDead = true;
         OnUnitDeath?.Invoke();
         gameObject.SetActive(false);
     }
@@ -529,7 +442,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     {
         if (IsDisabled || IsPushing) return;
         
-        rb.MovePosition(rb.position + (Vector2)dir * (MoveSpeed / Params.SlowAmount) * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + (Vector2)dir * (MoveSpeed * Params.SlowAmount) * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
             lastMoveDir = dir;
         TryFlipVisual(dir.x);
@@ -545,7 +458,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         if (attackCDTimer > 0 || actionCDTimer > 0 || IsDisabled) return;
         
         var newBaseAttack = Instantiate(baseAttackAbility, transform.position, Quaternion.identity);
-        newBaseAttack.Execute(this, 1);
+        newBaseAttack.Execute(this, 1, GetAttackDirection(newBaseAttack.AttackDistance.GetValue(1)));
 
         attackCDTimer = 1 / attackSpeed;
         SetActionCD(newBaseAttack.CastTime);
@@ -569,7 +482,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         SpendMana(manaCost);
         
         var newAbility = Instantiate(activeAbility, transform.position, Quaternion.identity);
-        newAbility.Execute(this, GetExpOfActiveAbility(activeAbility.ID));
+        var currentLevel = newAbility.ActiveAbilityLevelSetupSO.GetCurrentLevel(GetExpOfActiveAbility(activeAbility.ID));
+        newAbility.Execute(this, currentLevel, GetAttackDirection(newAbility.AttackDistance.GetValue(currentLevel)));
         SetActionCD(newAbility.CastTime);
         ActiveAbilitiesCD[index] = newAbility.Cooldown.GetValue(GetExpOfActiveAbility(newAbility.ID));
     }
@@ -640,7 +554,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         actionCDTimer = cd;
     }
 
-    public List<T> GetAllGearPassives<T>()
+    public List<T> GetAllPassives<T>()
     {
         var res = new List<T>();
 
@@ -656,12 +570,20 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
             }
         }
 
+        foreach (var passive in Passives)
+        {
+            if (passive is T passive1)
+            {
+                res.Add(passive1);
+            }
+        }
+
         return res;
     }
     
     public bool HasPassiveOfType<T>()
     {
-        var passives = GetAllGearPassives<T>();
+        var passives = GetAllPassives<T>();
         return passives.Count != 0;
     }
 
@@ -685,5 +607,5 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
     public virtual float GetAttackDirAngle(Vector2 attackDir = new Vector2()) => lastMoveDirAngle;
 
-    public Vector2 GetLastMoveDir() => lastMoveDir;
+    public Vector2 GetLastMoveDir() => lastMoveDir.normalized;
 }

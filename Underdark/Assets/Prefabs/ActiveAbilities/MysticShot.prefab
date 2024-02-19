@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1584095297098294153}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b051c2ab4f8312419c6e63596242fc7, type: 3}
+  m_Script: {fileID: 11500000, guid: 22af16e95b946684991697c1e01c5f6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <ID>k__BackingField: mystic_shot
@@ -49,33 +49,39 @@ MonoBehaviour:
   CastTime: 0.1
   <Cooldown>k__BackingField:
     values:
-    - 1
+    - 2
   manaCost:
-    values: 05000000
-  <NeedAttackRadius>k__BackingField: 0
+    values: 05000000050000000a000000
+  <NeedAttackRadiusDisplay>k__BackingField: 0
   <AttackDistance>k__BackingField:
     values:
     - 10
-  <AttackRadius>k__BackingField:
+  <AttackAngle>k__BackingField:
     values:
     - 360
   <MaxValue>k__BackingField:
     values:
     - 50
+    - 100
+    - 200
+    - 350
+    - 600
   <StatMultiplier>k__BackingField:
-    values: 03000000
+    values: 030000000400000005000000070000000a000000
   baseStat: 1
   damageType: 0
   validWeaponTypes: 05000000
   debuffInfos:
     values:
-    - DebuffInfos: []
+    - DebuffInfos:
+      - {fileID: 11400000, guid: 79781878cac3dc04aa80e53098438616, type: 2}
   needAutoDestroy: 1
-  autoDestroyDelay: 0.1
+  autoDestroyDelay: 0.5
   description: You fire an arrow from your summoned bow.
   projectilePref:
     values:
     - {fileID: 6792568782929461796, guid: 14c5c604c1273834fbcfbcdf1c2cef06, type: 3}
+  distributionType: 1
   shotInfo:
     values:
     - <Shots>k__BackingField: 1
@@ -84,6 +90,15 @@ MonoBehaviour:
     - <Shots>k__BackingField: 1
       <ProjCountInShot>k__BackingField: 1
       <AngleBetweenProj>k__BackingField: 0
+    - <Shots>k__BackingField: 3
+      <ProjCountInShot>k__BackingField: 1
+      <AngleBetweenProj>k__BackingField: 5
+    - <Shots>k__BackingField: 3
+      <ProjCountInShot>k__BackingField: 1
+      <AngleBetweenProj>k__BackingField: 5
+    - <Shots>k__BackingField: 5
+      <ProjCountInShot>k__BackingField: 3
+      <AngleBetweenProj>k__BackingField: 10
   penetrationCount:
-    values: 0000000001000000
+    values: 000000000100000001000000ffffffffffffffff
   projSpeed: 10

@@ -13,26 +13,27 @@ public class Projectile : MonoBehaviour, IAttackerTarget
     protected List<DebuffInfo> debuffInfos;
     protected int abilityLevel;
     protected int penetrationCount;
+    protected List<IDamageable> damageablesToIgnore;
     
     protected Rigidbody2D rb;
     protected Collider2D coll;
-    protected void Awake()
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
-        
     }
 
     public void Init(Unit caster, DamageInfo damageInfo, List<DebuffInfo> debuffInfos, int abilityLevel, 
-        Vector2 velocity, float destroyDelay, int penetrationCount)
+        Vector2 velocity, float destroyDelay, int penetrationCount, List<IDamageable> damageablesToIgnore)
     {
         this.caster = caster;
         
-        Invoke(nameof(Die),  destroyDelay);
+        Invoke(nameof(DieOld),  destroyDelay);
         this.damageInfo = damageInfo;
         this.debuffInfos = debuffInfos;
         this.abilityLevel = abilityLevel;
         this.penetrationCount = penetrationCount;
+        this.damageablesToIgnore = damageablesToIgnore;
         
         rb.velocity = velocity;
         var rotAngle = Vector2.Angle(Vector3.up, rb.velocity);
@@ -46,20 +47,22 @@ public class Projectile : MonoBehaviour, IAttackerTarget
         {
             if (other.TryGetComponent(out IDamageable damageable))
             {
+                if (damageablesToIgnore != null && damageablesToIgnore.Contains(damageable)) return;
+                
                 Attack(damageable);
             }
             else
             {
-                Die();
+                Die(null);
                 return;
             }
             
-            if (penetrationCount == -1) return;
+            if (penetrationCount <= -1) return;
             
             if (penetrationCount > 0)
                 penetrationCount--;
             else
-                Die();
+                Die(damageable);
         }
     }
 
@@ -74,10 +77,15 @@ public class Projectile : MonoBehaviour, IAttackerTarget
         }
     }
     
-    protected virtual void Die()
+    protected virtual void Die(IDamageable damageable)
     {
         coll.enabled = false;
         rb.velocity = Vector2.zero;
         Destroy(gameObject);
+    }
+
+    protected void DieOld()
+    {
+        Die(null);
     }
 }
