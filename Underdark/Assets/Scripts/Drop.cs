@@ -12,7 +12,10 @@ public class Drop : MonoBehaviour
     [SerializeField] protected UnitNotificationEffect moneyDropEffect;
 
     [SerializeField] private DroppedItem droppedItemPref;
-    [SerializeField] private List<ItemToDrop> drop;
+    [SerializeField] private List<ItemToDrop<ArmorSO>> dropArmor;
+    [SerializeField] private List<ItemToDrop<WeaponSO>> dropWeapon;
+    [SerializeField] private List<ItemToDrop<AccessorySO>> dropAccessory;
+    [SerializeField] private List<ItemToDrop<ExecutableItemSO>> dropExecutable;
     
     public void DropItems(IMoneyHolder moneyHolder = null)
     {
@@ -22,14 +25,33 @@ public class Drop : MonoBehaviour
         }
         
         var roll = Random.Range(0f, 1f);
-        foreach (var itemToDrop in drop)
-        {
+        foreach (var itemToDrop in dropArmor)
             if (itemToDrop.ChanceToDropLeft <= roll && roll <= itemToDrop.ChanceToDropRight)
             {
                 var newDrop = Instantiate(droppedItemPref, transform.position, Quaternion.identity);
                 newDrop.SetDroppedItem(itemToDrop.Item, itemToDrop.ItemAmount);
             }
-        }
+
+        foreach (var itemToDrop in dropWeapon)
+            if (itemToDrop.ChanceToDropLeft <= roll && roll <= itemToDrop.ChanceToDropRight)
+            {
+                var newDrop = Instantiate(droppedItemPref, transform.position, Quaternion.identity);
+                newDrop.SetDroppedItem(itemToDrop.Item, itemToDrop.ItemAmount);
+            }
+
+        foreach (var itemToDrop in dropAccessory)
+            if (itemToDrop.ChanceToDropLeft <= roll && roll <= itemToDrop.ChanceToDropRight)
+            {
+                var newDrop = Instantiate(droppedItemPref, transform.position, Quaternion.identity);
+                newDrop.SetDroppedItem(itemToDrop.Item, itemToDrop.ItemAmount);
+            }
+
+        foreach (var itemToDrop in dropExecutable)
+            if (itemToDrop.ChanceToDropLeft <= roll && roll <= itemToDrop.ChanceToDropRight)
+            {
+                var newDrop = Instantiate(droppedItemPref, transform.position, Quaternion.identity);
+                newDrop.SetDroppedItem(itemToDrop.Item, itemToDrop.ItemAmount);
+            }
     }
 
     public void DropItem(Item item, int amount, Vector2 pos, int force = 4, bool droppedByPlayer = false)
