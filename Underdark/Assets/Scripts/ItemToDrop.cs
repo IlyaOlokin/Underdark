@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
-public struct ItemToDrop
+public struct ItemToDrop<T>
 {
-    public Item Item;
+    public T Item;
     public int ItemAmount;
     public float ChanceToDropLeft;
     public float ChanceToDropRight;
