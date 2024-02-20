@@ -88,7 +88,7 @@ public class Enemy : Unit
     public override bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
     {
         var res = base.TakeDamage(sender, attacker, damageInfo, evadable);
-        if (Vector2.Distance(transform.position, sender.transform.position) < AgrRadius)
+        if (damageInfo.MustAggro && Vector2.Distance(transform.position, sender.transform.position) < AgrRadius)
         {
             Agr(sender.transform.position);
             AgrNearbyAllies();
@@ -150,10 +150,10 @@ public class Enemy : Unit
         
         base.Death(killer, attacker, damageType);
     }
-    public override void ApplySlow(float slow)
+    public override void ApplySlowDebuff(float slow)
     {
-        base.ApplySlow(slow);
-        agent.speed = MoveSpeed * Params.SlowAmount;
+        base.ApplySlowDebuff(slow);
+        agent.speed = MoveSpeed * Params.SlowDebuffAmount * Params.MoveSpeedMultiplier;
     }
     
     public override void GetStunned()

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4716809249685301645}
   - component: {fileID: 6240089285385783140}
   m_Layer: 0
-  m_Name: SecondWind
+  m_Name: AcceleratedRegeneration
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42,17 +42,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 72827358929148271}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0794e9f737b2f14abc46a4cc6667244, type: 3}
+  m_Script: {fileID: 11500000, guid: 54a32347d95bcb74c88ac7028511d766, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ID>k__BackingField: second_wind
+  <ID>k__BackingField: accelerated_regeneration
   ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 954d4615708ccd74485b0fbca018989b, type: 2}
   CastTime: 0.1
   <Cooldown>k__BackingField:
     values:
-    - 20
+    - 30
   manaCost:
-    values: 00000000
+    values: 0f000000
   <NeedAttackRadiusDisplay>k__BackingField: 0
   <AttackDistance>k__BackingField:
     values:
@@ -63,26 +63,27 @@ MonoBehaviour:
     values:
     - 0
   <StatMultiplier>k__BackingField:
-    values: 03000000
-  baseStat: 0
+    values: 
+  baseStat: 2
   damageType: 0
   validWeaponTypes: 05000000
   debuffInfos:
     values: []
   needAutoDestroy: 1
   autoDestroyDelay: 2
-  description: You awaken the body's hidden reserves, restoring health and strengthening.
-  secondStat: 1
-  effectDuration: 60
+  description: You speed up your wound regeneration.
+  effectDuration:
+    values:
+    - 10
+    - 15
   passives:
     values:
     - Passives:
-      - {fileID: 11400000, guid: aa49bafb31d232249853b36f04b17bcf, type: 2}
-    - Passives:
-      - {fileID: 11400000, guid: 07fc3a1159978b349ad50dd2db3fb8d2, type: 2}
-    - Passives:
-      - {fileID: 11400000, guid: cf9814209e3c3ab4ca7d1c9e74aac287, type: 2}
       - {fileID: 11400000, guid: 7c2319de36af6ce4b977221e92239e3f, type: 2}
+    - Passives:
+      - {fileID: 11400000, guid: 6ca9b3dd9154c344d8fe55ae3f43c922, type: 2}
+    - Passives:
+      - {fileID: 11400000, guid: 77cc8ba611462c541b5fe0a5499dd590, type: 2}
 --- !u!1 &8328540744568435009
 GameObject:
   m_ObjectHideFlags: 0

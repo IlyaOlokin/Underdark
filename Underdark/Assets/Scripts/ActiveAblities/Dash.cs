@@ -15,7 +15,7 @@ public class Dash : ActiveAbility
     [SerializeField] private List<ParticleSystem> particleSystems;
     
     public override void Execute(Unit caster, int level, Vector2 attackDir,
-        List<IDamageable> damageablesToIgnore1 = null)
+        List<IDamageable> damageablesToIgnore1 = null,bool mustAggro = true)
     {
         base.Execute(caster, level, attackDir);
         

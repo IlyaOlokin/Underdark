@@ -18,13 +18,13 @@ public class Lightning : ActiveAbility, IAttackerTarget
     [SerializeField] private GameObject sparksPref;
     
     public override void Execute(Unit caster, int level, Vector2 attackDir,
-        List<IDamageable> damageablesToIgnore = null)
+        List<IDamageable> damageablesToIgnore = null,bool mustAggro = true)
     { 
         base.Execute(caster, level, attackDir);
         
         InitDamage(caster);
 
-        StartCoroutine(ShootLightning(caster.transform.position, 1, lightningCount.GetValue(abilityLevel),
+        StartCoroutine(ShootLightning(transform.position, 1, lightningCount.GetValue(abilityLevel),
             AttackDistance.GetValue(abilityLevel),
             new List<IDamageable>()));
     }
