@@ -10,7 +10,7 @@ public abstract class ActiveAbility : MonoBehaviour
     public ActiveAbilityLevelSetupSO ActiveAbilityLevelSetupSO;
     public float CastTime;
     [field:SerializeField] public ScalableProperty<float> Cooldown { get; private set; }
-    [SerializeField] private ScalableProperty<int> manaCost;
+    [SerializeField] protected ScalableProperty<int> manaCost;
     
     [field:SerializeField] public bool NeedAttackRadiusDisplay { get; private set; }
     [field:SerializeField] public ScalableProperty<float> AttackDistance { get; protected set; }
@@ -146,7 +146,7 @@ public abstract class ActiveAbility : MonoBehaviour
         return res;
     }
     
-    public string[] ToStringAdditional(Unit owner)
+    public virtual string[] ToStringAdditional(Unit owner)
     {
         List<string> res = new List<string>();
         var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));

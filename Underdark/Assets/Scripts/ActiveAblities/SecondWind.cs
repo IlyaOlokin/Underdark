@@ -33,15 +33,27 @@ public class SecondWind : ActiveAbility
 
     public override string[] ToString(Unit owner)
     {
-        var res = new List<string>(4);
+        var res = new string[6];
         var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
 
-        res.Add(description);
-        res.Add($"Heal: {StatMultiplier.GetValue(currentLevel)} * max({UnitStats.GetStatString(baseStat)}, {UnitStats.GetStatString(secondStat)})");
+        res[0] = description;
+        res[1] = $"Heal: {StatMultiplier.GetValue(currentLevel)} * max({UnitStats.GetStatString(baseStat)}, {UnitStats.GetStatString(secondStat)})";
+        if (manaCost.GetValue(currentLevel) != 0)    res[2] = $"Mana: {manaCost.GetValue(currentLevel)}";
+        if (Cooldown.GetValue(currentLevel) != 0)    res[5] = $"Cooldown: {Cooldown.GetValue(currentLevel)}";
+        
+        return res;
+    }
+    
+    public override string[] ToStringAdditional(Unit owner)
+    {
+        List<string> res = new List<string>();
+        var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
+
         for (int i = 0; i < passives.GetValue(currentLevel).Passives.Count; i++)
         {
             res.Add(passives.GetValue(currentLevel).Passives[i].ToString());
         }
+
         return res.ToArray();
     }
 }

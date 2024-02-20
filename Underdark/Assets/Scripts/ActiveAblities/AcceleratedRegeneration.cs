@@ -26,16 +26,16 @@ public class AcceleratedRegeneration : ActiveAbility
         return base.CanUseAbility(caster, distToTarget) && caster.CurrentHP < caster.MaxHP * 0.5f;
     }
     
-    public override string[] ToString(Unit owner)
+    public override string[] ToStringAdditional(Unit owner)
     {
-        var res = new List<string>(4);
+        List<string> res = new List<string>();
         var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
 
-        res.Add(description);
         for (int i = 0; i < passives.GetValue(currentLevel).Passives.Count; i++)
         {
             res.Add(passives.GetValue(currentLevel).Passives[i].ToString());
         }
+
         return res.ToArray();
     }
 }
