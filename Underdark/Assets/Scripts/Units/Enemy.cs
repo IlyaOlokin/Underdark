@@ -150,10 +150,10 @@ public class Enemy : Unit
         
         base.Death(killer, attacker, damageType);
     }
-    public override void ApplySlow(float slow)
+    public override void ApplySlowDebuff(float slow)
     {
-        base.ApplySlow(slow);
-        agent.speed = MoveSpeed * Params.SlowAmount;
+        base.ApplySlowDebuff(slow);
+        agent.speed = MoveSpeed * Params.SlowDebuffAmount * Params.MoveSpeedMultiplier;
     }
     
     public override void GetStunned()

@@ -37,12 +37,14 @@ public class UnitParams
     private float HPRegenAmplification;
     private float MPRegenAmplification;
 
-    public float SlowAmount { get; private set; } = 1f;
+    public float SlowDebuffAmount { get; private set; } = 1f;
+    public float MoveSpeedMultiplier { get; private set; } = 1f;
+    public float CdSpeedMultiplier { get; private set; } = 1f;
 
     public void SetUnit(Unit unit)
     {
         this.unit = unit;
-        ApplySlow(0);
+        ApplySlowDebuff(0);
 
         unit.Inventory.OnEquipmentChanged += CashParams;
         unit.OnUnitPassivesChanged += CashParams;
@@ -132,18 +134,37 @@ public class UnitParams
         };
     }
 
-    public void ApplySlow(float slow)
+    public void ApplySlowDebuff(float slow)
     {
         var newSlow = 1 - slow;
         if (newSlow < 0) newSlow = 0;
         
-        SlowAmount = newSlow;
+        SlowDebuffAmount = newSlow;
     }
 
     private void CashParams()
     {
         SetRegenerationAmplification();
         SetBaseRegeneration();
+        SetSpeedMultipliers();
+    }
+
+    private void SetSpeedMultipliers()
+    {
+        var moveSpeedMultiplier = 0f;
+        var cdSpeedMultiplier = 0f;
+
+        foreach (var passive in unit.GetAllPassives<MoveSpeedAmplificationSO>())
+        {
+            moveSpeedMultiplier += passive.Value;
+        }
+        foreach (var passive in unit.GetAllPassives<CdSpeedAmplificationSO>())
+        {
+            cdSpeedMultiplier += passive.Value;
+        }
+        
+        MoveSpeedMultiplier = 1 + moveSpeedMultiplier;
+        CdSpeedMultiplier = 1 + cdSpeedMultiplier;
     }
 
     private void SetRegenerationAmplification()
