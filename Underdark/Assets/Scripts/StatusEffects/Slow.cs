@@ -44,6 +44,6 @@ public class Slow : Debuff
                 slow = slowComp.slowInfo.SlowAmount;
         }
         
-        unit.ApplySlow(slow);
+        unit.ApplySlowDebuff(slow);
     }
 }

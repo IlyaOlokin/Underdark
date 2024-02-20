@@ -198,7 +198,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
         for (var index = 0; index < ActiveAbilitiesCD.Count; index++)
         {
-            ActiveAbilitiesCD[index] -= Time.deltaTime * Params.SlowAmount;
+            ActiveAbilitiesCD[index] -= Time.deltaTime * Params.SlowDebuffAmount * Params.CdSpeedMultiplier;
         }
     }
 
@@ -326,9 +326,9 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         UnitVisual.DeactivateEnergyShieldVisual();
     }
     
-    public virtual void ApplySlow(float slow)
+    public virtual void ApplySlowDebuff(float slow)
     {
-        Params.ApplySlow(slow);
+        Params.ApplySlowDebuff(slow);
     }
     
     public void ResetAbilityCoolDowns()
@@ -442,7 +442,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     {
         if (IsDisabled || IsPushing) return;
         
-        rb.MovePosition(rb.position + (Vector2)dir * (MoveSpeed * Params.SlowAmount) * Time.fixedDeltaTime);
+        rb.MovePosition(rb.position + (Vector2)dir * (MoveSpeed * Params.SlowDebuffAmount * Params.MoveSpeedMultiplier) * Time.fixedDeltaTime);
         if (dir != Vector3.zero)
             lastMoveDir = dir;
         TryFlipVisual(dir.x);

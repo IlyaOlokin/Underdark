@@ -10,7 +10,7 @@ public abstract class ActiveAbility : MonoBehaviour
     public ActiveAbilityLevelSetupSO ActiveAbilityLevelSetupSO;
     public float CastTime;
     [field:SerializeField] public ScalableProperty<float> Cooldown { get; private set; }
-    [SerializeField] private ScalableProperty<int> manaCost;
+    [SerializeField] protected ScalableProperty<int> manaCost;
     
     [field:SerializeField] public bool NeedAttackRadiusDisplay { get; private set; }
     [field:SerializeField] public ScalableProperty<float> AttackDistance { get; protected set; }
@@ -33,6 +33,7 @@ public abstract class ActiveAbility : MonoBehaviour
     
     protected Unit caster;
     protected Vector2 attackDir;
+    protected bool mustAggro = true;
     protected int abilityLevel;
     protected List<IDamageable> damageablesToIgnore;
 
@@ -42,7 +43,7 @@ public abstract class ActiveAbility : MonoBehaviour
     }
 
     public virtual void Execute(Unit caster, int level, Vector2 attackDir,
-        List<IDamageable> damageablesToIgnore = null)
+        List<IDamageable> damageablesToIgnore = null, bool mustAggro = true)
     {
         this.caster = caster;
         abilityLevel = level;
@@ -55,7 +56,7 @@ public abstract class ActiveAbility : MonoBehaviour
         float maxDamage = MaxValue.GetValue(abilityLevel) <= 0 ? int.MaxValue : MaxValue.GetValue(abilityLevel);
         int damage = (int) (Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
             maxDamage) * damageMultiplier);
-        damageInfo = new DamageInfo();
+        damageInfo = new DamageInfo(mustAggro);
         damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
     }
     
@@ -111,10 +112,10 @@ public abstract class ActiveAbility : MonoBehaviour
         return targets;
     }
 
-    public bool GearRequirementsMet(Equipment equipment)
+    public bool GearRequirementsMet(WeaponSO weapon)
     {
         return validWeaponTypes.Contains(WeaponType.Any) 
-               || validWeaponTypes.Contains(equipment.GetWeapon().WeaponType) 
+               || validWeaponTypes.Contains(weapon.WeaponType) 
                || validWeaponTypes.Count == 0;
     }
 
@@ -140,13 +141,13 @@ public abstract class ActiveAbility : MonoBehaviour
                 $"Damage: {StatMultiplier.GetValue(currentLevel)} * {UnitStats.GetStatString(baseStat)}" + MaxValueToString(currentLevel);
         if (manaCost.GetValue(currentLevel) != 0)       res[2] = $"Mana: {manaCost.GetValue(currentLevel)}";
         if (AttackDistance.GetValue(currentLevel) != 0) res[3] = $"Distance: {AttackDistance.GetValue(currentLevel)}";
-        if (AttackAngle.GetValue(currentLevel) != 0 && NeedAttackRadiusDisplay) res[4] = $"Radius: {AttackAngle.GetValue(currentLevel)}";
+        if (AttackAngle.GetValue(currentLevel) != 0 && NeedAttackRadiusDisplay) res[4] = $"Angle: {AttackAngle.GetValue(currentLevel)}";
         if (Cooldown.GetValue(currentLevel) != 0)    res[5] = $"Cooldown: {Cooldown.GetValue(currentLevel)}";
         if (validWeaponTypes.Count != 0 && !validWeaponTypes.Contains(WeaponType.Any)) res[6] = $"Weapon: {GetValidWeaponTypesString()}";
         return res;
     }
     
-    public string[] ToStringAdditional(Unit owner)
+    public virtual string[] ToStringAdditional(Unit owner)
     {
         List<string> res = new List<string>();
         var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));

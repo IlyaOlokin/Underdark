@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class DamageInfo
 {
+    public bool MustAggro { get; private set; } = true;
     private List<Damage> damages = new();
 
+    public DamageInfo() { }
+    public DamageInfo(bool mustAggro)
+    {
+        MustAggro = mustAggro;
+    }
+    
     public void AddDamage(int minDamage, int maxDamage, DamageType damageType = DamageType.Physic, float multiplier = 1)
     {
         damages.Add(new Damage(minDamage, maxDamage, damageType, multiplier));

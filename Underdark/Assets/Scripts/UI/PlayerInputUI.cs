@@ -134,7 +134,7 @@ public class PlayerInputUI : MonoBehaviour
     private bool ShouldAbilityButtonBeInteractable(int i)
     {
         return !player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty && !player.IsSilenced &&
-            player.Inventory.GetEquippedActiveAbility(i).GearRequirementsMet(player.Inventory.Equipment);
+            player.Inventory.GetEquippedActiveAbility(i).GearRequirementsMet(player.GetWeapon());
     }
 
     private void CheckActiveAbilitiesManaCost(int mana)

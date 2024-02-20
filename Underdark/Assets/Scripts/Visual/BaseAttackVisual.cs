@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class BaseAttackVisual : MonoBehaviour
 {
-    [SerializeField] private float swingDuration = 0.2f;
+    [SerializeField] private float swingDuration;
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private Transform swingPoint;
     private float swingTimer;
 
-    public void Swing(float dir, float angle, float dist, bool reversed)
+    public void Swing(float dir, float angle, float dist, bool reversed, float swingDuration = 0.5f)
     {
+        if (this.swingDuration <= 0)
+            this.swingDuration = swingDuration;
+        
         StartCoroutine(StartSwing(dir, angle, dist + 1, reversed));
-        Destroy(gameObject, swingDuration);
+        Destroy(gameObject, this.swingDuration);
     }
 
     private IEnumerator StartSwing(float dir, float angle, float dist, bool reversed)
