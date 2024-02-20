@@ -33,7 +33,7 @@ public abstract class ActiveAbility : MonoBehaviour
     
     protected Unit caster;
     protected Vector2 attackDir;
-    protected bool mustAggro;
+    protected bool mustAggro = true;
     protected int abilityLevel;
     protected List<IDamageable> damageablesToIgnore;
 

@@ -24,7 +24,7 @@ public class Lightning : ActiveAbility, IAttackerTarget
         
         InitDamage(caster);
 
-        StartCoroutine(ShootLightning(caster.transform.position, 1, lightningCount.GetValue(abilityLevel),
+        StartCoroutine(ShootLightning(transform.position, 1, lightningCount.GetValue(abilityLevel),
             AttackDistance.GetValue(abilityLevel),
             new List<IDamageable>()));
     }

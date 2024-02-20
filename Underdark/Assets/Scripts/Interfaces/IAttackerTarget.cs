@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IAttackerTarget : IAttacker
 {
-    void Attack(IDamageable unit);
+    void Attack(IDamageable damageable);
 }
