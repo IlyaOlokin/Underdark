@@ -26,6 +26,16 @@ public class AcceleratedRegeneration : ActiveAbility
         return base.CanUseAbility(caster, distToTarget) && caster.CurrentHP < caster.MaxHP * 0.5f;
     }
     
+    public override string[] ToString(Unit owner)
+    {
+        var res = base.ToString(owner);
+        var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
+        
+        res[3] = $"Duration: {effectDuration.GetValue(currentLevel)}";
+        
+        return res;
+    }
+    
     public override string[] ToStringAdditional(Unit owner)
     {
         List<string> res = new List<string>();

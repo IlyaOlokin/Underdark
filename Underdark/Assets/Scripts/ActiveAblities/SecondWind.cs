@@ -39,6 +39,7 @@ public class SecondWind : ActiveAbility
         res[0] = description;
         res[1] = $"Heal: {StatMultiplier.GetValue(currentLevel)} * max({UnitStats.GetStatString(baseStat)}, {UnitStats.GetStatString(secondStat)})";
         if (manaCost.GetValue(currentLevel) != 0)    res[2] = $"Mana: {manaCost.GetValue(currentLevel)}";
+        res[3] = $"Duration: {effectDuration}";
         if (Cooldown.GetValue(currentLevel) != 0)    res[5] = $"Cooldown: {Cooldown.GetValue(currentLevel)}";
         
         return res;
