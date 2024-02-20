@@ -33,6 +33,7 @@ public abstract class ActiveAbility : MonoBehaviour
     
     protected Unit caster;
     protected Vector2 attackDir;
+    protected bool mustAggro;
     protected int abilityLevel;
     protected List<IDamageable> damageablesToIgnore;
 
@@ -42,7 +43,7 @@ public abstract class ActiveAbility : MonoBehaviour
     }
 
     public virtual void Execute(Unit caster, int level, Vector2 attackDir,
-        List<IDamageable> damageablesToIgnore = null)
+        List<IDamageable> damageablesToIgnore = null, bool mustAggro = true)
     {
         this.caster = caster;
         abilityLevel = level;
@@ -55,7 +56,7 @@ public abstract class ActiveAbility : MonoBehaviour
         float maxDamage = MaxValue.GetValue(abilityLevel) <= 0 ? int.MaxValue : MaxValue.GetValue(abilityLevel);
         int damage = (int) (Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
             maxDamage) * damageMultiplier);
-        damageInfo = new DamageInfo();
+        damageInfo = new DamageInfo(mustAggro);
         damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
     }
     

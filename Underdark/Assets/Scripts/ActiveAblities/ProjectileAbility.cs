@@ -14,7 +14,7 @@ public class ProjectileAbility : ActiveAbility
     [SerializeField] protected float projSpeed;
 
     public override void Execute(Unit caster, int exp, Vector2 attackDir,
-        List<IDamageable> damageablesToIgnore = null)
+        List<IDamageable> damageablesToIgnore = null,bool mustAggro = true)
     {
         base.Execute(caster, exp, attackDir, damageablesToIgnore);
         transform.parent = caster.transform;

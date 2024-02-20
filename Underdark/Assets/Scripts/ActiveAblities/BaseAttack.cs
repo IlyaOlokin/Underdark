@@ -14,7 +14,7 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
     [Header("Visual")] 
     [SerializeField] private BaseAttackVisual baseAttackVisualPref;
     public override void Execute(Unit caster, int exp, Vector2 attackDir,
-        List<IDamageable> damageablesToIgnore1 = null)
+        List<IDamageable> damageablesToIgnore1 = null,bool mustAggro = true)
     {
         this.caster = caster;
         abilityLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(exp);
@@ -28,7 +28,7 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
     {
         int damage = (int) ((currentWeapon.Damage.GetValue() +
                      caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel)) * damageMultiplier);
-        damageInfo = new DamageInfo();
+        damageInfo = new DamageInfo(mustAggro);
         damageInfo.AddDamage(damage, currentWeapon.Damage.DamageType,
             caster.Params.GetDamageAmplification(currentWeapon.Damage.DamageType));
     }

@@ -18,7 +18,7 @@ public class Lightning : ActiveAbility, IAttackerTarget
     [SerializeField] private GameObject sparksPref;
     
     public override void Execute(Unit caster, int level, Vector2 attackDir,
-        List<IDamageable> damageablesToIgnore = null)
+        List<IDamageable> damageablesToIgnore = null,bool mustAggro = true)
     { 
         base.Execute(caster, level, attackDir);
         
