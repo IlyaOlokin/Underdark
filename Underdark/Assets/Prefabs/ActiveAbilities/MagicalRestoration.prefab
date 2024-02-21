@@ -52,26 +52,35 @@ MonoBehaviour:
     values:
     - 15
   manaCost:
-    values: 0a000000
-  <NeedAttackRadius>k__BackingField: 0
+    values: 0a0000001e000000320000004b000000
+  <NeedAttackRadiusDisplay>k__BackingField: 0
   <AttackDistance>k__BackingField:
     values:
     - 0
-  <AttackRadius>k__BackingField:
-    values:
-    - 0
+  <AttackAngle>k__BackingField:
+    values: []
   <MaxValue>k__BackingField:
     values:
     - 50
+    - 100
+    - -1
   <StatMultiplier>k__BackingField:
-    values: 02000000
+    values: 0200000003000000030000000400000000000000
   baseStat: 2
   damageType: 0
   validWeaponTypes: 05000000
-  debuffInfos: []
+  debuffInfos:
+    values: []
   needAutoDestroy: 1
   autoDestroyDelay: 2
   description: You heal your wounds with magic.
+  healOfMaxHP:
+    values:
+    - 0
+    - 0
+    - 0.2
+    - 0.4
+    - 1
 --- !u!1 &8328540744568435009
 GameObject:
   m_ObjectHideFlags: 0

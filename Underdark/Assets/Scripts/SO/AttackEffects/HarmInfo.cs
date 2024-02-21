@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 [CreateAssetMenu(menuName = "DebuffInfos/Harm", fileName = "New HarmInfo")]
 public class HarmInfo : DebuffInfo
@@ -16,7 +17,11 @@ public class HarmInfo : DebuffInfo
     
     public override void Execute(IAttacker attacker, Unit receiver, Unit unitCaster)
     {
-        receiver.GetHarmOverTime(this, unitCaster, visualPrefab, effectIcon);
+        if (Random.Range(0f, 1f) > chance) return;
+        
+        var newPoison = receiver.gameObject.AddComponent<HarmOverTime>();
+        newPoison.Init(this, receiver, unitCaster, visualPrefab, effectIcon);
+        receiver.ReceiveStatusEffect(newPoison);
     }
     
     public override string ToString()

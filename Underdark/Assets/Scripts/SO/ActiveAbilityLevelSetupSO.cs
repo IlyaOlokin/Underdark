@@ -10,7 +10,7 @@ public class ActiveAbilityLevelSetupSO : ScriptableObject
 
     public int GetCurrentLevel(int exp)
     {
-        for (int i = 0; i < expNeeded.Length - 1; i++)
+        for (int i = 0; i < expNeeded.Length; i++)
         {
             if (exp < expNeeded[i]) return i;
 
@@ -22,7 +22,7 @@ public class ActiveAbilityLevelSetupSO : ScriptableObject
     
     public float GetCurrentProgressInPercent(int exp)
     {
-        for (int i = 0; i < expNeeded.Length - 1; i++)
+        for (int i = 0; i < expNeeded.Length; i++)
         {
             if (exp < expNeeded[i]) return exp / (float)expNeeded[i];
 

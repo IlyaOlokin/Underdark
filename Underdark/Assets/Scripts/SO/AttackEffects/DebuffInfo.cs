@@ -7,7 +7,6 @@ public abstract class DebuffInfo : ScriptableObject
 {
     [SerializeField] protected Sprite effectIcon;
     [Range(0f, 1f)] public float chance;
-    protected Unit caster;
 
     public abstract void Execute(IAttacker attacker, Unit receiver, Unit unitCaster);
 

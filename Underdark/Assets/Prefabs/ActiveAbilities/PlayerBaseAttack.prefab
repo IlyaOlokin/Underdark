@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 6351065995215210891}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.97175545, w: 0.23599027}
-  m_LocalPosition: {x: 0.02071388, y: 0.00042775273, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -101,8 +101,7 @@ MonoBehaviour:
     - 0.6
   manaCost:
     values: 00000000
-  <NeedOverrideWithWeaponStats>k__BackingField: 1
-  <NeedAttackRadius>k__BackingField: 1
+  <NeedAttackRadiusDisplay>k__BackingField: 1
   <AttackDistance>k__BackingField:
     values:
     - 1
@@ -116,11 +115,12 @@ MonoBehaviour:
   baseStat: 0
   damageType: 0
   validWeaponTypes: 
-  debuffInfos: []
+  debuffInfos:
+    values: []
   needAutoDestroy: 1
-  autoDestroyDelay: 0.3
+  autoDestroyDelay: 0.5
   description: 
-  baseAttackVisual: {fileID: 6158878861667496765}
+  baseAttackVisualPref: {fileID: 6158878861667496765}
 --- !u!1 &8740656880677488545
 GameObject:
   m_ObjectHideFlags: 0

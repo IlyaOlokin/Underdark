@@ -14,22 +14,30 @@ public class Dash : ActiveAbility
     [Header("Visual")] 
     [SerializeField] private List<ParticleSystem> particleSystems;
     
-    public override void Execute(Unit caster, int level)
+    public override void Execute(Unit caster, int level, Vector2 attackDir,
+        List<IDamageable> damageablesToIgnore1 = null,bool mustAggro = true)
     {
-        base.Execute(caster, level);
+        base.Execute(caster, level, attackDir);
         
         transform.SetParent(caster.transform);
         
         transform.eulerAngles = new Vector3(0, 0, caster.GetAttackDirAngle(caster.GetLastMoveDir()));
         
         var destinationPoint = FindDestinationPoint(caster);
+        InitDamage(caster);
+
+        foreach (var pushCollider in pushColliders)
+        {
+            pushCollider.GetComponent<PushZone>()
+                .Init(caster, damageInfo, debuffInfos.GetValue(abilityLevel).DebuffInfos, abilityLevel);
+        }
         
         StartCoroutine(PushCaster(destinationPoint));
     }
 
     private IEnumerator PushCaster(Vector2 destinationPoint)
     {
-        caster.StartPush(true);
+        caster.StartPushState(true);
 
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(stopMask);
@@ -53,7 +61,7 @@ public class Dash : ActiveAbility
 
         DisableColliders();
 
-        caster.EndPush();
+        caster.EndPushState();
         transform.SetParent(null);
         foreach (var particleSystem in particleSystems)
             particleSystem.Stop();

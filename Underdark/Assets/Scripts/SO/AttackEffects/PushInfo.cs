@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [CreateAssetMenu(menuName = "DebuffInfos/Push", fileName = "New PushInfo")]
 public class PushInfo : DebuffInfo
@@ -26,7 +27,20 @@ public class PushInfo : DebuffInfo
                 throw new ArgumentOutOfRangeException();
         }
         
-        receiver.GetPushed( this, pushDir.normalized * Force, effectIcon);
+        if (Random.Range(0f, 1f) > chance) return;
+
+        
+        if (receiver.TryGetComponent(out Push pushComponent))
+        {
+            receiver.EndPushState();
+            Destroy(pushComponent);
+        }
+        
+        var newPush = receiver.gameObject.AddComponent<Push>();
+        newPush.Init(PushDuration, receiver, effectIcon);
+        receiver.ReceiveStatusEffect(newPush);
+        
+        receiver.GetPushed(pushDir.normalized * Force);
     }
 
     public override string ToString()

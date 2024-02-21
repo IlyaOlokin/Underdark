@@ -1,11 +1,9 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FireCircleVisual : MonoBehaviour
 {
-    [SerializeField] private Transform particleSystem;
+    [SerializeField] private Transform particles;
 
     private void Start()
     {
@@ -25,8 +23,8 @@ public class FireCircleVisual : MonoBehaviour
     {
         while (true)
         {
-            var newScale = particleSystem.localScale.x + scaleSpeed * Time.deltaTime;
-            particleSystem.localScale = new Vector3(newScale, newScale);
+            var newScale = particles.localScale.x + scaleSpeed * Time.deltaTime;
+            particles.localScale = new Vector3(newScale, newScale);
             transform.localScale = new Vector3(newScale, newScale);
             
             yield return null;

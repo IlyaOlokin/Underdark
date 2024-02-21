@@ -46,20 +46,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ID>k__BackingField: second_wind
-  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
+  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 954d4615708ccd74485b0fbca018989b, type: 2}
   CastTime: 0.1
   <Cooldown>k__BackingField:
     values:
     - 20
   manaCost:
     values: 00000000
-  <NeedAttackRadius>k__BackingField: 0
+  <NeedAttackRadiusDisplay>k__BackingField: 0
   <AttackDistance>k__BackingField:
     values:
     - 0
-  <AttackRadius>k__BackingField:
-    values:
-    - 0
+  <AttackAngle>k__BackingField:
+    values: []
   <MaxValue>k__BackingField:
     values:
     - 0
@@ -68,14 +67,22 @@ MonoBehaviour:
   baseStat: 0
   damageType: 0
   validWeaponTypes: 05000000
-  debuffInfos: []
+  debuffInfos:
+    values: []
   needAutoDestroy: 1
   autoDestroyDelay: 2
   description: You awaken the body's hidden reserves, restoring health and strengthening.
   secondStat: 1
-  damageAmplification: 0.1
-  damageAmplificationDuration: 60
-  buffIcon: {fileID: 21300000, guid: e41335ed24c5d4641b9e03ec7a6adcd0, type: 3}
+  effectDuration: 60
+  passives:
+    values:
+    - Passives:
+      - {fileID: 11400000, guid: aa49bafb31d232249853b36f04b17bcf, type: 2}
+    - Passives:
+      - {fileID: 11400000, guid: 07fc3a1159978b349ad50dd2db3fb8d2, type: 2}
+    - Passives:
+      - {fileID: 11400000, guid: cf9814209e3c3ab4ca7d1c9e74aac287, type: 2}
+      - {fileID: 11400000, guid: 7c2319de36af6ce4b977221e92239e3f, type: 2}
 --- !u!1 &8328540744568435009
 GameObject:
   m_ObjectHideFlags: 0

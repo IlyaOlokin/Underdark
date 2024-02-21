@@ -51,28 +51,41 @@ MonoBehaviour:
     values:
     - 2
   manaCost:
-    values: 00000000
-  <NeedAttackRadius>k__BackingField: 1
+    values: 010000000300000004000000
+  <NeedAttackRadiusDisplay>k__BackingField: 1
   <AttackDistance>k__BackingField:
     values:
     - 1
-  <AttackRadius>k__BackingField:
+    - 2
+  <AttackAngle>k__BackingField:
     values:
     - 120
+    - 120
+    - 120
+    - 240
+    - 360
   <MaxValue>k__BackingField:
     values:
-    - 80
+    - 100
+    - 150
+    - 350
   <StatMultiplier>k__BackingField:
-    values: 03000000
+    values: 0300000004000000050000000600000007000000
   baseStat: 1
   damageType: 0
   validWeaponTypes: 0000000001000000
   debuffInfos:
-  - {fileID: 11400000, guid: a70ffa3326a7a1a4aa92b94e022f3ca5, type: 2}
+    values:
+    - DebuffInfos:
+      - {fileID: 11400000, guid: a70ffa3326a7a1a4aa92b94e022f3ca5, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: 5043a551c1dc0c84b9f7ee47e4367fc3, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: a4e81acd9ff0c364087e8ac0d51024d0, type: 2}
   needAutoDestroy: 1
-  autoDestroyDelay: 1
+  autoDestroyDelay: 1.5
   description: You deliver one precise thrust to the enemy's most vulnerable spot.
   attacksCount:
-    values: 0100000003000000
+    values: 0100000003000000050000000700000009000000
   attackDelay: 0.1
   visualPrefab: {fileID: 2110307370418043212, guid: 4583219448fcf0e448026298a9af9738, type: 3}
