@@ -22,11 +22,11 @@ public class AbilityLevelDisplayUI : MonoBehaviour
         var level = abilitySO.ActiveAbility.ActiveAbilityLevelSetupSO.GetCurrentLevel(exp);
         var progress = abilitySO.ActiveAbility.ActiveAbilityLevelSetupSO.GetCurrentProgressInPercent(exp);
 
-        currentLevel.text = level.ToString();
+        currentLevel.text = $"Level {level}";
         progressBar.value = progress;
         
         if (level > 0)
-            progressText.text = progress < 1 ? Mathf.Floor(progress * 100) + "%" : "Max Level";
+            progressText.text = progress < 1 ? Mathf.Floor(progress * 100) + "%" : "Max!";
         else
             progressText.text = "";
     }
