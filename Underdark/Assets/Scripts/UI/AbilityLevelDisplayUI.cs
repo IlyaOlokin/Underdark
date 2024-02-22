@@ -22,7 +22,7 @@ public class AbilityLevelDisplayUI : MonoBehaviour
         var level = abilitySO.ActiveAbility.ActiveAbilityLevelSetupSO.GetCurrentLevel(exp);
         var progress = abilitySO.ActiveAbility.ActiveAbilityLevelSetupSO.GetCurrentProgressInPercent(exp);
 
-        currentLevel.text = $"Level {level}";
+        currentLevel.text = $"Level {RomanConverter.NumberToRoman(level)}";
         progressBar.value = progress;
         
         if (level > 0)
