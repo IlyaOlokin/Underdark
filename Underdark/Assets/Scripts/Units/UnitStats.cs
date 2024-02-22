@@ -150,9 +150,9 @@ public class UnitStats
     {
         return baseStat switch
         {
-            BaseStat.Strength => "<color=#FF1C1C>Str</color>",
-            BaseStat.Dexterity => "<color=#55F82E>Dex</color>",
-            BaseStat.Intelligence => "<color=#3424F5>Int</color>",
+            BaseStat.Strength => "<color=#FF2F2F>Str</color>",
+            BaseStat.Dexterity => "<color=#39FF39>Dex</color>",
+            BaseStat.Intelligence => "<color=#3F3FFD>Int</color>",
             BaseStat.StrDex => $"({GetStatString(BaseStat.Strength)} + {GetStatString(BaseStat.Dexterity)})",
             BaseStat.DexInt => $"({GetStatString(BaseStat.Dexterity)} + {GetStatString(BaseStat.Intelligence)})",
             BaseStat.IntStr => $"({GetStatString(BaseStat.Intelligence)} + {GetStatString(BaseStat.Strength)})",
@@ -164,9 +164,9 @@ public class UnitStats
     {
         return baseStat switch
         {
-            BaseStat.Strength => "<color=#FF1C1C>Strength</color>",
-            BaseStat.Dexterity => "<color=#55F82E>Dexterity</color>",
-            BaseStat.Intelligence => "<color=#3424F5>Intelligence</color>",
+            BaseStat.Strength => "<color=#FF2F2F>Strength</color>",
+            BaseStat.Dexterity => "<color=#39FF39>Dexterity</color>",
+            BaseStat.Intelligence => "<color=#3F3FFD>Intelligence</color>",
             BaseStat.StrDex => $"{GetStatFullString(BaseStat.Strength)} + {GetStatFullString(BaseStat.Dexterity)}",
             BaseStat.DexInt => $"{GetStatFullString(BaseStat.Dexterity)} + {GetStatFullString(BaseStat.Intelligence)}",
             BaseStat.IntStr => $"{GetStatFullString(BaseStat.Intelligence)} + {GetStatFullString(BaseStat.Strength)}",
