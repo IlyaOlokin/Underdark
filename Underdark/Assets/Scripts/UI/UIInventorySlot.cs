@@ -24,7 +24,7 @@ public class UIInventorySlot : MonoBehaviour, IDropHandler, IPointerClickHandler
     public void OnDrop(PointerEventData eventData)
     {
         UIInventoryItem otherItemUI = eventData.pointerDrag.GetComponent<UIInventoryItem>();
-        if (!otherItemUI.Draggable) return;
+        if (otherItemUI == null || !otherItemUI.Draggable) return;
         UIInventorySlot otherSlotUI = otherItemUI.GetComponentInParent<UIInventorySlot>();
 
         var otherSlot = otherSlotUI.Slot;

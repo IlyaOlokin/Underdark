@@ -44,7 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cbc8e2b674e9a84e9c10ca758b4be10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Allows you to learn "{0}" with a {1}% chance.
+  description: 'Allows you to learn "{0}" with a {1}% chance.
+
+    Use more scrolls
+    to increase the level of your ability.
+
+'
   <Item>k__BackingField: {fileID: 11400000, guid: ba736d885f3bd68469eee4930c90b1ae, type: 2}
   baseStat: 0
   param: -10
