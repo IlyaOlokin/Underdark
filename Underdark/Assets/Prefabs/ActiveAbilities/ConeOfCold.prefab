@@ -77,7 +77,22 @@ MonoBehaviour:
   damageType: 5
   validWeaponTypes: 05000000
   debuffInfos:
-    values: []
+    values:
+    - DebuffInfos:
+      - {fileID: 11400000, guid: b063529774e466b42866c32db944a551, type: 2}
+      - {fileID: 11400000, guid: 849ad88940a113e43816f0772f1a10b6, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: ac6ba36a7c7193f4b9d8c28e9974f1dd, type: 2}
+      - {fileID: 11400000, guid: 607b1bf2e37912e479e6419e36e364d5, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: ac6ba36a7c7193f4b9d8c28e9974f1dd, type: 2}
+      - {fileID: 11400000, guid: 7656f52576a13934e9202891febc4859, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: d312e4ad4f4fe65478d76743a3a7abc5, type: 2}
+      - {fileID: 11400000, guid: 65bb8333e930ae74cb4264bc4785c923, type: 2}
+    - DebuffInfos:
+      - {fileID: 11400000, guid: cefd0a5875a23974ea19798cf72b483b, type: 2}
+      - {fileID: 11400000, guid: f28b26b8e598aef4e9448d79379fbbc6, type: 2}
   needAutoDestroy: 1
   autoDestroyDelay: 0.3
   description: You cast a wave of frost.

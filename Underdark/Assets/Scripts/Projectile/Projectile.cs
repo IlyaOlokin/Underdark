@@ -7,6 +7,8 @@ public class Projectile : MonoBehaviour, IAttackerTarget
 {
     public Transform Transform => transform;
     
+    [SerializeField] protected float destroyDelay;
+    
     protected Unit caster;
     
     protected DamageInfo damageInfo = new();

@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95eb030b4eb5d604a86a6e554e640e39, type: 3}
-  m_Name: Level1Ability
+  m_Script: {fileID: 11500000, guid: bdbd61364a4bd034385d65473fa434df, type: 3}
+  m_Name: Slow50_50_10
   m_EditorClassIdentifier: 
-  <MaxLevel>k__BackingField: 1
-  expNeeded: 01000000
+  effectIcon: {fileID: 21300000, guid: 6d62ab0bd6240c040bb125b47eee0ec9, type: 3}
+  chance: 0.5
+  SlowAmount: 0.5
+  Duration: 10
