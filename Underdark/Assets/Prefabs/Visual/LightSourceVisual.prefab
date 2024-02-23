@@ -60,7 +60,7 @@ MonoBehaviour:
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
   m_AlphaBlendOnOverlap: 0
-  m_OverlapOperation: 1
+  m_OverlapOperation: 0
   m_NormalMapDistance: 3
   m_NormalMapQuality: 2
   m_UseNormalMap: 0
@@ -4829,7 +4829,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 479f28b57c995154d99c42f810fea0c1, type: 2}
+  - {fileID: 2100000, guid: 5f4c43784d86b2c4d8f308c09c0085cc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4893,5 +4893,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light2d: {fileID: 8163857030136237000}
-  ps: {fileID: 3487064610166882583}
   lightUpTime: 1

@@ -17,6 +17,7 @@ public class UnitLight : MonoBehaviour
     private void OnEnable()
     {
         unit.Inventory.OnEquipmentChanged += UpdateLight;
+        unit.OnUnitPassivesChanged += UpdateLight;
     }
 
     private void Start()
@@ -34,6 +35,7 @@ public class UnitLight : MonoBehaviour
     
     private void OnDisable()
     {
-        unit.Inventory.OnEquipmentChanged += UpdateLight;
+        unit.Inventory.OnEquipmentChanged -= UpdateLight;
+        unit.OnUnitPassivesChanged -= UpdateLight;
     }
 }

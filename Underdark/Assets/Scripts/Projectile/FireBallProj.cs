@@ -10,7 +10,6 @@ public class FireBallProj : Projectile
     [SerializeField] private GameObject lightSpot;
     [SerializeField] private SpriteRenderer sr;
     [SerializeField] private List<ParticleSystem> deathExplosion;
-    [SerializeField] private float destroyDelay = 1.5f;
 
     protected override void Die(IDamageable damageable)
     {

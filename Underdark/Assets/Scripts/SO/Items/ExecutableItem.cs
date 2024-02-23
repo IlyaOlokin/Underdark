@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class ExecutableItem : MonoBehaviour
 {
-    [SerializeField] protected string description;
+    [Multiline][SerializeField] protected string description;
     protected Unit caster;
     
     public abstract bool Execute(Unit caster);
