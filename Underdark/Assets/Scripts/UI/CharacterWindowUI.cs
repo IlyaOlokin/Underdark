@@ -8,9 +8,10 @@ using UnityEngine.UI;
 public class CharacterWindowUI : MonoBehaviour
 {
     private Player player;
-    private UnitStats stats = new UnitStats();
+    public UnitStats Stats { get; private set; } = new UnitStats();
 
     private event Action OnStatsChanged;
+    public event Action OnStatsApplied;
 
     [Header("StatsButton")]
     [SerializeField] private Button strPlusButton;
@@ -83,89 +84,91 @@ public class CharacterWindowUI : MonoBehaviour
 
     private void ResetStatsUI()
     {
-        stats.CopyStatsFrom(player.Stats);
+        Stats.CopyStatsFrom(player.Stats);
         OnStatsChanged?.Invoke();
     }
 
     private void ApplyStats()
     {
-        player.Stats.CopyStatsFrom(stats);
+        player.Stats.CopyStatsFrom(Stats);
+        DataLoader.SaveGame(player);
         OnStatsChanged?.Invoke();
+        OnStatsApplied?.Invoke();
     } 
 
     private void UpdateUI()
     {
-        var haveFreePoints = stats.FreePoints > 0;
+        var haveFreePoints = Stats.FreePoints > 0;
         strPlusButton.interactable = haveFreePoints;
         dexPlusButton.interactable = haveFreePoints;
         intPlusButton.interactable = haveFreePoints;
         
-        strMinusButton.interactable = stats.Strength != player.Stats.Strength;
-        dexMinusButton.interactable = stats.Dexterity != player.Stats.Dexterity;
-        intMinusButton.interactable = stats.Intelligence != player.Stats.Intelligence;
+        strMinusButton.interactable = Stats.Strength != player.Stats.Strength;
+        dexMinusButton.interactable = Stats.Dexterity != player.Stats.Dexterity;
+        intMinusButton.interactable = Stats.Intelligence != player.Stats.Intelligence;
 
-        var statsChanged = stats != player.Stats;
+        var statsChanged = Stats != player.Stats;
         confirmChangesButton.interactable = statsChanged;
         canselChangesButton.interactable = statsChanged;
         
         strText.text = player.Stats.BonusStrength == 0
-            ? stats.Strength.ToString()
-            : $"{stats.Strength} (+{player.Stats.BonusStrength})";
+            ? Stats.Strength.ToString()
+            : $"{Stats.Strength} (+{player.Stats.BonusStrength})";
         
         dexText.text =  player.Stats.BonusDexterity == 0
-            ? stats.Dexterity.ToString()
-            : $"{stats.Dexterity} (+{player.Stats.BonusDexterity})";
+            ? Stats.Dexterity.ToString()
+            : $"{Stats.Dexterity} (+{player.Stats.BonusDexterity})";
         
         intText.text =  player.Stats.BonusIntelligence == 0
-            ? stats.Intelligence.ToString()
-            : $"{stats.Intelligence} (+{player.Stats.BonusIntelligence})";
+            ? Stats.Intelligence.ToString()
+            : $"{Stats.Intelligence} (+{player.Stats.BonusIntelligence})";
         
-        FreePointsText.text = $"{(stats.FreePoints > 0 ? "<color=#FFD21A>": "")}{stats.FreePoints}";
+        FreePointsText.text = $"{(Stats.FreePoints > 0 ? "<color=#FFD21A>": "")}{Stats.FreePoints}";
         LevelText.text = player.Stats.Level.ToString();
     }
 
     private void AddStr()
     {
-        if (stats.FreePoints <= 0) return;
-        stats.Strength++;
-        stats.FreePoints--;
+        if (Stats.FreePoints <= 0) return;
+        Stats.Strength++;
+        Stats.FreePoints--;
         OnStatsChanged?.Invoke();
     }
     
     private void SubtractStr()
     {
-        stats.Strength--;
-        stats.FreePoints++;
+        Stats.Strength--;
+        Stats.FreePoints++;
         OnStatsChanged?.Invoke();
     }
     
     private void AddDex()
     {
-        if (stats.FreePoints <= 0) return;
-        stats.Dexterity++;
-        stats.FreePoints--;
+        if (Stats.FreePoints <= 0) return;
+        Stats.Dexterity++;
+        Stats.FreePoints--;
         OnStatsChanged?.Invoke();
     }
     
     private void SubtractDex()
     {
-        stats.Dexterity--;
-        stats.FreePoints++;
+        Stats.Dexterity--;
+        Stats.FreePoints++;
         OnStatsChanged?.Invoke();
     }
     
     private void AddInt()
     {
-        if (stats.FreePoints <= 0) return;
-        stats.Intelligence++;
-        stats.FreePoints--;
+        if (Stats.FreePoints <= 0) return;
+        Stats.Intelligence++;
+        Stats.FreePoints--;
         OnStatsChanged?.Invoke();
     }
     
     private void SubtractInt()
     {
-        stats.Intelligence--;
-        stats.FreePoints++;
+        Stats.Intelligence--;
+        Stats.FreePoints++;
         OnStatsChanged?.Invoke();
     }
 
