@@ -13,7 +13,6 @@ public class IceArrowProj : Projectile
     [Header("Visual")] 
     [SerializeField] private GameObject lightSpot;
     [SerializeField] private List<ParticleSystem> deathExplosion;
-    [SerializeField] private float destroyDelay;
     [SerializeField] private ScalableProperty<GameObject> visuals;
     private SpriteRenderer visualSR;
 
