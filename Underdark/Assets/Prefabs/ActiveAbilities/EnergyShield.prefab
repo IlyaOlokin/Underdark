@@ -59,20 +59,25 @@ MonoBehaviour:
   <AttackAngle>k__BackingField:
     values:
     - 120
+    - 180
+    - 240
+    - 300
+    - 360
   <MaxValue>k__BackingField:
     values:
-    - 0
+    - 100
+    - 200
+    - 350
+    - 500
+    - -1
   <StatMultiplier>k__BackingField:
-    values: 00000000
-  baseStat: 0
+    values: 030000000400000005000000070000000a000000
+  baseStat: 2
   damageType: 0
   validWeaponTypes: 05000000
   debuffInfos:
-    values:
-    - DebuffInfos: []
+    values: []
   needAutoDestroy: 1
   autoDestroyDelay: 0.1
-  description: You create a bad magical shield in front of you that absorbs damage
-    directed at you.
-  shieldHP: 100
-  shieldRadius: 120
+  description: You create a magical shield in front of you that absorbs damage directed
+    at you.
