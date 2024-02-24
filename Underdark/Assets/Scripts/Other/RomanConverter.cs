@@ -10,7 +10,7 @@ public class RomanConverter : MonoBehaviour
         if (number < 0 || number > 3999)
             return number.ToString();
 		
-        if (number == 0) return "N";
+        if (number == 0) return "0";
 		
         int[] values = new int[] { 1000, 900, 500, 400, 100,90, 50, 40, 10, 9, 5, 4, 1 };
         string[] numerals = new string[]
