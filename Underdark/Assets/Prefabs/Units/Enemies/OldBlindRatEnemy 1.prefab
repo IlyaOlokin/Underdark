@@ -1044,7 +1044,15 @@ MonoBehaviour:
   dropArmor: []
   dropWeapon: []
   dropAccessory: []
-  dropExecutable: []
+  dropExecutable:
+  - Item: {fileID: 11400000, guid: cfff7a563d6e39f40bfe7215fcecc0ea, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0
+    ChanceToDropRight: 0.3
+  - Item: {fileID: 11400000, guid: ff7b9e5c7198e824ea21829a8456addc, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0.5
+    ChanceToDropRight: 0.8
 --- !u!114 &5290106731956819956
 MonoBehaviour:
   m_ObjectHideFlags: 0
