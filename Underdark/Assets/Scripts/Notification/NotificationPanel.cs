@@ -3,13 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
 public class NotificationPanel : MonoBehaviour, IPointerDownHandler
 {
-    private Animator anim;
     [SerializeField] private Image image;
     [SerializeField] private TextMeshProUGUI text;
     [SerializeField] private float lifeTime;
@@ -19,7 +19,6 @@ public class NotificationPanel : MonoBehaviour, IPointerDownHandler
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
         rt = image.transform.GetComponent<RectTransform>();
     }
 
@@ -54,21 +53,24 @@ public class NotificationPanel : MonoBehaviour, IPointerDownHandler
         image.sprite = notification.sprite;
         text.text = notification.text;
         lifeTimer = 0;
-        anim.SetTrigger("Show");
+        
+        OnNotificationActivate();
+        transform.DOMoveY(86, 0.75f).SetEase(Ease.OutBack);
+        
         isNotificationActive = true;
     }
     private void HideNotification()
     {
-        anim.SetTrigger("Hide");
+        transform.DOMoveY(-106f, 0.75f).SetEase(Ease.InBack).SetDelay(lifeTime).OnComplete(OnNotificationDeactivate);
         isNotificationActive = false;
     }
 
-    public void OnNotificationActivate()
+    private void OnNotificationActivate()
     {
         NotificationManager.Instance.OnNotificationActivate();
     }
     
-    public void OnNotificationDeactivate()
+    private void OnNotificationDeactivate()
     {
         NotificationManager.Instance.OnNotificationDeactivate();
     }

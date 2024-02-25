@@ -1171,7 +1171,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1986199744253903602}
-  - component: {fileID: 1986199744253903604}
   - component: {fileID: 1986199744253903605}
   - component: {fileID: 1986199744253903606}
   m_Layer: 5
@@ -1204,27 +1203,6 @@ RectTransform:
   m_AnchoredPosition: {x: -698.6, y: -106}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &1986199744253903604
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1986199744253903601}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bc7cb2614bba8cf4d9de771545d05dc4, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 2
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!61 &1986199744253903605
 BoxCollider2D:
   m_ObjectHideFlags: 0
