@@ -45,6 +45,4 @@ public class Buff : MonoBehaviour, IStatusEffect
         var newBuff = receiver.transform.AddComponent<Buff>();
         newBuff.Init(receiver, passive, duration);
     }
-
-    
 }

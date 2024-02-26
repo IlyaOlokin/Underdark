@@ -1,24 +1,25 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using Zenject;
 
-[RequireComponent(typeof(Animator), typeof(TextMeshProUGUI))]
+[RequireComponent(typeof(TextMeshProUGUI))]
 public class LevelUpVisual : MonoBehaviour
 {
     private TextMeshProUGUI text;
-    private Animator anim;
+    private Sequence sequence;
     private Player player;
 
     [Inject]
     private void Construct(Player player)
     {
         this.player = player;
-        anim = GetComponent<Animator>();
+        
         text = GetComponent<TextMeshProUGUI>();
-        DisableText();
+        OnAnimEnd();
     }
 
     private void OnEnable()
@@ -33,16 +34,18 @@ public class LevelUpVisual : MonoBehaviour
 
     private void StartVisual()
     {
-        anim.SetTrigger("LevelUp");
-    }
-
-    private void EnableText()
-    {
+        if (sequence != null && sequence.IsPlaying()) return;
         text.enabled = true;
+        sequence = DOTween.Sequence();
+        sequence.Append(transform.DOLocalMoveY(40, 0.8f).SetEase(Ease.OutBack));
+        sequence.Append(transform.DOLocalMoveY(-44, 0.8f).SetDelay(2f).SetEase(Ease.InBack));
+        sequence.OnComplete(OnAnimEnd);
     }
     
-    private void DisableText()
+    private void OnAnimEnd()
     {
         text.enabled = false;
+        sequence.Kill();
+        sequence = null;
     }
 }

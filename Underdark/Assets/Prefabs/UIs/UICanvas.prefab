@@ -2017,6 +2017,7 @@ RectTransform:
   - {fileID: 7939851327202806470}
   - {fileID: 918185423211710608}
   - {fileID: 7224181674849188332}
+  - {fileID: 6602492489694869362}
   - {fileID: 3573239109774514107}
   - {fileID: 5405558182988009156}
   - {fileID: 4357694826834880396}
@@ -26926,12 +26927,12 @@ RectTransform:
   m_Children:
   - {fileID: 3182206007614573420}
   - {fileID: 6606685691698703697}
-  m_Father: {fileID: 3573239109774514107}
+  m_Father: {fileID: 6641235901011687356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 1143, y: -742.80994}
-  m_SizeDelta: {x: 10, y: 100}
+  m_AnchoredPosition: {x: 0, y: 13.790039}
+  m_SizeDelta: {x: -2300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3532125986614669955
 MonoBehaviour:
@@ -30551,7 +30552,6 @@ GameObject:
   - component: {fileID: 6606685691698703697}
   - component: {fileID: 2217361769446996658}
   - component: {fileID: 6390394995601437125}
-  - component: {fileID: 8440163892398741649}
   - component: {fileID: 1061039268073688825}
   m_Layer: 5
   m_Name: LevelUpText
@@ -30676,27 +30676,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!95 &8440163892398741649
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7817931550129353020}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 34d5c921ca6f7fe41930fb9a232d8dde, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1061039268073688825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30742,7 +30721,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7892128132859838101}
-  - {fileID: 6602492489694869362}
   m_Father: {fileID: 6641235901011687356}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
