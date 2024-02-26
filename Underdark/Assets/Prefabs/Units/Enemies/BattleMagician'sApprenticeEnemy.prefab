@@ -1043,10 +1043,34 @@ MonoBehaviour:
   moneyAmountMax: 5
   moneyDropEffect: {fileID: 9209489120575824937, guid: 13c46b6c267a7d842b20423e04afe9de, type: 3}
   droppedItemPref: {fileID: 7200458106229667149, guid: d11e455e2eba1fc4eb9546ce5859c796, type: 3}
-  dropArmor: []
-  dropWeapon: []
+  dropArmor:
+  - Item: {fileID: 11400000, guid: 2cdf6e4558ad37f43ae5f2fbde9ecd58, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0
+    ChanceToDropRight: 0.3
+  dropWeapon:
+  - Item: {fileID: 11400000, guid: 56b8ec3d4d3f82644bf6715096ce275f, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0.25
+    ChanceToDropRight: 0.45
   dropAccessory: []
-  dropExecutable: []
+  dropExecutable:
+  - Item: {fileID: 11400000, guid: da13737303e01454bbb186f9e4dbe375, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0
+    ChanceToDropRight: 0.1
+  - Item: {fileID: 11400000, guid: b111dc793ac284045b7ad62581580cca, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0.15
+    ChanceToDropRight: 0.25
+  - Item: {fileID: 11400000, guid: 1fdd52467b56fb141bb9d2b0a7b440dd, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0.3
+    ChanceToDropRight: 0.4
+  - Item: {fileID: 11400000, guid: 28d2a5e486ff42e46a74f41938f28a8a, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0.45
+    ChanceToDropRight: 0.55
 --- !u!114 &5290106731956819956
 MonoBehaviour:
   m_ObjectHideFlags: 0

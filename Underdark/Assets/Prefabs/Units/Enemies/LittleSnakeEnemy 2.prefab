@@ -998,7 +998,7 @@ MonoBehaviour:
     baseEvasionChance: 0.15
     baseHPRegenPercent: 0
     baseMPRegenPercent: 0
-  baseMaxHP: 30
+  baseMaxHP: 5
   baseMaxMana: 0
   <MoveSpeed>k__BackingField: 3
   defaultWeapon: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}
@@ -1042,9 +1042,17 @@ MonoBehaviour:
   moneyDropEffect: {fileID: 9209489120575824937, guid: 13c46b6c267a7d842b20423e04afe9de, type: 3}
   droppedItemPref: {fileID: 7200458106229667149, guid: d11e455e2eba1fc4eb9546ce5859c796, type: 3}
   dropArmor: []
-  dropWeapon: []
+  dropWeapon:
+  - Item: {fileID: 11400000, guid: a62fe2a9aaaf69d4bad2c7cf14cbeb91, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0
+    ChanceToDropRight: 0.3
   dropAccessory: []
-  dropExecutable: []
+  dropExecutable:
+  - Item: {fileID: 11400000, guid: 1e13f365929c13c45981174534716fbd, type: 2}
+    ItemAmount: 1
+    ChanceToDropLeft: 0
+    ChanceToDropRight: 0.1
 --- !u!114 &5290106731956819956
 MonoBehaviour:
   m_ObjectHideFlags: 0
