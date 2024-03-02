@@ -8,6 +8,7 @@ public class Projectile : MonoBehaviour, IAttackerTarget
     public Transform Transform => transform;
     
     [SerializeField] protected float destroyDelay;
+    [SerializeField] protected Collider2D ricochetCollider;
     
     protected Unit caster;
     
@@ -15,6 +16,7 @@ public class Projectile : MonoBehaviour, IAttackerTarget
     protected List<DebuffInfo> debuffInfos;
     protected int abilityLevel;
     protected int penetrationCount;
+    protected bool ableToRicochet;
     protected List<IDamageable> damageablesToIgnore;
     
     protected Rigidbody2D rb;
@@ -26,7 +28,7 @@ public class Projectile : MonoBehaviour, IAttackerTarget
     }
 
     public void Init(Unit caster, DamageInfo damageInfo, List<DebuffInfo> debuffInfos, int abilityLevel, 
-        Vector2 velocity, float destroyDelay, int penetrationCount, List<IDamageable> damageablesToIgnore)
+        Vector2 velocity, float destroyDelay, int penetrationCount, bool ableToRicochet, List<IDamageable> damageablesToIgnore)
     {
         this.caster = caster;
         
@@ -35,14 +37,26 @@ public class Projectile : MonoBehaviour, IAttackerTarget
         this.debuffInfos = debuffInfos;
         this.abilityLevel = abilityLevel;
         this.penetrationCount = penetrationCount;
+        this.ableToRicochet = ableToRicochet;
         this.damageablesToIgnore = damageablesToIgnore;
         
+        if (this.ableToRicochet) ricochetCollider.gameObject.SetActive(true);
         rb.velocity = velocity;
-        var rotAngle = Vector2.Angle(Vector3.up, rb.velocity);
-        if (rb.velocity.x > 0) rotAngle *= -1;
-        transform.Rotate(Vector3.forward, rotAngle);
+        SetRotation();
     }
-    
+
+    private void Update()
+    {
+        if (ableToRicochet) SetRotation();
+    }
+
+    private void SetRotation()
+    {
+        Vector2 v = rb.velocity;
+        var angle = Mathf.Atan2(v.y, v.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if(caster.AttackMask == (caster.AttackMask | (1 << other.gameObject.layer)))
@@ -55,7 +69,8 @@ public class Projectile : MonoBehaviour, IAttackerTarget
             }
             else
             {
-                Die(null);
+                if (!ableToRicochet)
+                    Die(null);
                 return;
             }
             
