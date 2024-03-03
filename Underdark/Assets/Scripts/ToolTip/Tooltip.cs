@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Tooltip : MonoBehaviour
+public class Tooltip : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private GameObject tooltipPanel;
     private bool isPanelActive;
@@ -14,10 +15,19 @@ public class Tooltip : MonoBehaviour
         if (tooltipPanel.activeInHierarchy && Input.anyKeyDown)
         {
             tooltipPanel.SetActive(false);
+            isPanelActive = !isPanelActive;
+
         }
     }
 
-    public void ToggleTooltip()
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        if (tooltipPanel.activeInHierarchy)
+            isPanelActive = !isPanelActive;
+
+    }
+
+    public void OnPointerUp(PointerEventData eventData)
     {
         tooltipPanel.SetActive(!isPanelActive);
         isPanelActive = !isPanelActive;
