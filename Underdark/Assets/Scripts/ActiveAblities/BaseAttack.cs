@@ -13,6 +13,8 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
     [FormerlySerializedAs("baseAttackVisual")]
     [Header("Visual")] 
     [SerializeField] private BaseAttackVisual baseAttackVisualPref;
+    [SerializeField] private GameObject hitVisualPref;
+    
     public override void Execute(Unit caster, int exp, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null,bool mustAggro = true)
     {
@@ -77,6 +79,8 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
                         debuffInfo.Execute(caster, collider.GetComponent<Unit>(), caster);
                     }
                 }
+
+                Instantiate(hitVisualPref, collider.transform.position, Quaternion.identity);
             }
         }
     }

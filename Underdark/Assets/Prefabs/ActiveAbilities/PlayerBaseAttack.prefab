@@ -105,9 +105,8 @@ MonoBehaviour:
   <AttackDistance>k__BackingField:
     values:
     - 1
-  <AttackRadius>k__BackingField:
-    values:
-    - 90
+  <AttackAngle>k__BackingField:
+    values: []
   <MaxValue>k__BackingField:
     values: []
   <StatMultiplier>k__BackingField:
@@ -121,6 +120,7 @@ MonoBehaviour:
   autoDestroyDelay: 0.5
   description: 
   baseAttackVisualPref: {fileID: 6158878861667496765}
+  hitVisualPref: {fileID: 6192604898436002675, guid: 964c0fa544840f74985b8f1a7931bb57, type: 3}
 --- !u!1 &8740656880677488545
 GameObject:
   m_ObjectHideFlags: 0

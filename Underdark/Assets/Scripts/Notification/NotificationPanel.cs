@@ -61,7 +61,7 @@ public class NotificationPanel : MonoBehaviour, IPointerDownHandler
     }
     private void HideNotification()
     {
-        transform.DOMoveY(-106f, 0.75f).SetEase(Ease.InBack).SetDelay(lifeTime).OnComplete(OnNotificationDeactivate);
+        transform.DOMoveY(-106f, 0.75f).SetEase(Ease.InBack).OnComplete(OnNotificationDeactivate);
         isNotificationActive = false;
     }
 

@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8170032374961837674}
-  - component: {fileID: 4412631732704353108}
+  - component: {fileID: 6370994226334298918}
   m_Layer: 0
-  m_Name: BaseAttack
+  m_Name: CircularSwing 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4412631732704353108
+--- !u!114 &6370994226334298918
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,34 +41,50 @@ MonoBehaviour:
   m_GameObject: {fileID: 7555566392093547892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e36e3bedf5468a41b29ab684761d072, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f821624129d47842befa7a13b308363, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ID>k__BackingField: base_attakck
-  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 807e11c8f74aaf74dbc27c42fd146208, type: 2}
+  <ID>k__BackingField: circular_swing
+  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
   <Cooldown>k__BackingField:
     values:
-    - 0.6
+    - 5
   manaCost:
     values: 00000000
   <NeedAttackRadiusDisplay>k__BackingField: 1
   <AttackDistance>k__BackingField:
     values:
-    - 1
+    - 2
+    - 3
   <AttackAngle>k__BackingField:
-    values: []
+    values:
+    - 360
   <MaxValue>k__BackingField:
-    values: []
+    values:
+    - 80
   <StatMultiplier>k__BackingField:
-    values: 01000000
+    values: 03000000
   baseStat: 0
   damageType: 0
-  validWeaponTypes: 
+  validWeaponTypes: 00000000
   debuffInfos:
-    values: []
-  needAutoDestroy: 1
-  autoDestroyDelay: 0.5
-  description: 
-  baseAttackVisualPref: {fileID: 5284799120271478862, guid: c8a8aef7a13ad434ebf4ffc6f37519af, type: 3}
-  hitVisualPref: {fileID: 6192604898436002675, guid: 964c0fa544840f74985b8f1a7931bb57, type: 3}
+    values:
+    - DebuffInfos: []
+  needAutoDestroy: 0
+  autoDestroyDelay: 2
+  description: You quickly spin around yourself, cutting through all nearby enemies.
+  attacksCount:
+    values: 0100000001000000030000000300000007000000
+  attackDelay:
+    values:
+    - 0.5
+    - 0.45
+    - 0.4
+    - 0.35
+    - 0.3
+  slowMovement: {fileID: 11400000, guid: 6b3694c8ee215c24f8fd89520953fab7, type: 2}
+  pullDistance: 4.5
+  pullEffect: {fileID: 11400000, guid: 67f806c3c33976c45aa8a1edad0b0c89, type: 2}
+  visualPrefab: {fileID: 7674505462757753491, guid: 1bcb7b11b42a1de42be200e98d468dff, type: 3}
+  hitVisualPref: {fileID: 6192604898436002675, guid: f573a30785425a048b041399988f73fd, type: 3}

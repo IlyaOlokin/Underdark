@@ -389,6 +389,7 @@ public class Inventory : IInventory
             
             filledSlotCount++;
         }
+        OnInventoryChanged?.Invoke();
     }
     
     public List<IPassiveHolder> GetAllPassiveHolders()
