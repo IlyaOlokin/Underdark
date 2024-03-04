@@ -13,6 +13,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 {
     private Rigidbody2D rb;
     private Collider2D coll;
+    protected Animator anim;
     public UnitStats Stats;
     public UnitParams Params;
     public Inventory Inventory;
@@ -117,6 +118,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
+        anim = GetComponent<Animator>();
         
         lastMoveDir = Vector3.right;
         

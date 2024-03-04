@@ -2,11 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class EnemySpawnPoint : MonoBehaviour
 {
-    [SerializeField] private Enemy enemy;
+    [FormerlySerializedAs("enemy")] [SerializeField] private NPCUnit npcUnit;
     [SerializeField] private float respawnDelay;
     [SerializeField] private float deactivateRange = 25;
     private float timer;
@@ -22,19 +23,19 @@ public class EnemySpawnPoint : MonoBehaviour
     
     private void Awake()
     {
-        enemy.OnUnitDeath += StartCountDown;
+        npcUnit.OnUnitDeath += StartCountDown;
         timer = respawnDelay;
     }
 
     private void Update()
     {
-        if (enemy.gameObject.activeSelf && Vector2.Distance(enemy.transform.position, player.transform.position) > deactivateRange)
+        if (npcUnit.gameObject.activeSelf && Vector2.Distance(npcUnit.transform.position, player.transform.position) > deactivateRange)
         {
-            enemy.gameObject.SetActive(false);
+            npcUnit.gameObject.SetActive(false);
         }
-        else if (!enemy.gameObject.activeSelf && !isEnemyDead && Vector2.Distance(enemy.transform.position, player.transform.position) < deactivateRange)
+        else if (!npcUnit.gameObject.activeSelf && !isEnemyDead && Vector2.Distance(npcUnit.transform.position, player.transform.position) < deactivateRange)
         {
-            enemy.gameObject.SetActive(true);
+            npcUnit.gameObject.SetActive(true);
         }
         
         if (!isEnemyDead) return;
@@ -53,14 +54,14 @@ public class EnemySpawnPoint : MonoBehaviour
 
     private void RespawnEnemy()
     {
-        enemy.gameObject.SetActive(true);
-        enemy.transform.localPosition = Vector3.zero; 
+        npcUnit.gameObject.SetActive(true);
+        npcUnit.transform.localPosition = Vector3.zero; 
         isEnemyDead = false;
         timer = respawnDelay;
     }
 
     private void OnDisable()
     {
-        enemy.OnUnitDeath -= StartCountDown;
+        npcUnit.OnUnitDeath -= StartCountDown;
     }
 }

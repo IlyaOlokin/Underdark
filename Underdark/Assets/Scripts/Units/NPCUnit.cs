@@ -9,7 +9,7 @@ using UnityHFSM;
 using Zenject;
 using Random = UnityEngine.Random;
 
-public class Enemy : Unit
+public class NPCUnit : Unit
 {
     protected Transform player;
 
@@ -17,7 +17,7 @@ public class Enemy : Unit
     [SerializeField] private Transform spawnPont;
     [SerializeField] protected Transform moveTarget;
     [SerializeField] protected NavMeshAgent agent;
-    protected StateMachine<EnemyState, StateEvent> EnemyFSM;
+    protected StateMachine<NPCState, StateEvent> NPCFSM;
     [SerializeField] protected PlayerSensor followPlayerSensor;
     [SerializeField] protected Collider2D allySensor;
     [SerializeField] protected LayerMask alliesLayer;
@@ -35,6 +35,10 @@ public class Enemy : Unit
     
     protected bool isPlayerInMeleeRange;
     protected bool isPlayerInChasingRange;
+    
+    [Header("Range Enemy Setup")] 
+    [SerializeField] private float distToForceMelee;
+    [SerializeField] private float distToKeep;
 
     protected override void Awake()
     {
@@ -44,21 +48,21 @@ public class Enemy : Unit
         agent.speed = MoveSpeed;
         moveTarget.transform.SetParent(transform.parent);
         
-        EnemyFSM = new();
+        NPCFSM = new();
     }
 
     private void OnEnable()
     {
         followPlayerSensor.OnPlayerEnter += FollowPlayerSensor_OnPlayerEnter;
         followPlayerSensor.OnPlayerExit += FollowPlayerSensor_OnPlayerExit;
-        EnemyFSM.RequestStateChange(EnemyState.Idle, true);
+        NPCFSM.RequestStateChange(NPCState.Idle, true);
         SetUnit();
     }
 
     protected override void Update()
     {
         base.Update();
-        EnemyFSM.OnLogic();
+        NPCFSM.OnLogic();
         TryFlipVisual(agent.velocity.x);
         if (isPlayerInChasingRange)
             lastMoveDir = player.position - transform.position;
@@ -68,13 +72,13 @@ public class Enemy : Unit
 
     protected void TryToReturnToSpawnPoint()
     {
-        if (DistToTargetPos() < agent.stoppingDistance)
+        if (DistToTargetPos() < agent.stoppingDistance && Vector2.Distance(spawnPont.position, transform.position) > agent.stoppingDistance)
         {
             lostPlayerTimer -= Time.deltaTime;
             if (lostPlayerTimer <= 0)
             {
                 moveTarget.position = spawnPont.position;
-                EnemyFSM.Trigger(StateEvent.StartChase);
+                NPCFSM.Trigger(StateEvent.StartChase);
             }
         }
     }
@@ -82,7 +86,10 @@ public class Enemy : Unit
     protected void ChaseTarget()
     {
         if (isPlayerInChasingRange)
-            moveTarget.position = player.transform.position;
+            if (ShouldKeepDistance(null))
+                moveTarget.position = player.transform.position + (transform.position - player.transform.position).normalized * distToKeep;
+            else
+                moveTarget.position = player.transform.position;
     }
 
     public override bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
@@ -100,7 +107,7 @@ public class Enemy : Unit
     public void Agr(Vector3 pos)
     {
         moveTarget.position = pos;
-        EnemyFSM.Trigger(StateEvent.StartChase);
+        NPCFSM.Trigger(StateEvent.StartChase);
     }
 
     private void AgrNearbyAllies()
@@ -109,7 +116,7 @@ public class Enemy : Unit
 
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.transform.TryGetComponent(out Enemy enemy))
+            if (hitCollider.transform.TryGetComponent(out NPCUnit enemy))
             {
                 if (enemy != this)
                     enemy.Agr(moveTarget.position);
@@ -213,7 +220,7 @@ public class Enemy : Unit
     private void FollowPlayerSensor_OnPlayerEnter(Transform player)
     {
         moveTarget.position = player.position;
-        EnemyFSM.Trigger(StateEvent.StartChase);
+        NPCFSM.Trigger(StateEvent.StartChase);
         isPlayerInChasingRange = true;
         this.player = player;
         lostPlayerTimer = lostPlayerDelay;
@@ -225,9 +232,10 @@ public class Enemy : Unit
         moveTarget.position = lastKnownPosition;
         isPlayerInChasingRange = false;
         player = null;
+        NPCFSM.Trigger(StateEvent.StartChase);
     }
 
-    protected bool ShouldMelee(Transition<EnemyState> transition) =>
+    protected bool ShouldMelee(Transition<NPCState> transition) =>
         attackCDTimer < 0
         && isPlayerInChasingRange
         && DistToTargetPos() <= GetWeapon().AttackDistance + 0.7f
@@ -239,7 +247,7 @@ public class Enemy : Unit
                 AttackMask)
             .collider.TryGetComponent(out Player player);
     
-    protected bool ShouldUseActiveAbility(Transition<EnemyState> transition)
+    protected bool ShouldUseActiveAbility(Transition<NPCState> transition)
     {
         for (int i = 0; i < Inventory.EquippedActiveAbilitySlots.Count; i++)
         {
@@ -252,8 +260,22 @@ public class Enemy : Unit
 
         return false;
     }
+    
+    private bool IsCloseEnoughToForceMelee(Transition<NPCState> transition)
+    {
+        return isPlayerInChasingRange && DistToTargetPos() < distToForceMelee;
+    }
+    
+    private bool ShouldKeepDistance(Transition<NPCState> transition)
+    {
+        return !IsCloseEnoughToForceMelee(transition)
+               && (CanUseActiveAbility(transition, 0)
+                   || CanUseActiveAbility(transition, 1)
+                   || CanUseActiveAbility(transition, 2)
+                   || CanUseActiveAbility(transition, 3));
+    }
 
-    protected bool CanUseActiveAbility(Transition<EnemyState> transition, int index) =>
+    protected bool CanUseActiveAbility(Transition<NPCState> transition, int index) =>
         isPlayerInChasingRange
         && !Inventory.EquippedActiveAbilitySlots[index].IsEmpty
         && ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility.CanUseAbility(this, DistToTargetPos())
@@ -266,25 +288,25 @@ public class Enemy : Unit
                 AttackMask)
             .collider.TryGetComponent(out Player player);
 
-    protected bool CanNotAnyUseActiveAbility(Transition<EnemyState> transition) => 
+    protected bool CanNotAnyUseActiveAbility(Transition<NPCState> transition) => 
         isPlayerInChasingRange 
         && !CanUseActiveAbility(transition, 0)
         && !CanUseActiveAbility(transition, 1)
         && !CanUseActiveAbility(transition, 2)
         && !CanUseActiveAbility(transition, 3);
 
-    protected bool ShouldAttack(Transition<EnemyState> transition) =>
+    protected bool ShouldAttack(Transition<NPCState> transition) =>
         ShouldMelee(transition) || ShouldUseActiveAbility(transition);
     
-    protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 
+    protected bool IsWithinIdleRange(Transition<NPCState> transition) => 
         CanMove
         && !isPlayerInChasingRange
         && agent.remainingDistance <= agent.stoppingDistance;
 
-    protected bool IsNotWithinIdleRange(Transition<EnemyState> transition) => 
+    protected bool IsNotWithinIdleRange(Transition<NPCState> transition) => 
         !IsWithinIdleRange(transition);
     
-    protected bool IsUnitStunned(Transition<EnemyState> transition) => IsDisabled;
+    protected bool IsUnitStunned(Transition<NPCState> transition) => IsDisabled;
 
     private void OnDisable()
     {

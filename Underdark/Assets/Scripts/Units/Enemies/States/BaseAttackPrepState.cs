@@ -8,15 +8,18 @@ using UnityHFSM;
 public class BaseAttackPrepState : EnemyStateBase
 {
     public BaseAttackPrepState(bool needsExitTime,
-        Enemy Enemy,
+        NPCUnit npcUnit,
+        Animator anim,
         Action onEnter,
         float ExitTime
-    ) : base(needsExitTime, Enemy, ExitTime, onEnter) {}
+    ) : base(needsExitTime, npcUnit, anim, ExitTime, onEnter) {}
     
     public override void OnEnter()
     {
         if (Agent.enabled)
             Agent.isStopped = true;
+        Animator.SetBool("Move", false);
+
         base.OnEnter();
     }
 }

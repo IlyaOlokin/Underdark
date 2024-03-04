@@ -765,6 +765,7 @@ GameObject:
   - component: {fileID: 1232031067331528528}
   - component: {fileID: 5577980821815337067}
   - component: {fileID: 5290106731956819956}
+  - component: {fileID: 1644730839405428331}
   m_Layer: 6
   m_Name: EnemyUnit
   m_TagString: Enemy
@@ -994,6 +995,27 @@ MonoBehaviour:
   activeAbilities:
   - {fileID: 11400000, guid: 88ed0a2d0a22d5942b4a1c50d757682e, type: 2}
   activeAbilitiesExp: 01000000
+--- !u!95 &1644730839405428331
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7684371324137006495}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8f1f42a528a6e1c4c87222c33f08677e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7916519281579307983
 GameObject:
   m_ObjectHideFlags: 0

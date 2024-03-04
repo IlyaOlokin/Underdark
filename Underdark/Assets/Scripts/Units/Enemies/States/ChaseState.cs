@@ -6,12 +6,12 @@ using UnityHFSM;
 public class ChaseState : EnemyStateBase
 {
     private Transform target;
-    private Enemy enemy;
+    private NPCUnit _npcUnit;
 
-    public ChaseState(bool needsExitTime, Enemy Enemy, Transform Target, Action onLogic) : base(needsExitTime, Enemy, onLogic: onLogic) 
+    public ChaseState(bool needsExitTime, NPCUnit npcUnit, Animator anim, Transform Target, Action onLogic = null) : base(needsExitTime, npcUnit, anim, onLogic: onLogic) 
     {
         target = Target;
-        enemy = Enemy;
+        _npcUnit = npcUnit;
     }
 
     public override void OnEnter()
@@ -19,6 +19,7 @@ public class ChaseState : EnemyStateBase
         base.OnEnter();
         Agent.enabled = true;
         Agent.isStopped = false;
+        Animator.SetBool("Move", true);
     }
     
     public override void OnLogic()
