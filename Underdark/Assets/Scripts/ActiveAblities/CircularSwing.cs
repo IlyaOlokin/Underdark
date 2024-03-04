@@ -14,6 +14,7 @@ public class CircularSwing : ActiveAbility, IAttackerAOE
     
     [Header("Visual")]
     [SerializeField] private BaseAttackVisual visualPrefab;
+    [SerializeField] private GameObject hitVisualPref;
     
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null,bool mustAggro = true)
@@ -75,6 +76,8 @@ public class CircularSwing : ActiveAbility, IAttackerAOE
                     debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
                 }
             }
+
+            Instantiate(hitVisualPref, target.transform.position, Quaternion.identity);
         }
     }
 }

@@ -14,6 +14,7 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
     [Header("Visual")] 
     [SerializeField] private BaseAttackVisual baseAttackVisualPref;
     [SerializeField] private GameObject hitVisualPref;
+    
     public override void Execute(Unit caster, int exp, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null,bool mustAggro = true)
     {
