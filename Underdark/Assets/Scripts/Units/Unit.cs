@@ -130,7 +130,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         Params.SetUnit(this);
     }
     
-    private void Start()
+    protected virtual void Start()
     {
         SetUnit();
     }
@@ -144,6 +144,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         GetUnStunned();
         EndPushState();
         LooseEnergyShield();
+        StopAllCoroutines();
         foreach (var buffs in GetComponents<IStatusEffect>())
         {
             Destroy((Object)buffs);

@@ -11,7 +11,7 @@ using Random = UnityEngine.Random;
 
 public class NPCUnit : Unit
 {
-    protected Transform player;
+    protected Transform targetUnit;
 
     [Header("Enemy Setup")] 
     [SerializeField] private Transform spawnPont;
@@ -21,7 +21,8 @@ public class NPCUnit : Unit
     [SerializeField] protected PlayerSensor followPlayerSensor;
     [SerializeField] protected Collider2D allySensor;
     [SerializeField] protected LayerMask alliesLayer;
-    [SerializeField] private float lostPlayerDelay;
+    [FormerlySerializedAs("lostPlayerDelay")] [SerializeField] private float lostTargetDelay;
+    [SerializeField] private float searchTargetDelay = 0.5f;
     private float lostPlayerTimer;
     private const float AgrRadius = 20;
     public int PreparedActiveAbilityIndex { get; private set; }
@@ -34,7 +35,7 @@ public class NPCUnit : Unit
     [SerializeField] private int expPerLevel;
     
     protected bool isPlayerInMeleeRange;
-    protected bool isPlayerInChasingRange;
+    protected bool isPlayerInChasingRange => targetUnit != null;
     
     [Header("Range Enemy Setup")] 
     [SerializeField] private float distToForceMelee;
@@ -53,10 +54,16 @@ public class NPCUnit : Unit
 
     private void OnEnable()
     {
-        followPlayerSensor.OnPlayerEnter += FollowPlayerSensor_OnPlayerEnter;
-        followPlayerSensor.OnPlayerExit += FollowPlayerSensor_OnPlayerExit;
+        followPlayerSensor.OnTargetEnter += FindClosestTargetUnit;
+        followPlayerSensor.OnTargetExit += FollowTargetSensorOnTargetExit;
         NPCFSM.RequestStateChange(NPCState.Idle, true);
         SetUnit();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        StartCoroutine(SearchForTargetUnits());
     }
 
     protected override void Update()
@@ -65,7 +72,7 @@ public class NPCUnit : Unit
         NPCFSM.OnLogic();
         TryFlipVisual(agent.velocity.x);
         if (isPlayerInChasingRange)
-            lastMoveDir = player.position - transform.position;
+            lastMoveDir = targetUnit.position - transform.position;
         else 
             TryToReturnToSpawnPoint();
     }
@@ -87,9 +94,9 @@ public class NPCUnit : Unit
     {
         if (isPlayerInChasingRange)
             if (ShouldKeepDistance(null))
-                moveTarget.position = player.transform.position + (transform.position - player.transform.position).normalized * distToKeep;
+                moveTarget.position = targetUnit.transform.position + (transform.position - targetUnit.transform.position).normalized * distToKeep;
             else
-                moveTarget.position = player.transform.position;
+                moveTarget.position = targetUnit.transform.position;
     }
 
     public override bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
@@ -204,7 +211,7 @@ public class NPCUnit : Unit
     protected override void RotateAttackDir()
     {
         var dirToPlayer = isPlayerInChasingRange
-            ? player.transform.position - transform.position
+            ? targetUnit.transform.position - transform.position
             : moveTarget.transform.position - transform.position;
 
         lastMoveDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
@@ -216,22 +223,44 @@ public class NPCUnit : Unit
     {
         ExecuteActiveAbility(PreparedActiveAbilityIndex);
     }
-    
-    private void FollowPlayerSensor_OnPlayerEnter(Transform player)
+
+    private IEnumerator SearchForTargetUnits()
     {
-        moveTarget.position = player.position;
+        FindClosestTargetUnit(null);
+        yield return new WaitForSeconds(searchTargetDelay);
+        StartCoroutine(SearchForTargetUnits());
+    }
+
+    private void FindClosestTargetUnit(Transform newTarget)
+    {
+        var minDist = float.MaxValue;
+        Transform currTarget = newTarget;
+        
+        foreach (var target in followPlayerSensor.Targets)
+        {
+            if (!target.gameObject.activeInHierarchy) continue;
+            var currDist = Vector2.Distance(target.position, transform.position);
+            if (currDist < minDist)
+            {
+                minDist = currDist;
+                currTarget = target;
+            }
+        }
+
+        targetUnit = currTarget;
+        if (targetUnit == null) return;
+        
+        moveTarget.position = currTarget.position;
         NPCFSM.Trigger(StateEvent.StartChase);
-        isPlayerInChasingRange = true;
-        this.player = player;
-        lostPlayerTimer = lostPlayerDelay;
+        lostPlayerTimer = lostTargetDelay;
         AgrNearbyAllies();
     }
     
-    private void FollowPlayerSensor_OnPlayerExit(Vector3 lastKnownPosition)
+    private void FollowTargetSensorOnTargetExit(Transform target)
     {
-        moveTarget.position = lastKnownPosition;
-        isPlayerInChasingRange = false;
-        player = null;
+        if (target != targetUnit) return;
+        moveTarget.position = target.position;
+        targetUnit = null;
         NPCFSM.Trigger(StateEvent.StartChase);
     }
 
@@ -242,10 +271,10 @@ public class NPCUnit : Unit
         && !IsDisabled
         && Physics2D
             .Raycast(transform.position,
-                this.player.transform.position - transform.position, 
+                this.targetUnit.transform.position - transform.position, 
                 Mathf.Infinity,
                 AttackMask)
-            .collider.TryGetComponent(out Player player);
+            .collider.TryGetComponent(out Unit target);
     
     protected bool ShouldUseActiveAbility(Transition<NPCState> transition)
     {
@@ -283,10 +312,10 @@ public class NPCUnit : Unit
         && !IsSilenced
         && Physics2D
             .Raycast(transform.position,
-                this.player.transform.position - transform.position,
+                this.targetUnit.transform.position - transform.position,
                 Mathf.Infinity,
                 AttackMask)
-            .collider.TryGetComponent(out Player player);
+            .collider.TryGetComponent(out Unit target);
 
     protected bool CanNotAnyUseActiveAbility(Transition<NPCState> transition) => 
         isPlayerInChasingRange 
@@ -310,8 +339,8 @@ public class NPCUnit : Unit
 
     private void OnDisable()
     {
-        followPlayerSensor.OnPlayerEnter -= FollowPlayerSensor_OnPlayerEnter;
-        followPlayerSensor.OnPlayerExit -= FollowPlayerSensor_OnPlayerExit;
+        followPlayerSensor.OnTargetEnter -= FindClosestTargetUnit;
+        followPlayerSensor.OnTargetExit -= FollowTargetSensorOnTargetExit;
     }
 
     protected float DistToMovePos()
@@ -322,6 +351,6 @@ public class NPCUnit : Unit
     protected float DistToTargetPos()
     {
         if (!isPlayerInChasingRange) return DistToMovePos();
-        return Vector2.Distance(player.transform.position, transform.position);
+        return Vector2.Distance(targetUnit.transform.position, transform.position);
     }
 }

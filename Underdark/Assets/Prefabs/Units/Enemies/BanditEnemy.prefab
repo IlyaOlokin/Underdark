@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f3dcb7bf8d4b144ead12f9a0a8c2893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 4765959571082104443}
+  npcUnit: {fileID: 4765959571082104443}
   respawnDelay: 180
   deactivateRange: 25
 --- !u!1 &3743688560195123424
@@ -959,7 +959,8 @@ MonoBehaviour:
   alliesLayer:
     serializedVersion: 2
     m_Bits: 64
-  lostPlayerDelay: 5
+  lostTargetDelay: 5
+  searchTargetDelay: 0.5
   meleeAttackDuration: 0.4
   meleeAttackPreparation: 0.5
   expPerLevel: 10

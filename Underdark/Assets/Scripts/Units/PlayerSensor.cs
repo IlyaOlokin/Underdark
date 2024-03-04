@@ -7,40 +7,44 @@ using UnityEngine;
 public class PlayerSensor : MonoBehaviour
 {
     [SerializeField] private LayerMask layerMask;
-    public event Action<Transform> OnPlayerEnter;
-    public event Action<Vector3> OnPlayerExit;
-    
-    private bool foundPlayer;
+    public event Action<Transform> OnTargetEnter;
+    public event Action<Transform> OnTargetExit;
+
+    public List<Transform> Targets { get; } = new List<Transform>();
     
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (other.TryGetComponent(out Player player))
+        if (layerMask == (layerMask | (1 << other.gameObject.layer)))
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position, Mathf.Infinity, layerMask);
+            if (other.CompareTag("Wall")) return;
+            
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, other.transform.position - transform.position, Mathf.Infinity, layerMask);
             if (hit.collider == null) return;
             
-            if (!foundPlayer && hit.transform.CompareTag("Player"))
+            if (hit.transform.CompareTag("Wall"))
             {
-                OnPlayerEnter?.Invoke(player.transform);
-                foundPlayer = true;
+                Targets.Remove(other.transform);
+                OnTargetExit?.Invoke(other.transform);
             }
-            else if (foundPlayer && hit.transform.CompareTag("Wall"))
+            else if (!Targets.Contains(hit.transform))
             {
-                OnPlayerExit?.Invoke(player.transform.position);
-                foundPlayer = false;
+                Targets.Add(other.transform);
+                OnTargetEnter?.Invoke(other.transform);
             }
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.TryGetComponent(out Player player))
+        if (layerMask == (layerMask | (1 << other.gameObject.layer)))
         {
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, player.transform.position - transform.position, Mathf.Infinity, layerMask);
-            if (hit.collider != null && hit.transform.CompareTag("Player"))
+            if (other.CompareTag("Wall")) return;
+            
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, other.transform.position - transform.position, Mathf.Infinity, layerMask);
+            if (hit.collider != null && !hit.transform.CompareTag("Wall"))
             {
-                OnPlayerExit?.Invoke(other.transform.position);
-                foundPlayer = false;
+                Targets.Remove(other.transform);
+                OnTargetExit?.Invoke(other.transform);
             }
         }
     }
