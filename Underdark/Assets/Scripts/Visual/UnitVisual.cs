@@ -7,13 +7,12 @@ using UnityEngine.Serialization;
 public class UnitVisual : MonoBehaviour
 {
     [SerializeField] private Material mat;
-    private SpriteRenderer sr;
+    [SerializeField] private SpriteRenderer sr;
     
     [Header("Alert")]
-    [SerializeField] private float maxThickness;
+    [SerializeField] private GameObject alertMark;
     [SerializeField] private float alertDuration;
-    private IEnumerator alerting;
-    private float thicknessMultiplier;
+    
 
     [Header("WhiteOut")]
     [SerializeField] private float whiteOutDuration;
@@ -32,11 +31,9 @@ public class UnitVisual : MonoBehaviour
     [Header("AbilityHighLight")] 
     [SerializeField] private GameObject highLightZone;
     [SerializeField] private Material highLightZoneMat;
-
-
+    
     private void Awake()
     {
-        sr = GetComponent<SpriteRenderer>();
         sr.material = new Material(mat);
         mat = sr.material;
         energyShieldSpriteRenderer = EnergyShield.GetComponent<SpriteRenderer>();
@@ -56,7 +53,7 @@ public class UnitVisual : MonoBehaviour
 
     public void AbortAlert()
     {
-        thicknessMultiplier = 0;
+        alertMark.SetActive(false);
     }
 
     public void StartWhiteOut()
@@ -66,20 +63,9 @@ public class UnitVisual : MonoBehaviour
 
     IEnumerator Alert()
     {
-        float currentThickness = 0;
-        thicknessMultiplier = 1;
-        
-        float speed = maxThickness / alertDuration;
-        var alertTimer = alertDuration;
-
-        while (alertTimer > 0)
-        {
-            currentThickness += speed * Time.deltaTime;
-            alertTimer -= Time.deltaTime;
-            mat.SetFloat("_Thickness", currentThickness * thicknessMultiplier);
-            yield return null;
-        }
-        mat.SetFloat("_Thickness", 0);
+        alertMark.SetActive(true);
+        yield return new WaitForSeconds(alertDuration);
+        alertMark.SetActive(false);
     }
     
     IEnumerator WhiteOut()
