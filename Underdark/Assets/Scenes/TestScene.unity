@@ -2785,7 +2785,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 0cc6f428dd801d44d940f50f17e6a345, type: 2}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: dropExecutable.Array.size
-      value: 17
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: drop.Array.data[0].ItemAmount
@@ -2940,6 +2940,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 98df5b52c8c602a42a1eda63d5a3aa6f, type: 2}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
+      propertyPath: dropExecutable.Array.data[17].Item
+      value: 
+      objectReference: {fileID: 11400000, guid: 5756a4c2279c86944923682f7f589f4e, type: 2}
+    - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: drop.Array.data[0].ChanceToDropRight
       value: 1
       objectReference: {fileID: 0}
@@ -3068,6 +3072,10 @@ PrefabInstance:
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
+      propertyPath: dropExecutable.Array.data[17].ItemAmount
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: dropExecutable.Array.data[0].ChanceToDropRight
       value: 1
       objectReference: {fileID: 0}
@@ -3133,6 +3141,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
       propertyPath: dropExecutable.Array.data[16].ChanceToDropRight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8475330006046347535, guid: db2756077d3361c4daf9568a5ff79850, type: 3}
+      propertyPath: dropExecutable.Array.data[17].ChanceToDropRight
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

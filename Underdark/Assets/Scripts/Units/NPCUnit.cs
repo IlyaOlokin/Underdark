@@ -113,7 +113,7 @@ public class NPCUnit : Unit
         {
             isGoingToSpawnPoint = false;
         }
-        if (!isPlayerInChasingRange)
+        if (!isPlayerInChasingRange && DistToMovePos() < agent.stoppingDistance)
             moveTarget.position = spawnPont.position;
     }
 
