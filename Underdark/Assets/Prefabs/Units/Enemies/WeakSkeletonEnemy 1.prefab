@@ -435,7 +435,7 @@ Transform:
   m_GameObject: {fileID: 1949931608932922040}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.8, y: -14.37, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -950,6 +950,9 @@ MonoBehaviour:
   maxValueText: {fileID: 0}
   slider: {fileID: 775653150985436888}
   damageable: {fileID: 2989269700952815197}
+  fill: {fileID: 9037806761154839435}
+  enemyColor: {r: 0.77254903, g: 0.09803922, b: 0, a: 0}
+  playerColor: {r: 0.18431373, g: 0.8, b: 0.09411765, a: 1}
 --- !u!1 &7684371324137006495
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,6 +1127,9 @@ MonoBehaviour:
   <AttackMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 136
+  <AlliesLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 64
   inventoryCapacity: 1
   activeAbilityInventoryCapacity: 1
   visualsFlipable: {fileID: 7394194429042638207}
@@ -1135,14 +1141,12 @@ MonoBehaviour:
   agent: {fileID: 8583875203054404754}
   followPlayerSensor: {fileID: 6012931007409671687}
   allySensor: {fileID: 5963353059792218333}
-  alliesLayer:
-    serializedVersion: 2
-    m_Bits: 64
   lostTargetDelay: 5
   searchTargetDelay: 0.5
   meleeAttackDuration: 0.4
   meleeAttackPreparation: 0.5
   expPerLevel: 7
+  toFarFromSpawnPointRadius: 10
   distToForceMelee: 0
   distToKeep: 0
 --- !u!114 &5577980821815337067

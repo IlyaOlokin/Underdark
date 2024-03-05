@@ -29,9 +29,7 @@ public class CommonNPCUnit : NPCUnit
         NPCFSM.AddTriggerTransition(StateEvent.StartChase, new Transition<NPCState>(NPCState.Idle, NPCState.Chase));
         
         NPCFSM.AddTransition(new Transition<NPCState>(NPCState.Idle, NPCState.Chase,
-            (transition) => isPlayerInChasingRange
-                            && DistToMovePos() > agent.stoppingDistance
-                            && !IsDisabled)
+            (transition) => DistToMovePos() > agent.stoppingDistance && !IsDisabled)
         );
         NPCFSM.AddTransition(new Transition<NPCState>(NPCState.Chase, NPCState.Idle,
             (transition) => Vector3.Distance(moveTarget.transform.position, transform.position) <= agent.stoppingDistance)

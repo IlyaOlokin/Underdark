@@ -11,6 +11,11 @@ public class PlayerSensor : MonoBehaviour
     public event Action<Transform> OnTargetExit;
 
     public List<Transform> Targets { get; } = new List<Transform>();
+
+    public void SetLayerMask(LayerMask newLayerMask)
+    {
+        layerMask = newLayerMask;
+    }
     
     private void OnTriggerStay2D(Collider2D other)
     {

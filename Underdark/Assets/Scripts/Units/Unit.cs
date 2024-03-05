@@ -88,6 +88,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     public event Action<int> OnExecutableItemUse;
 
     [field:SerializeField] public LayerMask AttackMask { get; protected set; }
+    [field:SerializeField] public LayerMask AlliesLayer { get; protected set; }
+
     public Transform Transform => transform;
 
     [field: Header("Abilities Setup")]

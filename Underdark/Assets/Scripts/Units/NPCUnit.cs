@@ -13,19 +13,19 @@ public class NPCUnit : Unit
 {
     protected Transform targetUnit;
 
-    [Header("Enemy Setup")] 
+    [Header("NPC Setup")] 
     [SerializeField] private Transform spawnPont;
     [SerializeField] protected Transform moveTarget;
     [SerializeField] protected NavMeshAgent agent;
     protected StateMachine<NPCState, StateEvent> NPCFSM;
     [SerializeField] protected PlayerSensor followPlayerSensor;
     [SerializeField] protected Collider2D allySensor;
-    [SerializeField] protected LayerMask alliesLayer;
     [FormerlySerializedAs("lostPlayerDelay")] [SerializeField] private float lostTargetDelay;
     [SerializeField] private float searchTargetDelay = 0.5f;
-    private float lostPlayerTimer;
+    private float lostTargetTimer;
     private const float AgrRadius = 20;
-    public int PreparedActiveAbilityIndex { get; private set; }
+    
+    private int PreparedActiveAbilityIndex { get; set; }
     
     [SerializeField] protected float meleeAttackDuration;
     [SerializeField] protected float meleeAttackPreparation;
@@ -37,7 +37,12 @@ public class NPCUnit : Unit
     protected bool isPlayerInMeleeRange;
     protected bool isPlayerInChasingRange => targetUnit != null;
     
-    [Header("Range Enemy Setup")] 
+    [Header("Summon Setup")]
+    private bool isSummon;
+    private bool isGoingToSpawnPoint;
+    [SerializeField] private float toFarFromSpawnPointRadius = 10f;
+    
+    [Header("Range NPC Setup")] 
     [SerializeField] private float distToForceMelee;
     [SerializeField] private float distToKeep;
 
@@ -66,6 +71,20 @@ public class NPCUnit : Unit
         StartCoroutine(SearchForTargetUnits());
     }
 
+    public void SetSummonedUnit(Transform spawnPoint, string tag, int layer, LayerMask enemyLayerMask, LayerMask alliesLayerMask)
+    {
+        isSummon = true;
+        spawnPont = spawnPoint;
+        
+        AlliesLayer = alliesLayerMask;
+        
+        followPlayerSensor.SetLayerMask(enemyLayerMask);
+        AttackMask = enemyLayerMask;
+        
+        transform.tag = tag;
+        gameObject.layer = layer;
+    }
+
     protected override void Update()
     {
         base.Update();
@@ -75,14 +94,35 @@ public class NPCUnit : Unit
             lastMoveDir = targetUnit.position - transform.position;
         else 
             TryToReturnToSpawnPoint();
+        
+        if (isSummon)
+            HandleSummonReturn();
     }
 
-    protected void TryToReturnToSpawnPoint()
+    private void HandleSummonReturn()
+    {
+        var distanceToSpawnPoint = Vector2.Distance(spawnPont.position, transform.position);
+        if (!isGoingToSpawnPoint && distanceToSpawnPoint > toFarFromSpawnPointRadius)
+        {
+            isGoingToSpawnPoint = true;
+            moveTarget.position = spawnPont.position;
+            targetUnit = null;
+            NPCFSM.Trigger(StateEvent.StartChase);
+        }
+        else if (isGoingToSpawnPoint && distanceToSpawnPoint < toFarFromSpawnPointRadius / 2f)
+        {
+            isGoingToSpawnPoint = false;
+        }
+        if (!isPlayerInChasingRange)
+            moveTarget.position = spawnPont.position;
+    }
+
+    private void TryToReturnToSpawnPoint()
     {
         if (DistToTargetPos() < agent.stoppingDistance && Vector2.Distance(spawnPont.position, transform.position) > agent.stoppingDistance)
         {
-            lostPlayerTimer -= Time.deltaTime;
-            if (lostPlayerTimer <= 0)
+            lostTargetTimer -= Time.deltaTime;
+            if (lostTargetTimer <= 0)
             {
                 moveTarget.position = spawnPont.position;
                 NPCFSM.Trigger(StateEvent.StartChase);
@@ -134,7 +174,7 @@ public class NPCUnit : Unit
     public List<Collider2D> GetNearbyAllies()
     {
         var contactFilter = new ContactFilter2D();
-        contactFilter.SetLayerMask(alliesLayer);
+        contactFilter.SetLayerMask(AlliesLayer);
         List<Collider2D> hitColliders = new List<Collider2D>();
 
         allySensor.OverlapCollider(contactFilter, hitColliders);
@@ -151,7 +191,7 @@ public class NPCUnit : Unit
 
     protected override void Death(Unit killer, IAttacker attacker, DamageType damageType)
     {
-        if (TryGetComponent(out Drop drop))
+        if (!isSummon && TryGetComponent(out Drop drop))
         {
             if (killer.TryGetComponent(out IMoneyHolder moneyHolder)) drop.DropItems(moneyHolder);
             else drop.DropItems();
@@ -163,6 +203,7 @@ public class NPCUnit : Unit
         UnitVisual.StartDeathEffect(attacker, damageType);
         
         base.Death(killer, attacker, damageType);
+        if (isSummon) Destroy(gameObject);
     }
     public override void ApplySlowDebuff(float slow)
     {
@@ -233,12 +274,19 @@ public class NPCUnit : Unit
 
     private void FindClosestTargetUnit(Transform newTarget)
     {
+        if (isGoingToSpawnPoint) return;
+        
         var minDist = float.MaxValue;
         Transform currTarget = newTarget;
-        
-        foreach (var target in followPlayerSensor.Targets)
+
+        for (var i = followPlayerSensor.Targets.Count - 1; i >= 0; i--)
         {
-            if (!target.gameObject.activeInHierarchy) continue;
+            var target = followPlayerSensor.Targets[i];
+            if (target == null || !target.gameObject.activeInHierarchy)
+            {
+                followPlayerSensor.Targets.Remove(target);
+                continue;
+            }
             var currDist = Vector2.Distance(target.position, transform.position);
             if (currDist < minDist)
             {
@@ -252,7 +300,7 @@ public class NPCUnit : Unit
         
         moveTarget.position = currTarget.position;
         NPCFSM.Trigger(StateEvent.StartChase);
-        lostPlayerTimer = lostTargetDelay;
+        lostTargetTimer = lostTargetDelay;
         AgrNearbyAllies();
     }
     

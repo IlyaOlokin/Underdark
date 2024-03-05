@@ -72,7 +72,7 @@ MonoBehaviour:
   debuffInfos:
     values: []
   needAutoDestroy: 1
-  autoDestroyDelay: 2
+  autoDestroyDelay: 60
   description: You heal your wounds with magic.
   healOfMaxHP:
     values:
@@ -81,6 +81,7 @@ MonoBehaviour:
     - 0.2
     - 0.4
     - 1
+  summonPref: {fileID: 3657550447364729542, guid: c25c0c48a1a98d443836ad5596f631cb, type: 3}
 --- !u!1 &8328540744568435009
 GameObject:
   m_ObjectHideFlags: 0
