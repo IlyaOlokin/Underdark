@@ -30,12 +30,12 @@ public class Burn : Debuff
         Timer -= Time.deltaTime;
         if (dmgTimer <= 0)
         {
-            if (TryGetComponent(out Enemy enemy))
+            if (TryGetComponent(out NPCUnit enemy))
             {
                 var hitColliders = enemy.GetNearbyAllies();
                 foreach (var hitCollider in hitColliders)
                 {
-                    if (!hitCollider.transform.TryGetComponent(out Enemy otherEnemy)) continue;
+                    if (!hitCollider.transform.TryGetComponent(out NPCUnit otherEnemy)) continue;
                     
                     if (Vector2.Distance(transform.position, otherEnemy.transform.position) <=
                         burnInfo.BurnJumpDistance)

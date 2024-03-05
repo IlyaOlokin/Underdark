@@ -6,11 +6,12 @@ using UnityEngine;
 
 public class IdleState : EnemyStateBase
 {
-    public IdleState(bool needsExitTime, Enemy Enemy) : base(needsExitTime, Enemy) { }
+    public IdleState(bool needsExitTime, NPCUnit npcUnit, Animator anim) : base(needsExitTime, npcUnit, anim) { }
     
     public override void OnEnter()
     {
         base.OnEnter();
         if (Agent.enabled) Agent.isStopped = true;
+        Animator.SetBool("Move", false);
     }
 }

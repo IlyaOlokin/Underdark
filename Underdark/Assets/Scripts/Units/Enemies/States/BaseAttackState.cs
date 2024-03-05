@@ -9,7 +9,8 @@ public class BaseAttackState : EnemyStateBase
 {
     public BaseAttackState(
         bool needsExitTime,
-        Enemy Enemy,
+        NPCUnit npcUnit,
+        Animator anim,
         Action onEnter,
-        float ExitTime) : base(needsExitTime, Enemy, ExitTime, onEnter) {}
+        float ExitTime) : base(needsExitTime, npcUnit, anim, ExitTime, onEnter) {}
 }

@@ -9,19 +9,20 @@ using UnityHFSM;
 using Zenject;
 using Random = UnityEngine.Random;
 
-public class Enemy : Unit
+public class NPCUnit : Unit
 {
-    protected Transform player;
+    protected Transform targetUnit;
 
     [Header("Enemy Setup")] 
     [SerializeField] private Transform spawnPont;
     [SerializeField] protected Transform moveTarget;
     [SerializeField] protected NavMeshAgent agent;
-    protected StateMachine<EnemyState, StateEvent> EnemyFSM;
+    protected StateMachine<NPCState, StateEvent> NPCFSM;
     [SerializeField] protected PlayerSensor followPlayerSensor;
     [SerializeField] protected Collider2D allySensor;
     [SerializeField] protected LayerMask alliesLayer;
-    [SerializeField] private float lostPlayerDelay;
+    [FormerlySerializedAs("lostPlayerDelay")] [SerializeField] private float lostTargetDelay;
+    [SerializeField] private float searchTargetDelay = 0.5f;
     private float lostPlayerTimer;
     private const float AgrRadius = 20;
     public int PreparedActiveAbilityIndex { get; private set; }
@@ -34,7 +35,11 @@ public class Enemy : Unit
     [SerializeField] private int expPerLevel;
     
     protected bool isPlayerInMeleeRange;
-    protected bool isPlayerInChasingRange;
+    protected bool isPlayerInChasingRange => targetUnit != null;
+    
+    [Header("Range Enemy Setup")] 
+    [SerializeField] private float distToForceMelee;
+    [SerializeField] private float distToKeep;
 
     protected override void Awake()
     {
@@ -44,37 +49,43 @@ public class Enemy : Unit
         agent.speed = MoveSpeed;
         moveTarget.transform.SetParent(transform.parent);
         
-        EnemyFSM = new();
+        NPCFSM = new();
     }
 
     private void OnEnable()
     {
-        followPlayerSensor.OnPlayerEnter += FollowPlayerSensor_OnPlayerEnter;
-        followPlayerSensor.OnPlayerExit += FollowPlayerSensor_OnPlayerExit;
-        EnemyFSM.RequestStateChange(EnemyState.Idle, true);
+        followPlayerSensor.OnTargetEnter += FindClosestTargetUnit;
+        followPlayerSensor.OnTargetExit += FollowTargetSensorOnTargetExit;
+        NPCFSM.RequestStateChange(NPCState.Idle, true);
         SetUnit();
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        StartCoroutine(SearchForTargetUnits());
     }
 
     protected override void Update()
     {
         base.Update();
-        EnemyFSM.OnLogic();
+        NPCFSM.OnLogic();
         TryFlipVisual(agent.velocity.x);
         if (isPlayerInChasingRange)
-            lastMoveDir = player.position - transform.position;
+            lastMoveDir = targetUnit.position - transform.position;
         else 
             TryToReturnToSpawnPoint();
     }
 
     protected void TryToReturnToSpawnPoint()
     {
-        if (DistToTargetPos() < agent.stoppingDistance)
+        if (DistToTargetPos() < agent.stoppingDistance && Vector2.Distance(spawnPont.position, transform.position) > agent.stoppingDistance)
         {
             lostPlayerTimer -= Time.deltaTime;
             if (lostPlayerTimer <= 0)
             {
                 moveTarget.position = spawnPont.position;
-                EnemyFSM.Trigger(StateEvent.StartChase);
+                NPCFSM.Trigger(StateEvent.StartChase);
             }
         }
     }
@@ -82,7 +93,10 @@ public class Enemy : Unit
     protected void ChaseTarget()
     {
         if (isPlayerInChasingRange)
-            moveTarget.position = player.transform.position;
+            if (ShouldKeepDistance(null))
+                moveTarget.position = targetUnit.transform.position + (transform.position - targetUnit.transform.position).normalized * distToKeep;
+            else
+                moveTarget.position = targetUnit.transform.position;
     }
 
     public override bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
@@ -100,7 +114,7 @@ public class Enemy : Unit
     public void Agr(Vector3 pos)
     {
         moveTarget.position = pos;
-        EnemyFSM.Trigger(StateEvent.StartChase);
+        NPCFSM.Trigger(StateEvent.StartChase);
     }
 
     private void AgrNearbyAllies()
@@ -109,7 +123,7 @@ public class Enemy : Unit
 
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.transform.TryGetComponent(out Enemy enemy))
+            if (hitCollider.transform.TryGetComponent(out NPCUnit enemy))
             {
                 if (enemy != this)
                     enemy.Agr(moveTarget.position);
@@ -197,7 +211,7 @@ public class Enemy : Unit
     protected override void RotateAttackDir()
     {
         var dirToPlayer = isPlayerInChasingRange
-            ? player.transform.position - transform.position
+            ? targetUnit.transform.position - transform.position
             : moveTarget.transform.position - transform.position;
 
         lastMoveDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
@@ -209,37 +223,60 @@ public class Enemy : Unit
     {
         ExecuteActiveAbility(PreparedActiveAbilityIndex);
     }
-    
-    private void FollowPlayerSensor_OnPlayerEnter(Transform player)
+
+    private IEnumerator SearchForTargetUnits()
     {
-        moveTarget.position = player.position;
-        EnemyFSM.Trigger(StateEvent.StartChase);
-        isPlayerInChasingRange = true;
-        this.player = player;
-        lostPlayerTimer = lostPlayerDelay;
+        FindClosestTargetUnit(null);
+        yield return new WaitForSeconds(searchTargetDelay);
+        StartCoroutine(SearchForTargetUnits());
+    }
+
+    private void FindClosestTargetUnit(Transform newTarget)
+    {
+        var minDist = float.MaxValue;
+        Transform currTarget = newTarget;
+        
+        foreach (var target in followPlayerSensor.Targets)
+        {
+            if (!target.gameObject.activeInHierarchy) continue;
+            var currDist = Vector2.Distance(target.position, transform.position);
+            if (currDist < minDist)
+            {
+                minDist = currDist;
+                currTarget = target;
+            }
+        }
+
+        targetUnit = currTarget;
+        if (targetUnit == null) return;
+        
+        moveTarget.position = currTarget.position;
+        NPCFSM.Trigger(StateEvent.StartChase);
+        lostPlayerTimer = lostTargetDelay;
         AgrNearbyAllies();
     }
     
-    private void FollowPlayerSensor_OnPlayerExit(Vector3 lastKnownPosition)
+    private void FollowTargetSensorOnTargetExit(Transform target)
     {
-        moveTarget.position = lastKnownPosition;
-        isPlayerInChasingRange = false;
-        player = null;
+        if (target != targetUnit) return;
+        moveTarget.position = target.position;
+        targetUnit = null;
+        NPCFSM.Trigger(StateEvent.StartChase);
     }
 
-    protected bool ShouldMelee(Transition<EnemyState> transition) =>
+    protected bool ShouldMelee(Transition<NPCState> transition) =>
         attackCDTimer < 0
         && isPlayerInChasingRange
         && DistToTargetPos() <= GetWeapon().AttackDistance + 0.7f
         && !IsDisabled
         && Physics2D
             .Raycast(transform.position,
-                this.player.transform.position - transform.position, 
+                this.targetUnit.transform.position - transform.position, 
                 Mathf.Infinity,
                 AttackMask)
-            .collider.TryGetComponent(out Player player);
+            .collider.TryGetComponent(out Unit target);
     
-    protected bool ShouldUseActiveAbility(Transition<EnemyState> transition)
+    protected bool ShouldUseActiveAbility(Transition<NPCState> transition)
     {
         for (int i = 0; i < Inventory.EquippedActiveAbilitySlots.Count; i++)
         {
@@ -252,8 +289,22 @@ public class Enemy : Unit
 
         return false;
     }
+    
+    private bool IsCloseEnoughToForceMelee(Transition<NPCState> transition)
+    {
+        return isPlayerInChasingRange && DistToTargetPos() < distToForceMelee;
+    }
+    
+    private bool ShouldKeepDistance(Transition<NPCState> transition)
+    {
+        return !IsCloseEnoughToForceMelee(transition)
+               && (CanUseActiveAbility(transition, 0)
+                   || CanUseActiveAbility(transition, 1)
+                   || CanUseActiveAbility(transition, 2)
+                   || CanUseActiveAbility(transition, 3));
+    }
 
-    protected bool CanUseActiveAbility(Transition<EnemyState> transition, int index) =>
+    protected bool CanUseActiveAbility(Transition<NPCState> transition, int index) =>
         isPlayerInChasingRange
         && !Inventory.EquippedActiveAbilitySlots[index].IsEmpty
         && ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility.CanUseAbility(this, DistToTargetPos())
@@ -261,35 +312,35 @@ public class Enemy : Unit
         && !IsSilenced
         && Physics2D
             .Raycast(transform.position,
-                this.player.transform.position - transform.position,
+                this.targetUnit.transform.position - transform.position,
                 Mathf.Infinity,
                 AttackMask)
-            .collider.TryGetComponent(out Player player);
+            .collider.TryGetComponent(out Unit target);
 
-    protected bool CanNotAnyUseActiveAbility(Transition<EnemyState> transition) => 
+    protected bool CanNotAnyUseActiveAbility(Transition<NPCState> transition) => 
         isPlayerInChasingRange 
         && !CanUseActiveAbility(transition, 0)
         && !CanUseActiveAbility(transition, 1)
         && !CanUseActiveAbility(transition, 2)
         && !CanUseActiveAbility(transition, 3);
 
-    protected bool ShouldAttack(Transition<EnemyState> transition) =>
+    protected bool ShouldAttack(Transition<NPCState> transition) =>
         ShouldMelee(transition) || ShouldUseActiveAbility(transition);
     
-    protected bool IsWithinIdleRange(Transition<EnemyState> transition) => 
+    protected bool IsWithinIdleRange(Transition<NPCState> transition) => 
         CanMove
         && !isPlayerInChasingRange
         && agent.remainingDistance <= agent.stoppingDistance;
 
-    protected bool IsNotWithinIdleRange(Transition<EnemyState> transition) => 
+    protected bool IsNotWithinIdleRange(Transition<NPCState> transition) => 
         !IsWithinIdleRange(transition);
     
-    protected bool IsUnitStunned(Transition<EnemyState> transition) => IsDisabled;
+    protected bool IsUnitStunned(Transition<NPCState> transition) => IsDisabled;
 
     private void OnDisable()
     {
-        followPlayerSensor.OnPlayerEnter -= FollowPlayerSensor_OnPlayerEnter;
-        followPlayerSensor.OnPlayerExit -= FollowPlayerSensor_OnPlayerExit;
+        followPlayerSensor.OnTargetEnter -= FindClosestTargetUnit;
+        followPlayerSensor.OnTargetExit -= FollowTargetSensorOnTargetExit;
     }
 
     protected float DistToMovePos()
@@ -300,6 +351,6 @@ public class Enemy : Unit
     protected float DistToTargetPos()
     {
         if (!isPlayerInChasingRange) return DistToMovePos();
-        return Vector2.Distance(player.transform.position, transform.position);
+        return Vector2.Distance(targetUnit.transform.position, transform.position);
     }
 }

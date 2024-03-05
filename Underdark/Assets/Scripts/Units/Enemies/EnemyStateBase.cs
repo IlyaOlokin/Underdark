@@ -5,35 +5,37 @@ using UnityHFSM;
 
 namespace LlamAcademy.FSM
 {
-    public abstract class EnemyStateBase : State<EnemyState, StateEvent>
+    public abstract class EnemyStateBase : State<NPCState, StateEvent>
     {
-        protected readonly Enemy Enemy;
+        protected readonly NPCUnit NpcUnit;
         protected readonly NavMeshAgent Agent;
-        //protected readonly Animator Animator;
+        protected readonly Animator Animator;
         protected bool RequestedExit;
         protected float ExitTime;
 
         protected readonly Action onEnter;
         protected readonly Action onLogic;
         protected readonly Action onExit;
-        protected readonly Func<State<EnemyState, StateEvent>, bool> canExit;
+        protected readonly Func<State<NPCState, StateEvent>, bool> canExit;
 
         public EnemyStateBase(bool needsExitTime, 
-            Enemy Enemy, 
+            NPCUnit npcUnit,
+            Animator Animator,
             float ExitTime = 0.1f,
             Action onEnter = null,
             Action onLogic = null,
             Action onExit = null,
-            Func<State<EnemyState, StateEvent>, bool> canExit = null)
+            Func<State<NPCState, StateEvent>, bool> canExit = null)
         {
-            this.Enemy = Enemy;
+            this.NpcUnit = npcUnit;
+            this.Animator = Animator;
             this.onEnter = onEnter;
             this.onLogic = onLogic;
             this.onExit = onExit;
             this.canExit = canExit;
             this.ExitTime = ExitTime;
             this.needsExitTime = needsExitTime;
-            Agent = Enemy.GetComponent<NavMeshAgent>();
+            Agent = npcUnit.GetComponent<NavMeshAgent>();
         }
 
         public override void OnEnter()
