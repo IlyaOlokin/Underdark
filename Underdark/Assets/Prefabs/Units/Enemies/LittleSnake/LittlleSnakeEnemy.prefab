@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5088521362335157096
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1116847182108090050, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 475194110, guid: aa2ac33513e770a489af391b5125a5df, type: 3}
+    - target: {fileID: 1949931608932922040, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_Name
+      value: LittlleSnakeEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989269700952815197, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: Stats.pointsPerLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989269700952815197, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: Params.baseEvasionChance
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989269700952815197, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: Stats.<Strength>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989269700952815197, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: Stats.<Dexterity>k__BackingField
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309775707832256866, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309775707832256866, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290106731956819956, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: a62fe2a9aaaf69d4bad2c7cf14cbeb91, type: 2}
+    - target: {fileID: 5290106731956819956, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: activeAbilities.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290106731956819956, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: activeAbilities.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 09be2477809388e4bbb494b12c224c37, type: 2}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: moneyAmountMax
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropWeapon.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropWeapon.Array.data[0].Item
+      value: 
+      objectReference: {fileID: 11400000, guid: a62fe2a9aaaf69d4bad2c7cf14cbeb91, type: 2}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[0].Item
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e13f365929c13c45981174534716fbd, type: 2}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropWeapon.Array.data[0].ItemAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropWeapon.Array.data[0].ChanceToDropRight
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[0].ChanceToDropRight
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197898296163264041, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_SpriteLibraryAsset
+      value: 
+      objectReference: {fileID: 7108339969198208228, guid: 7fca96faa2e1bce4191c4cab24545610, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
