@@ -71,5 +71,11 @@ MonoBehaviour:
   description: You summon a weak skeleton.
   summonPref:
     values:
-    - {fileID: 5362313374764476912, guid: 9d8a5fd2136e7ed478ea6f811490f1c3, type: 3}
-  spawnRadius: 1
+    - Summons:
+      - {fileID: 5362313374764476912, guid: 9d8a5fd2136e7ed478ea6f811490f1c3, type: 3}
+      - {fileID: 5362313374764476912, guid: 9d8a5fd2136e7ed478ea6f811490f1c3, type: 3}
+      - {fileID: 5362313374764476912, guid: 9d8a5fd2136e7ed478ea6f811490f1c3, type: 3}
+  spawnRadius: 2
+  spawnDelay: 0.1
+  rotateSpawnPointsDelay: 10
+  summonVisual: {fileID: 5679503076883927574, guid: a57501632b69ed84b87d8863a1651fe0, type: 3}
