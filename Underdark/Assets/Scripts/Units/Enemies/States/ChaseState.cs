@@ -18,7 +18,7 @@ public class ChaseState : EnemyStateBase
     {
         base.OnEnter();
         Agent.enabled = true;
-        Agent.isStopped = false;
+        if (Agent.isOnNavMesh) Agent.isStopped = false;
         Animator.SetBool("Move", true);
     }
     

@@ -7,7 +7,7 @@ using Zenject;
 
 public class EnemySpawnPoint : MonoBehaviour
 {
-    [FormerlySerializedAs("enemy")] [SerializeField] private NPCUnit npcUnit;
+    [FormerlySerializedAs("enemy")] [SerializeField] public NPCUnit npcUnit;
     [SerializeField] private float respawnDelay;
     [SerializeField] private float deactivateRange = 25;
     private float timer;

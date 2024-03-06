@@ -1,0 +1,239 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &97447129450347259
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 110520723527577074, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_Radius
+      value: 9.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1116847182108090050, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -908815036, guid: aa2ac33513e770a489af391b5125a5df, type: 3}
+    - target: {fileID: 1949931608932922040, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_Name
+      value: Magician'sApprenticeEnemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989269700952815197, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: distToKeep
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989269700952815197, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: expPerLevel
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989269700952815197, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: distToForceMelee
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989269700952815197, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: Stats.pointsPerLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989269700952815197, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: Params.baseEvasionChance
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989269700952815197, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: Stats.<Level>k__BackingField
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989269700952815197, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: Stats.<Dexterity>k__BackingField
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2989269700952815197, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: Stats.<Intelligence>k__BackingField
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3887350311143016167, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309775707832256866, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4309775707832256866, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290106731956819956, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: body
+      value: 
+      objectReference: {fileID: 11400000, guid: 2cdf6e4558ad37f43ae5f2fbde9ecd58, type: 2}
+    - target: {fileID: 5290106731956819956, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: weapon
+      value: 
+      objectReference: {fileID: 11400000, guid: 56b8ec3d4d3f82644bf6715096ce275f, type: 2}
+    - target: {fileID: 5290106731956819956, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: activeAbilities.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5290106731956819956, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: activeAbilities.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 33a9f99b73e043f4c8307d8f4760d139, type: 2}
+    - target: {fileID: 5290106731956819956, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: activeAbilities.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: bce04b90510f719408127ad8e35a681a, type: 2}
+    - target: {fileID: 5290106731956819956, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: activeAbilities.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 90220afbc7d61154a8b794e3c679edf5, type: 2}
+    - target: {fileID: 5290106731956819956, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: activeAbilities.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: af143d6fd21d4d647bd0b843f53ee945, type: 2}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: moneyAmountMax
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: moneyAmountMin
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropArmor.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropWeapon.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropArmor.Array.data[0].Item
+      value: 
+      objectReference: {fileID: 11400000, guid: 2cdf6e4558ad37f43ae5f2fbde9ecd58, type: 2}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropWeapon.Array.data[0].Item
+      value: 
+      objectReference: {fileID: 11400000, guid: 56b8ec3d4d3f82644bf6715096ce275f, type: 2}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[0].Item
+      value: 
+      objectReference: {fileID: 11400000, guid: ee7d254080af1f04fb419e8b38375e1d, type: 2}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[1].Item
+      value: 
+      objectReference: {fileID: 11400000, guid: fbfc5e3590218724a80bec7a9db5678d, type: 2}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[2].Item
+      value: 
+      objectReference: {fileID: 11400000, guid: da13737303e01454bbb186f9e4dbe375, type: 2}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[3].Item
+      value: 
+      objectReference: {fileID: 11400000, guid: 1fdd52467b56fb141bb9d2b0a7b440dd, type: 2}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropArmor.Array.data[0].ItemAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropWeapon.Array.data[0].ItemAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[2].ItemAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[3].ItemAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropArmor.Array.data[0].ChanceToDropRight
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropWeapon.Array.data[0].ChanceToDropLeft
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropWeapon.Array.data[0].ChanceToDropRight
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[1].ChanceToDropLeft
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[2].ChanceToDropLeft
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[3].ChanceToDropLeft
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[0].ChanceToDropRight
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[1].ChanceToDropRight
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[2].ChanceToDropRight
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577980821815337067, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: dropExecutable.Array.data[3].ChanceToDropRight
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 6197898296163264041, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_SpriteLibraryAsset
+      value: 
+      objectReference: {fileID: 7108339969198208228, guid: 590ff9604c0fea748986f47be0b57d7c, type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
