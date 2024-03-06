@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditor;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class TileAutomata : MonoBehaviour
@@ -55,7 +56,7 @@ public class TileAutomata : MonoBehaviour
         
         
 
-        /*if (mf)
+        if (mf)
         {
             var savePath = "Assets/Prefabs/Maps/" + saveName + ".prefab";
             if (PrefabUtility.SaveAsPrefabAsset(mf, savePath))
@@ -67,7 +68,7 @@ public class TileAutomata : MonoBehaviour
                 EditorUtility.DisplayDialog("Tilemap NOT saved",
                     "An ERROR occured while trying to saveTilemap under" + savePath, "Continue");
             }
-        }*/
+        }
     }
 
     public void ClearMap(bool complete)
