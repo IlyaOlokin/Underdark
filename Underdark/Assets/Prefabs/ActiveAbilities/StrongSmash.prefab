@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ID>k__BackingField: strong_smash
-  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 807e11c8f74aaf74dbc27c42fd146208, type: 2}
+  ActiveAbilityLevelSetupSO: {fileID: 11400000, guid: 32f1031082535de4d9bf962ecd005a41, type: 2}
   CastTime: 0.1
   <Cooldown>k__BackingField:
     values:
@@ -57,14 +57,21 @@ MonoBehaviour:
   <AttackDistance>k__BackingField:
     values:
     - 2
+    - 2
+    - 2
+    - 3
   <AttackAngle>k__BackingField:
     values:
     - 120
   <MaxValue>k__BackingField:
     values:
     - 80
+    - 120
+    - 200
+    - 500
+    - 750
   <StatMultiplier>k__BackingField:
-    values: 03000000
+    values: 0300000004000000050000000700000009000000
   baseStat: 0
   damageType: 0
   validWeaponTypes: 05000000
@@ -76,6 +83,30 @@ MonoBehaviour:
   autoDestroyDelay: 0.35
   description: You deliver a powerful sweeping blow, putting all your strength into
     it.
+  attackDistanceShockWave:
+    values:
+    - 0
+    - 0
+    - 3
+    - 6
+    - 8
+  maxValueShockWave:
+    values:
+    - 0
+    - 0
+    - 100
+    - 200
+    - 350
+  statMultiplierShockWave:
+    values:
+    - 0
+    - 0
+    - 3
+    - 4
+    - 5
+  debuffInfosShockWave:
+    values: []
+  shockWaveMinLevel: 3
   visual: {fileID: 1881237385175139625}
   visualDuration: 0.35
   scaleLerpSpeed: 4

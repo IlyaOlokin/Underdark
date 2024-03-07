@@ -26,7 +26,7 @@ public class ConeOfCold : ActiveAbility, IAttackerAOE
    
     public void Attack()
     {
-        var targets = FindAllTargets(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel));
+        var targets = FindAllTargets(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel), AttackAngle.GetValue(abilityLevel));
 
         foreach (var target in targets)
         {

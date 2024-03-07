@@ -52,7 +52,7 @@ public class CircularSwing : ActiveAbility, IAttackerAOE
 
     private void PullTargets()
     {
-        var targets = FindAllTargets(caster, caster.transform.position, pullDistance);
+        var targets = FindAllTargets(caster, caster.transform.position, pullDistance, AttackAngle.GetValue(abilityLevel));
 
         foreach (var target in targets)
         {
@@ -65,7 +65,7 @@ public class CircularSwing : ActiveAbility, IAttackerAOE
     
     public void Attack()
     {
-        var targets = FindAllTargets(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel));
+        var targets = FindAllTargets(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel), AttackAngle.GetValue(abilityLevel));
 
         foreach (var target in targets)
         {
