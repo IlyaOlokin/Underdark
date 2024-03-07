@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StrongSmash : ActiveAbility, IAttackerAOE
@@ -83,5 +84,18 @@ public class StrongSmash : ActiveAbility, IAttackerAOE
                 Instantiate(hitVisualPref, target.transform.position, Quaternion.identity);
             }
         }
+    }
+    
+    public override string[] ToStringAdditional(Unit owner)
+    {
+        List<string> res = base.ToStringAdditional(owner).ToList();
+        var currentLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(owner.GetExpOfActiveAbility(ID));
+
+        foreach (var debuffInfo in debuffInfosShockWave.GetValue(currentLevel).DebuffInfos)
+        {
+            res.Add($"Shock wave: {debuffInfo.ToString()}");
+        }
+
+        return res.ToArray();
     }
 }

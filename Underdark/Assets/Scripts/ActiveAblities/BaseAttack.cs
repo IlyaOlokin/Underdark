@@ -66,7 +66,7 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
 
     public void Attack()
     {
-        var hitUnits = FindAllTargets(caster, caster.transform.position, currentWeapon.AttackDistance);
+        var hitUnits = FindAllTargets(caster, caster.transform.position, currentWeapon.AttackDistance, currentWeapon.AttackRadius);
 
         foreach (var collider in hitUnits)
         {
@@ -85,7 +85,7 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
         }
     }
 
-    private new List<Collider2D> FindAllTargets(Unit caster, Vector3 center, float distance, List<IDamageable> objectsToIgnore = null)
+    private new List<Collider2D> FindAllTargets(Unit caster, Vector3 center, float distance, float attackAngle, List<IDamageable> objectsToIgnore = null)
     {
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
@@ -101,7 +101,7 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
             
             Vector3 dir = collider.transform.position - center;
             var angle = Vector2.Angle(dir, attackDir);
-            if (angle < currentWeapon.AttackRadius / 2f)
+            if (angle < attackAngle / 2f)
             {
                 targets.Add(collider);
             }
