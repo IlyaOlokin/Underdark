@@ -56,7 +56,7 @@ MonoBehaviour:
   <NeedAttackRadiusDisplay>k__BackingField: 1
   <AttackDistance>k__BackingField:
     values:
-    - 1
+    - 2
   <AttackAngle>k__BackingField:
     values:
     - 120
@@ -73,13 +73,14 @@ MonoBehaviour:
     - DebuffInfos:
       - {fileID: 11400000, guid: 3189324a1652f15439fe077e31727e8c, type: 2}
   needAutoDestroy: 1
-  autoDestroyDelay: 0.3
+  autoDestroyDelay: 0.35
   description: You deliver a powerful sweeping blow, putting all your strength into
     it.
   visual: {fileID: 1881237385175139625}
-  visualDuration: 0.3
+  visualDuration: 0.35
   scaleLerpSpeed: 4
   hitVisualPref: {fileID: 1789869753800810352, guid: 2022c88c68bb7f343b69ed95271aa53f, type: 3}
+  shockWaveVisualPref: {fileID: 4719192991819262083, guid: e3385cb439dd233479c46663311d7180, type: 3}
 --- !u!1001 &1883971997095114825
 PrefabInstance:
   m_ObjectHideFlags: 0

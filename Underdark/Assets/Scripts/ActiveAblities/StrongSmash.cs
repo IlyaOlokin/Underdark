@@ -11,6 +11,8 @@ public class StrongSmash : ActiveAbility, IAttackerAOE
     [SerializeField] private float visualDuration;
     [SerializeField] private float scaleLerpSpeed;
     [SerializeField] private GameObject hitVisualPref;
+
+    [SerializeField] private ShockWaveVisual shockWaveVisualPref;
     
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null,bool mustAggro = true)
@@ -20,10 +22,18 @@ public class StrongSmash : ActiveAbility, IAttackerAOE
         InitDamage(caster);
         Attack();
         
+        StartVisual();
+    }
+
+    private void StartVisual()
+    {
         StartCoroutine(visual.StartVisual(AttackDistance.GetValue(abilityLevel), caster.GetAttackDirAngle(attackDir),
             AttackAngle.GetValue(abilityLevel), visualDuration, scaleLerpSpeed));
+
+        var shockWave = Instantiate(shockWaveVisualPref, transform.position, Quaternion.identity, transform);
+        shockWave.StartVisual(visualDuration, AttackDistance.GetValue(abilityLevel) * 2);
     }
-    
+
     public void Attack()
     {
         var targets = FindAllTargets(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel));
