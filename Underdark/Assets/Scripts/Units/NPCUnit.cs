@@ -267,9 +267,11 @@ public class NPCUnit : Unit
 
     private IEnumerator SearchForTargetUnits()
     {
-        FindClosestTargetUnit(null);
-        yield return new WaitForSeconds(searchTargetDelay);
-        StartCoroutine(SearchForTargetUnits());
+        while (true)
+        {
+            FindClosestTargetUnit(null);
+            yield return new WaitForSeconds(searchTargetDelay);
+        }
     }
 
     private void FindClosestTargetUnit(Transform newTarget)
