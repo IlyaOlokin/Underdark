@@ -6,7 +6,7 @@ public class BarController : MonoBehaviour
 {
     [SerializeField] protected TextMeshProUGUI currentValueText;
     [SerializeField] protected TextMeshProUGUI maxValueText;
-    [SerializeField] private Slider slider;
+    [SerializeField] protected Slider slider;
     
     protected virtual void SetMaxValue(int maxValue)
     {

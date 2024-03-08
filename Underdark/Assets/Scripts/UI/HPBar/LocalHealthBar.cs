@@ -33,4 +33,10 @@ public class LocalHealthBar : BarController
             fill.color = enemyColor;
         }
     }
+    
+    protected override void UpdateValue(int currentValue)
+    {
+        base.UpdateValue(currentValue);
+        slider.gameObject.SetActive(slider.value < slider.maxValue);
+    }
 }

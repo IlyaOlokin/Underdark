@@ -86,7 +86,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &1615620556159779335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
   criticalEffect: {fileID: 4235308194766578348}
   objectToMove: {fileID: 4007302569651770349}
   text: {fileID: 5732494522874007170}
-  lifeTime: 0.4
+  lifeTime: 0.8
   effectDuration: 0.3
   scaleMultiplier: 1.4
   moveDistance: 1

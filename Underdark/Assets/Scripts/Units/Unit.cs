@@ -345,6 +345,15 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
             ActiveAbilitiesCD[i] = equippedActiveAbility.Cooldown.GetValue(GetExpOfActiveAbility(equippedActiveAbility.ID));
         }
     }
+
+    public void InstantDeath(Unit killer, IAttacker attacker)
+    {
+        if (IsDead) return;
+        
+        var newEffect = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
+        newEffect.WriteMessage("Crit!");
+        Death(killer, attacker, DamageType.Chaos);
+    }
     
     public virtual void GetStunned() => isStunned = true;
 
