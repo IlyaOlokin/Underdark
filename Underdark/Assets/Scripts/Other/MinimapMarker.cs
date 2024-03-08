@@ -12,12 +12,6 @@ public class MinimapMarker : MonoBehaviour
     [SerializeField] private Color visitedColor;
     [SerializeField] private float radius;
     [SerializeField] private float mapHalfSize;
-
-    [Inject]
-    private void Construct(IInput userInput)
-    {
-        //userInput.MoveInput += UpdateMaskTexture;
-    }
     
     private void Awake()
     {
@@ -42,7 +36,6 @@ public class MinimapMarker : MonoBehaviour
     void UpdateMaskTexture(Vector3 playerPosition)
     {
         Color[] colors = maskTexture.GetPixels();
-        //playerPosition = transform.position;
 
         playerPosition.x = (playerPosition.x + mapHalfSize) / (mapHalfSize * 2f) * maskTexture.width;
         playerPosition.y = (playerPosition.y + mapHalfSize) / (mapHalfSize * 2f) * maskTexture.width;
@@ -50,10 +43,10 @@ public class MinimapMarker : MonoBehaviour
 
         for (int x = (int)(playerPosition.x - radius); x <= playerPosition.x + radius; x++)
         {
-            if (x < 0) continue;
+            if (x < 0 || x >= maskTexture.width) continue;
             for (int y = (int)(playerPosition.y - radius); y <= playerPosition.y + radius; y++)
             {
-                if (y < 0) continue;
+                if (y < 0 ||  y >= maskTexture.height) continue;
                 if (Vector2.Distance(playerPosition, new Vector2(x, y)) <= radius)
                 {
                     int index = y * maskTexture.width + x;
