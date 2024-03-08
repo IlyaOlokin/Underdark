@@ -62,7 +62,7 @@ public abstract class ActiveAbility : MonoBehaviour
         int damage = (int) (Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier,
             maxDamage) * damageMultiplier);
         var damageInfo = new DamageInfo(mustAggro);
-        damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
+        damageInfo.AddDamage(damage, damageType, caster.Params.GetDamageAmplification(damageType));
 
         return damageInfo;
     }
