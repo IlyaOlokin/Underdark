@@ -32,7 +32,7 @@ public class CommonNPCUnit : NPCUnit
             (transition) => DistToMovePos() > agent.stoppingDistance && !IsDisabled)
         );
         NPCFSM.AddTransition(new Transition<NPCState>(NPCState.Chase, NPCState.Idle,
-            (transition) => Vector3.Distance(moveTarget.transform.position, transform.position) <= agent.stoppingDistance)
+            (transition) => Vector2.Distance(agent.destination, transform.position) <= agent.stoppingDistance)
         );
         
         

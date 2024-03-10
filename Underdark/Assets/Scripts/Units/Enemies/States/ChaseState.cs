@@ -1,7 +1,7 @@
 using System;
 using LlamAcademy.FSM;
 using UnityEngine;
-using UnityHFSM;
+using UnityEngine.AI;
 
 public class ChaseState : EnemyStateBase
 {
@@ -27,8 +27,9 @@ public class ChaseState : EnemyStateBase
         base.OnLogic();
         if (!RequestedExit)
         {
-            if (Agent.enabled)
-                Agent.SetDestination(target.position);
+            if (!Agent.enabled) return;
+            if (NavMesh.SamplePosition(target.position, out var navHit, 100f, NavMesh.AllAreas))
+                Agent.SetDestination(navHit.position);
         }
         else if (!Agent.enabled || Agent.remainingDistance <= Agent.stoppingDistance)
         {
