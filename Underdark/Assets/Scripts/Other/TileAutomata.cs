@@ -7,12 +7,17 @@ public class TileAutomata : MonoBehaviour
 
     private int[,] terrainMap;
     [SerializeField] private Vector3Int tmpSize;
+    [SerializeField] private TextAsset mapData;
+    [Header("Map")]
     [SerializeField] private Tilemap topMap;
     [SerializeField] private Tilemap botMap;
     [SerializeField] private RuleTile topTile;
     [SerializeField] private Tile botTile;
-    [SerializeField] private TextAsset mapData;
-
+    [Header("Minimap")]
+    [SerializeField] private Tilemap topMinimap;
+    [SerializeField] private Tilemap botMinimap;
+    [SerializeField] private Tile topMinimapTile;
+    [SerializeField] private Tile botMinimapTile;
     int width;
     int height;
 
@@ -38,11 +43,13 @@ public class TileAutomata : MonoBehaviour
             {
                 if (terrainMap[x, y] == 0)
                 {
-                    topMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), topTile);
+                    topMap.SetTile(new Vector3Int(-x + width / 2 - 1, -y + height / 2  - 1, 0), topTile);
+                    topMinimap.SetTile(new Vector3Int(-x + width / 2 - 1, -y + height / 2  - 1, 0), topMinimapTile);
                 }
                 else if (terrainMap[x, y] == 1)
                 {
-                    botMap.SetTile(new Vector3Int(-x + width / 2, -y + height / 2, 0), botTile);
+                    botMap.SetTile(new Vector3Int(-x + width / 2  - 1, -y + height / 2  - 1, 0), botTile);
+                    botMinimap.SetTile(new Vector3Int(-x + width / 2  - 1, -y + height / 2  - 1, 0), botMinimapTile);
                 }
             }
         }
@@ -74,6 +81,8 @@ public class TileAutomata : MonoBehaviour
     {
         topMap.ClearAllTiles();
         botMap.ClearAllTiles();
+        botMinimap.ClearAllTiles();
+        topMinimap.ClearAllTiles();
         if (complete)
         {
             terrainMap = null;
