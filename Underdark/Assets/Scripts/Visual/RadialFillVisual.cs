@@ -6,7 +6,9 @@ using UnityEngine;
 public class RadialFillVisual : MonoBehaviour
 {
     private SpriteRenderer sr;
-    
+    private static readonly int Turn = Shader.PropertyToID("_Turn");
+    private static readonly int FillAmount = Shader.PropertyToID("_FillAmount");
+
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -19,8 +21,8 @@ public class RadialFillVisual : MonoBehaviour
         var targetScale = transform.localScale * (attackDist * 2 + 1);
         transform.localScale = Vector3.zero;
         
-        sr.material.SetFloat("_Turn", attackDirAngle);
-        sr.material.SetFloat("_FillAmount", attackAngle);
+        sr.material.SetFloat(Turn, attackDirAngle);
+        sr.material.SetFloat(FillAmount, attackAngle);
         
         while (duration > 0)
         {

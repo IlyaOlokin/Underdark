@@ -10,6 +10,7 @@ public class ConeOfCold : ActiveAbility, IAttackerAOE
     [SerializeField] private RadialFillVisual visual;
     [SerializeField] private float visualDuration;
     [SerializeField] private float scaleLerpSpeed;
+    [SerializeField] private GameObject hitVisualPref;
 
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null,bool mustAggro = true)
@@ -25,7 +26,7 @@ public class ConeOfCold : ActiveAbility, IAttackerAOE
    
     public void Attack()
     {
-        var targets = FindAllTargets(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel));
+        var targets = FindAllTargets(caster, caster.transform.position, AttackDistance.GetValue(abilityLevel), AttackAngle.GetValue(abilityLevel));
 
         foreach (var target in targets)
         {
@@ -36,6 +37,8 @@ public class ConeOfCold : ActiveAbility, IAttackerAOE
                     debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
                 }
             }
+
+            Instantiate(hitVisualPref, target.transform.position, Quaternion.identity);
         }
     }
 }

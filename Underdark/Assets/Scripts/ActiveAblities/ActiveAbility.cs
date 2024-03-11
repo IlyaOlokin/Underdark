@@ -53,11 +53,18 @@ public abstract class ActiveAbility : MonoBehaviour
     
     protected virtual void InitDamage(Unit caster, float damageMultiplier = 1f)
     {
-        float maxDamage = MaxValue.GetValue(abilityLevel) <= 0 ? int.MaxValue : MaxValue.GetValue(abilityLevel);
-        int damage = (int) (Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel),
+        damageInfo = InitDamageLocal(caster, baseStat, StatMultiplier.GetValue(abilityLevel),MaxValue.GetValue(abilityLevel), damageType, damageMultiplier);
+    }
+    
+    protected DamageInfo InitDamageLocal(Unit caster, BaseStat baseStat, float statMultiplier, float maxValue, DamageType damageType,  float damageMultiplier = 1f)
+    {
+        float maxDamage = maxValue <= 0 ? int.MaxValue : MaxValue.GetValue(abilityLevel);
+        int damage = (int) (Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * statMultiplier,
             maxDamage) * damageMultiplier);
-        damageInfo = new DamageInfo(mustAggro);
-        damageInfo.AddDamage(damage, multiplier: caster.Params.GetDamageAmplification(damageType));
+        var damageInfo = new DamageInfo(mustAggro);
+        damageInfo.AddDamage(damage, damageType, caster.Params.GetDamageAmplification(damageType));
+
+        return damageInfo;
     }
     
     protected Collider2D FindClosestTarget(Unit caster, Vector3 center, float distance, List<IDamageable> objectsToIgnore = null)
@@ -87,7 +94,7 @@ public abstract class ActiveAbility : MonoBehaviour
         return target;
     }
     
-    protected List<Collider2D> FindAllTargets(Unit caster, Vector3 center, float distance, List<IDamageable> objectsToIgnore = null)
+    protected List<Collider2D> FindAllTargets(Unit caster, Vector3 center, float distance, float attackAngle, List<IDamageable> objectsToIgnore = null)
     {
         var contactFilter = new ContactFilter2D();
         contactFilter.SetLayerMask(caster.AttackMask);
@@ -103,7 +110,7 @@ public abstract class ActiveAbility : MonoBehaviour
             
             Vector3 dir = collider.transform.position - center;
             var angle = Vector2.Angle(dir, attackDir);
-            if (angle < AttackAngle.GetValue(abilityLevel) / 2f)
+            if (angle < attackAngle /*AttackAngle.GetValue(abilityLevel)*/ / 2f)
             {
                 targets.Add(collider);
             }

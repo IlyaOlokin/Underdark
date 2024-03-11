@@ -13,6 +13,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 {
     private Rigidbody2D rb;
     private Collider2D coll;
+    protected Animator anim;
     public UnitStats Stats;
     public UnitParams Params;
     public Inventory Inventory;
@@ -87,6 +88,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     public event Action<int> OnExecutableItemUse;
 
     [field:SerializeField] public LayerMask AttackMask { get; protected set; }
+    [field:SerializeField] public LayerMask AlliesLayer { get; protected set; }
+
     public Transform Transform => transform;
 
     [field: Header("Abilities Setup")]
@@ -117,6 +120,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
+        anim = GetComponent<Animator>();
         
         lastMoveDir = Vector3.right;
         
@@ -128,7 +132,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         Params.SetUnit(this);
     }
     
-    private void Start()
+    protected virtual void Start()
     {
         SetUnit();
     }
@@ -142,6 +146,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         GetUnStunned();
         EndPushState();
         LooseEnergyShield();
+        StopAllCoroutines();
         foreach (var buffs in GetComponents<IStatusEffect>())
         {
             Destroy((Object)buffs);
@@ -339,6 +344,15 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
             var equippedActiveAbility = Inventory.GetEquippedActiveAbility(i);
             ActiveAbilitiesCD[i] = equippedActiveAbility.Cooldown.GetValue(GetExpOfActiveAbility(equippedActiveAbility.ID));
         }
+    }
+
+    public void InstantDeath(Unit killer, IAttacker attacker)
+    {
+        if (IsDead) return;
+        
+        var newEffect = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
+        newEffect.WriteMessage("Crit!");
+        Death(killer, attacker, DamageType.Chaos);
     }
     
     public virtual void GetStunned() => isStunned = true;

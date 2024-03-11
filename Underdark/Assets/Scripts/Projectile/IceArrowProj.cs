@@ -14,11 +14,12 @@ public class IceArrowProj : Projectile
     [SerializeField] private GameObject lightSpot;
     [SerializeField] private List<ParticleSystem> deathExplosion;
     [SerializeField] private ScalableProperty<GameObject> visuals;
+    [SerializeField] private Transform visualParent;
     private SpriteRenderer visualSR;
 
     protected void Start()
     {
-        var newVisual = Instantiate(visuals.GetValue(abilityLevel), transform.position, new Quaternion(), transform);
+        var newVisual = Instantiate(visuals.GetValue(abilityLevel), transform.position, visualParent.rotation, visualParent);
         visualSR = newVisual.GetComponent<SpriteRenderer>();
     }
     

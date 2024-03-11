@@ -1,24 +1,25 @@
 using System;
 using LlamAcademy.FSM;
 using UnityEngine;
-using UnityHFSM;
+using UnityEngine.AI;
 
 public class ChaseState : EnemyStateBase
 {
     private Transform target;
-    private Enemy enemy;
+    private NPCUnit _npcUnit;
 
-    public ChaseState(bool needsExitTime, Enemy Enemy, Transform Target, Action onLogic) : base(needsExitTime, Enemy, onLogic: onLogic) 
+    public ChaseState(bool needsExitTime, NPCUnit npcUnit, Animator anim, Transform Target, Action onLogic = null) : base(needsExitTime, npcUnit, anim, onLogic: onLogic) 
     {
         target = Target;
-        enemy = Enemy;
+        _npcUnit = npcUnit;
     }
 
     public override void OnEnter()
     {
         base.OnEnter();
         Agent.enabled = true;
-        Agent.isStopped = false;
+        if (Agent.isOnNavMesh) Agent.isStopped = false;
+        Animator.SetBool("Move", true);
     }
     
     public override void OnLogic()
@@ -26,8 +27,9 @@ public class ChaseState : EnemyStateBase
         base.OnLogic();
         if (!RequestedExit)
         {
-            if (Agent.enabled)
-                Agent.SetDestination(target.position);
+            if (!Agent.enabled) return;
+            if (NavMesh.SamplePosition(target.position, out var navHit, 100f, NavMesh.AllAreas))
+                Agent.SetDestination(navHit.position);
         }
         else if (!Agent.enabled || Agent.remainingDistance <= Agent.stoppingDistance)
         {

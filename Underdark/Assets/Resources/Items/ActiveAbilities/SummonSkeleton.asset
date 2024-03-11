@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3737e909d9d41c43b65b43a7612808a, type: 3}
+  m_Name: SummonSkeleton
+  m_EditorClassIdentifier: 
+  ID: summon_skeleton
+  Name: Summon Skeleton
+  Cost: 0
+  ItemType: 8
+  Sprite: {fileID: -1636711376, guid: aa2ac33513e770a489af391b5125a5df, type: 3}
+  StackCapacity: 1
+  Requirements:
+    <Level>k__BackingField: 0
+    <Strength>k__BackingField: 0
+    <Dexterity>k__BackingField: 0
+    <Intelligence>k__BackingField: 0
+    <StrDex>k__BackingField: 0
+    <DexInt>k__BackingField: 0
+    <IntStr>k__BackingField: 0
+    <AllStats>k__BackingField: 0
+  ActiveAbility: {fileID: 4622702471863553492, guid: 02c6d0c92b0c2c44a9abf9edef3783ae, type: 3}

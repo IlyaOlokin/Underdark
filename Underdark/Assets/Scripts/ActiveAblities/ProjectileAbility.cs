@@ -10,6 +10,7 @@ public class ProjectileAbility : ActiveAbility
     [SerializeField] private ScalableProperty<Projectile> projectilePref;
     [SerializeField] private DistributionType distributionType;
     [SerializeField] protected ScalableProperty<ProjectileShotInfo> shotInfo;
+    [SerializeField] protected ScalableProperty<bool> ableToRicochet;
     [SerializeField] protected ScalableProperty<int> penetrationCount;
     [SerializeField] protected float projSpeed;
 
@@ -88,7 +89,8 @@ public class ProjectileAbility : ActiveAbility
     {
         var newProj = Instantiate(projectilePref.GetValue(abilityLevel), transform.position, Quaternion.identity);
         newProj.Init(caster, damageInfo, debuffInfos.GetValue(abilityLevel).DebuffInfos, abilityLevel, velocity,
-            AttackDistance.GetValue(abilityLevel) / projSpeed, penetrationCount.GetValue(abilityLevel), damageablesToIgnore);
+            AttackDistance.GetValue(abilityLevel) / projSpeed, penetrationCount.GetValue(abilityLevel),
+            ableToRicochet.GetValue(abilityLevel), damageablesToIgnore);
     }
     
     private float NextTriangular(Random rand, double min, double max, double mean)

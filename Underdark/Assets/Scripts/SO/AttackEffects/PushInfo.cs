@@ -19,7 +19,7 @@ public class PushInfo : DebuffInfo
                 pushDir = receiver.transform.position -  attacker.Transform.position;
                 break;
             case PushType.Rotation:
-                var eulerAnglesZ = (attacker.Transform.eulerAngles.z + 90) * Mathf.Deg2Rad;
+                var eulerAnglesZ = attacker.Transform.eulerAngles.z * Mathf.Deg2Rad;
                 
                 pushDir = new Vector2(Mathf.Cos(eulerAnglesZ), Mathf.Sin(eulerAnglesZ));
                 break;

@@ -39,7 +39,7 @@ public class DroppedItem : MonoBehaviour
         containedItem = item;
         itemAmount = amount;
         sr.sprite = item.Sprite;
-        text.text = itemAmount == 0 ? "" : itemAmount.ToString();
+        text.text = itemAmount <= 1 ? "" : itemAmount.ToString();
         readyToPickUpAfterPlayerDrop = !droppedByPlayer;
         rb.AddForce(new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * force, ForceMode2D.Impulse);
 

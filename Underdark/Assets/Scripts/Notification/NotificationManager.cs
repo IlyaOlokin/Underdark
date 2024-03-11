@@ -14,7 +14,7 @@ public class NotificationManager : MonoBehaviour
     [SerializeField] private NotificationPanel notificationPanel;
     [SerializeField] private Sprite test;
 
-    void Awake()
+    private void Awake()
     {
         if (Instance == null)
         {
