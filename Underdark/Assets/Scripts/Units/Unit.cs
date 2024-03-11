@@ -244,12 +244,19 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         SetMana(true);
     }
 
-    protected void TryFlipVisual(float moveDir)
+    protected virtual bool TryFlipVisual(float moveDir)
     {
         if (moveDir < 0 && facingRight)
+        {
             Flip();
+            return true;
+        } 
         if (moveDir > 0 && !facingRight)
+        {
             Flip();
+            return true;
+        }
+        return false;
     }
 
     private void Flip()

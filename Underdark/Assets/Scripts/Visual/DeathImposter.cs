@@ -28,7 +28,7 @@ public class DeathImposter : MonoBehaviour
     public void StartDeath(IAttacker attacker, DamageType damageType, Sprite sprite)
     {
         StartCoroutine(StartDissolve());
-        sr.sprite = sprite;
+        //sr.sprite = sprite; 
 
         if (attacker == null) return;
         

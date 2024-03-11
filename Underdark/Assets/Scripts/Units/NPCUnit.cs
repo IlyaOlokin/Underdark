@@ -8,19 +8,21 @@ using UnityEngine.Serialization;
 using UnityHFSM;
 using Zenject;
 using Random = UnityEngine.Random;
+using Timer = Unity.VisualScripting.Timer;
 
 public class NPCUnit : Unit
 {
     protected Transform targetUnit;
+    protected StateMachine<NPCState, StateEvent> NPCFSM;
 
     [Header("NPC Setup")] 
     [SerializeField] private Transform spawnPont;
     [SerializeField] protected Transform moveTarget;
     [SerializeField] protected NavMeshAgent agent;
-    protected StateMachine<NPCState, StateEvent> NPCFSM;
     [SerializeField] protected PlayerSensor followPlayerSensor;
     [SerializeField] protected Collider2D allySensor;
-    [FormerlySerializedAs("lostPlayerDelay")] [SerializeField] private float lostTargetDelay;
+    [FormerlySerializedAs("lostPlayerDelay")] 
+    [SerializeField] private float lostTargetDelay;
     [SerializeField] private float searchTargetDelay = 0.5f;
     private float lostTargetTimer;
     private const float AgrRadius = 20;
@@ -29,13 +31,13 @@ public class NPCUnit : Unit
     
     [SerializeField] protected float meleeAttackDuration;
     [SerializeField] protected float meleeAttackPreparation;
-
-    public bool CanMove => !IsDisabled && !IsPushing;
-    
     [SerializeField] private int expPerLevel;
     
-    protected bool isPlayerInMeleeRange;
-    protected bool isPlayerInChasingRange => targetUnit != null;
+    protected bool hasTarget => targetUnit != null;
+    public bool CanMove => !IsDisabled && !IsPushing;
+
+    private float flipDelay = 0.1f;
+    private float flipTimer;
     
     [Header("Summon Setup")]
     private bool isSummon;
@@ -89,8 +91,11 @@ public class NPCUnit : Unit
     {
         base.Update();
         NPCFSM.OnLogic();
-        TryFlipVisual(agent.velocity.x);
-        if (isPlayerInChasingRange)
+
+        if (flipTimer > 0) flipTimer -= Time.deltaTime;
+        else TryFlipVisual(agent.velocity.x);
+        
+        if (hasTarget)
             lastMoveDir = targetUnit.position - transform.position;
         else 
             TryToReturnToSpawnPoint();
@@ -113,7 +118,7 @@ public class NPCUnit : Unit
         {
             isGoingToSpawnPoint = false;
         }
-        if (!isPlayerInChasingRange && DistToMovePos() < agent.stoppingDistance)
+        if (!hasTarget && DistToMovePos() < agent.stoppingDistance)
             moveTarget.position = spawnPont.position;
     }
 
@@ -129,10 +134,17 @@ public class NPCUnit : Unit
             }
         }
     }
+    
+    protected override bool TryFlipVisual(float moveDir)
+    {
+        var flipped = base.TryFlipVisual(moveDir);
+        if (flipped) flipTimer = flipDelay;
+        return flipped;
+    }
 
     protected void ChaseTarget()
     {
-        if (isPlayerInChasingRange)
+        if (hasTarget)
             if (ShouldKeepDistance(null))
                 moveTarget.position = targetUnit.transform.position + (transform.position - targetUnit.transform.position).normalized * distToKeep;
             else
@@ -153,6 +165,7 @@ public class NPCUnit : Unit
 
     public void Agr(Vector3 pos)
     {
+        if (isGoingToSpawnPoint) return;
         moveTarget.position = pos;
         NPCFSM.Trigger(StateEvent.StartChase);
     }
@@ -251,7 +264,7 @@ public class NPCUnit : Unit
     }
     protected override void RotateAttackDir()
     {
-        var dirToPlayer = isPlayerInChasingRange
+        var dirToPlayer = hasTarget
             ? targetUnit.transform.position - transform.position
             : moveTarget.transform.position - transform.position;
 
@@ -316,7 +329,7 @@ public class NPCUnit : Unit
 
     protected bool ShouldMelee(Transition<NPCState> transition) =>
         attackCDTimer < 0
-        && isPlayerInChasingRange
+        && hasTarget
         && DistToTargetPos() <= GetWeapon().AttackDistance + 0.7f
         && !IsDisabled
         && Physics2D
@@ -342,7 +355,7 @@ public class NPCUnit : Unit
     
     private bool IsCloseEnoughToForceMelee(Transition<NPCState> transition)
     {
-        return isPlayerInChasingRange && DistToTargetPos() < distToForceMelee;
+        return hasTarget && DistToTargetPos() < distToForceMelee;
     }
     
     private bool ShouldKeepDistance(Transition<NPCState> transition)
@@ -355,7 +368,7 @@ public class NPCUnit : Unit
     }
 
     protected bool CanUseActiveAbility(Transition<NPCState> transition, int index) =>
-        isPlayerInChasingRange
+        hasTarget
         && !Inventory.EquippedActiveAbilitySlots[index].IsEmpty
         && ((ActiveAbilitySO)Inventory.EquippedActiveAbilitySlots[index].Item).ActiveAbility.CanUseAbility(this, DistToTargetPos())
         && !IsDisabled
@@ -368,7 +381,7 @@ public class NPCUnit : Unit
             .collider.TryGetComponent(out Unit target);
 
     protected bool CanNotAnyUseActiveAbility(Transition<NPCState> transition) => 
-        isPlayerInChasingRange 
+        hasTarget 
         && !CanUseActiveAbility(transition, 0)
         && !CanUseActiveAbility(transition, 1)
         && !CanUseActiveAbility(transition, 2)
@@ -379,7 +392,7 @@ public class NPCUnit : Unit
     
     protected bool IsWithinIdleRange(Transition<NPCState> transition) => 
         CanMove
-        && !isPlayerInChasingRange
+        && !hasTarget
         && agent.remainingDistance <= agent.stoppingDistance;
 
     protected bool IsNotWithinIdleRange(Transition<NPCState> transition) => 
@@ -400,7 +413,7 @@ public class NPCUnit : Unit
     
     protected float DistToTargetPos()
     {
-        if (!isPlayerInChasingRange) return DistToMovePos();
+        if (!hasTarget) return DistToMovePos();
         return Vector2.Distance(targetUnit.transform.position, transform.position);
     }
 }

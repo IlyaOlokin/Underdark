@@ -10,7 +10,7 @@ using UnityEngine.UI;
 
 public class PlayerInputUI : MonoBehaviour
 {
-    public FloatingJoystick joystick;
+    public Joystick joystick;
     public Button shootButton;
     public Image shootButtonIcon;
     [Header("Ability Buttons")]
