@@ -14,14 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Floors:
   - LevelsCount: 1
-    DamageTypes: 
+    DamageTypesLists:
+    - DamageTypes: 00000000
   - LevelsCount: 1
-    DamageTypes: 
+    DamageTypesLists:
+    - DamageTypes: 00000000
   - LevelsCount: 1
-    DamageTypes: 
+    DamageTypesLists:
+    - DamageTypes: 00000000
   - LevelsCount: 2
-    DamageTypes: 
+    DamageTypesLists:
+    - DamageTypes: 0000000002000000
+    - DamageTypes: 04000000
   - LevelsCount: 3
-    DamageTypes: 
+    DamageTypesLists:
+    - DamageTypes: 0000000003000000
+    - DamageTypes: 0600000001000000
+    - DamageTypes: 02000000
   - LevelsCount: 4
-    DamageTypes: 
+    DamageTypesLists:
+    - DamageTypes: 00000000
+    - DamageTypes: 0100000005000000
+    - DamageTypes: 0600000002000000
+    - DamageTypes: 000000000300000004000000

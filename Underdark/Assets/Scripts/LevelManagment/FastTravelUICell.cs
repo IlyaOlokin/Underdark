@@ -19,7 +19,7 @@ public class FastTravelUICell : MonoBehaviour
         {
             var newButton = Instantiate(travelButtonPref, transform);
             var levelSuffix = buttonsCount > 1 ? $"{floorNumber + 1}.{levelNumber}" : (floorNumber + 1).ToString();
-            newButton.Init(interactable, player, sceneName, levelSuffix);
+            newButton.Init(interactable, player, sceneName, levelSuffix, levelConfig.Floors[floorNumber].DamageTypesLists[levelNumber - 1].DamageTypes );
             levelNumber++;
         }
     }
