@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 2208683362064586090}
   - component: {fileID: 8439732012074742302}
   - component: {fileID: 843686031416188000}
+  - component: {fileID: 7016209414513845761}
   m_Layer: 5
   m_Name: LevelButton
   m_TagString: Untagged
@@ -163,7 +164,7 @@ RectTransform:
   m_GameObject: {fileID: 6114526342218921183}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.35617608, y: 0.16226576, z: 0.1318409}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2146211547594672525}
@@ -271,3 +272,18 @@ MonoBehaviour:
   loadSceneMode: 2
   sceneName: 
   inGameToolTip: {fileID: 0}
+--- !u!114 &7016209414513845761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6114526342218921183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e47f13f820bef4aa0fe37cc88af675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelTransition: {fileID: 843686031416188000}
+  button: {fileID: 8439732012074742302}
+  buttonLabel: {fileID: 2376786782626106319}

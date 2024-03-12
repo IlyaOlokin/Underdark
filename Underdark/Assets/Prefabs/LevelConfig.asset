@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1aea52ff0962554b848c509c40de070, type: 3}
+  m_Name: LevelConfig
+  m_EditorClassIdentifier: 
+  Floors:
+  - LevelsCount: 1
+    DamageTypes: 
+  - LevelsCount: 1
+    DamageTypes: 
+  - LevelsCount: 1
+    DamageTypes: 
+  - LevelsCount: 2
+    DamageTypes: 
+  - LevelsCount: 3
+    DamageTypes: 
+  - LevelsCount: 4
+    DamageTypes: 
