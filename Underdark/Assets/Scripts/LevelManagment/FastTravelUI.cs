@@ -28,7 +28,7 @@ public class FastTravelUI : InGameUiWindow
     {
         for (int i = 0; i < levelConfig.Floors.Count; i++)
         {
-            var interactable = i < LevelTransition.MaxReachedLevel;
+            var interactable = i < LevelTransition.MaxReachedFloor;
             
             var newFastTravelUICell = Instantiate(fastTravelUICellPref, fastTravelCellsParent);
             newFastTravelUICell.Init(i, levelConfig, interactable, player, sceneName);

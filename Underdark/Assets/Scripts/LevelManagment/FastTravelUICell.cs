@@ -9,6 +9,9 @@ public class FastTravelUICell : MonoBehaviour
 
     public void Init(int floorNumber, LevelConfigSO levelConfig, bool interactable, Player player, string sceneName)
     {
+        foreach (Transform child in transform)
+            Destroy(child.gameObject);
+        
         var buttonsCount = levelConfig.Floors[floorNumber].LevelsCount;
         var levelNumber = 1;
         

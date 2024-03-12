@@ -8,12 +8,13 @@ using UnityEngine.Serialization;
 
 public class LevelTransition : MonoBehaviour
 {
-    public static int MaxReachedLevel;
+    public static int MaxReachedFloor;
     public static bool TutorialCompleted;
     public static bool StartFromUp = true;
 
     public event Action OnLoad; 
     
+    [SerializeField] private LevelConfigSO levelConfig;
     [SerializeField] private LoadMode loadSceneMode;
     [SerializeField] private string sceneName;
     private Player player;
@@ -38,17 +39,7 @@ public class LevelTransition : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.TryGetComponent(out Player player))
-        {
-            this.player = player;
-            OnLoad?.Invoke();
-            LoadLevel();
-        }
-    }
-
+    
     public void SetTransitionData(Player player, string name = "")
     {
         this.player = player;
@@ -57,8 +48,7 @@ public class LevelTransition : MonoBehaviour
 
     public void LoadLevel()
     {
-        if (loadSceneMode == LoadMode.Next && SceneManager.GetActiveScene().buildIndex + 1 > MaxReachedLevel)
-            MaxReachedLevel = SceneManager.GetActiveScene().buildIndex + 1;
+        OnLoad?.Invoke();
         
         DataLoader.SaveGame(player);
 
@@ -66,21 +56,28 @@ public class LevelTransition : MonoBehaviour
         
         switch (loadSceneMode)
         {
-            case LoadMode.Next:
-                StartFromUp = true;
-                StaticSceneLoader.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-                break;
-            case LoadMode.Previous:
-                StartFromUp = false;
-                StaticSceneLoader.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
-                break;
             case LoadMode.Custom:
-                StartFromUp = true;
                 StaticSceneLoader.LoadScene(sceneName);
                 break;
+            case LoadMode.Next:
+            case LoadMode.Previous:
             default:
                 throw new ArgumentOutOfRangeException();
         }
+    }
+
+    public static string GetCurrentLevel()
+    {
+        var currentSceneName = SceneManager.GetActiveScene().name;
+        if (!currentSceneName.Contains("Level")) return "-1";
+        return currentSceneName.Substring(5);
+    }
+    
+    public static int GetCurrentFloorIndex()
+    {
+        var currentSceneName = SceneManager.GetActiveScene().name;
+        if (!currentSceneName.Contains("Level")) return -1;
+        return int.Parse(currentSceneName.Substring(5, 1)) - 1;
     }
 
     private static void SaveElixirCd(Component player)

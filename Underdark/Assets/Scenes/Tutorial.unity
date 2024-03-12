@@ -6725,6 +6725,7 @@ MonoBehaviour:
   playerInputUIDesktop: {fileID: 3420067033415355809, guid: 06d5cad23df196745be4936ae455f5ae, type: 3}
   playerUI: {fileID: 267577037856641999}
   fastTravelUI: {fileID: 4500760740052916012}
+  levelChooseUI: {fileID: 6839111594917585063}
   vendorUI: {fileID: 6839111594917585061}
 --- !u!114 &1979889099
 MonoBehaviour:
@@ -27579,6 +27580,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6641235901011687356, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
   m_PrefabInstance: {fileID: 6839111594917585060}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6839111594917585063 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1696126712427340836, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
+  m_PrefabInstance: {fileID: 6839111594917585060}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31775cdb633517440a96cf0702a5f8d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7250249111970621411
 GameObject:
   m_ObjectHideFlags: 0
@@ -41759,7 +41771,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1661064027
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7781302429660902692}
   - component: {fileID: 4696517830830216257}
   - component: {fileID: 2917609330283477862}
+  - component: {fileID: 7104964716415909541}
   m_Layer: 0
   m_Name: LevelTransition
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 539a99afc248a784baf3a450850b89b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelConfig: {fileID: 0}
   loadSceneMode: 0
   sceneName: 
   inGameToolTip: {fileID: 2978451164425233242}
@@ -86,6 +88,21 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &7104964716415909541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 392518634322673450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f821d6e06205de43b65c17c6d47f4ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelConfig: {fileID: 11400000, guid: 7fc9d06a08f321347bc6b3a72cfd5f35, type: 2}
+  levelTransition: {fileID: 4696517830830216257}
+  loadSceneMode: 0
 --- !u!1 &2441928712986524739
 GameObject:
   m_ObjectHideFlags: 0

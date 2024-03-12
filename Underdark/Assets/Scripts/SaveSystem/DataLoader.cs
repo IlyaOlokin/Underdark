@@ -23,7 +23,7 @@ public class DataLoader : MonoBehaviour
     {
         LoadGame();
 
-        LevelTransition.MaxReachedLevel = gameData.MaxReachedLevel;
+        LevelTransition.MaxReachedFloor = gameData.MaxReachedLevel;
         LevelTransition.TutorialCompleted = gameData.TutorialCompleted;
     }
     
@@ -92,7 +92,7 @@ public class DataLoader : MonoBehaviour
         gameData.AbilityExp = player.ActiveAbilitiesExp.Values.ToList(); 
 
         gameData.MoneyCount = player.Money.GetMoney();
-        gameData.MaxReachedLevel = LevelTransition.MaxReachedLevel;
+        gameData.MaxReachedLevel = LevelTransition.MaxReachedFloor;
         
         gameData.TutorialCompleted = LevelTransition.TutorialCompleted;
         
@@ -102,7 +102,7 @@ public class DataLoader : MonoBehaviour
     public static void NewGame()
     {
         gameData = new GameData();
-        LevelTransition.MaxReachedLevel = 1;
+        LevelTransition.MaxReachedFloor = 1;
         LevelTransition.TutorialCompleted = false;
     }
 }

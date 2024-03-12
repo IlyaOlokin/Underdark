@@ -353,6 +353,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1325311082632422493}
     - target: {fileID: 2091744121398780260, guid: 43d8571338e6e2a40b9f40c048264a54, type: 3}
+      propertyPath: levelChooseUI
+      value: 
+      objectReference: {fileID: 7309664235742066673}
+    - target: {fileID: 2091744121398780260, guid: 43d8571338e6e2a40b9f40c048264a54, type: 3}
       propertyPath: playerEntryFromUpStartPos
       value: 
       objectReference: {fileID: 6612394776793049446}
@@ -612,5 +616,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 534ab55ca1fa8b54d9d3589eabe2b17f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7309664235742066673 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1696126712427340836, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
+  m_PrefabInstance: {fileID: 8284651506863444949}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31775cdb633517440a96cf0702a5f8d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

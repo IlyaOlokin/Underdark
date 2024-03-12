@@ -14,8 +14,7 @@ public class TravelButton : MonoBehaviour
     {
         button.interactable = interactable;
         
-        var currentSceneName = SceneManager.GetActiveScene().name;
-        if (currentSceneName.Substring(currentSceneName.Length - sceneSuffix.Length).Equals(sceneSuffix))
+        if (LevelTransition.GetCurrentLevel().Equals(sceneSuffix))
             button.interactable = false;
         
         buttonLabel.text = sceneSuffix;

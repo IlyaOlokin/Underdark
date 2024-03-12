@@ -17,6 +17,7 @@ public class Portal : MonoBehaviour
     {
         if (other.TryGetComponent(out Player player))
         {
+            LevelTransition.StartFromUp = true;
             fastTravelUI.OpenWindow();
         }
     }
