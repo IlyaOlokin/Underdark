@@ -1,5 +1,7 @@
+using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TravelButton : MonoBehaviour
@@ -11,6 +13,11 @@ public class TravelButton : MonoBehaviour
     public void Init(bool interactable, Player player, string sceneName, string sceneSuffix)
     {
         button.interactable = interactable;
+        
+        var currentSceneName = SceneManager.GetActiveScene().name;
+        if (currentSceneName.Substring(currentSceneName.Length - sceneSuffix.Length).Equals(sceneSuffix))
+            button.interactable = false;
+        
         buttonLabel.text = sceneSuffix;
         if (!interactable) return;
         
