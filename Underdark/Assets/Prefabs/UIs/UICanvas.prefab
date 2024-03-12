@@ -17535,7 +17535,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.0001805032}
-  m_SizeDelta: {x: -20.28, y: 0}
+  m_SizeDelta: {x: -20.28, y: 15}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &7639242891961222501
 MonoBehaviour:
@@ -17552,10 +17552,10 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 15
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 30
+  m_Spacing: 25
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -33694,7 +33694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   closeButton: {fileID: 4552000834247093252}
   levelConfig: {fileID: 11400000, guid: 7fc9d06a08f321347bc6b3a72cfd5f35, type: 2}
-  hubButton: {fileID: 6681433563633014280}
+  hubButton: {fileID: 5258056642621833751}
   sceneName: Level
   fastTravelUICellPref: {fileID: 1270908899896541197, guid: d20001524e93a604589dd1cd1732a49b, type: 3}
   fastTravelCellsParent: {fileID: 1704888411333039084}
@@ -39311,7 +39311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5572236873315660476, guid: 92dcbaa28968e3e4f80b4c4dcd409d6d, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -159
+      value: -174
       objectReference: {fileID: 0}
     - target: {fileID: 5572236873315660476, guid: 92dcbaa28968e3e4f80b4c4dcd409d6d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -39334,15 +39334,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92dcbaa28968e3e4f80b4c4dcd409d6d, type: 3}
---- !u!114 &6681433563633014280 stripped
+--- !u!114 &5258056642621833751 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8439732012074742302, guid: 92dcbaa28968e3e4f80b4c4dcd409d6d, type: 3}
+  m_CorrespondingSourceObject: {fileID: 7016209414513845761, guid: 92dcbaa28968e3e4f80b4c4dcd409d6d, type: 3}
   m_PrefabInstance: {fileID: 3001310371157042198}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Script: {fileID: 11500000, guid: 07e47f13f820bef4aa0fe37cc88af675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!224 &7273951150579308202 stripped

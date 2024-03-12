@@ -8,7 +8,7 @@ public class FastTravelUI : InGameUiWindow
 {
     [SerializeField] private LevelConfigSO levelConfig;
 
-    [SerializeField] private Button hubButton;
+    [SerializeField] private TravelButton hubButton;
 
     [SerializeField] private string sceneName;
     [SerializeField] private FastTravelUICell fastTravelUICellPref;
@@ -39,6 +39,6 @@ public class FastTravelUI : InGameUiWindow
     {
         var hubTransition = hubButton.GetComponent<LevelTransition>();
         hubTransition.SetTransitionData(player);
-        hubButton.onClick.AddListener(hubTransition.LoadLevel);
+        hubButton.GetComponentInChildren<Button>().onClick.AddListener(hubTransition.LoadLevel);
     }
 }

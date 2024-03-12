@@ -14,7 +14,6 @@ public class LevelTransition : MonoBehaviour
 
     public event Action OnLoad; 
     
-    [SerializeField] private LevelConfigSO levelConfig;
     [SerializeField] private LoadMode loadSceneMode;
     [SerializeField] private string sceneName;
     private Player player;
@@ -54,16 +53,7 @@ public class LevelTransition : MonoBehaviour
 
         SaveElixirCd(player);
         
-        switch (loadSceneMode)
-        {
-            case LoadMode.Custom:
-                StaticSceneLoader.LoadScene(sceneName);
-                break;
-            case LoadMode.Next:
-            case LoadMode.Previous:
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        StaticSceneLoader.LoadScene(sceneName);
     }
 
     public static string GetCurrentLevel()
