@@ -62,9 +62,8 @@ public class StrongSmash : ActiveAbility, IAttackerAOE
                 {
                     debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
                 }
+                Instantiate(hitVisualPref, target.transform.position, Quaternion.identity);
             }
-
-            Instantiate(hitVisualPref, target.transform.position, Quaternion.identity);
         }
 
         if (abilityLevel >= shockWaveMinLevel)

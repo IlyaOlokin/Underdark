@@ -270,7 +270,7 @@ public class NPCUnit : Unit
 
         lastMoveDirAngle = Vector3.Angle(Vector3.right, dirToPlayer);
         if (dirToPlayer.y < 0) lastMoveDirAngle *= -1;
-        unitVisualRotatable.transform.eulerAngles = new Vector3(0, 0, lastMoveDirAngle - 90);
+        UnitVisualRotatable.transform.eulerAngles = new Vector3(0, 0, lastMoveDirAngle - 90);
     }
 
     protected void ExecuteActiveAbility()

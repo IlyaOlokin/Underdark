@@ -78,9 +78,8 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
                     {
                         debuffInfo.Execute(caster, collider.GetComponent<Unit>(), caster);
                     }
+                    Instantiate(hitVisualPref, collider.transform.position, Quaternion.identity);
                 }
-
-                Instantiate(hitVisualPref, collider.transform.position, Quaternion.identity);
             }
         }
     }

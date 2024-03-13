@@ -36,9 +36,8 @@ public class ConeOfCold : ActiveAbility, IAttackerAOE
                 {
                     debuffInfo.Execute(caster, target.GetComponent<Unit>(), caster);
                 }
+                Instantiate(hitVisualPref, target.transform.position, Quaternion.identity);
             }
-
-            Instantiate(hitVisualPref, target.transform.position, Quaternion.identity);
         }
     }
 }

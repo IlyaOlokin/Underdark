@@ -13,17 +13,12 @@ public class UnitVisual : MonoBehaviour
     [SerializeField] private GameObject alertMark;
     [SerializeField] private float alertDuration;
     
-
     [Header("WhiteOut")]
     [SerializeField] private float whiteOutDuration;
     [SerializeField] private float whiteOutAmount;
 
     [Header("Debuffs")] 
     public GameObject StunBar;
-
-    [Header("Energy Shield")] 
-    [SerializeField] private GameObject EnergyShield;
-    private SpriteRenderer energyShieldSpriteRenderer;
     
     [Header("Death Imposter")]
     [SerializeField] private DeathImposter deathImposter;
@@ -36,7 +31,7 @@ public class UnitVisual : MonoBehaviour
     {
         sr.material = new Material(mat);
         mat = sr.material;
-        energyShieldSpriteRenderer = EnergyShield.GetComponent<SpriteRenderer>();
+        
         if (highLightZone != null) highLightZone.GetComponent<SpriteRenderer>().material = highLightZoneMat;
     }
 
@@ -79,20 +74,6 @@ public class UnitVisual : MonoBehaviour
             yield return null;
         }
         mat.SetFloat("_WhiteOut", 0);
-    }
-
-    public void ActivateEnergyShieldVisual(float radius)
-    {
-        EnergyShield.SetActive(true);
-        energyShieldSpriteRenderer.material = new Material(energyShieldSpriteRenderer.material);
-        
-        energyShieldSpriteRenderer.material.SetFloat("_Turn", 90);
-        energyShieldSpriteRenderer.material.SetFloat("_FillAmount", radius);
-    }
-
-    public void DeactivateEnergyShieldVisual()
-    {
-        EnergyShield.SetActive(false);
     }
 
     public void StartHighLightActiveAbility(ActiveAbility activeAbility, Unit owner)

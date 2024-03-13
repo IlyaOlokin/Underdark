@@ -17,7 +17,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     public UnitStats Stats;
     public UnitParams Params;
     public Inventory Inventory;
-    public EnergyShield EnergyShield;
+    private EnergyShieldAbility energyShield;
 
     private bool isStunned;
     private bool isFrozen;
@@ -103,8 +103,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     [SerializeField] private int activeAbilityInventoryCapacity;
     
     [Header("Visual")] 
-    [SerializeField] private GameObject visualsFlipable;
-    [SerializeField] protected GameObject unitVisualRotatable;
+    [SerializeField] private GameObject VisualsFlipable;
+    [SerializeField] protected GameObject UnitVisualRotatable;
     private bool facingRight = true;
     [SerializeField] protected UnitNotificationEffect unitNotificationEffect;
     [field:SerializeField] public UnitVisual UnitVisual { get; private set; }
@@ -262,7 +262,14 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     private void Flip()
     {
         facingRight = !facingRight;
-        visualsFlipable.transform.Rotate(0, 180, 0);
+        VisualsFlipable.transform.Rotate(0, 180, 0);
+    }
+
+    public void ParentToRotatable(Transform child)
+    {
+        child.SetParent(UnitVisualRotatable.transform);
+        child.transform.localPosition = Vector3.zero;
+        child.rotation = UnitVisualRotatable.transform.rotation;
     }
 
     public virtual bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
@@ -279,29 +286,10 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
         var newDamage = CalculateTakenDamage(damageInfo, armorPierce);
 
-        if (EnergyShield != null)
+        if (energyShield != null)
         {
-            Vector3 dir = attacker == null ? 
-                sender.transform.position : 
-                attacker.Transform.position - transform.position;
-            var angle = Vector2.Angle(dir, lastMoveDir);
-            
-            var savedDamage = newDamage;
-
-            if (EnergyShield.AbsorbDamage(ref newDamage, angle))
-            {
-                newEffect.WriteDamage(savedDamage, true);
-
-                if (newDamage > 0)
-                {
-                    var newEffectForES = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
-                    newEffectForES.WriteDamage(savedDamage - newDamage, true);
-                    LooseEnergyShield();
-                }
-                    
-                else
-                    return true;
-            }
+            if (energyShield.TakeDamage(this, sender, attacker, newEffect, unitNotificationEffect, ref newDamage)) 
+                return true;
         }
         
         CurrentHP -= newDamage;
@@ -326,16 +314,14 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         CurrentMana += mp;
     }
 
-    public void GetEnergyShield(int maxHP, float radius)
+    public void GetEnergyShield(EnergyShieldAbility energyShieldAbility)
     {
-        EnergyShield = new EnergyShield(maxHP, radius);
-        UnitVisual.ActivateEnergyShieldVisual(radius);
+        energyShield = energyShieldAbility;
     }
     
-    private void LooseEnergyShield()
+    public void LooseEnergyShield()
     {
-        EnergyShield = null;
-        UnitVisual.DeactivateEnergyShieldVisual();
+        energyShield = null;
     }
     
     public virtual void ApplySlowDebuff(float slow)

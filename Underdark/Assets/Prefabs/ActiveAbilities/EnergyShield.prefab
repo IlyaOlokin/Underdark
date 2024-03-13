@@ -29,7 +29,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7815951452644931310}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4468147911412999883
@@ -77,7 +78,77 @@ MonoBehaviour:
   validWeaponTypes: 05000000
   debuffInfos:
     values: []
-  needAutoDestroy: 1
+  needAutoDestroy: 0
   autoDestroyDelay: 0.1
   description: You create a magical shield in front of you that absorbs damage directed
     at you.
+  hitParticles: {fileID: 6192604898436002675, guid: d73681c57f03f3046a2750755972a569, type: 3}
+  energyShieldVisual: {fileID: 3256601853748085389}
+  energyFillDuration: 0.5
+--- !u!1001 &2314934064278592543
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8170032374961837674}
+    m_Modifications:
+    - target: {fileID: 960361619902087043, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+      propertyPath: m_Name
+      value: EnergyShieldVisual
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501034980662291185, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501034980662291185, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501034980662291185, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501034980662291185, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501034980662291185, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501034980662291185, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501034980662291185, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501034980662291185, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501034980662291185, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5501034980662291185, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+--- !u!212 &3256601853748085389 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 941685965780311698, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+  m_PrefabInstance: {fileID: 2314934064278592543}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7815951452644931310 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5501034980662291185, guid: 84dd81d69de9c3b419b44d803159b14a, type: 3}
+  m_PrefabInstance: {fileID: 2314934064278592543}
+  m_PrefabAsset: {fileID: 0}
