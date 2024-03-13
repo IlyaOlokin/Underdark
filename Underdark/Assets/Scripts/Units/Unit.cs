@@ -316,6 +316,11 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
     public void GetEnergyShield(EnergyShieldAbility energyShieldAbility)
     {
+        if (energyShield != null)
+        {
+            Destroy(energyShield.gameObject);
+            LooseEnergyShield();
+        }
         energyShield = energyShieldAbility;
     }
     
