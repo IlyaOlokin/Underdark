@@ -9,25 +9,37 @@ public class EnergyShieldAbility : ActiveAbility
 
     private float shieldRadius;
     
+    [Header("Visual")] 
+    [SerializeField] private GameObject hitParticles;
+    [SerializeField] private SpriteRenderer energyShieldVisual;
+    [SerializeField] private float energyFillDuration;
+
+    private static readonly int Turn = Shader.PropertyToID("_Turn");
+    private static readonly int FillAmount = Shader.PropertyToID("_FillAmount");
+
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null,bool mustAggro = true)
     {
         base.Execute(caster, level, attackDir);
-        transform.SetParent(caster.transform);
+        caster.ParentToRotatable(transform);
 
-        var shieldHp = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel), MaxValue.GetValue(abilityLevel));
+        var shieldHp = caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel);
+        var maxValue = MaxValue.GetValue(abilityLevel);
+        if (maxValue > 0) shieldHp = (int) Mathf.Min(shieldHp, maxValue);
         
         maxHP = shieldHp;
         currentHP = maxHP;
         shieldRadius = AttackAngle.GetValue(abilityLevel);
         
         caster.GetEnergyShield(this);
+
+        ActivateEnergyShieldVisual(shieldRadius);
     }
     
     public bool TakeDamage(Unit owner, Unit sender, IAttacker attacker, UnitNotificationEffect newEffect,
         UnitNotificationEffect unitNotificationEffect, ref int newDamage)
     {
-        Vector3 dir = attacker == null ? sender.transform.position : attacker.Transform.position -owner.transform.position;
+        Vector3 dir = attacker == null ? sender.transform.position : attacker.Transform.position - owner.transform.position;
         var angle = Vector2.Angle(dir, owner.GetLastMoveDir());
 
         var savedDamage = newDamage;
@@ -35,10 +47,13 @@ public class EnergyShieldAbility : ActiveAbility
         if (AbsorbDamage(ref newDamage, angle))
         {
             newEffect.WriteDamage(savedDamage, true);
+            
+            float exactAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + hitParticles.transform.eulerAngles.z;
+            Instantiate(hitParticles, transform.position + dir.normalized / 2f, Quaternion.Euler(0, 0, exactAngle));
 
             if (newDamage > 0)
             {
-                var newEffectForES = Object.Instantiate(unitNotificationEffect, owner.transform.position, Quaternion.identity);
+                var newEffectForES = Instantiate(unitNotificationEffect, owner.transform.position, Quaternion.identity);
                 newEffectForES.WriteDamage(savedDamage - newDamage, true);
                 owner.LooseEnergyShield();
                 Destroy(gameObject);
@@ -63,6 +78,26 @@ public class EnergyShieldAbility : ActiveAbility
         }
         
         return true;
+    }
+    
+    private void ActivateEnergyShieldVisual(float radius)
+    {
+        energyShieldVisual.material = new Material(energyShieldVisual.material);
+        
+        energyShieldVisual.material.SetFloat(Turn, 90);
+        StartCoroutine(FillEnergyShield(radius));
+    }
+
+    private IEnumerator FillEnergyShield(float radius)
+    {
+        var progress = 0f;
+        while (progress < 1)
+        {
+            progress += Time.deltaTime / energyFillDuration;
+            var newRadius = Mathf.Lerp(0, radius, progress);
+            energyShieldVisual.material.SetFloat(FillAmount, newRadius);
+            yield return null;
+        }
     }
     
     public override bool CanUseAbility(Unit caster, float distToTarget)

@@ -73,7 +73,7 @@ public class Player : Unit, IPickUper, IMoneyHolder
     {
         lastMoveDirAngle = Vector3.Angle(Vector3.right, lastMoveDir);
         if (lastMoveDir.y < 0) lastMoveDirAngle *= -1;
-        unitVisualRotatable.transform.eulerAngles = new Vector3(0, 0, lastMoveDirAngle - 90);
+        UnitVisualRotatable.transform.eulerAngles = new Vector3(0, 0, lastMoveDirAngle - 90);
     }
 
     public int TryPickUpItem(Item item, int amount)
