@@ -17,7 +17,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     public UnitStats Stats;
     public UnitParams Params;
     public Inventory Inventory;
-    public EnergyShield EnergyShield;
+    private EnergyShieldAbility energyShield;
 
     private bool isStunned;
     private bool isFrozen;
@@ -279,9 +279,9 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
         var newDamage = CalculateTakenDamage(damageInfo, armorPierce);
 
-        if (EnergyShield != null)
+        if (energyShield != null)
         {
-            if (EnergyShield.TakeDamage(this, sender, attacker, newEffect, unitNotificationEffect, ref newDamage)) 
+            if (energyShield.TakeDamage(this, sender, attacker, newEffect, unitNotificationEffect, ref newDamage)) 
                 return true;
         }
         
@@ -307,16 +307,16 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         CurrentMana += mp;
     }
 
-    public void GetEnergyShield(int maxHP, float angle)
+    public void GetEnergyShield(EnergyShieldAbility energyShieldAbility)
     {
-        EnergyShield = new EnergyShield(maxHP, angle);
-        UnitVisual.ActivateEnergyShieldVisual(angle);
+        energyShield = energyShieldAbility;
+        //UnitVisual.ActivateEnergyShieldVisual(angle);
     }
     
     public void LooseEnergyShield()
     {
-        EnergyShield = null;
-        UnitVisual.DeactivateEnergyShieldVisual();
+        energyShield = null;
+        //UnitVisual.DeactivateEnergyShieldVisual();
     }
     
     public virtual void ApplySlowDebuff(float slow)
