@@ -330,6 +330,10 @@ PrefabInstance:
       propertyPath: loadSceneMode
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 7104964716415909541, guid: db0e283251b2f7f42b57df8fbdc37786, type: 3}
+      propertyPath: loadSceneMode
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7781302429660902692, guid: db0e283251b2f7f42b57df8fbdc37786, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.88
@@ -822,6 +826,7 @@ MonoBehaviour:
   playerInputUIDesktop: {fileID: 3420067033415355809, guid: 06d5cad23df196745be4936ae455f5ae, type: 3}
   playerUI: {fileID: 2095168996}
   fastTravelUI: {fileID: 6839111594917585061}
+  levelChooseUI: {fileID: 6839111594917585062}
   vendorUI: {fileID: 2115506084}
 --- !u!114 &1979889099
 MonoBehaviour:
@@ -2346,6 +2351,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fbaadcbebd21db46a0a5d705a57ac7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6839111594917585062 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1696126712427340836, guid: d5622b6b742e62946b0a1cafc310b923, type: 3}
+  m_PrefabInstance: {fileID: 6839111594917585060}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31775cdb633517440a96cf0702a5f8d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7561315222836583104
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2428,6 +2444,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4696517830830216257, guid: db0e283251b2f7f42b57df8fbdc37786, type: 3}
+      propertyPath: loadSceneMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7104964716415909541, guid: db0e283251b2f7f42b57df8fbdc37786, type: 3}
       propertyPath: loadSceneMode
       value: 2
       objectReference: {fileID: 0}

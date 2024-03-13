@@ -80,6 +80,15 @@ public class PlayerInstaller : MonoBehaviour
 
     private void Start()
     {
+        var currentFloorNumber = LevelTransition.GetCurrentFloorIndex() + 1;
+        if (currentFloorNumber > LevelTransition.MaxReachedFloor)
+            LevelTransition.MaxReachedFloor = currentFloorNumber;
+        
+        HandleElixirLogic();
+    }
+
+    private void HandleElixirLogic()
+    {
         if (StaticSceneLoader.ResetPlayer)
         {
             ElixirStaticData.ElixirID = null;
@@ -87,9 +96,9 @@ public class PlayerInstaller : MonoBehaviour
             return;
         }
 
-        var elixir = (ExecutableItemSO) itemsStorageSo.GetItemById(ElixirStaticData.ElixirID);
+        var elixir = (ExecutableItemSO)itemsStorageSo.GetItemById(ElixirStaticData.ElixirID);
         if (elixir is null) return;
-        
+
         elixir.Execute(player);
     }
 }

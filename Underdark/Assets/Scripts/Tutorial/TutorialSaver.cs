@@ -7,7 +7,7 @@ public class TutorialSaver : MonoBehaviour
 {
     [SerializeField] private LevelTransition levelTransition;
 
-    private void Awake()
+    private void OnEnable()
     {
         levelTransition.OnLoad += CompleteTutorial;
     }
@@ -15,5 +15,10 @@ public class TutorialSaver : MonoBehaviour
     private void CompleteTutorial()
     {
         LevelTransition.TutorialCompleted = true;
+    }
+    
+    private void OnDisable()
+    {
+        levelTransition.OnLoad -= CompleteTutorial;
     }
 }
