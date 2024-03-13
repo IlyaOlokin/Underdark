@@ -281,27 +281,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
         if (EnergyShield != null)
         {
-            Vector3 dir = attacker == null ? 
-                sender.transform.position : 
-                attacker.Transform.position - transform.position;
-            var angle = Vector2.Angle(dir, lastMoveDir);
-            
-            var savedDamage = newDamage;
-
-            if (EnergyShield.AbsorbDamage(ref newDamage, angle))
-            {
-                newEffect.WriteDamage(savedDamage, true);
-
-                if (newDamage > 0)
-                {
-                    var newEffectForES = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
-                    newEffectForES.WriteDamage(savedDamage - newDamage, true);
-                    LooseEnergyShield();
-                }
-                    
-                else
-                    return true;
-            }
+            if (EnergyShield.TakeDamage(this, sender, attacker, newEffect, unitNotificationEffect, ref newDamage)) 
+                return true;
         }
         
         CurrentHP -= newDamage;
@@ -326,13 +307,13 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         CurrentMana += mp;
     }
 
-    public void GetEnergyShield(int maxHP, float radius)
+    public void GetEnergyShield(int maxHP, float angle)
     {
-        EnergyShield = new EnergyShield(maxHP, radius);
-        UnitVisual.ActivateEnergyShieldVisual(radius);
+        EnergyShield = new EnergyShield(maxHP, angle);
+        UnitVisual.ActivateEnergyShieldVisual(angle);
     }
     
-    private void LooseEnergyShield()
+    public void LooseEnergyShield()
     {
         EnergyShield = null;
         UnitVisual.DeactivateEnergyShieldVisual();

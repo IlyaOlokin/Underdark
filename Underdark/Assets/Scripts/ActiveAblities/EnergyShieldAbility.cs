@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class EnergyShieldAbility : ActiveAbility
 {
-    
-    
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null,bool mustAggro = true)
     {
         base.Execute(caster, level, attackDir);
 
-        var shieldHp = (int) Mathf.Max(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel), MaxValue.GetValue(abilityLevel));
+        var shieldHp = (int) Mathf.Min(caster.Stats.GetTotalStatValue(baseStat) * StatMultiplier.GetValue(abilityLevel), MaxValue.GetValue(abilityLevel));
         caster.GetEnergyShield(shieldHp, AttackAngle.GetValue(abilityLevel));
     }
     
