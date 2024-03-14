@@ -11,8 +11,6 @@ public class StatusEffectUI : MonoBehaviour
     [SerializeField] private StatusEffectIcon statusEffectIconPref;
     private List<StatusEffectIcon> buffIcons = new();
     
-    
-    
     public void Init(Player player)
     {
         this.player = player;
