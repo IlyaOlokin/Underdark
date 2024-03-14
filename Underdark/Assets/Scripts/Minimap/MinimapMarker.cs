@@ -26,37 +26,39 @@ public class MinimapMarker : MonoBehaviour
         }
         maskTexture.SetPixels(colors);
         maskTexture.Apply();
+
+        StartCoroutine(UpdateMaskTexture());
     }
-
-    private void Update()
+    
+    private IEnumerator UpdateMaskTexture()
     {
-        UpdateMaskTexture(transform.position);
-    }
-
-    void UpdateMaskTexture(Vector3 playerPosition)
-    {
-        Color[] colors = maskTexture.GetPixels();
-
-        playerPosition.x = (playerPosition.x + mapHalfSize) / (mapHalfSize * 2f) * maskTexture.width;
-        playerPosition.y = (playerPosition.y + mapHalfSize) / (mapHalfSize * 2f) * maskTexture.width;
-
-
-        for (int x = (int)(playerPosition.x - radius); x <= playerPosition.x + radius; x++)
+        while (true)
         {
-            if (x < 0 || x >= maskTexture.width) continue;
-            for (int y = (int)(playerPosition.y - radius); y <= playerPosition.y + radius; y++)
+            Vector3 playerPosition = transform.position;
+            Color[] colors = maskTexture.GetPixels();
+            yield return null;
+
+            playerPosition.x = (playerPosition.x + mapHalfSize) / (mapHalfSize * 2f) * maskTexture.width;
+            playerPosition.y = (playerPosition.y + mapHalfSize) / (mapHalfSize * 2f) * maskTexture.width;
+            
+            for (int x = (int)(playerPosition.x - radius); x <= playerPosition.x + radius; x++)
             {
-                if (y < 0 ||  y >= maskTexture.height) continue;
-                if (Vector2.Distance(playerPosition, new Vector2(x, y)) <= radius)
+                if (x < 0 || x >= maskTexture.width) continue;
+                for (int y = (int)(playerPosition.y - radius); y <= playerPosition.y + radius; y++)
                 {
-                    int index = y * maskTexture.width + x;
-                    if (index >= 0 && index < colors.Length)
-                        colors[index] = visitedColor;
+                    if (y < 0 ||  y >= maskTexture.height) continue;
+                    if (Vector2.Distance(playerPosition, new Vector2(x, y)) <= radius)
+                    {
+                        int index = y * maskTexture.width + x;
+                        if (index >= 0 && index < colors.Length)
+                            colors[index] = visitedColor;
+                    }
                 }
             }
-        }
 
-        maskTexture.SetPixels(colors);
-        maskTexture.Apply();
+            maskTexture.SetPixels(colors);
+            maskTexture.Apply();
+            yield return null;
+        }
     }
 }
