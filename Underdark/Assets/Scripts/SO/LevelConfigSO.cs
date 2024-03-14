@@ -5,7 +5,7 @@ using UnityEngine.Serialization;
 
 [CreateAssetMenu(menuName = "LevelConfig", fileName = "LevelConfig")]
 
-public class LevelConfigSO : ScriptableObject
+public class  LevelConfigSO : ScriptableObject
 {
     public List<FloorSetup> Floors;
 }
@@ -14,6 +14,7 @@ public class LevelConfigSO : ScriptableObject
 public class FloorSetup
 {
     public int LevelsCount; 
+    public int LevelSize; 
     public List<DamageTypeList> DamageTypesLists;
 }
 

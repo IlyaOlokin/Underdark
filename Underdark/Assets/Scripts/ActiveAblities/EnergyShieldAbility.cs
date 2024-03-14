@@ -39,7 +39,8 @@ public class EnergyShieldAbility : ActiveAbility
     public bool TakeDamage(Unit owner, Unit sender, IAttacker attacker, UnitNotificationEffect newEffect,
         UnitNotificationEffect unitNotificationEffect, ref int newDamage)
     {
-        Vector3 dir = attacker == null ? sender.transform.position : attacker.Transform.position - owner.transform.position;
+        var hasAttacker = attacker != null;
+        Vector3 dir = hasAttacker ? attacker.Transform.position - owner.transform.position : sender.transform.position;
         var angle = Vector2.Angle(dir, owner.GetLastMoveDir());
 
         var savedDamage = newDamage;
@@ -47,9 +48,12 @@ public class EnergyShieldAbility : ActiveAbility
         if (AbsorbDamage(ref newDamage, angle))
         {
             newEffect.WriteDamage(savedDamage, true);
-            
-            float exactAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + hitParticles.transform.eulerAngles.z;
-            Instantiate(hitParticles, transform.position + dir.normalized / 2f, Quaternion.Euler(0, 0, exactAngle));
+
+            if (hasAttacker)
+            {
+                float exactAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + hitParticles.transform.eulerAngles.z;
+                Instantiate(hitParticles, transform.position + dir.normalized / 2f, Quaternion.Euler(0, 0, exactAngle));
+            }
 
             if (newDamage > 0)
             {

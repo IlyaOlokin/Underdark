@@ -10,6 +10,7 @@ public class MinimapMarker : MonoBehaviour
     [SerializeField] private Texture2D maskTexture;
     [SerializeField] private Color defaultColor;
     [SerializeField] private Color visitedColor;
+    [SerializeField] private LevelConfigSO levelConfig;
     [SerializeField] private float radius;
     [SerializeField] private float mapHalfSize;
     
@@ -27,6 +28,14 @@ public class MinimapMarker : MonoBehaviour
         maskTexture.SetPixels(colors);
         maskTexture.Apply();
 
+        var currentFloorIndex = LevelTransition.GetCurrentFloorIndex();
+        if (currentFloorIndex >= 0)
+        {
+            var levelSize = levelConfig.Floors[LevelTransition.GetCurrentFloorIndex()].LevelSize;
+            radius = levelSize / 4f;
+            mapHalfSize = levelSize / 2f;
+        }
+        
         StartCoroutine(UpdateMaskTexture());
     }
     
