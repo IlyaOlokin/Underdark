@@ -36,6 +36,7 @@ public class Door : MonoBehaviour
             }
             else
             {
+                LevelTransition.StartFromUp = true;
                 levelTransition.SetTransitionData(player);
                 levelTransition.LoadLevel();
             }
