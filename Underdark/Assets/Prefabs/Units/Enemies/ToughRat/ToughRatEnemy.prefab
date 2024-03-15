@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 525116015844361941, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.073
+      objectReference: {fileID: 0}
+    - target: {fileID: 525116015844361941, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.558
+      objectReference: {fileID: 0}
+    - target: {fileID: 1116847182108090050, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 101526840, guid: aa2ac33513e770a489af391b5125a5df, type: 3}
     - target: {fileID: 1949931608932922040, guid: 586e5563c8ebe5f4b93bd9de38827009, type: 3}
       propertyPath: m_Name
       value: ToughRatEnemy
