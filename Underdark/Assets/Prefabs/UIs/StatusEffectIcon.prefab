@@ -236,6 +236,7 @@ GameObject:
   - component: {fileID: 860871296080020447}
   - component: {fileID: 5349630500656462947}
   - component: {fileID: 1049010664631662826}
+  - component: {fileID: 7182639699465593646}
   m_Layer: 0
   m_Name: StatusEffectIcon
   m_TagString: Untagged
@@ -289,3 +290,18 @@ MonoBehaviour:
   durationIndicator: {fileID: 424763225854520858}
   buffColor: {r: 0.1254902, g: 0.8117647, b: 0.06666667, a: 1}
   debuffColor: {r: 0.7647059, g: 0.003921569, b: 0.003921569, a: 1}
+--- !u!114 &7182639699465593646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7415909250108084400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78ca32b5ed172c94e9eb5a2a2a05bcb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 0.3
+  startScaleMultiplier: 0
+  ease: 27
