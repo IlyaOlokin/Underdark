@@ -128,12 +128,11 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         
         ActiveAbilitiesCD = new List<float>(new float[Inventory.EquippedActiveAbilitySlots.Count]);
         lastActiveAbilitiesIDs = new string[Inventory.EquippedActiveAbilitySlots.Count];
-        
-        Params.SetUnit(this);
     }
     
     protected virtual void Start()
     {
+        Params.SetUnit(this);
         SetUnit();
     }
 
@@ -198,12 +197,12 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
     private void UpdateCoolDowns()
     {
-        attackCDTimer -= Time.deltaTime;
+        attackCDTimer -= Time.deltaTime * Params.CdDexteritySpeedMultiplier;
         actionCDTimer -= Time.deltaTime;
 
         for (var index = 0; index < ActiveAbilitiesCD.Count; index++)
         {
-            ActiveAbilitiesCD[index] -= Time.deltaTime * Params.SlowDebuffAmount * Params.CdSpeedMultiplier;
+            ActiveAbilitiesCD[index] -= Time.deltaTime * Params.SlowDebuffAmount * Params.CdAbilitySpeedMultiplier * Params.CdDexteritySpeedMultiplier;
         }
     }
 

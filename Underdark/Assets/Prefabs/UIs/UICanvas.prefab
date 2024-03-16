@@ -3348,7 +3348,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Cansel
+  m_text: Cancel
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: eb25f13a77ebdab49bd52b8409b13025, type: 2}
   m_sharedMaterial: {fileID: 4428532381490811709, guid: eb25f13a77ebdab49bd52b8409b13025, type: 2}
@@ -39937,7 +39937,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2653244676527017821, guid: 7fd36e7dcb1fcd747b27d35592ea05b6, type: 3}
       propertyPath: m_text
-      value: 1 <color=#39FF39>Dexterity</color> = +1 Armor
+      value: "1 <color=#39FF39>Dexterity</color> = +1 Armor\n1 <color=#39FF39>Dexterity</color>
+        = +1% \u0421ooldown speed"
       objectReference: {fileID: 0}
     - target: {fileID: 3828285719891179891, guid: 7fd36e7dcb1fcd747b27d35592ea05b6, type: 3}
       propertyPath: m_Pivot.x

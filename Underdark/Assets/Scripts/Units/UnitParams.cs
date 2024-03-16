@@ -39,7 +39,8 @@ public class UnitParams
 
     public float SlowDebuffAmount { get; private set; } = 1f;
     public float MoveSpeedMultiplier { get; private set; } = 1f;
-    public float CdSpeedMultiplier { get; private set; } = 1f;
+    public float CdAbilitySpeedMultiplier { get; private set; } = 1f;
+    public float CdDexteritySpeedMultiplier { get; private set; } = 1f;
 
     public void SetUnit(Unit unit)
     {
@@ -48,6 +49,7 @@ public class UnitParams
 
         unit.Inventory.OnEquipmentChanged += CashParams;
         unit.OnUnitPassivesChanged += CashParams;
+        unit.Stats.OnStatsChanged += CashParams;
         CashParams();
     }
 
@@ -164,7 +166,8 @@ public class UnitParams
         }
         
         MoveSpeedMultiplier = 1 + moveSpeedMultiplier;
-        CdSpeedMultiplier = 1 + cdSpeedMultiplier;
+        CdAbilitySpeedMultiplier = 1 + cdSpeedMultiplier;
+        CdDexteritySpeedMultiplier = 1 + unit.Stats.GetTotalStatValue(BaseStat.Dexterity) / 100f;
     }
 
     private void SetRegenerationAmplification()

@@ -6371,7 +6371,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2653244676527017821, guid: 7fd36e7dcb1fcd747b27d35592ea05b6, type: 3}
       propertyPath: m_text
-      value: 1 <color=#39FF39>Dexterity</color> = +1 Armor
+      value: '1 <color=#39FF39>Dexterity</color> = +1 Armor
+
+        1 <color=#39FF39>Dexterity</color>
+        = +1 Cooldown speed'
       objectReference: {fileID: 0}
     - target: {fileID: 3828285719891179891, guid: 7fd36e7dcb1fcd747b27d35592ea05b6, type: 3}
       propertyPath: m_Pivot.x
