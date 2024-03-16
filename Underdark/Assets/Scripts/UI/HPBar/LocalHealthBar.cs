@@ -30,6 +30,7 @@ public class LocalHealthBar : BarController
         }
         else if (damageable.CompareTag("Enemy"))
         {
+            gameObject.SetActive(false);
             fill.color = enemyColor;
         }
     }
