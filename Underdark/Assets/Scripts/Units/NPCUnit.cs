@@ -65,6 +65,8 @@ public class NPCUnit : Unit
         followPlayerSensor.OnTargetExit += FollowTargetSensorOnTargetExit;
         NPCFSM.RequestStateChange(NPCState.Idle, true);
         SetUnit();
+        moveTarget.position = spawnPont.position;
+        UnitVisual.AbortAlert();
     }
 
     protected override void Start()
@@ -212,6 +214,8 @@ public class NPCUnit : Unit
         
         if (killer.TryGetComponent(out Player player))
             player.Stats.GetExp(Stats.Level * expPerLevel);
+
+        targetUnit = null;
         
         UnitVisual.StartDeathEffect(attacker, damageType);
         
