@@ -47,9 +47,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mat: {fileID: 2100000, guid: 571b4e3eb9e4ef74dae3fac499b94f9b, type: 2}
   sr: {fileID: 0}
-  startEraseValue: 0.05
+  startEraseValue: 0.1
   endEraseValue: 0.5
   damageEffect: {fileID: 6192604898436002675, guid: d74de5d53d057bd46b07894b733d69a9, type: 3}
+  deathEffect: {fileID: 6192604898436002675, guid: c7f1f7b94306727479519701079cd731, type: 3}
   alertMark: {fileID: 9106522199738179185}
   alertDuration: 0.4
   whiteOutDuration: 0.1

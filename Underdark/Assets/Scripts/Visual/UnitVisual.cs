@@ -13,6 +13,7 @@ public class UnitVisual : MonoBehaviour
     [SerializeField] private float startEraseValue; 
     [SerializeField] private float endEraseValue; 
     [SerializeField] private GameObject damageEffect; 
+    [SerializeField] private GameObject deathEffect; 
     private static readonly int EraseAmount = Shader.PropertyToID("_EraseAmount");
     
     [Header("Alert")]
@@ -55,7 +56,8 @@ public class UnitVisual : MonoBehaviour
     {
         var newValue = Mathf.Lerp(startEraseValue, endEraseValue, 1 - healthProportion);
         mat.SetFloat(EraseAmount, newValue);
-        if (needVisual)
+        
+        if (needVisual && attacker != null)
         {
             var dir = transform.position - attacker.Transform.position;
             float exactAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + damageEffect.transform.eulerAngles.z;
@@ -119,6 +121,7 @@ public class UnitVisual : MonoBehaviour
 
     public void StartDeathEffect(IAttacker attacker, DamageType damageType)
     {
+        Instantiate(deathEffect, transform.position, Quaternion.identity);
         /*var newImposter = Instantiate(deathImposter, transform.position, Quaternion.identity);
         newImposter.StartDeath(attacker, damageType, sr.sprite);
         newImposter.transform.eulerAngles = new Vector3(0, transform.parent.eulerAngles.y, 0);*/
