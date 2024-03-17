@@ -47,12 +47,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mat: {fileID: 2100000, guid: 571b4e3eb9e4ef74dae3fac499b94f9b, type: 2}
   sr: {fileID: 0}
+  startEraseValue: 0.05
+  endEraseValue: 0.5
+  damageEffect: {fileID: 6192604898436002675, guid: d73681c57f03f3046a2750755972a569, type: 3}
   alertMark: {fileID: 9106522199738179185}
   alertDuration: 0.4
   whiteOutDuration: 0.1
   whiteOutAmount: 0.4
   StunBar: {fileID: 0}
-  EnergyShield: {fileID: 0}
   deathImposter: {fileID: 1949209591959605148, guid: 914dad67930a11e469dd59af0dccbf5e, type: 3}
   highLightZone: {fileID: 0}
   highLightZoneMat: {fileID: 0}
@@ -127,7 +129,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1816364915
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 9cfa39010fe314547b3c17a05ff5f403, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

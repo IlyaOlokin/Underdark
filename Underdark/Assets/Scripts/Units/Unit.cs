@@ -295,6 +295,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         UnitVisual.StartWhiteOut();
         if (CurrentHP <= 0) Death(sender, attacker, damageInfo.GetDamages()[0].DamageType);
         newEffect.WriteDamage(newDamage);
+        UnitVisual.UpdateErase(attacker, CurrentHP / (float) MaxHP);
         return true;
     }
 

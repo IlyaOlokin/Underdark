@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 823163109896351726}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.577, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 5.816, y: 5.816, z: 5.816}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -46,6 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mat: {fileID: 2100000, guid: 571b4e3eb9e4ef74dae3fac499b94f9b, type: 2}
   sr: {fileID: 98515741949014035}
+  startEraseValue: 0.05
+  endEraseValue: 0.5
+  damageEffect: {fileID: 6192604898436002675, guid: d73681c57f03f3046a2750755972a569, type: 3}
   alertMark: {fileID: 0}
   alertDuration: 0
   whiteOutDuration: 0.1

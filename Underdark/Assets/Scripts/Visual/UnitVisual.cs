@@ -8,6 +8,12 @@ public class UnitVisual : MonoBehaviour
 {
     [SerializeField] private Material mat;
     [SerializeField] private SpriteRenderer sr;
+
+    [Header("EraseEffect")] 
+    [SerializeField] private float startEraseValue; 
+    [SerializeField] private float endEraseValue; 
+    [SerializeField] private GameObject damageEffect; 
+    private static readonly int EraseAmount = Shader.PropertyToID("_EraseAmount");
     
     [Header("Alert")]
     [SerializeField] private GameObject alertMark;
@@ -16,6 +22,7 @@ public class UnitVisual : MonoBehaviour
     [Header("WhiteOut")]
     [SerializeField] private float whiteOutDuration;
     [SerializeField] private float whiteOutAmount;
+    private static readonly int WhiteOutProp = Shader.PropertyToID("_WhiteOut");
 
     [Header("Debuffs")] 
     public GameObject StunBar;
@@ -27,6 +34,9 @@ public class UnitVisual : MonoBehaviour
     [SerializeField] private GameObject highLightZone;
     [SerializeField] private Material highLightZoneMat;
     
+    private static readonly int Turn = Shader.PropertyToID("_Turn");
+    private static readonly int FillAmount = Shader.PropertyToID("_FillAmount");
+
     private void Awake()
     {
         sr.material = new Material(mat);
@@ -37,8 +47,20 @@ public class UnitVisual : MonoBehaviour
 
     private void OnEnable()
     {
-        mat.SetFloat("_WhiteOut", 0);
-        mat.SetFloat("_Thickness", 0);
+        mat.SetFloat(WhiteOutProp, 0);
+        mat.SetFloat(EraseAmount, 0);
+    }
+
+    public void UpdateErase(IAttacker attacker, float healthProportion, bool needVisual = true)
+    {
+        var newValue = Mathf.Lerp(startEraseValue, endEraseValue, 1 - healthProportion);
+        mat.SetFloat(EraseAmount, newValue);
+        if (needVisual)
+        {
+            var dir = transform.position - attacker.Transform.position;
+            float exactAngle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + damageEffect.transform.eulerAngles.z;
+            Instantiate(damageEffect, transform.position, Quaternion.Euler(0, 0, exactAngle));
+        }
     }
 
     public void StartAlert()
@@ -70,10 +92,10 @@ public class UnitVisual : MonoBehaviour
         while (whiteOutTimer > 0)
         {
             whiteOutTimer -= Time.deltaTime;
-            mat.SetFloat("_WhiteOut", whiteOutAmount);
+            mat.SetFloat(WhiteOutProp, whiteOutAmount);
             yield return null;
         }
-        mat.SetFloat("_WhiteOut", 0);
+        mat.SetFloat(WhiteOutProp, 0);
     }
 
     public void StartHighLightActiveAbility(ActiveAbility activeAbility, Unit owner)
@@ -86,8 +108,8 @@ public class UnitVisual : MonoBehaviour
         
         highLightZone.SetActive(true);
         highLightZone.transform.localScale = new Vector3(dist * 2 + 1, dist * 2 + 1);
-        highLightZoneMat.SetFloat("_Turn", 90);
-        highLightZoneMat.SetFloat("_FillAmount", angle);
+        highLightZoneMat.SetFloat(Turn, 90);
+        highLightZoneMat.SetFloat(FillAmount, angle);
     }
 
     public void EndHighLightActiveAbility()
@@ -97,8 +119,8 @@ public class UnitVisual : MonoBehaviour
 
     public void StartDeathEffect(IAttacker attacker, DamageType damageType)
     {
-        var newImposter = Instantiate(deathImposter, transform.position, Quaternion.identity);
+        /*var newImposter = Instantiate(deathImposter, transform.position, Quaternion.identity);
         newImposter.StartDeath(attacker, damageType, sr.sprite);
-        newImposter.transform.eulerAngles = new Vector3(0, transform.parent.eulerAngles.y, 0);
+        newImposter.transform.eulerAngles = new Vector3(0, transform.parent.eulerAngles.y, 0);*/
     }
 }
