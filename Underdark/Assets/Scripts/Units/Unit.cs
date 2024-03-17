@@ -36,7 +36,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     public int CurrentHP
     {
         get => _currentHP;
-        protected set
+        private set
         {
             if (value > MaxHP) _currentHP = MaxHP;
             else if (value < 0) _currentHP = 0;
@@ -57,7 +57,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     public int CurrentMana
     {
         get => _currentMana;
-        protected set
+        private set
         {
             if (value > MaxMana) value = MaxMana;
             if (value < 0) value = 0;
@@ -188,6 +188,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
             CurrentHP = MaxHP;
         else
             CurrentHP = (int)Mathf.Floor(MaxHP * currentPart);
+        
+        UnitVisual.UpdateErase(null, CurrentHP / (float) MaxHP, false);
     }
 
     protected void UpdateHP()
@@ -302,6 +304,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     public void RestoreHP(int hp, bool showVisual = false)
     {
         CurrentHP += hp;
+        UnitVisual.UpdateErase(null, CurrentHP / (float) MaxHP, false);
         if (showVisual)
         {
             var newEffect = Instantiate(unitNotificationEffect, transform.position, Quaternion.identity);
