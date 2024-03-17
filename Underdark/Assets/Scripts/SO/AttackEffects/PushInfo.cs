@@ -13,6 +13,8 @@ public class PushInfo : DebuffInfo
     
     public override void Execute(IAttacker attacker, Unit receiver, Unit unitCaster)
     {
+        if (Random.Range(0f, 1f) > chance) return;
+        
         switch (PushType)
         {
             case PushType.Position:
@@ -26,9 +28,6 @@ public class PushInfo : DebuffInfo
             default:
                 throw new ArgumentOutOfRangeException();
         }
-        
-        if (Random.Range(0f, 1f) > chance) return;
-
         
         if (receiver.TryGetComponent(out Push pushComponent))
         {

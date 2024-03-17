@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -14,5 +15,10 @@ public class ScaleAppear : MonoBehaviour
         var startScale = transform.localScale;
         transform.localScale *= startScaleMultiplier;
         transform.DOScale(startScale, duration).SetEase(ease);
+    }
+
+    private void OnDisable()
+    {
+        transform.DOKill();
     }
 }
