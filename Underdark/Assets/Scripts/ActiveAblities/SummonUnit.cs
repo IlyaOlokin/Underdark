@@ -44,7 +44,7 @@ public class SummonUnit : ActiveAbility
     private void SpawnSummon(NPCUnit summon, Transform parent)
     {
         var npc = Instantiate(summon, parent.transform.position, Quaternion.identity, transform);
-        npc.SetSummonedUnit(parent, caster.transform.tag, caster.gameObject.layer, caster.AttackMask, caster.AlliesLayer);
+        npc.SetSummonedUnit(caster, parent, caster.transform.tag, caster.gameObject.layer, caster.AttackMask, caster.AlliesLayer);
     }
 
     private IEnumerator RotateSpawnPoints()

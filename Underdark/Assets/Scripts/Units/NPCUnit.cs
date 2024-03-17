@@ -42,6 +42,7 @@ public class NPCUnit : Unit
     [Header("Summon Setup")]
     private bool isSummon;
     private bool isGoingToSpawnPoint;
+    private Unit caster;
     [SerializeField] private float toFarFromSpawnPointRadius = 10f;
     
     [Header("Range NPC Setup")] 
@@ -75,10 +76,13 @@ public class NPCUnit : Unit
         StartCoroutine(SearchForTargetUnits());
     }
 
-    public void SetSummonedUnit(Transform spawnPoint, string tag, int layer, LayerMask enemyLayerMask, LayerMask alliesLayerMask)
+    public void SetSummonedUnit(Unit caster, Transform spawnPoint, string tag, int layer, LayerMask enemyLayerMask, LayerMask alliesLayerMask)
     {
+        this.caster = caster;
+        
         isSummon = true;
         spawnPont = spawnPoint;
+        moveTarget.position = spawnPont.position;
         
         AlliesLayer = alliesLayerMask;
         
@@ -212,8 +216,7 @@ public class NPCUnit : Unit
             else drop.DropItems();
         }
         
-        if (killer.TryGetComponent(out Player player))
-            player.Stats.GetExp(Stats.Level * expPerLevel);
+        killer.GetExp(Stats.Level * expPerLevel);
 
         targetUnit = null;
         
@@ -222,6 +225,15 @@ public class NPCUnit : Unit
         base.Death(killer, attacker, damageType);
         if (isSummon) Destroy(gameObject);
     }
+
+    public override void GetExp(int exp)
+    {
+        if (!isSummon) return;
+        
+        if (caster != null)
+            caster.GetExp(exp);
+    }
+
     public override void ApplySlowDebuff(float slow)
     {
         base.ApplySlowDebuff(slow);
