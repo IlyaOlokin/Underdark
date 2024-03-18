@@ -7,8 +7,6 @@ public enum DamageType
    Physic,
    Chaos,
    Fire,
-   Air,
-   Water,
    Cold,
    Electric
 }

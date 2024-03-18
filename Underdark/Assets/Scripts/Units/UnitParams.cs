@@ -10,8 +10,6 @@ public class UnitParams
     [SerializeField] private float basePhysicDmgAmplification;
     [SerializeField] private float baseChaosDmgAmplification;
     [SerializeField] private float baseFireDmgAmplification;
-    [SerializeField] private float baseAirDmgAmplification;
-    [SerializeField] private float baseWaterDmgAmplification;
     [SerializeField] private float baseColdDmgAmplification;
     [SerializeField] private float baseElectricDmgAmplification;
     
@@ -19,8 +17,6 @@ public class UnitParams
     [SerializeField] private float basePhysicResistance;
     [SerializeField] private float baseChaosResistance;
     [SerializeField] private float baseFireResistance;
-    [SerializeField] private float baseAirResistance;
-    [SerializeField] private float baseWaterResistance;
     [SerializeField] private float baseColdResistance;
     [SerializeField] private float baseElectricResistance;
 
@@ -76,8 +72,6 @@ public class UnitParams
             DamageType.Physic => (basePhysicDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
             DamageType.Chaos => (baseChaosDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
             DamageType.Fire => (baseFireDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
-            DamageType.Air => (baseAirDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
-            DamageType.Water => (baseWaterDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
             DamageType.Cold => (baseColdDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
             DamageType.Electric => (baseElectricDmgAmplification + dmgAmpl + 1) * (allDmgAmpl + 1),
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
@@ -101,8 +95,6 @@ public class UnitParams
             DamageType.Physic => CalculateResist(basePhysicResistance, dmgRes),
             DamageType.Chaos => CalculateResist(baseChaosResistance, dmgRes),
             DamageType.Fire => CalculateResist(baseFireResistance, dmgRes),
-            DamageType.Air => CalculateResist(baseAirResistance, dmgRes),
-            DamageType.Water => CalculateResist(baseWaterResistance, dmgRes),
             DamageType.Cold => CalculateResist(baseColdResistance, dmgRes),
             DamageType.Electric => CalculateResist(baseElectricResistance, dmgRes),
             _ => throw new ArgumentOutOfRangeException(nameof(damageType), damageType, null)
