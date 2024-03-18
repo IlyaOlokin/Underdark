@@ -47,12 +47,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mat: {fileID: 2100000, guid: 571b4e3eb9e4ef74dae3fac499b94f9b, type: 2}
   sr: {fileID: 0}
+  startEraseValue: 0.1
+  endEraseValue: 0.5
+  damageEffect: {fileID: 6192604898436002675, guid: d74de5d53d057bd46b07894b733d69a9, type: 3}
+  deathEffect: {fileID: 6192604898436002675, guid: c7f1f7b94306727479519701079cd731, type: 3}
+  circleDeathEffect: {fileID: 8208768237337805342, guid: 3ec455a80e9c349479d86bafbef47bbe, type: 3}
   alertMark: {fileID: 9106522199738179185}
   alertDuration: 0.4
   whiteOutDuration: 0.1
   whiteOutAmount: 0.4
   StunBar: {fileID: 0}
-  EnergyShield: {fileID: 0}
   deathImposter: {fileID: 1949209591959605148, guid: 914dad67930a11e469dd59af0dccbf5e, type: 3}
   highLightZone: {fileID: 0}
   highLightZoneMat: {fileID: 0}
@@ -82,7 +86,7 @@ Transform:
   m_GameObject: {fileID: 9106522199738179185}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.11533, y: 0.212, z: 0}
+  m_LocalPosition: {x: 0.11533, y: 0.131, z: 0}
   m_LocalScale: {x: 0.21374087, y: 0.21374087, z: 0.21374087}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -127,7 +131,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1816364915
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 9cfa39010fe314547b3c17a05ff5f403, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
