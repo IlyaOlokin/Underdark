@@ -11,6 +11,7 @@ public class Puncture : ActiveAbility, IAttackerTarget
 
     [Header("Visual")] 
     [SerializeField] private PunctureVisual visualPrefab;
+    [SerializeField] private GameObject hitVisualPref;
     
     public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null,bool mustAggro = true)
@@ -50,5 +51,7 @@ public class Puncture : ActiveAbility, IAttackerTarget
                 debuffInfo.Execute(this, (Unit) damageable, caster);
             }
         }
+
+        Instantiate(hitVisualPref, damageable.Transform.position, Quaternion.identity);
     }
 }
