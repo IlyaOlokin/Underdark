@@ -8,6 +8,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4857026053654465108, guid: 9d8a5fd2136e7ed478ea6f811490f1c3, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4857026053654465108, guid: 9d8a5fd2136e7ed478ea6f811490f1c3, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5573870676809893329, guid: 9d8a5fd2136e7ed478ea6f811490f1c3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -50,15 +58,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5896616739545167211, guid: 9d8a5fd2136e7ed478ea6f811490f1c3, type: 3}
       propertyPath: Stats.<Level>k__BackingField
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5896616739545167211, guid: 9d8a5fd2136e7ed478ea6f811490f1c3, type: 3}
       propertyPath: Stats.<Strength>k__BackingField
-      value: 4
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5896616739545167211, guid: 9d8a5fd2136e7ed478ea6f811490f1c3, type: 3}
+      propertyPath: Stats.<Dexterity>k__BackingField
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5896616739545167211, guid: 9d8a5fd2136e7ed478ea6f811490f1c3, type: 3}
+      propertyPath: Stats.<Intelligence>k__BackingField
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7180836970369118606, guid: 9d8a5fd2136e7ed478ea6f811490f1c3, type: 3}
       propertyPath: m_Name
-      value: WeakSkeletonEnemy 1
+      value: WeakSkeletonEnemy 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
