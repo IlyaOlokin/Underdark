@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class NotificationManager : MonoBehaviour
@@ -47,6 +48,7 @@ public class NotificationManager : MonoBehaviour
 
     public void SendNotification(Notification notification)
     {
+        if (notificationQueue.Select(t => t.text).Contains(notification.text)) return;
         notificationQueue.Enqueue(notification);
         OnNotificationQueueChanged?.Invoke();
     }
@@ -55,7 +57,7 @@ public class NotificationManager : MonoBehaviour
     {
         if (isNotificationActive) return;
         if (notificationQueue.Count > 0)
-            notificationPanel.ShowNotification(notificationQueue.Dequeue());
+            notificationPanel.ShowNotification(notificationQueue.Peek());
     }
 
     public void OnNotificationActivate()
@@ -65,6 +67,7 @@ public class NotificationManager : MonoBehaviour
 
     public void OnNotificationDeactivate()
     {
+        notificationQueue.Dequeue();
         isNotificationActive = false;
         OnNotificationQueueChanged?.Invoke();
     }
