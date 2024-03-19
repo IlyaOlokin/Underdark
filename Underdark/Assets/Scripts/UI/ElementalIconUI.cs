@@ -29,12 +29,6 @@ public class ElementalIconUI : MonoBehaviour
             case DamageType.Fire:
                 icon.sprite = fireIcon;
                 break;
-            case DamageType.Air:
-                icon.sprite = airIcon;
-                break;
-            case DamageType.Water:
-                icon.sprite = waterIcon;
-                break;
             case DamageType.Cold:
                 icon.sprite = coldIcon;
                 break;

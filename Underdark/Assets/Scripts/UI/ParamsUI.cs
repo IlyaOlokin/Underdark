@@ -69,8 +69,6 @@ public class ParamsUI : MonoBehaviour
         HandleAmplificationText(physDmgAmplText, DamageType.Physic);
         HandleAmplificationText(chaosDmgAmplText, DamageType.Chaos);
         HandleAmplificationText(fireDmgAmplText, DamageType.Fire);
-        HandleAmplificationText(airDmgAmplText, DamageType.Air);
-        HandleAmplificationText(waterDmgAmplText, DamageType.Water);
         HandleAmplificationText(coldDmgAmplText, DamageType.Cold);
         HandleAmplificationText(electricDmgAmplText, DamageType.Electric);
     }
@@ -85,8 +83,6 @@ public class ParamsUI : MonoBehaviour
         HandleResistanceText(physDmgResText, DamageType.Physic);
         HandleResistanceText(chaosDmgResText, DamageType.Chaos);
         HandleResistanceText(fireDmgResText, DamageType.Fire);
-        HandleResistanceText(airDmgResText, DamageType.Air);
-        HandleResistanceText(waterDmgResText, DamageType.Water);
         HandleResistanceText(coldDmgResText, DamageType.Cold);
         HandleResistanceText(electricDmgResText, DamageType.Electric);
     }
