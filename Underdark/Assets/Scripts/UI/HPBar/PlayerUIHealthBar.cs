@@ -1,7 +1,10 @@
+using System;
 using Zenject;
 
 public class PlayerUIHealthBar : BarController
 {
+    public event Action<float> OnValueChanged;
+    
     [Inject]
     private void Cunstruct(Player player)
     {
@@ -19,5 +22,6 @@ public class PlayerUIHealthBar : BarController
     {
         base.UpdateValue(currentValue);
         currentValueText.text = currentValue.ToString();
+        OnValueChanged?.Invoke(currentValue);
     }
 }

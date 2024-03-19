@@ -1444,6 +1444,7 @@ GameObject:
   - component: {fileID: 2696674739797167373}
   - component: {fileID: 4452792941526573052}
   - component: {fileID: 7185536383042013018}
+  - component: {fileID: 4390785807867302077}
   m_Layer: 5
   m_Name: SliderHP
   m_TagString: Untagged
@@ -1540,6 +1541,21 @@ MonoBehaviour:
   currentValueText: {fileID: 3838807357987289797}
   maxValueText: {fileID: 755360173765700945}
   slider: {fileID: 4452792941526573052}
+--- !u!114 &4390785807867302077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548274886132866494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e852b993c3e0c94da97730de295bf5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shakeTrashHold: 0.25
+  slider: {fileID: 4452792941526573052}
+  healthBar: {fileID: 7185536383042013018}
 --- !u!1 &559020383564678397
 GameObject:
   m_ObjectHideFlags: 0
