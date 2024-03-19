@@ -59,7 +59,6 @@ public class Inventory : IInventory
     {
         OnActiveAbilitiesChanged?.Invoke(reset);
         OnExecutableItemChanged?.Invoke();
-        CheckEquipmentFit();
     }
     
     public int GetItemAmount(string itemID)

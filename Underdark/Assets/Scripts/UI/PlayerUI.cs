@@ -20,6 +20,5 @@ public class PlayerUI : MonoBehaviour
     private void Awake()
     {
         inventoryUI.AwakeInit();
-        
     }
 }
