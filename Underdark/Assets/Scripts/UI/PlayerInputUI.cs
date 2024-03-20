@@ -18,6 +18,7 @@ public class PlayerInputUI : MonoBehaviour
     public List<Image> buttonsIcons;
     public List<Image> buttonsCD;
     public List<TextMeshProUGUI> manaCost;
+    public List<TextMeshProUGUI> abilityLevel;
     public List<GameObject> notEnoughManaIndicators;
     private List<float> abilitiesCDMax;
     
@@ -111,13 +112,17 @@ public class PlayerInputUI : MonoBehaviour
                                                activeAbility.GetManaCost(
                                                    player.GetExpOfActiveAbility(activeAbility.ID)) == 0));
             
+            abilityLevel[i].gameObject.SetActive(!player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty);
+            
             if (player.Inventory.EquippedActiveAbilitySlots[i].IsEmpty)
             {
                 abilitiesCDMax.Add(0);
                 continue;
             }
-            
 
+            abilityLevel[i].text = RomanConverter.NumberToRoman(
+                activeAbility.ActiveAbilityLevelSetupSO.GetCurrentLevel(
+                    player.GetExpOfActiveAbility(activeAbility.ID)));
             manaCost[i].text = activeAbility.GetManaCost(player.GetExpOfActiveAbility(activeAbility.ID)).ToString();
             abilitiesCDMax.Add(activeAbility.Cooldown.GetValue(player.GetExpOfActiveAbility(activeAbility.ID)));
             buttonsIcons[i].sprite = player.Inventory.EquippedActiveAbilitySlots[i].Item.Sprite;

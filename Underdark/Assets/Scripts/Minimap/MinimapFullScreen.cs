@@ -26,7 +26,7 @@ public class MinimapFullScreen : MonoBehaviour, IPointerDownHandler
     
     public void OnPointerDown(PointerEventData eventData)
     {
-        OpenFullScreen();
+        if (!isFullScreen) OpenFullScreen();
     }
 
     private void OpenFullScreen()

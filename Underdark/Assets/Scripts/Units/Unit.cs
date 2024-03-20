@@ -150,6 +150,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         {
             Destroy((Object)buffs);
         }
+        
+        Inventory.CheckEquipmentFit();
     }
 
     protected virtual void Update()
