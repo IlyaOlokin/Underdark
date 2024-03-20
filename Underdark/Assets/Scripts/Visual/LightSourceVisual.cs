@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
@@ -5,11 +6,17 @@ using UnityEngine.Rendering.Universal;
 public class LightSourceVisual : MonoBehaviour
 {
     [SerializeField] private Light2D light2d;
-
     [SerializeField] private float lightUpTime;
+    
+    [SerializeField] private bool lightUpOnaAwake;
 
     private float intensity;
     private float radius;
+
+    private void Awake()
+    {
+        if (lightUpOnaAwake) LightUp();
+    }
 
     public void LightUp()
     {
