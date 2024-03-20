@@ -15,11 +15,10 @@ public class BaseAttack : ActiveAbility, IAttackerAOE
     [SerializeField] private BaseAttackVisual baseAttackVisualPref;
     [SerializeField] private GameObject hitVisualPref;
     
-    public override void Execute(Unit caster, int exp, Vector2 attackDir,
+    public override void Execute(Unit caster, int level, Vector2 attackDir,
         List<IDamageable> damageablesToIgnore1 = null,bool mustAggro = true)
     {
-        this.caster = caster;
-        abilityLevel = ActiveAbilityLevelSetupSO.GetCurrentLevel(exp);
+        base.Execute(caster, level, attackDir);
         
         base.attackDir = caster.GetAttackDirection(caster.GetWeapon().AttackDistance);
         

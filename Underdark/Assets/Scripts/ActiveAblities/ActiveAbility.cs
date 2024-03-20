@@ -27,6 +27,8 @@ public abstract class ActiveAbility : MonoBehaviour
     
     [SerializeField] private bool needAutoDestroy;
     [SerializeField] private float autoDestroyDelay;
+
+    public event Action OnExecute;
     
     [Header("Description")] 
     [Multiline] [SerializeField] protected string description;
@@ -49,6 +51,7 @@ public abstract class ActiveAbility : MonoBehaviour
         abilityLevel = level;
         this.damageablesToIgnore = damageablesToIgnore;
         this.attackDir = attackDir;
+        OnExecute?.Invoke();
     }
     
     protected virtual void InitDamage(Unit caster, float damageMultiplier = 1f)

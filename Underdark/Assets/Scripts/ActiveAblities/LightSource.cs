@@ -54,7 +54,7 @@ public class LightSource : ActiveAbility
             {
                 tagetToFollow = unit;
                 attachedToUnit = true;
-                tagetToFollow.OnUnitDeath += () => Destroy(gameObject);
+                tagetToFollow.OnDeath += () => Destroy(gameObject);
             }
             Destroy(rb);
         }

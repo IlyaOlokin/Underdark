@@ -21,7 +21,7 @@ public class SummonUnit : ActiveAbility
     {
         base.Execute(caster, level, attackDir);
 
-        caster.OnUnitDeath += UnParent;
+        caster.OnDeath += UnParent;
         transform.SetParent(caster.transform);
         
         CreateParents();
@@ -84,6 +84,6 @@ public class SummonUnit : ActiveAbility
 
     private void OnDisable()
     {
-        caster.OnUnitDeath -= UnParent;
+        caster.OnDeath -= UnParent;
     }
 }

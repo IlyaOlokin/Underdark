@@ -47,7 +47,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
     public event Action<int> OnHealthChanged;
     public event Action<int> OnMaxHealthChanged;
-    public event Action OnUnitDeath;
+    public event Action OnDamaged;
+    public event Action OnDeath;
 
     [SerializeField] private int baseMaxMana;
     public int MaxMana { get; private set; }
@@ -296,6 +297,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         }
         
         CurrentHP -= newDamage;
+        OnDamaged?.Invoke();
         UnitVisual.StartWhiteOut();
         if (CurrentHP <= 0) Death(sender, attacker, damageInfo.GetDamages()[0].DamageType);
         newEffect.WriteDamage(newDamage);
@@ -451,7 +453,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     protected virtual void Death(Unit killer, IAttacker attacker, DamageType damageType)
     {
         IsDead = true;
-        OnUnitDeath?.Invoke();
+        OnDeath?.Invoke();
         gameObject.SetActive(false);
     }
 

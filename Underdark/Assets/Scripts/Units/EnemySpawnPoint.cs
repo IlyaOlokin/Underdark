@@ -23,7 +23,7 @@ public class EnemySpawnPoint : MonoBehaviour
     
     private void Awake()
     {
-        npcUnit.OnUnitDeath += StartCountDown;
+        npcUnit.OnDeath += StartCountDown;
         timer = respawnDelay;
     }
 
@@ -62,6 +62,6 @@ public class EnemySpawnPoint : MonoBehaviour
 
     private void OnDisable()
     {
-        npcUnit.OnUnitDeath -= StartCountDown;
+        npcUnit.OnDeath -= StartCountDown;
     }
 }
