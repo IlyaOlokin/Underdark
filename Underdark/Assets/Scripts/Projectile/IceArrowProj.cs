@@ -40,6 +40,7 @@ public class IceArrowProj : Projectile
         lightSpot.SetActive(false);
         visualSR.enabled = false;
         CancelInvoke(nameof(DieOld));
+        OnProjDeath();
         Destroy(gameObject, destroyDelay);
     }
 

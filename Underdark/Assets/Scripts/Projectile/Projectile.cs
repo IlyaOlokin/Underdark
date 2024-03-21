@@ -21,10 +21,18 @@ public class Projectile : MonoBehaviour, IAttackerTarget
     
     protected Rigidbody2D rb;
     protected Collider2D coll;
+
+    public event Action OnCreate;
+    public event Action OnDeath;
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         coll = GetComponent<Collider2D>();
+    }
+
+    private void Start()
+    {
+        OnCreate?.Invoke();
     }
 
     public void Init(Unit caster, DamageInfo damageInfo, List<DebuffInfo> debuffInfos, int abilityLevel, 
@@ -104,5 +112,10 @@ public class Projectile : MonoBehaviour, IAttackerTarget
     protected void DieOld()
     {
         Die(null);
+    }
+
+    protected void OnProjDeath()
+    {
+        OnDeath?.Invoke();
     }
 }
