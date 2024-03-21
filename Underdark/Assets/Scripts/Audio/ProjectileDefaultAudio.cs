@@ -25,10 +25,12 @@ public class ProjectileDefaultAudio : MonoBehaviour
 
     private void PlayCreateSound()
     {
+        if (createClips.Count == 0) return;
         audioSource.PlayOneShot(createClips[Random.Range(0, createClips.Count)]);
     }
     private void PlayDeathSound()
     {
+        if (deathClips.Count == 0) return;
         audioSource.PlayOneShot(deathClips[Random.Range(0, deathClips.Count)]);
     }
     

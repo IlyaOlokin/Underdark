@@ -19,6 +19,7 @@ public class IceArrowProj : Projectile
 
     protected void Start()
     {
+        base.Start();
         var newVisual = Instantiate(visuals.GetValue(abilityLevel), transform.position, visualParent.rotation, visualParent);
         visualSR = newVisual.GetComponent<SpriteRenderer>();
     }
