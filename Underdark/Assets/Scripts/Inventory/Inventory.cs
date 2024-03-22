@@ -234,6 +234,8 @@ public class Inventory : IInventory
         
         inventorySlot.Clear();
         OnInventoryChanged?.Invoke();
+        if (inventorySlot.SlotType != ItemType.Any)
+            OnEquipmentChanged?.Invoke();
         
         if (itemItemType == ItemType.ActiveAbility) OnActiveAbilitiesChanged?.Invoke(false);
     }

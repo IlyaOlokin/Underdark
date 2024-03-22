@@ -34,21 +34,6 @@ public class Player : Unit, IPickUper, IMoneyHolder
         Stats.OnLevelUp += OnLevelUp;
     }
     
-    protected override void Update()
-    {
-        base.Update();
-
-        if (Input.GetKeyDown(KeyCode.R)) // debug
-        {
-            GetExp(100);
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        //Gizmos.DrawWireSphere(transform.position, GetWeapon().AttackDistance + 0.5f);
-    }
-    
     private void StartHighLightActiveAbility(int index)
     {  
         if (Inventory.EquippedActiveAbilitySlots[index].IsEmpty) return;
