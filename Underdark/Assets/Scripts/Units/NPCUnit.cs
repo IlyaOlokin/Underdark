@@ -123,7 +123,7 @@ public class NPCUnit : Unit
         {
             isGoingToSpawnPoint = false;
         }
-        if (!hasTarget && DistToMovePos() < agent.stoppingDistance)
+        if (!hasTarget)
             moveTarget.position = spawnPont.position;
     }
 
