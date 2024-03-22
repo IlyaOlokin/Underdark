@@ -8,6 +8,7 @@ public class BurnInfo : DebuffInfo
     public float DmgDelay;
     public float Duration;
     public float BurnJumpDistance;
+    public float BurnJumpChance = 0.2f;
     [SerializeField] private GameObject visualPrefab;
     
     public override void Execute(IAttacker attacker, Unit receiver, Unit unitCaster)
