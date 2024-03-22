@@ -30,7 +30,7 @@ public class Projectile : MonoBehaviour, IAttackerTarget
         coll = GetComponent<Collider2D>();
     }
 
-    protected void Start()
+    protected virtual void Start()
     {
         OnCreate?.Invoke();
     }

@@ -6,8 +6,10 @@ using UnityEngine.Serialization;
 
 public class UnitVisual : MonoBehaviour
 {
+    [SerializeField] private Unit unit;
     [SerializeField] private Material mat;
     [SerializeField] private SpriteRenderer sr;
+    [SerializeField] private GameObject levelUpVisualPref;
 
     [Header("EraseEffect")] 
     [SerializeField] private float startEraseValue; 
@@ -49,6 +51,8 @@ public class UnitVisual : MonoBehaviour
 
     private void OnEnable()
     {
+        unit.Stats.OnLevelUp += ShowLevelUpVisual;
+        
         mat.SetFloat(WhiteOutProp, 0);
         mat.SetFloat(EraseAmount, 0);
     }
@@ -57,9 +61,11 @@ public class UnitVisual : MonoBehaviour
     {
         var newValue = Mathf.Lerp(startEraseValue, endEraseValue, 1 - healthProportion);
         mat.SetFloat(EraseAmount, newValue);
-        
-        return;
-        
+    }
+
+    private void ShowLevelUpVisual()
+    {
+        Instantiate(levelUpVisualPref, transform.position, Quaternion.identity, unit.Transform);
     }
 
     public void StartAlert()
@@ -128,5 +134,10 @@ public class UnitVisual : MonoBehaviour
         {
             Instantiate(circleDeathEffect, transform.position, Quaternion.identity);
         }
+    }
+
+    private void OnDisable()
+    {
+        unit.Stats.OnLevelUp -= ShowLevelUpVisual;
     }
 }

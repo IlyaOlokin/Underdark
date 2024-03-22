@@ -1139,6 +1139,7 @@ MonoBehaviour:
   baseMaxHP: 5
   baseMaxMana: 0
   <MoveSpeed>k__BackingField: 3
+  allySensor: {fileID: 5963353059792218333}
   defaultWeapon: {fileID: 11400000, guid: 7adbbf7baf2a5894aabcf43784fa692b, type: 2}
   baseAttackAbility: {fileID: 4412631732704353108, guid: df5d5603f226c9041a8785d3a431e8d6, type: 3}
   attackSpeed: 2.5
@@ -1158,7 +1159,6 @@ MonoBehaviour:
   moveTarget: {fileID: 5120903447323990012}
   agent: {fileID: 8583875203054404754}
   followPlayerSensor: {fileID: 6012931007409671687}
-  allySensor: {fileID: 5963353059792218333}
   lostTargetDelay: 5
   searchTargetDelay: 0.5
   meleeAttackDuration: 0.4
@@ -1631,6 +1631,10 @@ PrefabInstance:
       propertyPath: sr
       value: 
       objectReference: {fileID: 1116847182108090050}
+    - target: {fileID: 8545558073651477540, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
+      propertyPath: unit
+      value: 
+      objectReference: {fileID: 2989269700952815197}
     - target: {fileID: 8545558073651477540, guid: e64f07b5c8df6e743b51f0c73181aca8, type: 3}
       propertyPath: StunBar
       value: 

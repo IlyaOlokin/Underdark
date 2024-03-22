@@ -38,10 +38,10 @@ public class Player : Unit, IPickUper, IMoneyHolder
     {
         base.Update();
 
-        /*if (Input.GetKeyDown(KeyCode.R)) // debug
+        if (Input.GetKeyDown(KeyCode.R)) // debug
         {
-            DataLoader.SaveGame(this);
-        }*/
+            GetExp(100);
+        }
     }
 
     private void OnDrawGizmos()

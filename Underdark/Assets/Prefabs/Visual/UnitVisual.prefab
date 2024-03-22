@@ -45,8 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd89021c1db5054aa2f8174e2c1f6a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unit: {fileID: 0}
   mat: {fileID: 2100000, guid: 571b4e3eb9e4ef74dae3fac499b94f9b, type: 2}
   sr: {fileID: 0}
+  levelUpVisualPref: {fileID: 5496382370276626123, guid: 0bcd2abe2e1a88043b83b9a5749f499b, type: 3}
   startEraseValue: 0.1
   endEraseValue: 0.5
   damageEffect: {fileID: 6192604898436002675, guid: d74de5d53d057bd46b07894b733d69a9, type: 3}
