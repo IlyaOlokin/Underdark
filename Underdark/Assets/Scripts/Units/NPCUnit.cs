@@ -20,7 +20,6 @@ public class NPCUnit : Unit
     [SerializeField] protected Transform moveTarget;
     [SerializeField] protected NavMeshAgent agent;
     [SerializeField] protected PlayerSensor followPlayerSensor;
-    [SerializeField] protected Collider2D allySensor;
     [FormerlySerializedAs("lostPlayerDelay")] 
     [SerializeField] private float lostTargetDelay;
     [SerializeField] private float searchTargetDelay = 0.5f;
@@ -124,7 +123,7 @@ public class NPCUnit : Unit
         {
             isGoingToSpawnPoint = false;
         }
-        if (!hasTarget && DistToMovePos() < agent.stoppingDistance)
+        if (!hasTarget)
             moveTarget.position = spawnPont.position;
     }
 
@@ -160,7 +159,7 @@ public class NPCUnit : Unit
     public override bool TakeDamage(Unit sender, IAttacker attacker, DamageInfo damageInfo, bool evadable = true, float armorPierce = 0f)
     {
         var res = base.TakeDamage(sender, attacker, damageInfo, evadable);
-        if (damageInfo.MustAggro && Vector2.Distance(transform.position, sender.transform.position) < AgrRadius)
+        if (!IsDead && damageInfo.MustAggro && Vector2.Distance(transform.position, sender.transform.position) < AgrRadius)
         {
             Agr(sender.transform.position);
             AgrNearbyAllies();
@@ -188,16 +187,6 @@ public class NPCUnit : Unit
                     enemy.Agr(moveTarget.position);
             }
         }
-    }
-
-    public List<Collider2D> GetNearbyAllies()
-    {
-        var contactFilter = new ContactFilter2D();
-        contactFilter.SetLayerMask(AlliesLayer);
-        List<Collider2D> hitColliders = new List<Collider2D>();
-
-        allySensor.OverlapCollider(contactFilter, hitColliders);
-        return hitColliders;
     }
 
     private void UpdateMovementAbility()

@@ -79,6 +79,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     public event Action OnUnitPassivesChanged;
     
     [field: SerializeField] public int MoveSpeed { get; private set; }
+    [SerializeField] protected Collider2D allySensor;
 
     [field: Header("Attack Setup")] 
     [SerializeField] private WeaponSO defaultWeapon;
@@ -267,6 +268,16 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     {
         facingRight = !facingRight;
         VisualsFlipable.transform.Rotate(0, 180, 0);
+    }
+    
+    public List<Collider2D> GetNearbyAllies()
+    {
+        var contactFilter = new ContactFilter2D();
+        contactFilter.SetLayerMask(AlliesLayer);
+        List<Collider2D> hitColliders = new List<Collider2D>();
+
+        allySensor.OverlapCollider(contactFilter, hitColliders);
+        return hitColliders;
     }
 
     public void ParentToRotatable(Transform child)
