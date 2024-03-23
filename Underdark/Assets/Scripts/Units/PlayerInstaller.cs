@@ -15,7 +15,7 @@ public class PlayerInstaller : MonoBehaviour
     {
         this.player = player;
         
-        var data = DataLoader.gameData;
+        var data = DataLoader.GameData;
         if (data.CurrenLevel == 0) return;
         
         player.Stats.SetLevel(data.CurrenLevel, data.CurrentExp, data.FreePoints);

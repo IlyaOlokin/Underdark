@@ -22,7 +22,6 @@ public class MainMenu : MonoBehaviour
         DataLoader.NewGame();
     }
     
-
     public void Quit()
     {
         Application.Quit();

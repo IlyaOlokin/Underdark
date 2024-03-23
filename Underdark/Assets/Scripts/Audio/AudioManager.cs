@@ -93,6 +93,52 @@ public class AudioManager : MonoBehaviour
     {
         CurrentMusic.source.Stop();
     }
+    
+    public bool ToggleMusic()
+    {
+        if (DataLoader.MetaGameData.MusicOn)
+            audioMixer.SetFloat("MusicVol", -80.0f);
+        else
+            audioMixer.SetFloat("MusicVol", 0);
+        
+        DataLoader.MetaGameData.MusicOn = !DataLoader.MetaGameData.MusicOn;
+        DataLoader.SaveMetaData();
+
+        return DataLoader.MetaGameData.MusicOn;
+    }
+    
+    public bool ToggleSound()
+    {
+        if (DataLoader.MetaGameData.SoundOn)
+            audioMixer.SetFloat("SFXVol", -80.0f);
+        else
+            audioMixer.SetFloat("SFXVol", 0);
+        
+        DataLoader.MetaGameData.SoundOn = !DataLoader.MetaGameData.SoundOn;
+        DataLoader.SaveMetaData();
+        
+        return DataLoader.MetaGameData.SoundOn;
+    }
+    
+    public void SetMusic(bool isOn)
+    {
+        if (isOn)
+            audioMixer.SetFloat("MusicVol", 0);
+        else
+            audioMixer.SetFloat("MusicVol", -80.0f);
+        
+        DataLoader.MetaGameData.MusicOn = isOn;
+    }
+    
+    public void SetSound(bool isOn)
+    {
+        if (isOn)
+            audioMixer.SetFloat("SFXVol", 0);
+        else
+            audioMixer.SetFloat("SFXVol", -80.0f);
+        
+        DataLoader.MetaGameData.SoundOn = isOn;
+    }
 
     public void MuteAllSounds()
     {
