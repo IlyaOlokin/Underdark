@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour, IAttackerTarget
+public class Projectile : MonoBehaviour, IAttackerTarget, ISoundEmitterOnCreate, ISoundEmitterOnDeath
 {
     public Transform Transform => transform;
     
@@ -22,8 +22,9 @@ public class Projectile : MonoBehaviour, IAttackerTarget
     protected Rigidbody2D rb;
     protected Collider2D coll;
 
-    public event Action OnCreate;
-    public event Action OnDeath;
+    public event Action OnCreateSound;
+    public event Action OnDeathSound;
+    
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -32,7 +33,7 @@ public class Projectile : MonoBehaviour, IAttackerTarget
 
     protected virtual void Start()
     {
-        OnCreate?.Invoke();
+        OnCreateSound?.Invoke();
     }
 
     public void Init(Unit caster, DamageInfo damageInfo, List<DebuffInfo> debuffInfos, int abilityLevel, 
@@ -116,6 +117,6 @@ public class Projectile : MonoBehaviour, IAttackerTarget
 
     protected void OnProjDeath()
     {
-        OnDeath?.Invoke();
+        OnDeathSound?.Invoke();
     }
 }

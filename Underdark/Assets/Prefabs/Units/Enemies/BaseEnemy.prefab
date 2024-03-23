@@ -969,7 +969,7 @@ GameObject:
   - component: {fileID: 5577980821815337067}
   - component: {fileID: 5290106731956819956}
   - component: {fileID: 5475024070889713279}
-  - component: {fileID: 8892572767640389295}
+  - component: {fileID: 5526876020219576497}
   m_Layer: 6
   m_Name: EnemyUnit
   m_TagString: Enemy
@@ -1311,7 +1311,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8892572767640389295
+--- !u!114 &5526876020219576497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1320,13 +1320,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 7684371324137006495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 463302dd87c99014d874f9cd354390c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c2d750952e39174f9de157207650b91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damagedClips:
+  createClips:
   - {fileID: 8300000, guid: 8e686a0311f7c0f4192efca46a854bd4, type: 3}
   deathClips:
   - {fileID: 8300000, guid: 810b60e87ccb6134cbee2bbe846667f1, type: 3}
+  customClips:
+    _serializedList:
+    - Key: Damaged
+      Value: {fileID: 8300000, guid: 8e686a0311f7c0f4192efca46a854bd4, type: 3}
 --- !u!1 &7916519281579307983
 GameObject:
   m_ObjectHideFlags: 0

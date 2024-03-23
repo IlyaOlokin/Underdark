@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8170032374961837674}
   - component: {fileID: 4468147911412999883}
   - component: {fileID: 7767429642181310038}
-  - component: {fileID: 1908325834349626080}
+  - component: {fileID: 2512415508102796974}
   m_Layer: 0
   m_Name: EnergyShield
   m_TagString: Untagged
@@ -183,7 +183,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1908325834349626080
+--- !u!114 &2512415508102796974
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -192,11 +192,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7555566392093547892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bed8565b1369f8041bc6894ce41ebd3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c2d750952e39174f9de157207650b91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  executeClips:
+  createClips:
   - {fileID: 8300000, guid: 292361d6c0285ef43b6367e50d57af25, type: 3}
+  deathClips: []
 --- !u!1001 &2314934064278592543
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4716809249685301645}
   - component: {fileID: 8704022272136223335}
   - component: {fileID: 941738905776762399}
-  - component: {fileID: -1941216726669498926}
+  - component: {fileID: 6200185867830223203}
   m_Layer: 0
   m_Name: MagicalRestoration
   m_TagString: Untagged
@@ -179,7 +179,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-1941216726669498926
+--- !u!114 &6200185867830223203
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -188,11 +188,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 72827358929148271}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bed8565b1369f8041bc6894ce41ebd3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c2d750952e39174f9de157207650b91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  executeClips:
+  createClips:
   - {fileID: 8300000, guid: a1e745d6e177c6242977300462f9a717, type: 3}
+  deathClips: []
 --- !u!1 &8328540744568435009
 GameObject:
   m_ObjectHideFlags: 0

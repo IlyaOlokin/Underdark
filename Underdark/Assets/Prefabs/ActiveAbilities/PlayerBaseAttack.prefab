@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8170032374961837674}
   - component: {fileID: 4412631732704353108}
   - component: {fileID: 5740146006669361714}
-  - component: {fileID: 3615678145629212055}
+  - component: {fileID: 3771837273221340675}
   m_Layer: 0
   m_Name: PlayerBaseAttack
   m_TagString: Untagged
@@ -170,7 +170,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3615678145629212055
+--- !u!114 &3771837273221340675
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,10 +179,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7555566392093547892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bed8565b1369f8041bc6894ce41ebd3a, type: 3}
+  m_Script: {fileID: 11500000, guid: 7c2d750952e39174f9de157207650b91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  executeClips:
+  createClips:
   - {fileID: 8300000, guid: 27fae10b034cbb14e9a837df9243e762, type: 3}
   - {fileID: 8300000, guid: d91a359e410d93048b8ab5ecaee0b1e5, type: 3}
   - {fileID: 8300000, guid: e11f9578ed2f8ec4dac16688be1fdbaf, type: 3}
+  deathClips: []
