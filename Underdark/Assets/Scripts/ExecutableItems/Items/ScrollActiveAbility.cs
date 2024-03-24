@@ -28,12 +28,13 @@ public class ScrollActiveAbility : ExecutableItem
                 return true;
             }
             
+            caster.AddExpToActiveAbility(Item.ActiveAbility.ID, 1);
             if (!caster.Inventory.TryAddActiveAbilityItem(Item))
             {
                 NotificationManager.Instance.SendNotification(new Notification(Item.Sprite, "You've run out of space."));
+                caster.AddExpToActiveAbility(Item.ActiveAbility.ID, -1);
                 return false;
             }
-            caster.AddExpToActiveAbility(Item.ActiveAbility.ID, 1);
         }
         
         return true;

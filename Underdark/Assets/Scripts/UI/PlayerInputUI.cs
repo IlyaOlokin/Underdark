@@ -188,7 +188,7 @@ public class PlayerInputUI : MonoBehaviour
         shootButtonIcon.sprite = player.GetWeapon().Sprite;
     }
 
-    private void OnDisable()
+    private void OnDestroy()
     {
         player.Inventory.OnActiveAbilitiesChanged -= UpdateEquippedAbilities;
         player.Inventory.OnExecutableItemChanged -= UpdateExecutableSlots;
