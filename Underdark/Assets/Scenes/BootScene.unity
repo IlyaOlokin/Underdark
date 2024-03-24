@@ -152,7 +152,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9371367d40edb0f46984e371f3bd3dd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sounds: []
+  Sounds:
+  - name: ButtonClick1
+    clip: {fileID: 8300000, guid: 29e61ddb4b116324994a2e2cba23acdd, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioMixerGroup: {fileID: -5513164509427690670, guid: de15373a818206244a4634c6fcb4428c, type: 2}
+    source: {fileID: 0}
+  - name: InventoryOpen
+    clip: {fileID: 8300000, guid: 5f94dd04fce2ef843b8684c5e0dd2208, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioMixerGroup: {fileID: -5513164509427690670, guid: de15373a818206244a4634c6fcb4428c, type: 2}
+    source: {fileID: 0}
   Music:
   - name: MainTheme
     clip: {fileID: 8300000, guid: a0cda7b284564354e8559f0a63cf0025, type: 3}

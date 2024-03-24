@@ -1696,6 +1696,7 @@ GameObject:
   - component: {fileID: 7271666879539689603}
   - component: {fileID: 6933824791404237501}
   - component: {fileID: 5538782904923551698}
+  - component: {fileID: 5397699685100411949}
   m_Layer: 0
   m_Name: CharacterButton
   m_TagString: Untagged
@@ -1819,6 +1820,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   freePointsIndicator: {fileID: 6824458422799178781}
+--- !u!114 &5397699685100411949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3008739627088961831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6b1b3d5f1283e48a9814e76a8d3072, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundName: ButtonClick1
 --- !u!1 &3049538382868605273
 GameObject:
   m_ObjectHideFlags: 0
@@ -1831,6 +1845,7 @@ GameObject:
   - component: {fileID: 701297457393350045}
   - component: {fileID: 9066417901297529380}
   - component: {fileID: 5613836330413089307}
+  - component: {fileID: 710044200700076303}
   m_Layer: 0
   m_Name: InventoryButton
   m_TagString: Untagged
@@ -1940,6 +1955,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &710044200700076303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3049538382868605273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6b1b3d5f1283e48a9814e76a8d3072, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundName: InventoryOpen
 --- !u!1 &3248619725615307711
 GameObject:
   m_ObjectHideFlags: 0
@@ -2424,6 +2452,7 @@ GameObject:
   - component: {fileID: 1664143340782149462}
   - component: {fileID: 3858659269551059357}
   - component: {fileID: 601652324969565608}
+  - component: {fileID: 4098300670084110668}
   m_Layer: 0
   m_Name: PauseButton
   m_TagString: Untagged
@@ -2533,6 +2562,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4098300670084110668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4526091509178404815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6b1b3d5f1283e48a9814e76a8d3072, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soundName: ButtonClick1
 --- !u!1 &4597527512005630239
 GameObject:
   m_ObjectHideFlags: 0
