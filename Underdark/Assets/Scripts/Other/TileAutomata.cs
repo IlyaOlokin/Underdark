@@ -3,7 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class TileAutomata : MonoBehaviour
 {
-    [SerializeField] private int mapSaveIndex = 0;
+    [SerializeField] private string mapSaveIndex = "0";
 
     private int[,] terrainMap;
     [SerializeField] private Vector3Int tmpSize;

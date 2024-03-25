@@ -32,7 +32,7 @@ public class MinimapMarker : MonoBehaviour
         if (currentFloorIndex >= 0)
         {
             var levelSize = levelConfig.Floors[LevelTransition.GetCurrentFloorIndex()].LevelSize;
-            radius = levelSize / 4f;
+            radius /= levelSize / 32f;
             mapHalfSize = levelSize / 2f;
         }
         
