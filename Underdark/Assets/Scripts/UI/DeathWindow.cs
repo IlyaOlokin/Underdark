@@ -29,12 +29,12 @@ public class DeathWindow : MonoBehaviour
 
     private void OnEnable()
     {
-        player.OnUnitDeath += StartActivateContent;
+        player.OnDeath += StartActivateContent;
     }
     
     private void OnDisable()
     {
-        player.OnUnitDeath -= StartActivateContent;
+        player.OnDeath -= StartActivateContent;
     }
 
     private void StartActivateContent()

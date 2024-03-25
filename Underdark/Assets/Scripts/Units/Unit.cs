@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, ICaster
+public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, ICaster, ISoundEmitterOnDeathSeparate, ISoundEmitterOnCustom
 {
     private Rigidbody2D rb;
     private Collider2D coll;
@@ -47,7 +47,10 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
 
     public event Action<int> OnHealthChanged;
     public event Action<int> OnMaxHealthChanged;
-    public event Action OnUnitDeath;
+    public event Action OnDeath;
+    
+    public event Action OnDeathSeparateSound;
+    public event Action<string> OnCustomSound;
 
     [SerializeField] private int baseMaxMana;
     public int MaxMana { get; private set; }
@@ -307,6 +310,7 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
         }
         
         CurrentHP -= newDamage;
+        OnCustomSound?.Invoke("Damaged");
         UnitVisual.StartWhiteOut();
         if (CurrentHP <= 0) Death(sender, attacker, damageInfo.GetDamages()[0].DamageType);
         newEffect.WriteDamage(newDamage);
@@ -462,7 +466,8 @@ public abstract class Unit : MonoBehaviour, IDamageable, IMover, IAttackerAOE, I
     protected virtual void Death(Unit killer, IAttacker attacker, DamageType damageType)
     {
         IsDead = true;
-        OnUnitDeath?.Invoke();
+        OnDeath?.Invoke();
+        OnDeathSeparateSound?.Invoke();
         gameObject.SetActive(false);
     }
 

@@ -4,7 +4,7 @@ using System.Text;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public abstract class ActiveAbility : MonoBehaviour
+public abstract class ActiveAbility : MonoBehaviour, ISoundEmitterOnCreate, ISoundEmitterOnDeath
 {
     [field:SerializeField] public string ID { get; private set; }
     public ActiveAbilityLevelSetupSO ActiveAbilityLevelSetupSO;
@@ -28,6 +28,9 @@ public abstract class ActiveAbility : MonoBehaviour
     [SerializeField] private bool needAutoDestroy;
     [SerializeField] private float autoDestroyDelay;
     
+    public event Action OnCreateSound;
+    public event Action OnDeathSound;
+    
     [Header("Description")] 
     [Multiline] [SerializeField] protected string description;
     
@@ -49,6 +52,7 @@ public abstract class ActiveAbility : MonoBehaviour
         abilityLevel = level;
         this.damageablesToIgnore = damageablesToIgnore;
         this.attackDir = attackDir;
+        OnCreateSound?.Invoke();
     }
     
     protected virtual void InitDamage(Unit caster, float damageMultiplier = 1f)
@@ -199,5 +203,10 @@ public abstract class ActiveAbility : MonoBehaviour
         }
         
         return true;
+    }
+
+    private void OnDestroy()
+    {
+        OnDeathSound?.Invoke();
     }
 }

@@ -123,6 +123,74 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &79314402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 79314404}
+  - component: {fileID: 79314403}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &79314403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79314402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9371367d40edb0f46984e371f3bd3dd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sounds:
+  - name: ButtonClick1
+    clip: {fileID: 8300000, guid: 29e61ddb4b116324994a2e2cba23acdd, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioMixerGroup: {fileID: -5513164509427690670, guid: de15373a818206244a4634c6fcb4428c, type: 2}
+    source: {fileID: 0}
+  - name: InventoryOpen
+    clip: {fileID: 8300000, guid: 5f94dd04fce2ef843b8684c5e0dd2208, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    audioMixerGroup: {fileID: -5513164509427690670, guid: de15373a818206244a4634c6fcb4428c, type: 2}
+    source: {fileID: 0}
+  Music:
+  - name: MainTheme
+    clip: {fileID: 8300000, guid: a0cda7b284564354e8559f0a63cf0025, type: 3}
+    volume: 0.4
+    pitch: 1
+    loop: 1
+    audioMixerGroup: {fileID: 2139062227421625278, guid: de15373a818206244a4634c6fcb4428c, type: 2}
+    source: {fileID: 0}
+  audioMixer: {fileID: 24100000, guid: de15373a818206244a4634c6fcb4428c, type: 2}
+--- !u!4 &79314404
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 79314402}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.603667, y: 0.8319061, z: 0.06244642}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &198167799
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,6 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: save.data
+  metaFileName: meta.data
   useEncryption: 0
 --- !u!4 &198167801
 Transform:
@@ -371,15 +440,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -642,15 +713,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -1273,3 +1346,4 @@ SceneRoots:
   - {fileID: 887002878}
   - {fileID: 1986199743526912190}
   - {fileID: 198167801}
+  - {fileID: 79314404}

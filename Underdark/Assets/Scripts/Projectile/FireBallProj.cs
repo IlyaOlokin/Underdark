@@ -33,6 +33,7 @@ public class FireBallProj : Projectile
         CameraShake.Instance.ShakeExplosion(transform.position);
         
         CancelInvoke(nameof(DieOld));
+        OnProjDeath();
         Destroy(gameObject, destroyDelay);
     }
 

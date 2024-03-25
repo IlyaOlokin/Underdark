@@ -1,15 +1,28 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.Serialization;
 
 public class LightSourceVisual : MonoBehaviour
 {
     [SerializeField] private Light2D light2d;
-
+    
+    [SerializeField] private bool lightUpOnAwake;
     [SerializeField] private float lightUpTime;
+    
+    [SerializeField] private bool needUnparentOnLightDown;
+    [SerializeField] private bool needLightDown;
+    [SerializeField] private float lightDownDelay;
 
     private float intensity;
     private float radius;
+
+    private void Awake()
+    {
+        if (lightUpOnAwake) LightUp();
+        if (needLightDown) StartCoroutine(StartLightDown());
+    }
 
     public void LightUp()
     {
@@ -20,7 +33,7 @@ public class LightSourceVisual : MonoBehaviour
     
     public void LightDown()
     {
-        transform.SetParent(null);
+        if (needUnparentOnLightDown) transform.SetParent(null);
         StartCoroutine(TransformLight(false));
     }
 
@@ -49,5 +62,11 @@ public class LightSourceVisual : MonoBehaviour
         light2d.pointLightOuterRadius = targetRadius;
         
         if (!lightUp) Destroy(gameObject);
+    }
+
+    private IEnumerator StartLightDown()
+    {
+        yield return new WaitForSeconds(lightDownDelay);
+        LightDown();
     }
 }

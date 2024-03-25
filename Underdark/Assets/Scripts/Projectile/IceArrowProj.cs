@@ -17,8 +17,9 @@ public class IceArrowProj : Projectile
     [SerializeField] private Transform visualParent;
     private SpriteRenderer visualSR;
 
-    protected void Start()
+    protected override void Start()
     {
+        base.Start();
         var newVisual = Instantiate(visuals.GetValue(abilityLevel), transform.position, visualParent.rotation, visualParent);
         visualSR = newVisual.GetComponent<SpriteRenderer>();
     }
@@ -40,6 +41,7 @@ public class IceArrowProj : Projectile
         lightSpot.SetActive(false);
         visualSR.enabled = false;
         CancelInvoke(nameof(DieOld));
+        OnProjDeath();
         Destroy(gameObject, destroyDelay);
     }
 

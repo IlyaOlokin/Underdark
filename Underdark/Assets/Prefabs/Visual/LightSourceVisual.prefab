@@ -4848,7 +4848,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1816364915
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_RenderMode: 0
   m_MeshDistribution: 0
@@ -4893,4 +4893,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light2d: {fileID: 8163857030136237000}
+  lightUpOnAwake: 0
   lightUpTime: 1
+  needUnparentOnLightDown: 1
+  needLightDown: 0
+  lightDownDelay: 0

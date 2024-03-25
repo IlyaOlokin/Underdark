@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,101 +8,120 @@ public class DataLoader : MonoBehaviour
 {
     [Header("File Storage Config")] 
     [SerializeField] private string fileName;
+    [SerializeField] private string metaFileName;
     [SerializeField] private bool useEncryption;
     
-    public static GameData gameData;
+    public static GameData GameData;
+    public static MetaGameData MetaGameData;
     
     private static FileDataHandler dataHandler;
     
-    void Start()
+    void Awake()
     {
-        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, useEncryption);
+        dataHandler = new FileDataHandler(Application.persistentDataPath, fileName, metaFileName, useEncryption);
         LoadStartData();
     }
-
+    
     private void LoadStartData()
     {
         LoadGame();
 
-        LevelTransition.MaxReachedFloor = gameData.MaxReachedLevel;
-        LevelTransition.TutorialCompleted = gameData.TutorialCompleted;
+        LevelTransition.MaxReachedFloor = GameData.MaxReachedLevel;
+        LevelTransition.TutorialCompleted = GameData.TutorialCompleted;
+    }
+    
+    private void Start()
+    {
+        AudioManager.Instance.SetMusic(MetaGameData.MusicOn);
+        AudioManager.Instance.SetSound(MetaGameData.SoundOn);
     }
     
     private static void LoadGame()
     {
-        gameData = dataHandler.Load();
+        GameData = dataHandler.Load();
+        MetaGameData = dataHandler.MetaLoad();
 
-        if (gameData == null)
+        if (GameData == null)
         {
             NewGame();
+        }
+        
+        if (MetaGameData == null)
+        {
+            MetaGameData = new MetaGameData();
         }
     }
 
     public static void SaveGame(Player player)
     {
-        gameData = new GameData();
+        GameData = new GameData();
 
-        gameData.CurrenLevel = player.Stats.Level;
-        gameData.CurrentExp = player.Stats.CurrentExp;
-        gameData.Strenght = player.Stats.Strength;
-        gameData.Dexterity = player.Stats.Dexterity;
-        gameData.Intelligence = player.Stats.Intelligence;
-        gameData.FreePoints = player.Stats.FreePoints;
+        GameData.CurrenLevel = player.Stats.Level;
+        GameData.CurrentExp = player.Stats.CurrentExp;
+        GameData.Strenght = player.Stats.Strength;
+        GameData.Dexterity = player.Stats.Dexterity;
+        GameData.Intelligence = player.Stats.Intelligence;
+        GameData.FreePoints = player.Stats.FreePoints;
         
         
         var inventorySlots = player.Inventory.GetAllSlots();
         foreach (var t in inventorySlots)
         {
-            gameData.InventoryItemsIDs.Add(t.ItemID);
-            gameData.InventoryItemsCounts.Add(t.Amount);
+            GameData.InventoryItemsIDs.Add(t.ItemID);
+            GameData.InventoryItemsCounts.Add(t.Amount);
         }
         
         var executableSlots = player.Inventory.ExecutableSlots;
         foreach (var t in executableSlots)
         {
-            gameData.ExecutableItems.Add(t.ItemID);
-            gameData.ExecutableItemsCounts.Add(t.Amount);
+            GameData.ExecutableItems.Add(t.ItemID);
+            GameData.ExecutableItemsCounts.Add(t.Amount);
 
         }
 
-        gameData.Head = player.Inventory.Equipment.Head.ItemID;
-        gameData.Body = player.Inventory.Equipment.Body.ItemID;
-        gameData.Legs = player.Inventory.Equipment.Legs.ItemID;
-        gameData.Weapon = player.Inventory.Equipment.Weapon.ItemID;
-        gameData.Shield = player.Inventory.Equipment.Shield.ItemID;
+        GameData.Head = player.Inventory.Equipment.Head.ItemID;
+        GameData.Body = player.Inventory.Equipment.Body.ItemID;
+        GameData.Legs = player.Inventory.Equipment.Legs.ItemID;
+        GameData.Weapon = player.Inventory.Equipment.Weapon.ItemID;
+        GameData.Shield = player.Inventory.Equipment.Shield.ItemID;
         
         var accessories = player.Inventory.Equipment.Accessories;
         foreach (var t in accessories)
         {
-            gameData.Accessories.Add(t.ItemID);
+            GameData.Accessories.Add(t.ItemID);
         }
 
         var activeAbilities = player.Inventory.GetAllActiveAbilitySlots();
         foreach (var t in activeAbilities)
         {
-            gameData.ActiveAbilities.Add(t.ItemID);
+            GameData.ActiveAbilities.Add(t.ItemID);
         }
         
         var equippedActiveAbilities = player.Inventory.EquippedActiveAbilitySlots;
         foreach (var t in equippedActiveAbilities)
         {
-            gameData.EquipedActiveAbilities.Add(t.ItemID);
+            GameData.EquipedActiveAbilities.Add(t.ItemID);
         }
 
-        gameData.LearnedAbilityIDs = player.ActiveAbilitiesExp.Keys.ToList(); 
-        gameData.AbilityExp = player.ActiveAbilitiesExp.Values.ToList(); 
+        GameData.LearnedAbilityIDs = player.ActiveAbilitiesExp.Keys.ToList(); 
+        GameData.AbilityExp = player.ActiveAbilitiesExp.Values.ToList(); 
 
-        gameData.MoneyCount = player.Money.GetMoney();
-        gameData.MaxReachedLevel = LevelTransition.MaxReachedFloor;
+        GameData.MoneyCount = player.Money.GetMoney();
+        GameData.MaxReachedLevel = LevelTransition.MaxReachedFloor;
         
-        gameData.TutorialCompleted = LevelTransition.TutorialCompleted;
+        GameData.TutorialCompleted = LevelTransition.TutorialCompleted;
         
-        dataHandler.Save(gameData);
+        dataHandler.Save(GameData);
+    }
+    
+    public static void SaveMetaData()
+    {
+        dataHandler.MetaSave(MetaGameData);
     }
     
     public static void NewGame()
     {
-        gameData = new GameData();
+        GameData = new GameData();
         LevelTransition.MaxReachedFloor = 1;
         LevelTransition.TutorialCompleted = false;
     }
